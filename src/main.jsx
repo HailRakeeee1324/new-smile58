@@ -2679,7 +2679,7 @@ function AppointmentModal({ isOpen, onClose }) {
       }
 
       if (!response.ok || result.ok === false) {
-        throw new Error(result.error || "lead_delivery_failed");
+        throw new Error(result.message || result.error || "lead_delivery_failed");
       }
 
       setFormSent(true);
@@ -2687,17 +2687,9 @@ function AppointmentModal({ isOpen, onClose }) {
       setSubmitMessage("Спасибо! Заявка отправлена. Администратор свяжется с вами в ближайшее время.");
       form.reset();
     } catch (error) {
-      try {
-        const savedLeads = JSON.parse(localStorage.getItem("ny_pending_leads") || "[]");
-        savedLeads.push(payload);
-        localStorage.setItem("ny_pending_leads", JSON.stringify(savedLeads.slice(-50)));
-      } catch (storageError) {
-        // ignore local storage errors
-      }
-
       setFormSent(false);
-      setSubmitState("demo");
-      setSubmitMessage("Заявка сохранена на сайте. Для реальной отправки заявок администратору нужно указать Telegram-данные в настройках деплоя.");
+      setSubmitState("error");
+      setSubmitMessage(error.message || "Не удалось отправить заявку. Проверьте Telegram-настройки в Vercel или позвоните в клинику.");
     }
   };
 
