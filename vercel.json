@@ -1,0 +1,246 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/home",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/main",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/services",
+      "destination": "/uslugi",
+      "permanent": true
+    },
+    {
+      "source": "/services.html",
+      "destination": "/uslugi",
+      "permanent": true
+    },
+    {
+      "source": "/prices",
+      "destination": "/ceny",
+      "permanent": true
+    },
+    {
+      "source": "/price",
+      "destination": "/ceny",
+      "permanent": true
+    },
+    {
+      "source": "/prices.html",
+      "destination": "/ceny",
+      "permanent": true
+    },
+    {
+      "source": "/doctors",
+      "destination": "/vrachi",
+      "permanent": true
+    },
+    {
+      "source": "/doctors.html",
+      "destination": "/vrachi",
+      "permanent": true
+    },
+    {
+      "source": "/branches",
+      "destination": "/filialy",
+      "permanent": true
+    },
+    {
+      "source": "/branches.html",
+      "destination": "/filialy",
+      "permanent": true
+    },
+    {
+      "source": "/contacts",
+      "destination": "/kontakty",
+      "permanent": true
+    },
+    {
+      "source": "/contacts.html",
+      "destination": "/kontakty",
+      "permanent": true
+    },
+    {
+      "source": "/reviews",
+      "destination": "/otzyvy",
+      "permanent": true
+    },
+    {
+      "source": "/promotions",
+      "destination": "/akcii",
+      "permanent": true
+    },
+    {
+      "source": "/before-after",
+      "destination": "/do-posle",
+      "permanent": true
+    },
+    {
+      "source": "/implantaciya",
+      "destination": "/uslugi/implantaciya",
+      "permanent": true
+    },
+    {
+      "source": "/implantatsiya",
+      "destination": "/uslugi/implantaciya",
+      "permanent": true
+    },
+    {
+      "source": "/implantation",
+      "destination": "/uslugi/implantaciya",
+      "permanent": true
+    },
+    {
+      "source": "/lechenie-kariesa",
+      "destination": "/uslugi/lechenie-kariesa",
+      "permanent": true
+    },
+    {
+      "source": "/lechenie-zubov",
+      "destination": "/uslugi/lechenie-kariesa",
+      "permanent": true
+    },
+    {
+      "source": "/karies",
+      "destination": "/uslugi/lechenie-kariesa",
+      "permanent": true
+    },
+    {
+      "source": "/protezirovanie",
+      "destination": "/uslugi/protezirovanie",
+      "permanent": true
+    },
+    {
+      "source": "/viniry",
+      "destination": "/uslugi/viniry",
+      "permanent": true
+    },
+    {
+      "source": "/udalenie-zubov",
+      "destination": "/uslugi/udalenie-zubov",
+      "permanent": true
+    },
+    {
+      "source": "/otbelivanie",
+      "destination": "/uslugi/otbelivanie",
+      "permanent": true
+    },
+    {
+      "source": "/professionalnaya-gigiena",
+      "destination": "/uslugi/gigiena",
+      "permanent": true
+    },
+    {
+      "source": "/chistka-zubov",
+      "destination": "/uslugi/gigiena",
+      "permanent": true
+    },
+    {
+      "source": "/gigiena",
+      "destination": "/uslugi/gigiena",
+      "permanent": true
+    },
+    {
+      "source": "/privacy-policy",
+      "destination": "/privacy",
+      "permanent": true
+    },
+    {
+      "source": "/sputnik",
+      "destination": "/stomatologiya-sputnik",
+      "permanent": true
+    },
+    {
+      "source": "/stomatologiya-v-sputnike",
+      "destination": "/stomatologiya-sputnik",
+      "permanent": true
+    },
+    {
+      "source": "/gpz",
+      "destination": "/stomatologiya-gpz",
+      "permanent": true
+    },
+    {
+      "source": "/semeynaya-stomatologiya",
+      "destination": "/semeynaya-stomatologiya-penza",
+      "permanent": true
+    },
+    {
+      "source": "/implantaciya-zubov",
+      "destination": "/implantaciya-zubov-penza",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.(js|css|mjs)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.(webp|avif|png|jpg|jpeg|svg|ico)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/robots.txt",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
+    },
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ]
+}
