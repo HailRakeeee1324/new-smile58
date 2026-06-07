@@ -25,6 +25,18 @@ import "./styles.css";
 const PHONE = "+7 (967) 449-84-12";
 const PHONE_LINK = "tel:+79674498412";
 const PHONE_DIGITS = "79674498412";
+const BRANCH_PHONES = {
+  svetlaya: "+7 902 207-70-08",
+  raduzhnaya: "+7 927 288-83-06",
+  antonova: "+7 952 196-93-35",
+};
+
+const BRANCH_PHONE_LINKS = {
+  svetlaya: "tel:+79022077008",
+  raduzhnaya: "tel:+79272888306",
+  antonova: "tel:+79521969335",
+};
+
 const MAX_PHONE = "89869492003";
 const MAX_LINK = `https://max.ru/?phone=${MAX_PHONE}`;
 const LEAD_ENDPOINT = "/api/lead";
@@ -882,9 +894,9 @@ function getRouteFromLocation() {
 }
 
 const heroBranches = [
-  { name: "Светлая 11", area: "Спутник", phone: PHONE, href: `${routePaths.branches}?branch=svetlaya` },
-  { name: "Радужная 10", area: "Спутник", phone: PHONE, href: `${routePaths.branches}?branch=raduzhnaya` },
-  { name: "Антонова 76", area: "ГПЗ", phone: PHONE, href: `${routePaths.branches}?branch=antonova` },
+  { name: "Светлая 11", area: "Спутник", phone: BRANCH_PHONES.svetlaya, href: `${routePaths.branches}?branch=svetlaya` },
+  { name: "Радужная 10", area: "Спутник", phone: BRANCH_PHONES.raduzhnaya, href: `${routePaths.branches}?branch=raduzhnaya` },
+  { name: "Антонова 76", area: "ГПЗ", phone: BRANCH_PHONES.antonova, href: `${routePaths.branches}?branch=antonova` },
 ];
 
 const homeCards = [
@@ -1263,12 +1275,13 @@ const doctors = [
     note: "Сочетает современный подход к лечению с внимательным отношением к деталям.",
   },
   {
-    name: "Стоматолог-терапевт",
-    speciality: "Врач стоматолог-терапевт",
-    branch: "Филиал на Радужной",
+    name: "Сотрудник клиники",
+    speciality: "",
+    branch: "",
     image: "/team/doctor-therapist-raduzhnaya.webp",
-    tags: ["Терапия", "План лечения", "Забота"],
-    note: "Карточку дополним ФИО и опытом после финального согласования данных сотрудника.",
+    tags: [],
+    note: "",
+    isBlank: true,
   },
   {
     name: "Валерия",
@@ -1318,7 +1331,8 @@ const branches = [
     title: "Клиника на Светлой 11",
     district: "Спутник",
     address: "г. Пенза, ул. Светлая, 11",
-    phone: PHONE,
+    phone: BRANCH_PHONES.svetlaya,
+    phoneLink: BRANCH_PHONE_LINKS.svetlaya,
     schedule: "Пн-Пт 09:00-21:00, Сб 09:00-14:00, Вс выходной",
     image: "/branches/svetlaya.webp",
     mapUrl: "https://yandex.ru/maps/49/penza/?ll=45.039666%2C53.138708&mode=poi&poi%5Bpoint%5D=45.039190%2C53.138154&poi%5Buri%5D=ymapsbm1%3A%2F%2Forg%3Foid%3D3214529857&z=18.13",
@@ -1328,7 +1342,8 @@ const branches = [
     title: "Клиника на Радужной 10",
     district: "Спутник",
     address: "г. Пенза, ул. Радужная, 10",
-    phone: PHONE,
+    phone: BRANCH_PHONES.raduzhnaya,
+    phoneLink: BRANCH_PHONE_LINKS.raduzhnaya,
     schedule: "Пн-Пт 09:00-21:00, Сб 09:00-14:00, Вс выходной",
     image: "/branches/raduzhnaya.webp",
     mapUrl: "https://yandex.ru/maps/org/novaya_ulybka/193102012155/?indoorLevel=1&ll=45.033724%2C53.139684&z=18.08",
@@ -1338,7 +1353,8 @@ const branches = [
     title: "Клиника на Антонова 76",
     district: "ГПЗ",
     address: "г. Пенза, ул. Антонова, 76",
-    phone: PHONE,
+    phone: BRANCH_PHONES.antonova,
+    phoneLink: BRANCH_PHONE_LINKS.antonova,
     schedule: "Пн-Пт 09:00-21:00, Сб 09:00-14:00, Вс выходной",
     image: "/branches/antonova.webp",
     mapUrl: "https://yandex.ru/maps/org/novaya_ulybka/40337085557/?indoorLevel=1&ll=45.056137%2C53.183501&mode=search&sctx=ZAAAAAgBEAAaKAoSCSk8aHbdgFVAEQA7N23GCUxAEhIJN8ZOeAlOjT8RwD3Pnzaqcz8iBgABAgMEBSgKOABAjFhIAWoCcnWdAc3MzD2gAQCoAQC9AfYVeKfCAQb1qJyilgGCAivQndC%2B0LLQsNGPINCj0LvRi9Cx0LrQsCDQsNC90YLQvtC90L7QstCwIDc2igIAkgICNDmaAgxkZXNrdG9wLW1hcHM%3D&sll=45.056137%2C53.183501&sspn=0.014309%2C0.005157&text=Новая%20Улыбка%20антонова%2076&z=17.07",
@@ -1668,6 +1684,7 @@ function Header({ route, theme, onToggleTheme, themeHintVisible, onCloseThemeHin
 }
 
 function HomePage() {
+  const accentCard = homeCards.find((card) => card.accent);
   const homeOfferCards = homeCards.filter((card) => card.offer);
 
   return (
@@ -1704,9 +1721,32 @@ function HomePage() {
       </section>
 
       <section className="features container" aria-labelledby="home-offers-title">
+        {accentCard ? (
+          <article className="feature-card feature-card--accent feature-card--hero feature-card--implant-mini reveal-on-scroll" key={accentCard.title}>
+            <div className="feature-card__hero-main">
+              {(accentCard.icon || accentCard.badge) ? (
+                <div className="feature-card__hero-head">
+                  {accentCard.icon ? <div className="feature-card__icon">{accentCard.icon}</div> : null}
+                  {accentCard.badge ? <div className="feature-card__badge">{accentCard.badge}</div> : null}
+                </div>
+              ) : null}
+
+              <h3>{accentCard.title}</h3>
+              {accentCard.text ? <p className="feature-card__summary feature-card__summary--promo">{accentCard.text}</p> : null}
+              {accentCard.note ? <p className="feature-card__note">{accentCard.note}</p> : null}
+            </div>
+
+            {accentCard.banner ? (
+              <figure className="feature-card__banner feature-card__banner--promo">
+                <img src={accentCard.banner} alt="Имплантация зубов в Пензе - акция 26 000 рублей" loading="lazy" decoding="async" />
+              </figure>
+            ) : null}
+          </article>
+        ) : null}
+
         <div className="home-offers__head reveal-on-scroll">
           <p className="section-label">Популярные услуги</p>
-          <h2 id="home-offers-title">Подобрали востребованные направления, с которых удобно начать знакомство с клиникой</h2>
+          <h2 id="home-offers-title">Два понятных направления для эстетики и профилактики</h2>
         </div>
 
         <div className="home-offers__grid">
@@ -1738,19 +1778,19 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="container home-advantages reveal-on-scroll" aria-labelledby="home-advantages-title">
-        <div className="home-advantages__hero">
-          <div className="home-advantages__content">
-            <p className="section-label">Почему выбирают нас?</p>
-            <h2 id="home-advantages-title">22 года заботимся об улыбках наших пациентов - делаем их здоровыми, красивыми и уверенными</h2>
-            <p className="home-advantages__lead">
-              Спокойно объясняем лечение, подбираем понятные решения и стараемся, чтобы в клинике пациент чувствовал себя комфортно уже с первого визита.
-            </p>
-          </div>
-
-          <figure className="home-advantages__media">
-            <img src="/home-advantages-clinic.webp" alt="Светлый современный кабинет стоматологии Новая улыбка" loading="lazy" decoding="async" />
+      <section className="container home-advantages home-advantages--director reveal-on-scroll" aria-labelledby="home-director-title">
+        <div className="home-advantages__hero home-advantages__hero--director">
+          <figure className="home-advantages__media home-advantages__media--director">
+            <img src="/director-kaftaev-renat.webp" alt="Кафтаев Ренат Идрисович, генеральный директор стоматологии Новая улыбка" loading="lazy" decoding="async" />
           </figure>
+
+          <div className="home-advantages__content director-quote">
+            <p className="director-quote__label">Генеральный директор</p>
+            <h2 id="home-director-title">Кафтаев Ренат Идрисович</h2>
+            <blockquote>
+              «С 2004 года заботимся о здоровье наших пациентов - делаем их улыбки здоровыми и красивыми. Работая на совесть, зарабатываем доверие. До встречи в филиалах нашей стоматологии!»
+            </blockquote>
+          </div>
         </div>
 
         <div className="home-advantages__grid">
@@ -2122,18 +2162,24 @@ function DoctorsPage() {
 
       <section className="container doctors-grid doctors-grid--wow doctors-grid--restored">
         {doctors.map((doctor) => (
-          <article className="doctor-card doctor-card--wow reveal-on-scroll" key={doctor.name}>
+          <article className={`doctor-card doctor-card--wow reveal-on-scroll ${doctor.isBlank ? "doctor-card--blank" : ""}`} key={doctor.image || doctor.name}>
             <figure className="doctor-card__photo">
-              <img src={doctor.image} alt={doctor.name} loading="lazy" decoding="async" />
+              <img src={doctor.image} alt={doctor.isBlank ? "Сотрудник стоматологии Новая улыбка" : doctor.name} loading="lazy" decoding="async" />
             </figure>
             <div className="doctor-card__content">
-              <span className="doctor-card__branch">{doctor.branch}</span>
-              <h2>{doctor.name}</h2>
-              <strong>{doctor.speciality}</strong>
-              <p>{doctor.note}</p>
-              <div className="doctor-tags">
-                {doctor.tags.map((tag) => <span key={tag}>{tag}</span>)}
-              </div>
+              {doctor.isBlank ? (
+                <div className="doctor-card__empty" aria-hidden="true" />
+              ) : (
+                <>
+                  <span className="doctor-card__branch">{doctor.branch}</span>
+                  <h2>{doctor.name}</h2>
+                  <strong>{doctor.speciality}</strong>
+                  <p>{doctor.note}</p>
+                  <div className="doctor-tags">
+                    {doctor.tags.map((tag) => <span key={tag}>{tag}</span>)}
+                  </div>
+                </>
+              )}
             </div>
           </article>
         ))}
@@ -2415,7 +2461,7 @@ function BranchesPage() {
               </div>
               <div className="branch-meta">
                 <Phone size={18} />
-                <strong>Тел.: {branch.phone}</strong>
+                <strong>Тел.: <a href={branch.phoneLink || PHONE_LINK}>{branch.phone}</a></strong>
               </div>
             </div>
           </article>
