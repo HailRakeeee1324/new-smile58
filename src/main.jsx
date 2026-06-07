@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   BadgeCheck,
@@ -40,6 +40,8 @@ const BRANCH_PHONE_LINKS = {
 const MAX_PHONE = "89869492003";
 const MAX_LINK = `https://max.ru/?phone=${MAX_PHONE}`;
 const LEAD_ENDPOINT = "/api/lead";
+const SMARTCAPTCHA_SITE_KEY = import.meta.env.VITE_YANDEX_SMARTCAPTCHA_CLIENT_KEY || "";
+const SMARTCAPTCHA_SCRIPT_ID = "yandex-smartcaptcha-script";
 const YANDEX_METRIKA_ID = "109447302";
 const METRIKA_ID_IS_VALID = /^\d+$/.test(YANDEX_METRIKA_ID);
 
@@ -2768,21 +2770,134 @@ function MobileStickyCta() {
 }
 
 
+
+function YandexCaptchaDialog({ isOpen, siteKey, onVerify, onClose }) {
+  const containerRef = useRef(null);
+  const widgetIdRef = useRef(null);
+  const [loadState, setLoadState] = useState("loading");
+
+  useEffect(() => {
+    if (!isOpen || !siteKey) return undefined;
+
+    let cancelled = false;
+    let script = document.getElementById(SMARTCAPTCHA_SCRIPT_ID);
+
+    const clearWidget = () => {
+      try {
+        if (widgetIdRef.current && window.smartCaptcha?.destroy) {
+          window.smartCaptcha.destroy(widgetIdRef.current);
+        }
+      } catch (error) {
+        // Не мешаем пользователю повторить проверку.
+      }
+
+      widgetIdRef.current = null;
+
+      if (containerRef.current) {
+        containerRef.current.innerHTML = "";
+      }
+    };
+
+    const renderCaptcha = () => {
+      if (cancelled || !containerRef.current) return;
+
+      clearWidget();
+
+      if (!window.smartCaptcha?.render) {
+        setLoadState("error");
+        return;
+      }
+
+      try {
+        widgetIdRef.current = window.smartCaptcha.render(containerRef.current, {
+          sitekey: siteKey,
+          hl: "ru",
+          callback: (token) => {
+            if (token) onVerify(token);
+          },
+        });
+        setLoadState("ready");
+      } catch (error) {
+        setLoadState("error");
+      }
+    };
+
+    setLoadState("loading");
+
+    if (window.smartCaptcha?.render) {
+      renderCaptcha();
+    } else {
+      if (!script) {
+        script = document.createElement("script");
+        script.id = SMARTCAPTCHA_SCRIPT_ID;
+        script.src = "https://smartcaptcha.cloud.yandex.ru/captcha.js";
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
+      }
+
+      script.addEventListener("load", renderCaptcha);
+      script.addEventListener("error", () => setLoadState("error"));
+    }
+
+    return () => {
+      cancelled = true;
+      script?.removeEventListener("load", renderCaptcha);
+      clearWidget();
+    };
+  }, [isOpen, siteKey, onVerify]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="captcha-modal" role="dialog" aria-modal="true" aria-labelledby="captcha-modal-title">
+      <button className="captcha-modal__backdrop" type="button" aria-label="Закрыть проверку" onClick={onClose} />
+      <div className="captcha-modal__card">
+        <button className="captcha-modal__close" type="button" aria-label="Закрыть" onClick={onClose}>×</button>
+        <p className="section-label">Проверка заявки</p>
+        <h3 id="captcha-modal-title">Подтвердите, что вы не робот</h3>
+        <p>Это защищает форму записи от спама. После проверки заявка отправится администратору автоматически.</p>
+
+        <div className="captcha-modal__widget-wrap">
+          <div ref={containerRef} className="captcha-modal__widget" />
+        </div>
+
+        {loadState === "loading" ? <small>Загружаем проверку Яндекса...</small> : null}
+        {loadState === "error" ? <small className="captcha-modal__error">Не удалось загрузить капчу. Проверьте интернет или попробуйте ещё раз.</small> : null}
+      </div>
+    </div>
+  );
+}
+
+
 function AppointmentModal({ isOpen, onClose }) {
+  const formRef = useRef(null);
   const [formSent, setFormSent] = useState(false);
   const [submitState, setSubmitState] = useState("idle");
   const [submitMessage, setSubmitMessage] = useState("");
+  const [captchaOpen, setCaptchaOpen] = useState(false);
+  const [pendingPayload, setPendingPayload] = useState(null);
 
   useEffect(() => {
     if (!isOpen) return undefined;
 
     const handleKeyDown = (event) => {
-      if (event.key === "Escape") onClose();
+      if (event.key === "Escape") {
+        if (captchaOpen) {
+          setCaptchaOpen(false);
+          setSubmitState("idle");
+          setSubmitMessage("Проверка отменена. Чтобы отправить заявку, нажмите кнопку ещё раз.");
+        } else {
+          onClose();
+        }
+      }
     };
 
     setFormSent(false);
     setSubmitState("idle");
     setSubmitMessage("");
+    setCaptchaOpen(false);
+    setPendingPayload(null);
     document.body.classList.add("modal-open");
     window.addEventListener("keydown", handleKeyDown);
 
@@ -2790,7 +2905,60 @@ function AppointmentModal({ isOpen, onClose }) {
       document.body.classList.remove("modal-open");
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, captchaOpen]);
+
+  const sendLead = async (payload, smartToken) => {
+    setCaptchaOpen(false);
+    setSubmitState("sending");
+    setSubmitMessage("Отправляем заявку...");
+
+    try {
+      const response = await fetch(LEAD_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...payload, smartToken }),
+      });
+
+      let result = {};
+      try {
+        result = await response.json();
+      } catch (error) {
+        result = {};
+      }
+
+      if (!response.ok || result.ok === false) {
+        throw new Error(result.message || result.error || "lead_delivery_failed");
+      }
+
+      setFormSent(true);
+      setSubmitState("success");
+      setSubmitMessage("Спасибо! Заявка отправлена. Администратор свяжется с вами в ближайшее время.");
+      setPendingPayload(null);
+      formRef.current?.reset();
+    } catch (error) {
+      setFormSent(false);
+      setSubmitState("error");
+      setSubmitMessage(error.message || "Не удалось отправить заявку. Проверьте Telegram-настройки в Vercel или позвоните в клинику.");
+    }
+  };
+
+  const handleCaptchaVerified = (token) => {
+    if (!pendingPayload) {
+      setCaptchaOpen(false);
+      setSubmitState("error");
+      setSubmitMessage("Данные формы устарели. Попробуйте отправить заявку ещё раз.");
+      return;
+    }
+
+    sendLead(pendingPayload, token);
+  };
+
+  const handleCaptchaClose = () => {
+    if (submitState === "sending") return;
+    setCaptchaOpen(false);
+    setSubmitState("idle");
+    setSubmitMessage("Проверка отменена. Чтобы отправить заявку, нажмите кнопку ещё раз.");
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -2820,36 +2988,17 @@ function AppointmentModal({ isOpen, onClose }) {
       return;
     }
 
-    setSubmitState("sending");
-    setSubmitMessage("Отправляем заявку...");
-
-    try {
-      const response = await fetch(LEAD_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      let result = {};
-      try {
-        result = await response.json();
-      } catch (error) {
-        result = {};
-      }
-
-      if (!response.ok || result.ok === false) {
-        throw new Error(result.message || result.error || "lead_delivery_failed");
-      }
-
-      setFormSent(true);
-      setSubmitState("success");
-      setSubmitMessage("Спасибо! Заявка отправлена. Администратор свяжется с вами в ближайшее время.");
-      form.reset();
-    } catch (error) {
-      setFormSent(false);
+    if (!SMARTCAPTCHA_SITE_KEY) {
       setSubmitState("error");
-      setSubmitMessage(error.message || "Не удалось отправить заявку. Проверьте Telegram-настройки в Vercel или позвоните в клинику.");
+      setSubmitMessage("Капча ещё не настроена: добавьте VITE_YANDEX_SMARTCAPTCHA_CLIENT_KEY в Vercel.");
+      return;
     }
+
+    setPendingPayload(payload);
+    setFormSent(false);
+    setSubmitState("captcha");
+    setSubmitMessage("Пройдите короткую проверку, после неё заявка отправится автоматически.");
+    setCaptchaOpen(true);
   };
 
   if (!isOpen) return null;
@@ -2875,7 +3024,7 @@ function AppointmentModal({ isOpen, onClose }) {
           <a href={MAX_LINK} target="_blank" rel="noreferrer">Написать в MAX</a>
         </div>
 
-        <form className="appointment-form" onSubmit={handleSubmit} data-metrika-form="appointment_modal">
+        <form ref={formRef} className="appointment-form" onSubmit={handleSubmit} data-metrika-form="appointment_modal">
           <label>
             <span>Имя</span>
             <input name="name" type="text" autoComplete="name" placeholder="Как к вам обращаться" required />
@@ -2900,12 +3049,21 @@ function AppointmentModal({ isOpen, onClose }) {
           <p className="appointment-form__consent">
             Нажимая кнопку, вы соглашаетесь на <a href={routePaths.consent} data-route-link>обработку персональных данных</a>.
           </p>
-          <button type="submit" disabled={submitState === "sending"}>{submitState === "sending" ? "Отправляем..." : "Отправить заявку"}</button>
+          <button type="submit" disabled={submitState === "sending" || submitState === "captcha"}>
+            {submitState === "sending" ? "Отправляем..." : submitState === "captcha" ? "Ждём проверку..." : "Отправить заявку"}
+          </button>
           <small className={`appointment-form__status appointment-form__status--${submitState}`} aria-live="polite">
             {submitMessage || (formSent ? "Спасибо! Заявка отправлена." : "Администратор свяжется с вами после отправки заявки.")}
           </small>
         </form>
       </div>
+
+      <YandexCaptchaDialog
+        isOpen={captchaOpen}
+        siteKey={SMARTCAPTCHA_SITE_KEY}
+        onVerify={handleCaptchaVerified}
+        onClose={handleCaptchaClose}
+      />
     </div>
   );
 }

@@ -52,6 +52,57 @@ function isValidPhone(phone) {
   return digits.length >= 10 && digits.length <= 15;
 }
 
+function getHeader(request, name) {
+  const lower = name.toLowerCase();
+
+  if (request.headers?.get) {
+    return request.headers.get(name) || request.headers.get(lower) || "";
+  }
+
+  return request.headers?.[name] || request.headers?.[lower] || "";
+}
+
+function getClientIp(request) {
+  const forwardedFor = getHeader(request, "x-forwarded-for");
+  if (forwardedFor) return forwardedFor.split(",")[0].trim();
+
+  return getHeader(request, "x-real-ip") || request.socket?.remoteAddress || "";
+}
+
+async function validateSmartCaptcha(token, request) {
+  const secret = process.env.YANDEX_SMARTCAPTCHA_SERVER_KEY;
+
+  if (!secret) {
+    throw new Error("smartcaptcha_env_not_configured");
+  }
+
+  if (!token) {
+    return false;
+  }
+
+  const params = new URLSearchParams();
+  params.set("secret", secret);
+  params.set("token", token);
+  const ip = getClientIp(request);
+  if (ip) params.set("ip", ip);
+
+  const captchaResponse = await fetch("https://smartcaptcha.cloud.yandex.ru/validate", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: params.toString(),
+  });
+
+  // По рекомендации Яндекса техническую ошибку сервиса не считаем пользователем-роботом,
+  // чтобы не потерять реальные заявки пациентов при временном сбое внешнего сервиса.
+  if (!captchaResponse.ok) {
+    console.error("SmartCaptcha validation http error:", captchaResponse.status, await captchaResponse.text());
+    return true;
+  }
+
+  const result = await captchaResponse.json().catch(() => null);
+  return result?.status === "ok";
+}
+
 function formatLeadText(lead) {
   const attribution = lead.attribution && typeof lead.attribution === "object" ? lead.attribution : {};
   const attributionLines = Object.entries(attribution)
@@ -122,7 +173,13 @@ export default async function handler(request, response) {
       page: clean(body.page),
       createdAt: clean(body.createdAt) || new Date().toISOString(),
       attribution: body.attribution && typeof body.attribution === "object" ? body.attribution : {},
+      smartToken: clean(body.smartToken || body["smart-token"]),
     };
+
+    const captchaOk = await validateSmartCaptcha(lead.smartToken, request);
+    if (!captchaOk) {
+      return json(response, 400, { ok: false, message: "Проверка капчи не пройдена. Попробуйте отправить заявку ещё раз." });
+    }
 
     if (!lead.name || lead.name.length < 2) {
       return json(response, 400, { ok: false, message: "Введите имя" });
@@ -146,6 +203,13 @@ export default async function handler(request, response) {
       return json(response, 500, {
         ok: false,
         message: "В Vercel не настроены TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID",
+      });
+    }
+
+    if (String(error.message || "").includes("smartcaptcha_env_not_configured")) {
+      return json(response, 500, {
+        ok: false,
+        message: "В Vercel не настроен YANDEX_SMARTCAPTCHA_SERVER_KEY",
       });
     }
 
