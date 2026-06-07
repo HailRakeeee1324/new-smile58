@@ -2905,7 +2905,7 @@ function AppointmentModal({ isOpen, onClose }) {
       document.body.classList.remove("modal-open");
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onClose, captchaOpen]);
+  }, [isOpen, onClose]);
 
   const sendLead = async (payload, smartToken) => {
     setCaptchaOpen(false);
