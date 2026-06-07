@@ -42,7 +42,7 @@ const MAX_LINK = `https://max.ru/?phone=${MAX_PHONE}`;
 const LEAD_ENDPOINT = "/api/lead";
 const SMARTCAPTCHA_SITE_KEY = import.meta.env.VITE_YANDEX_SMARTCAPTCHA_CLIENT_KEY || "";
 const SMARTCAPTCHA_SCRIPT_ID = "yandex-smartcaptcha-script";
-const YANDEX_METRIKA_ID = "109447302";
+const YANDEX_METRIKA_ID = "109713557";
 const METRIKA_ID_IS_VALID = /^\d+$/.test(YANDEX_METRIKA_ID);
 
 const METRIKA_GOALS = {
@@ -236,12 +236,15 @@ function YandexMetrika() {
       if (!window.__nyMetrikaInitialized) {
         window.__nyMetrikaInitialized = true;
         window.ym(Number(YANDEX_METRIKA_ID), "init", {
-          clickmap: true,
-          trackLinks: true,
-          accurateTrackBounce: true,
+          ssr: true,
           webvisor: true,
-          trackHash: true,
+          clickmap: true,
           ecommerce: "dataLayer",
+          referrer: document.referrer,
+          url: location.href,
+          accurateTrackBounce: true,
+          trackLinks: true,
+          trackHash: true,
         });
       }
     };
