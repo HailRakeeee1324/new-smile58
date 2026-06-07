@@ -16556,3 +16556,365 @@ html[data-theme="dark"] .captcha-modal__widget-wrap {
     border-radius: 26px;
   }
 }
+
+
+/* ===== FINAL 2026-06-08 - director block redesign by approved mockup ===== */
+.home-advantages--director {
+  margin-top: clamp(40px, 5vw, 84px) !important;
+}
+
+.home-advantages__hero--director {
+  display: grid !important;
+  grid-template-columns: minmax(320px, 0.92fr) minmax(420px, 1.28fr) !important;
+  align-items: center !important;
+  gap: clamp(28px, 3.3vw, 42px) !important;
+  margin-bottom: clamp(26px, 3vw, 34px) !important;
+}
+
+.director-quote--panel {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  min-height: clamp(240px, 24vw, 360px) !important;
+  padding: clamp(28px, 3.2vw, 40px) !important;
+  border-radius: 30px !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(247,251,255,.94)) !important;
+  border: 1px solid rgba(91, 143, 219, .16) !important;
+  box-shadow: 0 28px 68px rgba(40, 93, 163, .12) !important;
+  overflow: hidden !important;
+}
+
+.director-quote--panel::before {
+  content: "“";
+  position: absolute;
+  right: 20px;
+  top: -24px;
+  font-size: clamp(120px, 10vw, 170px);
+  line-height: 1;
+  font-weight: 900;
+  color: rgba(47, 117, 223, .09);
+  pointer-events: none;
+}
+
+.director-quote--panel blockquote {
+  margin: 0 !important;
+  color: #10213a !important;
+  font-size: clamp(1.12rem, 1.85vw, 1.6rem) !important;
+  line-height: 1.62 !important;
+  font-weight: 800 !important;
+  text-align: justify !important;
+  text-wrap: pretty;
+  position: relative;
+  z-index: 1;
+}
+
+.director-profile-card {
+  position: relative;
+  padding-bottom: clamp(58px, 6vw, 82px);
+}
+
+.home-advantages__media--director {
+  margin: 0 !important;
+  min-height: clamp(290px, 30vw, 470px) !important;
+  border-radius: 34px !important;
+  overflow: hidden !important;
+  background: linear-gradient(180deg, rgba(230,241,252,.92), rgba(216,234,248,.92)) !important;
+  box-shadow: 0 30px 82px rgba(39, 92, 161, .16) !important;
+}
+
+.home-advantages__media--director img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: clamp(290px, 30vw, 470px) !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: transparent !important;
+}
+
+.director-profile-card__caption {
+  position: absolute;
+  left: clamp(-18px, -1.6vw, -12px);
+  right: clamp(26px, 3vw, 42px);
+  bottom: 0;
+  z-index: 2;
+  padding: clamp(14px, 1.7vw, 18px) clamp(18px, 2vw, 24px) !important;
+  border-radius: 0 0 24px 24px;
+  background: rgba(255,255,255,.96) !important;
+  box-shadow: 0 18px 40px rgba(21, 50, 96, .14) !important;
+  backdrop-filter: blur(10px);
+}
+
+.director-profile-card__caption h2 {
+  margin: 0 0 4px !important;
+  color: #10213a !important;
+  font-size: clamp(2.05rem, 3.6vw, 4rem) !important;
+  line-height: 0.98 !important;
+  letter-spacing: -.075em !important;
+  text-wrap: balance;
+}
+
+.director-profile-card__caption .director-quote__label {
+  margin: 0 !important;
+  color: #2f75df !important;
+  font-size: 0.85rem !important;
+  font-weight: 900 !important;
+  letter-spacing: .16em !important;
+  text-transform: uppercase !important;
+}
+
+html[data-theme="dark"] .director-quote--panel {
+  background: linear-gradient(180deg, rgba(12, 41, 82, .92), rgba(7, 24, 52, .92)) !important;
+  border-color: rgba(152, 204, 255, .14) !important;
+  box-shadow: 0 30px 74px rgba(0, 0, 0, .28) !important;
+}
+
+html[data-theme="dark"] .director-quote--panel::before {
+  color: rgba(151, 205, 255, .10) !important;
+}
+
+html[data-theme="dark"] .director-quote--panel blockquote {
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .home-advantages__media--director {
+  background: linear-gradient(180deg, rgba(16, 38, 74, .96), rgba(9, 25, 48, .96)) !important;
+  box-shadow: 0 32px 86px rgba(0, 0, 0, .34) !important;
+}
+
+html[data-theme="dark"] .director-profile-card__caption {
+  background: rgba(6, 26, 58, .95) !important;
+  box-shadow: 0 20px 44px rgba(0, 0, 0, .32) !important;
+}
+
+html[data-theme="dark"] .director-profile-card__caption h2 {
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .director-profile-card__caption .director-quote__label {
+  color: #8cc8ff !important;
+}
+
+@media (max-width: 1180px) {
+  .home-advantages__hero--director {
+    grid-template-columns: minmax(280px, .9fr) minmax(0, 1.1fr) !important;
+    gap: 24px !important;
+  }
+
+  .director-profile-card__caption {
+    left: 12px;
+    right: 12px;
+  }
+
+  .director-profile-card__caption h2 {
+    font-size: clamp(1.7rem, 3.8vw, 3rem) !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .home-advantages__hero--director {
+    grid-template-columns: 1fr !important;
+  }
+
+  .director-quote--panel {
+    order: 1;
+    min-height: 0 !important;
+  }
+
+  .director-profile-card {
+    order: 2;
+    padding-bottom: 0;
+  }
+
+  .director-profile-card__caption {
+    position: static;
+    margin-top: 14px;
+    border-radius: 24px;
+  }
+
+  .director-profile-card__caption h2 {
+    font-size: clamp(1.9rem, 6vw, 2.8rem) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .director-quote--panel {
+    padding: 22px 20px !important;
+    border-radius: 24px !important;
+  }
+
+  .director-quote--panel blockquote {
+    font-size: 1.04rem !important;
+    line-height: 1.56 !important;
+    text-align: left !important;
+  }
+
+  .home-advantages__media--director,
+  .home-advantages__media--director img {
+    min-height: 210px !important;
+  }
+
+  .director-profile-card__caption {
+    padding: 14px 16px !important;
+  }
+}
+
+/* ===== FINAL LIGHT THEME PANORAMA GRADIENT RESTORE ===== */
+/* Возвращает засветление панорамной фотки на всех внутренних страницах, кроме главной:
+   слева и снизу сильнее, сверху и справа слабее. */
+
+html:not([data-theme="dark"]) .page-intro--photo {
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.82) 0%,
+      rgba(244, 250, 255, 0.62) 28%,
+      rgba(234, 246, 255, 0.28) 58%,
+      rgba(226, 241, 255, 0.08) 100%
+    ),
+    linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.88) 0%,
+      rgba(245, 251, 255, 0.62) 26%,
+      rgba(236, 247, 255, 0.26) 56%,
+      rgba(236, 247, 255, 0.04) 100%
+    ),
+    url("/page-hero-clinic.webp") !important;
+
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Мягкий дополнительный свет слева сверху, но без полного выбеливания всей фотографии */
+html:not([data-theme="dark"]) .page-intro--photo::before {
+  background:
+    radial-gradient(
+      circle at 12% 36%,
+      rgba(255, 255, 255, 0.48) 0%,
+      rgba(246, 252, 255, 0.24) 34%,
+      rgba(246, 252, 255, 0) 64%
+    ) !important;
+}
+
+/* Плавный уход фото в фон страницы снизу */
+html:not([data-theme="dark"]) .page-intro--photo::after {
+  height: 150px !important;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(224, 240, 252, 0) 0%,
+      rgba(224, 240, 252, 0.34) 46%,
+      rgba(220, 236, 249, 0.92) 100%
+    ) !important;
+}
+
+/* =========================================================
+   FINAL FIX 2026-06-08 - STRONG LIGHT PANORAMA FADE RESTORE
+   Внутренние страницы, светлая тема: белое засветление
+   сильнее слева и снизу, слабее сверху и справа.
+   Этот блок намеренно стоит в самом конце и имеет повышенную
+   специфичность, чтобы перебить более ранние !important-правила.
+   ========================================================= */
+
+html:not([data-theme="dark"]) body .app .page .page-intro.page-intro--photo,
+html:not([data-theme="dark"]) body .app main.page .page-intro.page-intro--photo,
+html:not([data-theme="dark"]) body .header--page + .page .page-intro.page-intro--photo,
+html:not([data-theme="dark"]) body .header--page + main .page-intro.page-intro--photo {
+  position: relative !important;
+  overflow: hidden !important;
+  background-color: #dcecf9 !important;
+  background-image:
+    /* сильное засветление слева */
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.94) 0%,
+      rgba(250, 253, 255, 0.78) 22%,
+      rgba(239, 248, 255, 0.43) 50%,
+      rgba(229, 242, 253, 0.14) 78%,
+      rgba(229, 242, 253, 0.04) 100%
+    ),
+    /* сильное засветление снизу */
+    linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.96) 0%,
+      rgba(251, 254, 255, 0.82) 18%,
+      rgba(242, 250, 255, 0.48) 43%,
+      rgba(235, 247, 255, 0.18) 72%,
+      rgba(235, 247, 255, 0.05) 100%
+    ),
+    /* слабая мягкая вуаль сверху */
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.30) 0%,
+      rgba(247, 252, 255, 0.12) 24%,
+      rgba(247, 252, 255, 0) 54%
+    ),
+    url('/page-hero-clinic.webp') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  border-bottom-color: rgba(169, 202, 232, 0.36) !important;
+}
+
+html:not([data-theme="dark"]) body .app .page .page-intro.page-intro--photo::before,
+html:not([data-theme="dark"]) body .app main.page .page-intro.page-intro--photo::before,
+html:not([data-theme="dark"]) body .header--page + .page .page-intro.page-intro--photo::before,
+html:not([data-theme="dark"]) body .header--page + main .page-intro.page-intro--photo::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  border-radius: 0 !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+  opacity: 1 !important;
+  filter: none !important;
+  background:
+    radial-gradient(
+      ellipse at 12% 72%,
+      rgba(255, 255, 255, 0.72) 0%,
+      rgba(250, 253, 255, 0.46) 30%,
+      rgba(250, 253, 255, 0.14) 56%,
+      rgba(250, 253, 255, 0) 74%
+    ),
+    radial-gradient(
+      ellipse at 0% 50%,
+      rgba(255, 255, 255, 0.42) 0%,
+      rgba(250, 253, 255, 0.18) 40%,
+      rgba(250, 253, 255, 0) 70%
+    ) !important;
+}
+
+html:not([data-theme="dark"]) body .app .page .page-intro.page-intro--photo::after,
+html:not([data-theme="dark"]) body .app main.page .page-intro.page-intro--photo::after,
+html:not([data-theme="dark"]) body .header--page + .page .page-intro.page-intro--photo::after,
+html:not([data-theme="dark"]) body .header--page + main .page-intro.page-intro--photo::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  top: auto !important;
+  height: 185px !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(220, 236, 249, 0) 0%,
+      rgba(226, 242, 253, 0.44) 45%,
+      rgba(220, 236, 249, 0.96) 100%
+    ) !important;
+}
+
+html:not([data-theme="dark"]) body .app .page .page-intro.page-intro--photo > .container,
+html:not([data-theme="dark"]) body .app main.page .page-intro.page-intro--photo > .container,
+html:not([data-theme="dark"]) body .header--page + .page .page-intro.page-intro--photo > .container,
+html:not([data-theme="dark"]) body .header--page + main .page-intro.page-intro--photo > .container {
+  position: relative !important;
+  z-index: 2 !important;
+}

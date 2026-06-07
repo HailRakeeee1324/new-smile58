@@ -1782,16 +1782,23 @@ function HomePage() {
 
       <section className="container home-advantages home-advantages--director reveal-on-scroll" aria-labelledby="home-director-title">
         <div className="home-advantages__hero home-advantages__hero--director">
-          <figure className="home-advantages__media home-advantages__media--director">
-            <img src="/director-kaftaev-renat.webp" alt="Кафтаев Ренат Идрисович, генеральный директор стоматологии Новая улыбка" loading="lazy" decoding="async" />
-          </figure>
-
-          <div className="home-advantages__content director-quote">
-            <p className="director-quote__label">Генеральный директор</p>
-            <h2 id="home-director-title">Кафтаев Ренат Идрисович</h2>
+          <div className="director-quote director-quote--panel">
             <blockquote>
-              «С 2004 года заботимся о здоровье наших пациентов - делаем их улыбки здоровыми и красивыми. Работая на совесть, зарабатываем доверие. До встречи в филиалах нашей стоматологии!»
+            «С 2004 года заботимся о здоровье наших пациентов - делаем их улыбки здоровыми и красивыми. Работая на совесть, зарабатываем  доверие.
+            <br />
+            До встречи в филиалах нашей стоматологии!»
             </blockquote>
+          </div>
+
+          <div className="director-profile-card">
+            <figure className="home-advantages__media home-advantages__media--director">
+              <img src="/director-kaftaev-renat.webp" alt="Кафтаев Ренат Идрисович, генеральный директор стоматологии Новая улыбка" loading="lazy" decoding="async" />
+            </figure>
+
+            <div className="director-profile-card__caption">
+              <h2 id="home-director-title">Кафтаев Ренат Идрисович</h2>
+              <p className="director-quote__label">Генеральный директор</p>
+            </div>
           </div>
         </div>
 
