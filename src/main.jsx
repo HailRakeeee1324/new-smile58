@@ -1668,8 +1668,7 @@ function Header({ route, theme, onToggleTheme, themeHintVisible, onCloseThemeHin
 }
 
 function HomePage() {
-  const accentCard = homeCards.find((card) => card.accent);
-  const regularCards = homeCards.filter((card) => !card.accent);
+  const homeOfferCards = homeCards.filter((card) => card.offer);
 
   return (
     <main className="home-page">
@@ -1704,37 +1703,18 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="features container" aria-label="Преимущества">
-        {accentCard ? (
-          <article className="feature-card feature-card--accent feature-card--hero feature-card--implant-mini reveal-on-scroll" key={accentCard.title}>
-            <div className="feature-card__hero-main">
-              {(accentCard.icon || accentCard.badge) ? (
-                <div className="feature-card__hero-head">
-                  {accentCard.icon ? <div className="feature-card__icon">{accentCard.icon}</div> : null}
-                  {accentCard.badge ? <div className="feature-card__badge">{accentCard.badge}</div> : null}
-                </div>
-              ) : null}
+      <section className="features container" aria-labelledby="home-offers-title">
+        <div className="home-offers__head reveal-on-scroll">
+          <p className="section-label">Популярные услуги</p>
+          <h2 id="home-offers-title">Подобрали востребованные направления, с которых удобно начать знакомство с клиникой</h2>
+        </div>
 
-              <h3>{accentCard.title}</h3>
-              {accentCard.text ? <p className="feature-card__summary feature-card__summary--promo">{accentCard.text}</p> : null}
-              {accentCard.note ? <p className="feature-card__note">{accentCard.note}</p> : null}
-
-            </div>
-
-            {accentCard.banner ? (
-              <figure className="feature-card__banner feature-card__banner--promo">
-                <img src={accentCard.banner} alt="Имплантация зубов в Пензе - акция 26 000 рублей" loading="lazy" decoding="async" />
-              </figure>
-            ) : null}
-          </article>
-        ) : null}
-
-        <div className="features__grid">
-          {regularCards.map((card) => {
+        <div className="home-offers__grid">
+          {homeOfferCards.map((card) => {
             const CardTag = card.route ? "a" : "article";
             const cardProps = card.route ? { href: routeHref(card.route), "data-route-link": true } : {};
             return (
-              <CardTag className={`feature-card feature-card--secondary reveal-on-scroll ${card.route ? "feature-card--clickable" : ""} ${card.offer ? "feature-card--service-offer" : ""}`} key={card.title} {...cardProps}>
+              <CardTag className={`feature-card feature-card--secondary feature-card--service-offer reveal-on-scroll ${card.route ? "feature-card--clickable" : ""}`} key={card.title} {...cardProps}>
                 <div className="feature-card__service-head">
                   <div className="feature-card__icon">{card.icon}</div>
                   {card.label ? <span>{card.label}</span> : null}
@@ -1759,10 +1739,20 @@ function HomePage() {
       </section>
 
       <section className="container home-advantages reveal-on-scroll" aria-labelledby="home-advantages-title">
-        <div className="home-advantages__head">
-          <p className="section-label">Почему выбирают нас?</p>
-          <h2 id="home-advantages-title">22 года мы приносим пользу улыбкам наших пациентов, делаем их здоровыми и красивыми.</h2>
+        <div className="home-advantages__hero">
+          <div className="home-advantages__content">
+            <p className="section-label">Почему выбирают нас?</p>
+            <h2 id="home-advantages-title">22 года заботимся об улыбках наших пациентов - делаем их здоровыми, красивыми и уверенными</h2>
+            <p className="home-advantages__lead">
+              Спокойно объясняем лечение, подбираем понятные решения и стараемся, чтобы в клинике пациент чувствовал себя комфортно уже с первого визита.
+            </p>
+          </div>
+
+          <figure className="home-advantages__media">
+            <img src="/home-advantages-clinic.webp" alt="Светлый современный кабинет стоматологии Новая улыбка" loading="lazy" decoding="async" />
+          </figure>
         </div>
+
         <div className="home-advantages__grid">
           {homeAdvantages.map((advantage) => (
             <article className="home-advantage-card" key={advantage.title}>
