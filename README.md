@@ -1,4 +1,4 @@
-# Новая улыбка — сайт стоматологии
+# Новая улыбка - сайт стоматологии
 
 ## Важно
 
@@ -52,11 +52,11 @@ npm run dev
 
 ## Основные файлы
 
-- `src/main.jsx` — структура сайта, тексты и страницы
-- `src/styles.css` — дизайн
-- `public/hero.png` — фон главной страницы
-- `public/logo.png` — логотип
-- `public/branches/` — фотографии филиалов
+- `src/main.jsx` - структура сайта, тексты и страницы
+- `src/styles.css` - дизайн
+- `public/hero.png` - фон главной страницы
+- `public/logo.png` - логотип
+- `public/branches/` - фотографии филиалов
 
 
 ## Оптимизация изображений
@@ -66,7 +66,7 @@ npm run dev
 ## Заявки с формы записи
 
 Форма записи теперь отправляет имя, телефон и выбранный район (**Спутник / ГПЗ**) в обработчик `/api/lead`.
-Для боевого получения заявок добавьте в Vercel переменные `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID`. Подробная инструкция — в файле `README_ZAYAVKI.md`.
+Для боевого получения заявок добавьте в Vercel переменные `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID`. Подробная инструкция - в файле `README_ZAYAVKI.md`.
 
 ## Яндекс Метрика
 
@@ -81,15 +81,15 @@ VITE_YANDEX_METRIKA_ID=109447302
 
 В коде уже настроены JavaScript-цели:
 
-- `click_phone` — клик по номеру телефона;
-- `click_whatsapp` — клик по WhatsApp;
-- `click_telegram` — клик по Telegram, когда будет добавлена ссылка на Telegram;
-- `click_messenger` — общий клик по мессенджеру;
-- `click_appointment_button` — клик по кнопке записи;
-- `appointment_modal_open` — открытие окна записи;
-- `appointment_form_submit` — отправка формы записи;
-- `open_contacts_page` — переход на страницу контактов;
-- `click_address_map` — клик по адресу / карте;
-- `click_prodoctorov` — переход на ПроДокторов.
+- `click_phone` - клик по номеру телефона;
+- `click_whatsapp` - клик по WhatsApp;
+- `click_telegram` - клик по Telegram, когда будет добавлена ссылка на Telegram;
+- `click_messenger` - общий клик по мессенджеру;
+- `click_appointment_button` - клик по кнопке записи;
+- `appointment_modal_open` - открытие окна записи;
+- `appointment_form_submit` - отправка формы записи;
+- `open_contacts_page` - переход на страницу контактов;
+- `click_address_map` - клик по адресу / карте;
+- `click_prodoctorov` - переход на ПроДокторов.
 
 В Метрике для них нужно создать цели типа «JavaScript-событие» с такими же идентификаторами.
