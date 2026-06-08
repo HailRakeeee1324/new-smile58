@@ -1787,9 +1787,9 @@ function HomePage() {
         <div className="home-advantages__hero home-advantages__hero--director">
           <div className="director-quote director-quote--panel">
             <blockquote>
-            «С 2004 года заботимся о здоровье наших пациентов - делаем их улыбки здоровыми и красивыми. Работая на совесть, зарабатываем  доверие.
-            <br />
-            До встречи в филиалах нашей стоматологии!»
+              «С 2004 года мы дарим нашим пациентам здоровые и красивые улыбки. Работаем на совесть - поэтому нам доверяют.
+              <br />
+              До встречи в филиалах нашей стоматологии!»
             </blockquote>
           </div>
 
@@ -1862,7 +1862,7 @@ function PageIntro({ label, title, text }) {
   return (
     <section className="page-intro page-intro--photo">
       <div className="container">
-        <p className="section-label">{label}</p>
+        {label ? <p className="section-label">{label}</p> : null}
         <h1>{title}</h1>
         {text && <p>{text}</p>}
       </div>
@@ -1876,7 +1876,7 @@ function ServicesPage() {
       <PageIntro
         label="Услуги"
         title="Стоматологическая помощь для всей семьи"
-        text="Чистая визуальная навигация по основным направлениям: выберите услугу, а мы поможем подобрать филиал и удобное время."
+        text="Выберите услугу, а мы поможем подобрать филиал и удобное время!"
       />
 
       <section className="container services-grid">
@@ -1958,7 +1958,7 @@ function LocalSeoLandingPage({ pageKey }) {
             </div>
           </div>
           <figure className="service-landing-hero__photo">
-            <img src="/page-hero-clinic.webp" alt={page.title} loading="eager" decoding="async" />
+            <img src="/page-hero-clinic.webp?v=final-hero-8" alt={page.title} loading="eager" decoding="async" />
           </figure>
         </div>
       </section>
@@ -2162,7 +2162,7 @@ function DoctorsPage() {
         <div className="team-hero__inner">
           <div>
             <p className="section-label">Команда</p>
-            <h1>Врачи и ассистенты «Новой улыбки»</h1>
+            <h1>Врачи и ассистенты <span className="nowrap">«Новой улыбки»</span></h1>
             <p>Команда клиники ведёт терапевтическое, хирургическое и ортопедическое лечение в филиалах на Светлой, Радужной и Антонова.</p>
           </div>
           <figure className="team-hero__photo">
@@ -2214,15 +2214,18 @@ function ReviewsPage() {
     setSlideDirection("next");
     setActiveReview(nextIndex);
   };
+  const goToReview = (index) => {
+    setSlideDirection(index > activeReview ? "next" : "prev");
+    setActiveReview(index);
+  };
 
   return (
     <main className="page seo-page reviews-page reviews-page--carousel reviews-page--simple">
       <PageIntro
-        label="Отзывы"
         title="Отзывы пациентов"
       />
 
-      <section className="container reviews-carousel-stage reviews-carousel-stage--clean" aria-label="Карусель отзывов пациентов">
+      <section className="container reviews-carousel-stage reviews-carousel-stage--clean reviews-carousel-stage--premium" aria-label="Карусель отзывов пациентов">
         <button type="button" className="review-peek review-peek--prev" onClick={goPrevReview} aria-label="Предыдущий отзыв">
           <img src={reviewGallery[prevIndex].image} alt="" loading="lazy" decoding="async" />
         </button>
@@ -2246,6 +2249,18 @@ function ReviewsPage() {
         <button type="button" className="review-peek review-peek--next" onClick={goNextReview} aria-label="Следующий отзыв">
           <img src={reviewGallery[nextIndex].image} alt="" loading="lazy" decoding="async" />
         </button>
+
+        <div className="reviews-carousel-dots" aria-label="Переключение отзывов">
+          {reviewGallery.map((review, index) => (
+            <button
+              type="button"
+              className={index === activeReview ? "active" : ""}
+              onClick={() => goToReview(index)}
+              aria-label={`Показать отзыв ${review.name}`}
+              key={review.name + index}
+            />
+          ))}
+        </div>
       </section>
     </main>
   );
@@ -2257,7 +2272,6 @@ function PromotionsPage() {
       <PageIntro
         label="Акции"
         title="Акции и специальные предложения"
-        text="Промо-страница с понятной выгодой: пациент сразу видит цену, экономию и быстрый путь к записи."
       />
 
       <section className="container promo-implant-section reveal-on-scroll" aria-labelledby="promo-implant-title">
@@ -2369,7 +2383,7 @@ function BlogPage() {
         {articles.map(([key, article], index) => (
           <article className="blog-card blog-card--media reveal-on-scroll" key={key}>
             <figure className="blog-card__media">
-              <img src={serviceSeoPages[article.service]?.image || "/page-hero-clinic.webp"} alt={article.title} loading="lazy" decoding="async" />
+              <img src={serviceSeoPages[article.service]?.image || "/page-hero-clinic.webp?v=final-hero-8"} alt={article.title} loading="lazy" decoding="async" />
               <span><img src="/logo.webp" alt="" loading="lazy" decoding="async" /> Новая улыбка</span>
             </figure>
             <div className="blog-card__content">
@@ -2443,7 +2457,7 @@ function BranchesPage() {
       <PageIntro
         label="Филиалы"
         title="Три клиники в Пензе"
-        text={<><strong>В СПУТНИКЕ</strong> - два кабинета: Светлая 11 и Радужная 10. <strong>На ГПЗ</strong> - филиал на Антонова 76.</>}
+        text={<span className="page-intro__single-line"><strong>В СПУТНИКЕ</strong> - два кабинета: Светлая 11 и Радужная 10. <strong>На ГПЗ</strong> - филиал на Антонова 76.</span>}
       />
 
       <section className="container branches-list">
