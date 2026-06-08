@@ -283,6 +283,29 @@ function YandexMetrika() {
 
 const serviceOrder = ["lechenieKariesa", "implantaciya", "protezirovanie", "viniry", "udalenieZubov", "otbelivanie", "gigiena"];
 
+
+const popularHomeLinks = [
+  { route: "prices", eyebrow: "Стоимость", title: "Цены", text: "Ориентиры по лечению, имплантации, протезированию, гигиене и отбеливанию." },
+  { route: "doctors", eyebrow: "Команда", title: "Врачи", text: "Специалисты клиники и направления приёма в филиалах Новой улыбки." },
+  { route: "implantaciya", eyebrow: "Хирургия", title: "Имплантация", text: "Имплантация зубов в Пензе с понятным планом лечения и записью на консультацию." },
+  { route: "udalenieZubov", eyebrow: "Хирургия", title: "Удаление зубов", text: "Удаление по показаниям, рекомендации после приёма и удобная запись." },
+  { route: "lechenieKariesa", eyebrow: "Терапия", title: "Лечение зубов", text: "Лечение кариеса, восстановление зубов и спокойный терапевтический приём." },
+  { route: "stomatologiyaSputnik", eyebrow: "Район", title: "Стоматология в Спутнике", text: "Филиалы на Светлой 11 и Радужной 10 для пациентов из Спутника." },
+  { route: "stomatologiyaGpz", eyebrow: "Район", title: "Стоматология в ГПЗ", text: "Филиал на Антонова 76 для пациентов района ГПЗ в Пензе." },
+  { route: "contacts", eyebrow: "Связь", title: "Контакты", text: "Единый номер записи, адреса филиалов и график работы клиник." },
+];
+
+const localSeoKeyPhrases = [
+  { label: "стоматология в Пензе", route: "services" },
+  { label: "стоматология в Спутнике", route: "stomatologiyaSputnik" },
+  { label: "Спутник стоматология", route: "stomatologiyaSputnik" },
+  { label: "ГПЗ Пенза стоматология", route: "stomatologiyaGpz" },
+  { label: "стоматология в ГПЗ", route: "stomatologiyaGpz" },
+  { label: "стоматология в ГПЗ Пенза", route: "stomatologiyaGpz" },
+  { label: "лечение зубов Пенза", route: "lechenieKariesa" },
+  { label: "имплантация зубов Пенза", route: "implantaciya" },
+];
+
 const serviceSeoPages = {
   lechenieKariesa: {
     label: "Лечение кариеса",
@@ -1688,6 +1711,54 @@ function Header({ route, theme, onToggleTheme, themeHintVisible, onCloseThemeHin
   );
 }
 
+
+function PopularHomeSections() {
+  return (
+    <section className="container popular-sections reveal-on-scroll" aria-labelledby="popular-sections-title">
+      <div className="popular-sections__head">
+        <p className="section-label">Быстрый переход</p>
+        <h2 id="popular-sections-title">Популярные разделы сайта</h2>
+        <p>Собрали главные страницы, которые чаще всего ищут пациенты: цены, врачи, услуги и филиалы стоматологии в Пензе.</p>
+      </div>
+
+      <div className="popular-sections__grid">
+        {popularHomeLinks.map((item) => (
+          <a className="popular-section-card" href={routeHref(item.route)} data-route-link key={item.route}>
+            <span>{item.eyebrow}</span>
+            <strong>{item.title}</strong>
+            <em>{item.text}</em>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function LocalSeoCluster({ pageLabel = "стоматология", variant = "service" }) {
+  const normalizedLabel = String(pageLabel || "стоматологическая услуга").toLowerCase();
+
+  return (
+    <section className={`container local-seo-cluster local-seo-cluster--${variant} reveal-on-scroll`} aria-label="География приёма стоматологии Новая улыбка">
+      <div className="local-seo-cluster__content">
+        <p className="section-label">Стоматология в Пензе</p>
+        <h2>Удобно для Спутника, ГПЗ и других районов Пензы</h2>
+        <p>
+          «Новая улыбка» - стоматология в Пензе с тремя филиалами: Светлая 11 и Радужная 10 в Спутнике, Антонова 76 в районе ГПЗ. Если вы ищете стоматологию в Спутнике, стоматологию в ГПЗ или стоматологию в ГПЗ Пенза, можно выбрать ближайший адрес и записаться на консультацию.
+        </p>
+        <p>
+          Раздел про {normalizedLabel} помогает пациентам быстрее понять услугу, стоимость и маршрут записи, а поисковым системам - связать страницу с запросами «стоматология в Пензе», «Спутник стоматология», «ГПЗ Пенза стоматология» и похожими локальными формулировками.
+        </p>
+      </div>
+
+      <div className="local-seo-cluster__phrases" aria-label="Локальные поисковые запросы">
+        {localSeoKeyPhrases.map((item) => (
+          <a href={routeHref(item.route)} data-route-link key={item.label}>{item.label}</a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function HomePage() {
   const accentCard = homeCards.find((card) => card.accent);
   const homeOfferCards = homeCards.filter((card) => card.offer);
@@ -1816,6 +1887,8 @@ function HomePage() {
         </div>
       </section>
 
+      <PopularHomeSections />
+
       <section className="container wow-offers" aria-label="Специальные предложения">
         <div className="wow-section-head">
           <h2>Спецпредложения для пациентов</h2>
@@ -1925,6 +1998,8 @@ function ServicesPage() {
         </div>
       </section>
 
+      <LocalSeoCluster pageLabel="стоматологические услуги" variant="services" />
+
       <section className="container page-cta">
         <div>
           <p className="section-label">Подбор лечения</p>
@@ -1984,6 +2059,8 @@ function LocalSeoLandingPage({ pageKey }) {
           </div>
         </article>
       </section>
+
+      <LocalSeoCluster pageLabel={page.label || page.title} variant="local" />
 
       <section className="container page-cta">
         <div>
@@ -2060,6 +2137,8 @@ function ServiceSeoPage({ pageKey }) {
           ))}
         </div>
       </section>
+
+      <LocalSeoCluster pageLabel={page.label} variant="service" />
 
       {matchedDoctors.length ? (
         <section className="container service-doctors reveal-on-scroll">
@@ -2429,6 +2508,8 @@ function BlogArticlePage({ articleKey }) {
           <a href={PHONE_LINK} data-appointment>Записаться на консультацию</a>
         </aside>
       </article>
+
+      <LocalSeoCluster pageLabel={service?.label || "стоматология"} variant="article" />
     </main>
   );
 }
