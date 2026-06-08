@@ -16918,3 +16918,253 @@ html:not([data-theme="dark"]) body .header--page + main .page-intro.page-intro--
   position: relative !important;
   z-index: 2 !important;
 }
+
+
+/* =========================================================
+   FINAL 2026-06-08 - INNER PAGE HEADER + PREMIUM DEPTH BG
+   Added light/dark inner-page hero headers from user files
+   and rebuilt overall background depth with soft glass layers.
+   ========================================================= */
+
+:root {
+  --ny-premium-light-bg: #edf4fb;
+  --ny-premium-light-bg-2: #e1edf8;
+  --ny-premium-light-glow: rgba(121, 168, 231, 0.16);
+  --ny-premium-light-violet: rgba(176, 165, 255, 0.10);
+  --ny-premium-dark-bg: #081425;
+  --ny-premium-dark-bg-2: #0b1b33;
+  --ny-premium-dark-bg-3: #0d2542;
+  --ny-premium-dark-glow: rgba(71, 136, 228, 0.18);
+  --ny-premium-dark-violet: rgba(131, 101, 214, 0.14);
+}
+
+html:not([data-theme="dark"]) body,
+html:not([data-theme="dark"]) .app,
+html:not([data-theme="dark"]) .home-page,
+html:not([data-theme="dark"]) .page,
+html:not([data-theme="dark"]) .footer,
+html:not([data-theme="dark"]) main {
+  background:
+    radial-gradient(circle at 10% 12%, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0) 26%),
+    radial-gradient(circle at 84% 10%, rgba(173, 203, 246, 0.24) 0%, rgba(173, 203, 246, 0) 24%),
+    radial-gradient(circle at 15% 68%, rgba(197, 214, 255, 0.16) 0%, rgba(197, 214, 255, 0) 26%),
+    radial-gradient(circle at 82% 78%, rgba(197, 183, 255, 0.12) 0%, rgba(197, 183, 255, 0) 20%),
+    linear-gradient(180deg, var(--ny-premium-light-bg) 0%, #e8f1f9 46%, var(--ny-premium-light-bg-2) 100%),
+    repeating-linear-gradient(135deg, rgba(255,255,255,0.05) 0 2px, rgba(255,255,255,0.0) 2px 6px) !important;
+  color: #10233f !important;
+}
+
+html[data-theme="dark"] body,
+html[data-theme="dark"] .app,
+html[data-theme="dark"] .home-page,
+html[data-theme="dark"] .page,
+html[data-theme="dark"] .footer,
+html[data-theme="dark"] main,
+html[data-theme="dark"] .seo-page,
+html[data-theme="dark"] .prices-page,
+html[data-theme="dark"] .branches-page,
+html[data-theme="dark"] .blog-page,
+html[data-theme="dark"] .doctors-page,
+html[data-theme="dark"] .reviews-page,
+html[data-theme="dark"] .before-after-page,
+html[data-theme="dark"] .contacts-page,
+html[data-theme="dark"] .license-page,
+html[data-theme="dark"] .privacy-page {
+  background:
+    radial-gradient(circle at 14% 10%, rgba(105, 169, 255, 0.14) 0%, rgba(105, 169, 255, 0) 24%),
+    radial-gradient(circle at 86% 12%, rgba(161, 124, 248, 0.13) 0%, rgba(161, 124, 248, 0) 18%),
+    radial-gradient(circle at 18% 78%, rgba(61, 117, 210, 0.11) 0%, rgba(61, 117, 210, 0) 22%),
+    radial-gradient(circle at 84% 72%, rgba(106, 178, 255, 0.09) 0%, rgba(106, 178, 255, 0) 18%),
+    linear-gradient(180deg, var(--ny-premium-dark-bg) 0%, var(--ny-premium-dark-bg-2) 48%, var(--ny-premium-dark-bg-3) 100%),
+    repeating-linear-gradient(135deg, rgba(255,255,255,0.018) 0 2px, rgba(255,255,255,0.0) 2px 7px) !important;
+  color: #f4f8ff !important;
+}
+
+html:not([data-theme="dark"]) .page > section:not(.page-intro),
+html:not([data-theme="dark"]) .home-page > section:not(.hero),
+html:not([data-theme="dark"]) .footer,
+html[data-theme="dark"] .page > section:not(.page-intro),
+html[data-theme="dark"] .home-page > section:not(.hero),
+html[data-theme="dark"] .footer {
+  background-color: transparent !important;
+}
+
+html:not([data-theme="dark"]) .header--page {
+  background: linear-gradient(180deg, rgba(255,255,255,0.90) 0%, rgba(248,252,255,0.82) 100%) !important;
+  border-bottom: 1px solid rgba(164, 190, 219, 0.22) !important;
+  box-shadow: 0 18px 46px rgba(110, 143, 180, 0.14) !important;
+}
+
+html[data-theme="dark"] .header--page {
+  background:
+    linear-gradient(180deg, rgba(9, 24, 45, 0.92) 0%, rgba(10, 28, 51, 0.88) 100%) !important;
+  border-bottom: 1px solid rgba(126, 170, 235, 0.12) !important;
+  box-shadow: 0 24px 56px rgba(2, 8, 23, 0.42) !important;
+}
+
+html:not([data-theme="dark"]) .page-intro--photo,
+html:not([data-theme="dark"]) body .app .page .page-intro.page-intro--photo,
+html:not([data-theme="dark"]) body .app main.page .page-intro.page-intro--photo,
+html:not([data-theme="dark"]) body .header--page + .page .page-intro.page-intro--photo,
+html:not([data-theme="dark"]) body .header--page + main .page-intro.page-intro--photo {
+  position: relative !important;
+  overflow: hidden !important;
+  background-color: #dfe9f6 !important;
+  background-image:
+    linear-gradient(90deg, rgba(247, 250, 255, 0.18) 0%, rgba(247, 250, 255, 0.10) 28%, rgba(247, 250, 255, 0.04) 62%, rgba(247, 250, 255, 0.02) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(238, 245, 255, 0.12) 100%),
+    url('/page-hero-inner-light.webp') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  border-bottom-color: rgba(176, 198, 227, 0.34) !important;
+}
+
+html:not([data-theme="dark"]) .page-intro--photo::before,
+html:not([data-theme="dark"]) body .app .page .page-intro.page-intro--photo::before,
+html:not([data-theme="dark"]) body .app main.page .page-intro.page-intro--photo::before,
+html:not([data-theme="dark"]) body .header--page + .page .page-intro.page-intro--photo::before,
+html:not([data-theme="dark"]) body .header--page + main .page-intro.page-intro--photo::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.84) 0%, rgba(252,253,255,0.68) 24%, rgba(244,248,255,0.36) 48%, rgba(244,248,255,0.10) 72%, rgba(244,248,255,0.02) 100%),
+    linear-gradient(0deg, rgba(255,255,255,0.86) 0%, rgba(251,253,255,0.48) 24%, rgba(246,249,255,0.10) 50%, rgba(246,249,255,0.02) 100%),
+    radial-gradient(circle at 14% 18%, rgba(255,255,255,0.58) 0%, rgba(255,255,255,0.0) 26%) !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+html:not([data-theme="dark"]) .page-intro--photo::after,
+html:not([data-theme="dark"]) body .app .page .page-intro.page-intro--photo::after,
+html:not([data-theme="dark"]) body .app main.page .page-intro.page-intro--photo::after,
+html:not([data-theme="dark"]) body .header--page + .page .page-intro.page-intro--photo::after,
+html:not([data-theme="dark"]) body .header--page + main .page-intro.page-intro--photo::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  height: 172px !important;
+  background: linear-gradient(180deg, rgba(225, 237, 248, 0) 0%, rgba(225, 237, 248, 0.42) 48%, rgba(225, 237, 248, 0.98) 100%) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+html:not([data-theme="dark"]) .page-intro--photo > .container {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+html[data-theme="dark"] .page-intro--photo,
+html[data-theme="dark"] body .app .page .page-intro.page-intro--photo,
+html[data-theme="dark"] body .app main.page .page-intro.page-intro--photo,
+html[data-theme="dark"] body .header--page + .page .page-intro.page-intro--photo,
+html[data-theme="dark"] body .header--page + main .page-intro.page-intro--photo {
+  position: relative !important;
+  overflow: hidden !important;
+  background-color: #091627 !important;
+  background-image:
+    linear-gradient(90deg, rgba(4, 13, 30, 0.54) 0%, rgba(6, 18, 38, 0.42) 30%, rgba(9, 28, 52, 0.20) 58%, rgba(11, 35, 63, 0.10) 100%),
+    linear-gradient(180deg, rgba(8, 20, 40, 0.22) 0%, rgba(8, 20, 40, 0.54) 100%),
+    url('/page-hero-inner-dark.webp') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  border-bottom-color: rgba(95, 137, 205, 0.18) !important;
+}
+
+html[data-theme="dark"] .page-intro--photo::before,
+html[data-theme="dark"] body .app .page .page-intro.page-intro--photo::before,
+html[data-theme="dark"] body .app main.page .page-intro.page-intro--photo::before,
+html[data-theme="dark"] body .header--page + .page .page-intro.page-intro--photo::before,
+html[data-theme="dark"] body .header--page + main .page-intro.page-intro--photo::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background:
+    linear-gradient(90deg, rgba(5, 14, 31, 0.88) 0%, rgba(8, 21, 40, 0.62) 32%, rgba(10, 28, 52, 0.22) 62%, rgba(10, 28, 52, 0.08) 100%),
+    linear-gradient(0deg, rgba(8, 19, 38, 0.82) 0%, rgba(8, 19, 38, 0.36) 24%, rgba(8, 19, 38, 0.10) 46%, rgba(8, 19, 38, 0.04) 100%),
+    radial-gradient(circle at 84% 14%, rgba(129, 148, 255, 0.14) 0%, rgba(129, 148, 255, 0.0) 18%),
+    radial-gradient(circle at 12% 12%, rgba(106, 178, 255, 0.10) 0%, rgba(106, 178, 255, 0.0) 18%) !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+html[data-theme="dark"] .page-intro--photo::after,
+html[data-theme="dark"] body .app .page .page-intro.page-intro--photo::after,
+html[data-theme="dark"] body .app main.page .page-intro.page-intro--photo::after,
+html[data-theme="dark"] body .header--page + .page .page-intro.page-intro--photo::after,
+html[data-theme="dark"] body .header--page + main .page-intro.page-intro--photo::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  height: 172px !important;
+  background: linear-gradient(180deg, rgba(10, 23, 43, 0) 0%, rgba(10, 23, 43, 0.52) 48%, rgba(11, 27, 50, 0.98) 100%) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+html[data-theme="dark"] .page-intro--photo > .container {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+html[data-theme="dark"] .page-intro--photo .section-label,
+html[data-theme="dark"] .page-intro--photo p,
+html[data-theme="dark"] .page-intro--photo li,
+html[data-theme="dark"] .page-intro--photo span {
+  color: rgba(243, 247, 255, 0.88) !important;
+}
+
+html[data-theme="dark"] .page-intro--photo h1 {
+  color: #ffffff !important;
+}
+
+html:not([data-theme="dark"]) .page-intro--photo .section-label,
+html:not([data-theme="dark"]) .page-intro--photo p,
+html:not([data-theme="dark"]) .page-intro--photo li,
+html:not([data-theme="dark"]) .page-intro--photo span {
+  color: rgba(31, 55, 86, 0.82) !important;
+}
+
+html:not([data-theme="dark"]) .page-intro--photo h1 {
+  color: #17325d !important;
+}
+
+/* glassier premium feel for major sections */
+html:not([data-theme="dark"]) .features,
+html:not([data-theme="dark"]) .services-grid,
+html:not([data-theme="dark"]) .branches-grid,
+html:not([data-theme="dark"]) .reviews-page section,
+html:not([data-theme="dark"]) .contacts-page section,
+html:not([data-theme="dark"]) .blog-page section,
+html:not([data-theme="dark"]) .prices-page section,
+html[data-theme="dark"] .features,
+html[data-theme="dark"] .services-grid,
+html[data-theme="dark"] .branches-grid,
+html[data-theme="dark"] .reviews-page section,
+html[data-theme="dark"] .contacts-page section,
+html[data-theme="dark"] .blog-page section,
+html[data-theme="dark"] .prices-page section {
+  position: relative;
+}
+
+html[data-theme="dark"] .features::before,
+html[data-theme="dark"] .services-grid::before,
+html[data-theme="dark"] .branches-grid::before,
+html[data-theme="dark"] .blog-page section::before,
+html[data-theme="dark"] .reviews-page section::before,
+html[data-theme="dark"] .contacts-page section::before,
+html[data-theme="dark"] .prices-page section::before {
+  content: "";
+  position: absolute;
+  inset: -14px;
+  border-radius: 34px;
+  background: radial-gradient(circle at 50% 0%, rgba(73, 127, 225, 0.08), rgba(73, 127, 225, 0) 60%);
+  z-index: -1;
+  pointer-events: none;
+}
