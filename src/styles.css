@@ -17497,3 +17497,21 @@ html:not([data-theme="dark"]) .home-page {
     radial-gradient(circle at 18% 0%, rgba(83, 161, 255, 0.07), transparent 32%),
     linear-gradient(180deg, #eaf4fd 0%, #e3eff9 50%, #dcecf9 100%) !important;
 }
+
+/* ===== FINAL HOME HERO TEXT POSITION FIX v2 ===== */
+/* Надёжно сдвигаем вниз фоновую надпись и главный текст hero */
+
+@media (min-width: 901px) {
+  .hero.hero--wow .hero__bg-title {
+    top: 160px !important;
+  }
+
+  .hero.hero--wow .hero__content {
+    padding-top: 435px !important;
+  }
+
+  .hero.hero--wow h1 {
+    margin-top: 0 !important;
+  }
+}
+
