@@ -1787,9 +1787,9 @@ function HomePage() {
         <div className="home-advantages__hero home-advantages__hero--director">
           <div className="director-quote director-quote--panel">
             <blockquote>
-              «С 2004 года мы дарим нашим пациентам здоровые и красивые улыбки. Работаем на совесть - поэтому нам доверяют.
-              <br />
-              До встречи в филиалах нашей стоматологии!»
+             <p>«С 2004 года мы стараемся <span className="quote-nowrap">дарить нашим</span> пациентам здоровые и красивые улыбки.</p>
+             <p>Работаем на совесть - поэтому нам доверяют.</p>
+             <p>До встречи в филиалах нашей стоматологии!»</p>
             </blockquote>
           </div>
 
