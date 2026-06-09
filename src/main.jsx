@@ -2639,36 +2639,40 @@ function ReviewsPage() {
   };
 
   return (
-    <main className="page seo-page reviews-page reviews-page--carousel reviews-page--refined reviews-page--minimal">
+    <main className="page seo-page reviews-page reviews-page--carousel reviews-page--editorial">
       <PageIntro
         label="Отзывы"
         title="Отзывы пациентов"
         text="Собрали реальные впечатления пациентов о лечении, профессиональной гигиене, удалении и восстановлении зубов в клинике «Новая улыбка»."
       />
 
-      <section className="container reviews-carousel-stage reviews-carousel-stage--refined reviews-carousel-stage--minimal reveal-on-scroll" aria-label="Карусель отзывов пациентов">
-        <div className="reviews-carousel-stage__meta reviews-carousel-stage__meta--centered reviews-carousel-stage__meta--minimal">
+      <section className="container reviews-carousel-stage reviews-carousel-stage--editorial reveal-on-scroll" aria-label="Карусель отзывов пациентов">
+        <div className="reviews-carousel-stage__meta reviews-carousel-stage__meta--editorial">
           <span>Реальные отзывы с Яндекс Карты</span>
           <p>Листайте отзывы и знакомьтесь с впечатлениями пациентов клиники.</p>
         </div>
 
-        <article className={`review-focus-card review-focus-card--refined review-focus-card--minimal review-focus-card--${slideDirection}`} key={activeItem.name + activeItem.date}>
-          <div className="review-focus-card__visual">
-            <figure className="review-focus-card__image review-focus-card__image--shot review-focus-card__image--large">
+        <article className={`review-focus-card review-focus-card--editorial review-focus-card--${slideDirection}`} key={activeItem.name + activeItem.date}>
+          <div className="review-focus-card__visual review-focus-card__visual--editorial">
+            <figure className="review-focus-card__image review-focus-card__image--editorial">
               <img src={activeItem.image} alt={"Отзыв пациента " + activeItem.name} loading="eager" decoding="async" />
             </figure>
-            <figcaption className="review-focus-card__footnote">
+            <figcaption className="review-focus-card__footnote review-focus-card__footnote--editorial">
               <span aria-hidden="true">✅</span>
               <p>{activeItem.caption}</p>
             </figcaption>
           </div>
 
-          <div className="review-focus-card__content review-focus-card__content--spacious review-focus-card__content--minimal">
-            <span className="reviews-slider__tag">{activeItem.tag}</span>
-            <h2>{activeItem.name}</h2>
-            <p className="reviews-slider__date">{activeItem.date} · {activeItem.doctor}</p>
-            <p className="review-focus-card__lede">Отзыв размещён на Яндекс Картах и отражает реальный опыт пациента после посещения клиники.</p>
-            <div className="reviews-slider__actions">
+          <div className="review-focus-card__aside review-focus-card__aside--editorial">
+            <div className="review-focus-card__aside-head">
+              <span className="reviews-slider__tag">{activeItem.tag}</span>
+              <p className="reviews-slider__date">{activeItem.date} · {activeItem.doctor}</p>
+            </div>
+            <div className="review-focus-card__aside-note">
+              <strong>Реальный отзыв</strong>
+              <p>Показываем скриншот без лишнего оформления — так впечатление пациента читается честно и сразу по делу.</p>
+            </div>
+            <div className="reviews-slider__actions reviews-slider__actions--editorial">
               <button type="button" onClick={goPrevReview}><ChevronLeft size={18} /> Назад</button>
               <button type="button" onClick={goNextReview}>Вперёд <ChevronRight size={18} /></button>
             </div>
@@ -2842,7 +2846,7 @@ function BlogPage() {
             <a className="blog-card__media" href={routeHref(key)} data-route-link aria-label={article.title}>
               <img src={blogArticleMedia[key] || serviceSeoPages[article.service]?.image || "/page-hero-clinic.webp?v=final-hero-8"} alt={article.title} loading="lazy" decoding="async" />
               <div className="blog-card__media-overlay" aria-hidden="true">
-                <img src="/logo-white.png" alt="" loading="lazy" decoding="async" />
+                <img src="/footer-logo-white.webp" alt="" loading="lazy" decoding="async" />
               </div>
             </a>
             <div className="blog-card__content">
@@ -3000,7 +3004,6 @@ function BranchesPage() {
                 data-metrika-label={branch.title}
               >
                 <span>{branch.address}</span>
-                <img className="branch-card__map-badge" src="/icons/yandex-maps.svg" alt="Яндекс Карты" loading="lazy" decoding="async" />
               </a>
               <div className="branch-meta">
                 <Clock size={18} />
