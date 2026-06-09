@@ -2639,43 +2639,39 @@ function ReviewsPage() {
   };
 
   return (
-    <main className="page seo-page reviews-page reviews-page--carousel reviews-page--editorial">
+    <main className="page seo-page reviews-page reviews-page--carousel reviews-page--editorial reviews-page--final">
       <PageIntro
         label="Отзывы"
         title="Отзывы пациентов"
         text="Собрали реальные впечатления пациентов о лечении, профессиональной гигиене, удалении и восстановлении зубов в клинике «Новая улыбка»."
       />
 
-      <section className="container reviews-carousel-stage reviews-carousel-stage--editorial reveal-on-scroll" aria-label="Карусель отзывов пациентов">
-        <div className="reviews-carousel-stage__meta reviews-carousel-stage__meta--editorial">
+      <section className="container reviews-carousel-stage reviews-carousel-stage--editorial reviews-carousel-stage--final reveal-on-scroll" aria-label="Карусель отзывов пациентов">
+        <div className="reviews-carousel-stage__meta reviews-carousel-stage__meta--editorial reviews-carousel-stage__meta--final">
           <span>Реальные отзывы с Яндекс Карты</span>
           <p>Листайте отзывы и знакомьтесь с впечатлениями пациентов клиники.</p>
         </div>
 
-        <article className={`review-focus-card review-focus-card--editorial review-focus-card--${slideDirection}`} key={activeItem.name + activeItem.date}>
-          <div className="review-focus-card__visual review-focus-card__visual--editorial">
-            <figure className="review-focus-card__image review-focus-card__image--editorial">
-              <img src={activeItem.image} alt={"Отзыв пациента " + activeItem.name} loading="eager" decoding="async" />
-            </figure>
-            <figcaption className="review-focus-card__footnote review-focus-card__footnote--editorial">
-              <span aria-hidden="true">✅</span>
-              <p>{activeItem.caption}</p>
-            </figcaption>
+        <article className={`review-focus-card review-focus-card--editorial review-focus-card--final review-focus-card--${slideDirection}`} key={activeItem.name + activeItem.date}>
+          <figure className="review-focus-card__image review-focus-card__image--editorial review-focus-card__image--final">
+            <img src={activeItem.image} alt={"Отзыв пациента " + activeItem.name} loading="eager" decoding="async" />
+          </figure>
+
+          <div className="review-focus-card__aside review-focus-card__aside--editorial review-focus-card__aside--final">
+            <span className="reviews-slider__tag">{activeItem.tag}</span>
+            <h2>{activeItem.name}</h2>
+            <p className="reviews-slider__date">{activeItem.date} · {activeItem.doctor}</p>
+            <p>Источник: Яндекс Карты. Скриншот отзыва показан без лишнего оформления.</p>
           </div>
 
-          <div className="review-focus-card__aside review-focus-card__aside--editorial">
-            <div className="review-focus-card__aside-head">
-              <span className="reviews-slider__tag">{activeItem.tag}</span>
-              <p className="reviews-slider__date">{activeItem.date} · {activeItem.doctor}</p>
-            </div>
-            <div className="review-focus-card__aside-note">
-              <strong>Реальный отзыв</strong>
-              <p>Показываем скриншот без лишнего оформления — так впечатление пациента читается честно и сразу по делу.</p>
-            </div>
-            <div className="reviews-slider__actions reviews-slider__actions--editorial">
-              <button type="button" onClick={goPrevReview}><ChevronLeft size={18} /> Назад</button>
-              <button type="button" onClick={goNextReview}>Вперёд <ChevronRight size={18} /></button>
-            </div>
+          <figcaption className="review-focus-card__footnote review-focus-card__footnote--editorial review-focus-card__footnote--final">
+            <span aria-hidden="true">✅</span>
+            <p>{activeItem.caption}</p>
+          </figcaption>
+
+          <div className="reviews-slider__actions reviews-slider__actions--editorial reviews-slider__actions--final">
+            <button type="button" onClick={goPrevReview}><ChevronLeft size={18} /> Назад</button>
+            <button type="button" onClick={goNextReview}>Вперёд <ChevronRight size={18} /></button>
           </div>
         </article>
 
