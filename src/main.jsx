@@ -2842,7 +2842,7 @@ function BlogPage() {
             <a className="blog-card__media" href={routeHref(key)} data-route-link aria-label={article.title}>
               <img src={blogArticleMedia[key] || serviceSeoPages[article.service]?.image || "/page-hero-clinic.webp?v=final-hero-8"} alt={article.title} loading="lazy" decoding="async" />
               <div className="blog-card__media-overlay" aria-hidden="true">
-                <img src="/footer-logo-white.webp" alt="" loading="lazy" decoding="async" />
+                <img className="blog-card__overlay-logo" src="/footer-logo-white.webp" alt="" loading="lazy" decoding="async" />
               </div>
             </a>
             <div className="blog-card__content">

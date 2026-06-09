@@ -20348,3 +20348,258 @@ html[data-theme="dark"] .reviews-page--final .review-focus-card__footnote--final
   transform: none !important;
   filter: drop-shadow(0 0 16px rgba(255,255,255,0.42)) drop-shadow(0 0 30px rgba(137, 186, 255, 0.32)) !important;
 }
+
+/* ===== v14 hard desktop fix: reviews + blog media ===== */
+
+/* Reviews desktop: kill old 3-column carousel layout and force the scheme from the mockup */
+.reviews-page--final .reviews-carousel-stage--final,
+.reviews-page--editorial .reviews-carousel-stage--final,
+.reviews-page--carousel .reviews-carousel-stage--final {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  grid-auto-flow: row !important;
+  justify-items: center !important;
+  align-items: start !important;
+  gap: 22px !important;
+  width: min(1180px, calc(100vw - 40px)) !important;
+  margin: 22px auto 0 !important;
+  padding: 34px 0 30px !important;
+}
+
+.reviews-page--final .reviews-carousel-stage__meta--final {
+  grid-column: 1 / -1 !important;
+  width: min(780px, 100%) !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+.reviews-page--final .review-focus-card--final {
+  grid-column: 1 / -1 !important;
+  width: min(1100px, 100%) !important;
+  max-width: 1100px !important;
+  min-width: 0 !important;
+  margin: 0 auto !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 650px) minmax(300px, 360px) !important;
+  grid-template-areas:
+    "image info"
+    "summary info"
+    "actions actions" !important;
+  gap: 16px 28px !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+  padding: 24px !important;
+  border-radius: 34px !important;
+  transform: none !important;
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.reviews-page--final .review-focus-card__image--final {
+  grid-area: image !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 16px !important;
+  align-self: stretch !important;
+}
+
+.reviews-page--final .review-focus-card__image--final img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 520px !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  margin: 0 auto !important;
+  transform: none !important;
+}
+
+.reviews-page--final .review-focus-card__aside--final {
+  grid-area: info !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 360px !important;
+  align-self: stretch !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  margin: 0 !important;
+  padding: 24px !important;
+  transform: none !important;
+  position: relative !important;
+}
+
+.reviews-page--final .review-focus-card__aside--final h2 {
+  font-size: clamp(2.15rem, 3vw, 3.25rem) !important;
+  line-height: 0.95 !important;
+  letter-spacing: -0.055em !important;
+  margin: 2px 0 0 !important;
+}
+
+.reviews-page--final .review-focus-card__footnote--final {
+  grid-area: summary !important;
+  width: 100% !important;
+  margin: 0 !important;
+  align-self: start !important;
+}
+
+.reviews-page--final .reviews-slider__actions--final {
+  grid-area: actions !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 14px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 4px 0 0 !important;
+  position: relative !important;
+  transform: none !important;
+}
+
+.reviews-page--final .reviews-slider__actions--final button {
+  width: 176px !important;
+  min-width: 176px !important;
+  max-width: 176px !important;
+}
+
+.reviews-page--final .reviews-carousel-dots {
+  grid-column: 1 / -1 !important;
+  justify-self: center !important;
+  margin-top: 2px !important;
+}
+
+html[data-theme="dark"] .reviews-page--final .review-focus-card__aside--final,
+html[data-theme="dark"] .reviews-page--final .review-focus-card__footnote--final,
+html[data-theme="dark"] .reviews-page--final .review-focus-card__image--final {
+  border-color: rgba(101, 139, 213, 0.34) !important;
+}
+
+@media (max-width: 980px) {
+  .reviews-page--final .reviews-carousel-stage--final,
+  .reviews-page--editorial .reviews-carousel-stage--final,
+  .reviews-page--carousel .reviews-carousel-stage--final {
+    width: min(100%, calc(100vw - 28px)) !important;
+    padding-top: 24px !important;
+  }
+
+  .reviews-page--final .review-focus-card--final {
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "image"
+      "info"
+      "summary"
+      "actions" !important;
+    width: 100% !important;
+    padding: 18px !important;
+  }
+
+  .reviews-page--final .review-focus-card__aside--final {
+    max-width: none !important;
+  }
+
+  .reviews-page--final .review-focus-card__image--final img {
+    max-height: 430px !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .reviews-page--final .reviews-slider__actions--final {
+    gap: 10px !important;
+  }
+
+  .reviews-page--final .reviews-slider__actions--final button {
+    width: min(160px, 46vw) !important;
+    min-width: min(160px, 46vw) !important;
+  }
+}
+
+/* Blog cards: center all photos, keep logo layer separate and never blurred */
+.blog-grid--media .blog-card--media {
+  overflow: hidden !important;
+}
+
+.blog-grid--media .blog-card__media {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  aspect-ratio: 16 / 9 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  border-radius: 28px 28px 0 0 !important;
+  background: linear-gradient(135deg, rgba(21, 76, 161, 0.95), rgba(8, 36, 82, 0.96)) !important;
+}
+
+.blog-grid--media .blog-card__media > img:first-child {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  margin: 0 !important;
+  transform: scale(1.001) !important;
+  filter: none !important;
+  transition: transform .35s ease, filter .35s ease !important;
+}
+
+.blog-grid--media .blog-card__media-overlay {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 5 !important;
+  display: grid !important;
+  place-items: center !important;
+  opacity: 0 !important;
+  background: rgba(5, 18, 46, 0.12) !important;
+  pointer-events: none !important;
+  transition: opacity .28s ease, background .28s ease !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+.blog-grid--media .blog-card__media-overlay .blog-card__overlay-logo,
+.blog-grid--media .blog-card__media-overlay img {
+  position: relative !important;
+  z-index: 6 !important;
+  display: block !important;
+  width: min(330px, 72%) !important;
+  height: auto !important;
+  max-width: 330px !important;
+  max-height: 76% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  margin: 0 auto !important;
+  opacity: 1 !important;
+  transform: none !important;
+  filter: drop-shadow(0 0 16px rgba(255,255,255,0.44)) drop-shadow(0 0 32px rgba(137,186,255,0.34)) !important;
+}
+
+.blog-grid--media .blog-card:hover .blog-card__media > img:first-child,
+.blog-grid--media .blog-card:focus-within .blog-card__media > img:first-child {
+  transform: scale(1.06) !important;
+  filter: blur(7px) saturate(0.92) brightness(0.38) !important;
+}
+
+.blog-grid--media .blog-card:hover .blog-card__media-overlay,
+.blog-grid--media .blog-card:focus-within .blog-card__media-overlay {
+  opacity: 1 !important;
+  background: rgba(5, 18, 46, 0.68) !important;
+  filter: none !important;
+}
+
+.blog-grid--media .blog-card:hover .blog-card__media-overlay .blog-card__overlay-logo,
+.blog-grid--media .blog-card:focus-within .blog-card__media-overlay .blog-card__overlay-logo,
+.blog-grid--media .blog-card:hover .blog-card__media-overlay img,
+.blog-grid--media .blog-card:focus-within .blog-card__media-overlay img {
+  transform: none !important;
+  filter: drop-shadow(0 0 16px rgba(255,255,255,0.48)) drop-shadow(0 0 34px rgba(137,186,255,0.38)) !important;
+}
