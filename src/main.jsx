@@ -319,11 +319,11 @@ const seoImageLibrary = {
 };
 
 const additionalServiceDirections = [
-  { route: "stomatologiyaSputnik", label: "Локальная SEO-страница", title: "Стоматология в Спутнике", text: "Отдельная страница для пациентов из Спутника, Засечного и ближайших кварталов.", image: seoImageLibrary.treatmentRoom3 },
-  { route: "stomatologiyaGpz", label: "Локальная SEO-страница", title: "Стоматология на ГПЗ", text: "Страница для запросов по району ГПЗ: филиал, услуги и быстрый путь к записи.", image: seoImageLibrary.consultationRoom1 },
-  { route: "semeynayaStomatologiya", label: "Для семьи", title: "Семейная стоматология", text: "Профилактика, лечение и гигиена для всей семьи с удобной записью в 3 филиала.", image: seoImageLibrary.consultationRoom2 },
+  { route: "stomatologiyaSputnik", label: "Рядом с вами", title: "Стоматология в Спутнике", text: "Отдельная страница для пациентов из Спутника, Засечного и ближайших кварталов.", image: seoImageLibrary.treatmentRoom3 },
+  { route: "stomatologiyaGpz", label: "Рядом с вами", title: "Стоматология на ГПЗ", text: "Удобный раздел для пациентов района ГПЗ: филиал, услуги и быстрый путь к записи.", image: seoImageLibrary.consultationRoom1 },
+  { route: "semeynayaStomatologiya", label: "Для близких", title: "Стоматология для вашей семьи", text: "Профилактика, лечение и гигиена для взрослых и подростков с удобной записью в 3 филиала.", image: seoImageLibrary.consultationRoom2 },
   { route: "implantaciyaPenza", label: "Высокий спрос", title: "Имплантация зубов в Пензе", text: "Отдельная посадочная под имплантацию с акцентом на план лечения и консультацию.", image: seoImageLibrary.practiceRoom1 },
-  { route: "blog", label: "Контент", title: "Статьи блога", text: "Материалы для пациентов о лечении, профилактике, имплантации и уходе за зубами.", image: seoImageLibrary.hygieneRoom1 },
+  { route: "blog", label: "Полезно знать", title: "Статьи блога", text: "Материалы для пациентов о лечении, профилактике, имплантации и уходе за зубами.", image: seoImageLibrary.hygieneRoom1 },
   { route: "beforeAfter", label: "Доверие", title: "До и после", text: "Клинические примеры лечения, которые помогают пациенту понять ожидаемый результат.", image: seoImageLibrary.yellowChairRoom },
 ];
 
@@ -399,7 +399,7 @@ const localLandingEditorialContent = {
     stats: [{ value: "2 филиала", label: "в районе Спутник" }, { value: "Светлая 11", label: "филиал №1" }, { value: "Радужная 10", label: "филиал №2" }],
     sections: [
       { eyebrow: "Почему удобно", title: "Стоматология рядом с домом для жителей Спутника", text: "Пациенту не нужно искать стоматологию по всему городу: на странице собраны направления лечения, адреса двух филиалов и быстрые ссылки на цены, врачей и запись." },
-      { eyebrow: "Что важно для SEO", title: "Страница закрывает локальные запросы по Спутнику и Засечному", text: "В тексте и навигации естественно раскрыты запросы «стоматология в Спутнике», «Спутник стоматология» и близкие формулировки - без переспама и с пользой для пациента." },
+      { eyebrow: "Что важно пациенту", title: "На странице легко сориентироваться перед записью", text: "Здесь удобно посмотреть адреса, основные направления и быстрые переходы к нужным разделам, если вы выбираете филиал в Спутнике или рядом." },
     ],
   },
   stomatologiyaGpz: {
@@ -407,23 +407,23 @@ const localLandingEditorialContent = {
     stats: [{ value: "Антонова 76", label: "филиал на ГПЗ" }, { value: "1 филиал", label: "для района ГПЗ" }, { value: "Пенза", label: "удобная локальная запись" }],
     sections: [
       { eyebrow: "Для района", title: "Удобная стоматология для пациентов с ГПЗ", text: "Отдельная страница помогает быстро найти клинику жителям района ГПЗ: увидеть адрес, связаться с администратором и перейти к нужным услугам без лишнего поиска." },
-      { eyebrow: "Контент", title: "Полезное наполнение вместо пустой SEO-заглушки", text: "Страница показывает направления лечения, даёт навигацию по важным разделам и усиливает локальную релевантность по запросам «стоматология на ГПЗ» и «ГПЗ Пенза стоматология»." },
+      { eyebrow: "Что полезно на странице", title: "Вся базовая информация собрана без лишнего шума", text: "Здесь можно быстро перейти к услугам, ценам, филиалу и записи, если вам удобно лечиться в районе ГПЗ." },
     ],
   },
   semeynayaStomatologiya: {
     gallery: [seoImageLibrary.hygieneRoom1, seoImageLibrary.consultationRoom1, seoImageLibrary.treatmentRoom2],
     stats: [{ value: "3 филиала", label: "для семейных визитов" }, { value: "профилактика", label: "гигиена и осмотры" }, { value: "комфорт", label: "удобная запись для нескольких членов семьи" }],
     sections: [
-      { eyebrow: "Семейный формат", title: "Профилактика и лечение без хаоса в расписании", text: "Семейная стоматология удобна, когда нужно планировать осмотры, гигиену и лечение для нескольких членов семьи. Администратор помогает подобрать филиал и время посещения." },
-      { eyebrow: "Польза для сайта", title: "Отдельная посадочная под семейные запросы", text: "Эта страница усиливает запросы по семейной стоматологии и профилактике, а также направляет пользователя в полезные разделы: гигиена, лечение зубов, цены и контакты." },
+      { eyebrow: "Семейный формат", title: "Профилактика и лечение без хаоса в расписании", text: "Стоматология для вашей семьи удобна, когда нужно планировать осмотры, гигиену и лечение для нескольких членов семьи. Администратор помогает подобрать филиал и время посещения." },
+      { eyebrow: "Для ваших близких", title: "Удобно, когда профилактику и лечение хочется планировать заранее", text: "Раздел помогает спокойно выбрать профилактику, гигиену и терапевтический приём для себя и близких, а затем быстро перейти к ценам и записи." },
     ],
   },
   implantaciyaPenza: {
     gallery: [seoImageLibrary.practiceRoom1, seoImageLibrary.yellowChairRoom, seoImageLibrary.consultationRoom2],
     stats: [{ value: "26 000 ₽", label: "стартовая цена импланта" }, { value: "3 филиала", label: "удобная консультация" }, { value: "поэтапно", label: "чёткий план лечения" }],
     sections: [
-      { eyebrow: "Коммерческий запрос", title: "Имплантация зубов в Пензе с понятной структурой страницы", text: "На посадочной собраны ответы на базовые вопросы пациента: сколько стоит консультация, как проходит лечение, куда записаться и какие услуги посмотреть дополнительно." },
-      { eyebrow: "Конверсия", title: "Не просто SEO, а полезный маршрут к записи", text: "Страница работает как полноценный коммерческий раздел: показывает суть услуги, закрепляет ключевые формулировки и даёт понятный CTA для связи с клиникой." },
+      { eyebrow: "Что важно пациенту", title: "Имплантация без лишней путаницы", text: "На странице собраны основные вопросы пациента: ориентир по цене, как проходит лечение, куда записаться и какие услуги могут понадобиться дополнительно." },
+      { eyebrow: "Запись", title: "Понятный маршрут к консультации", text: "Страница помогает быстро перейти к записи, не теряясь в лишней информации: сначала ответы на частые вопросы, затем — удобный способ связаться с клиникой." },
     ],
   },
 };
@@ -630,12 +630,12 @@ const localLandingPages = {
     related: ["services", "prices", "branches", "contacts"],
   },
   semeynayaStomatologiya: {
-    label: "Семейный приём",
-    title: "Семейная стоматология в Пензе",
-    h1: "Семейная стоматология в Пензе",
-    description: "Семейная стоматология Новая улыбка в Пензе: профилактика, лечение зубов, профессиональная гигиена, консультации и удобная запись для взрослых и подростков.",
-    lead: "Семейный формат удобен, когда важно регулярно проходить осмотры, планировать гигиену и не откладывать лечение. Администратор поможет подобрать филиал и время для нескольких визитов.",
-    bullets: ["профилактика и профессиональная гигиена", "лечение кариеса и консультации", "3 филиала в Пензе"],
+    label: "Для вашей семьи",
+    title: "Стоматология для вашей семьи в Пензе",
+    h1: "Стоматология для вашей семьи в Пензе",
+    description: "Стоматология Новая улыбка в Пензе: профилактика, лечение зубов, профессиональная гигиена, консультации и удобная запись для взрослых и подростков.",
+    lead: "Раздел подойдёт тем, кто хочет планировать профилактику, гигиену и лечение для себя и близких без лишней суеты. Администратор поможет подобрать филиал и удобное время для нескольких визитов.",
+    bullets: ["профессиональная гигиена и профилактика", "лечение кариеса и консультации", "3 филиала в Пензе"],
     related: ["gigiena", "lechenieKariesa", "prices", "contacts"],
   },
   implantaciyaPenza: {
@@ -643,7 +643,7 @@ const localLandingPages = {
     title: "Имплантация зубов в Пензе",
     h1: "Имплантация зубов в Пензе - консультация и план лечения",
     description: "Имплантация зубов в Пензе в клинике Новая улыбка: южнокорейские импланты, консультация хирурга, план лечения и запись в удобный филиал.",
-    lead: "Страница закрывает отдельный высокочастотный запрос по имплантации: пациент видит цену, этапы, связанные услуги и быстрый путь к записи.",
+    lead: "На странице собраны ключевые ответы по имплантации: ориентир по цене, этапы лечения, связанные услуги и быстрый путь к записи.",
     bullets: ["южнокорейские импланты от 26 000 ₽", "консультация и план лечения", "запись в Спутнике или на ГПЗ"],
     related: ["implantaciya", "prices", "promotions", "contacts"],
   },
@@ -651,9 +651,9 @@ const localLandingPages = {
 
 const blogArticles = {
   blogKaries: {
-    title: "Как понять, что кариес уже глубокий",
-    description: "Признаки глубокого кариеса: боль, реакция на холодное и сладкое, разрушение зуба. Когда нужно записаться к стоматологу в Пензе.",
-    h1: "Как понять, что кариес уже глубокий",
+    title: "Признаки глубокого кариеса: когда пора записаться к врачу",
+    description: "Какие симптомы могут говорить о глубоком кариесе: чувствительность, боль и разрушение зуба. Когда лучше не откладывать визит к стоматологу.",
+    h1: "Признаки глубокого кариеса: когда пора записаться к врачу",
     lead: "Глубокий кариес редко появляется за один день. Обычно зуб сначала реагирует на сладкое или холодное, потом дискомфорт становится заметнее при жевании, а затем боль может возникать уже без явной причины.",
     paragraphs: [
       "Самая частая ошибка - ждать, пока зуб начнёт болеть постоянно. На ранних этапах врач чаще может восстановить зуб терапевтически: убрать поражённые ткани, закрыть дефект пломбой и сохранить нормальную форму зуба.",
@@ -791,9 +791,9 @@ const blogArticles = {
     service: "implantaciya",
   },
   blogCariesSteps: {
-    title: "Как проходит лечение кариеса по этапам",
+    title: "Как проходит лечение кариеса: основные этапы",
     description: "Этапы лечения кариеса: диагностика, обезболивание, удаление поражённых тканей, восстановление формы зуба и рекомендации.",
-    h1: "Как проходит лечение кариеса по этапам",
+    h1: "Как проходит лечение кариеса: основные этапы",
     lead: "Пациенту проще решиться на лечение, когда понятно, что будет происходить в кресле. Лечение кариеса обычно проходит спокойно и последовательно.",
     paragraphs: [
       "Сначала врач осматривает зуб и определяет глубину поражения. Иногда достаточно визуального осмотра, иногда нужен снимок, особенно если кариес расположен между зубами или под старой пломбой.",
@@ -856,7 +856,7 @@ const blogArticles = {
       "На гигиене врач не просто убирает налёт, но и показывает, где домашний уход не справляется. Это особенно полезно подросткам и пациентам, которые не пользуются дополнительными средствами ухода.",
       "Регулярные визиты помогают сформировать привычку профилактики. Так стоматология перестаёт быть местом, куда приходят только с болью.",
       "Если в семье несколько человек планируют лечение, удобно совместить консультации и гигиену, а также уточнить действующие условия по семейным предложениям.",
-      "Администратор поможет подобрать время так, чтобы визиты были удобными для всей семьи."
+      "Администратор поможет подобрать время так, чтобы визиты были удобными для вашей семьи."
     ],
     service: "gigiena",
   },
@@ -1089,15 +1089,6 @@ const homeCards = [
     offer: true,
   },
   {
-    icon: null,
-    title: "Имплантация зубов в Пензе",
-    text: "Южнокорейские импланты по специальной цене с понятным планом лечения и сопровождением врача.",
-    accent: true,
-    oldPrice: "45 000 ₽",
-    saving: "19 000 ₽",
-    banner: "/promos/implant-banner-final.webp",
-  },
-  {
     icon: <ClipboardList />,
     title: "План лечения до оплаты",
     text: "Объясняем этапы, сроки и варианты лечения простым языком, чтобы пациент понимал, за что платит.",
@@ -1106,6 +1097,27 @@ const homeCards = [
     icon: <HandHeart />,
     title: "Спокойный приём без давления",
     text: "Аккуратная диагностика, бережная коммуникация и решения, которые подбираются под ситуацию пациента.",
+  },
+];
+
+const homeHeroPromotions = [
+  {
+    eyebrow: "Спецпредложение",
+    title: "Имплантация зубов в Пензе",
+    text: "Южнокорейские импланты по специальной цене с понятным планом лечения и сопровождением врача. Удобный старт для пациентов, которым важно восстановить зуб без лишней неопределённости.",
+    banner: "/promos/implant-banner-final.webp",
+    bannerAlt: "Акция на имплантацию зубов в Пензе",
+    route: "implantaciya",
+    chips: ["Консультация и план лечения", "Южнокорейские импланты", "Понятный маршрут лечения"],
+  },
+  {
+    eyebrow: "Спецпредложение",
+    title: "Лечение кариеса в Пензе",
+    text: "Если зуб начал реагировать на холодное, сладкое или при жевании, лучше не откладывать. Врач спокойно объяснит ситуацию, подберёт лечение и восстановит зуб аккуратно и эстетично.",
+    banner: "/promos/caries-banner-special.png",
+    bannerAlt: "Спецпредложение на лечение кариеса в стоматологии Новая улыбка",
+    route: "lechenieKariesa",
+    chips: ["Комфортный терапевтический приём", "От 3 000 ₽", "Бережное восстановление зуба"],
   },
 ];
 
@@ -1537,9 +1549,9 @@ const wowOffers = [
     price: "26 000 ₽",
   },
   {
-    eyebrow: "Для семьи",
+    eyebrow: "Для близких",
     title: "Скидка на профессиональную чистку",
-    text: "При лечении семьёй сделаем специальную скидку на профессиональную чистку полости рта.",
+    text: "Если несколько близких планируют визит, подскажем удобный формат записи и действующие условия на профессиональную чистку.",
   },
   {
     eyebrow: "Болит зуб?",
@@ -1878,19 +1890,19 @@ function LocalSeoCluster({ pageLabel = "стоматология", variant = "se
   const normalizedLabel = String(pageLabel || "стоматологическая услуга").toLowerCase();
 
   return (
-    <section className={`container local-seo-cluster local-seo-cluster--${variant} reveal-on-scroll`} aria-label="География приёма стоматологии Новая улыбка">
+    <section className={`container local-seo-cluster local-seo-cluster--${variant} reveal-on-scroll`} aria-label="Где нас удобно найти в Пензе">
       <div className="local-seo-cluster__content">
-        <p className="section-label">Стоматология в Пензе</p>
+        <p className="section-label">Где нас удобно найти</p>
         <h2>Удобно для Спутника, ГПЗ и других районов Пензы</h2>
         <p>
-          «Новая улыбка» - стоматология в Пензе с тремя филиалами: Светлая 11 и Радужная 10 в Спутнике, Антонова 76 в районе ГПЗ. Если вы ищете стоматологию в Спутнике, стоматологию в ГПЗ или стоматологию в ГПЗ Пенза, можно выбрать ближайший адрес и записаться на консультацию.
+          «Новая улыбка» — стоматология в Пензе с тремя филиалами: Светлая 11 и Радужная 10 в Спутнике, Антонова 76 в районе ГПЗ. Можно выбрать ближайший адрес, посмотреть услуги и сразу перейти к записи.
         </p>
-        <p>
-          Раздел про {normalizedLabel} помогает пациентам быстрее понять услугу, стоимость и маршрут записи, а поисковым системам - связать страницу с запросами «стоматология в Пензе», «Спутник стоматология», «ГПЗ Пенза стоматология» и похожими локальными формулировками.
+        <p className="local-seo-cluster__note">
+          Раздел про {normalizedLabel} помогает быстро сориентироваться: посмотреть стоимость, найти подходящий филиал и без лишних шагов перейти к консультации.
         </p>
       </div>
 
-      <div className="local-seo-cluster__phrases" aria-label="Локальные поисковые запросы">
+      <div className="local-seo-cluster__phrases" aria-label="Популярные разделы по районам и услугам">
         {localSeoKeyPhrases.map((item) => (
           <a href={routeHref(item.route)} data-route-link key={item.label}>{item.label}</a>
         ))}
@@ -1900,8 +1912,12 @@ function LocalSeoCluster({ pageLabel = "стоматология", variant = "se
 }
 
 function HomePage() {
-  const accentCard = homeCards.find((card) => card.accent);
   const homeOfferCards = homeCards.filter((card) => card.offer);
+  const [promoIndex, setPromoIndex] = useState(0);
+  const activePromo = homeHeroPromotions[promoIndex];
+
+  const goPrevPromo = () => setPromoIndex((current) => (current === 0 ? homeHeroPromotions.length - 1 : current - 1));
+  const goNextPromo = () => setPromoIndex((current) => (current === homeHeroPromotions.length - 1 ? 0 : current + 1));
 
   return (
     <main className="home-page">
@@ -1937,28 +1953,45 @@ function HomePage() {
       </section>
 
       <section className="features container" aria-labelledby="home-offers-title">
-        {accentCard ? (
-          <article className="feature-card feature-card--accent feature-card--hero feature-card--implant-mini reveal-on-scroll" key={accentCard.title}>
-            <div className="feature-card__hero-main">
-              {(accentCard.icon || accentCard.badge) ? (
-                <div className="feature-card__hero-head">
-                  {accentCard.icon ? <div className="feature-card__icon">{accentCard.icon}</div> : null}
-                  {accentCard.badge ? <div className="feature-card__badge">{accentCard.badge}</div> : null}
-                </div>
-              ) : null}
+        <div className="home-promo-carousel reveal-on-scroll" aria-labelledby="home-promo-title">
+          <button type="button" className="home-promo-carousel__control home-promo-carousel__control--prev" aria-label="Предыдущее спецпредложение" onClick={goPrevPromo}>
+            <ChevronLeft size={22} />
+          </button>
 
-              <h3>{accentCard.title}</h3>
-              {accentCard.text ? <p className="feature-card__summary feature-card__summary--promo">{accentCard.text}</p> : null}
-              {accentCard.note ? <p className="feature-card__note">{accentCard.note}</p> : null}
+          <article className="feature-card feature-card--accent feature-card--hero feature-card--implant-mini feature-card--promo-carousel" key={activePromo.title}>
+            <div className="feature-card__hero-main">
+              <div className="feature-card__promo-head">
+                <span className="feature-card__promo-eyebrow">{activePromo.eyebrow}</span>
+              </div>
+              <h2 id="home-promo-title">{activePromo.title}</h2>
+              <p className="feature-card__summary feature-card__summary--promo">{activePromo.text}</p>
+              <div className="feature-card__promo-actions">
+                <a className="blue-link" href={routeHref(activePromo.route)} data-route-link>Подробнее</a>
+                <a className="home-promo-cta" href={PHONE_LINK} data-appointment>Записаться</a>
+              </div>
             </div>
 
-            {accentCard.banner ? (
-              <figure className="feature-card__banner feature-card__banner--promo">
-                <img src={accentCard.banner} alt="Имплантация зубов в Пензе - акция 26 000 рублей" loading="lazy" decoding="async" />
-              </figure>
-            ) : null}
+            <figure className="feature-card__banner feature-card__banner--promo">
+              <img src={activePromo.banner} alt={activePromo.bannerAlt} loading="lazy" decoding="async" />
+            </figure>
           </article>
-        ) : null}
+
+          <button type="button" className="home-promo-carousel__control home-promo-carousel__control--next" aria-label="Следующее спецпредложение" onClick={goNextPromo}>
+            <ChevronRight size={22} />
+          </button>
+
+          <div className="home-promo-carousel__dots" aria-label="Слайды спецпредложений">
+            {homeHeroPromotions.map((item, index) => (
+              <button
+                type="button"
+                key={item.title}
+                className={index === promoIndex ? "active" : ""}
+                onClick={() => setPromoIndex(index)}
+                aria-label={`Показать предложение: ${item.title}`}
+              />
+            ))}
+          </div>
+        </div>
 
         <div className="home-offers__head reveal-on-scroll">
           <p className="section-label">Популярные услуги</p>
@@ -2131,11 +2164,11 @@ function RelatedArticlesSection({ serviceKey, title = "Полезные стат
 
 function ServicesPage() {
   return (
-    <main className="page">
+    <main className="page services-page-final">
       <PageIntro
         label="Услуги"
-        title="Стоматологическая помощь для всей семьи"
-        text="Основные услуги клиники, дополнительные SEO-разделы и полезный контент, который помогает пациенту выбрать лечение и быстрее записаться."
+        title="Стоматологическая помощь для вашей семьи"
+        text="Основные направления клиники, локальные разделы и полезные материалы, которые помогают быстро выбрать нужную услугу и перейти к записи."
       />
 
       <section className="container services-grid">
@@ -2160,16 +2193,7 @@ function ServicesPage() {
         ))}
       </section>
 
-      <section className="container service-editorial-banner reveal-on-scroll">
-        <div>
-          <p className="section-label">Дополнительные разделы</p>
-          <h2>Полезные посадочные страницы и контент под частые запросы</h2>
-          <p>Ниже собраны страницы, которые усиливают SEO-структуру сайта и одновременно помогают пользователю быстрее найти нужное направление: локальные разделы, имплантацию, семейную стоматологию и блог.</p>
-        </div>
-        <a className="blue-link" href={routePaths.blog} data-route-link>Открыть блог</a>
-      </section>
-
-      <section className="container additional-service-grid">
+      <section className="container additional-service-grid additional-service-grid--refined">
         {additionalServiceDirections.map((item) => (
           <article className="additional-service-card reveal-on-scroll" key={item.route}>
             <figure>
@@ -2185,10 +2209,10 @@ function ServicesPage() {
         ))}
       </section>
 
-      <section className="container seo-structure-block reveal-on-scroll">
-        <p className="section-label">SEO-структура услуг</p>
-        <h2>Отдельные страницы под ключевые направления</h2>
-        <p>Каждая важная услуга оформлена как полноценная посадочная: с понятным описанием, этапами лечения, FAQ, галереей кабинетов и связями с локальными страницами и блогом.</p>
+      <section className="container seo-structure-block seo-structure-block--refined reveal-on-scroll">
+        <p className="section-label">Полезные разделы</p>
+        <h2>Всё важное — в удобной навигации</h2>
+        <p>Здесь можно быстро перейти к услугам, локальным страницам, ценам и дополнительным материалам по лечению, не теряясь в структуре сайта.</p>
         <div className="seo-link-grid">
           {Object.entries(serviceSeoPages)
             .filter(([key]) => serviceOrder.includes(key))
@@ -2237,7 +2261,7 @@ function LocalSeoLandingPage({ pageKey }) {
       <section className="service-landing-hero local-landing-hero">
         <div className="container service-landing-hero__grid service-landing-hero__grid--editorial">
           <div className="service-landing-hero__content service-landing-hero__content--editorial">
-            <p className="section-label">SEO-посадочная</p>
+            <p className="section-label">Полезный раздел</p>
             <h1>{page.h1}</h1>
             <p>{page.lead}</p>
             <div className="service-landing-hero__meta">
@@ -2266,8 +2290,8 @@ function LocalSeoLandingPage({ pageKey }) {
 
       <section className="container service-content-grid service-content-grid--editorial">
         <article className="service-info-block reveal-on-scroll">
-          <p className="section-label">Что есть на странице</p>
-          <h2>Полезная информация для пациента и поисковика</h2>
+          <p className="section-label">Что вы найдёте на странице</p>
+          <h2>Полезная информация для пациента</h2>
           <ul>{page.bullets.map((item) => <li key={item}>{item}</li>)}</ul>
         </article>
         <article className="service-info-block reveal-on-scroll">
@@ -2316,7 +2340,7 @@ function LocalSeoLandingPage({ pageKey }) {
         </div>
       </section>
 
-      <RelatedArticlesSection serviceKey={pageKey === "implantaciyaPenza" ? "implantaciya" : pageKey === "semeynayaStomatologiya" ? "gigiena" : "lechenieKariesa"} title="Полезные статьи к странице" compact />
+      <RelatedArticlesSection serviceKey={pageKey === "implantaciyaPenza" ? "implantaciya" : pageKey === "semeynayaStomatologiya" ? "gigiena" : "lechenieKariesa"} title="Полезные статьи по теме" compact />
 
       <LocalSeoCluster pageLabel={page.label || page.title} variant="local" />
 
@@ -2422,7 +2446,7 @@ function ServiceSeoPage({ pageKey }) {
           <div className="service-photo-showcase__head">
             <p className="section-label">Фотографии клиники</p>
             <h2>{editorial.galleryTitle || "Интерьеры стоматологии"}</h2>
-            <p>Новые фотографии оформлены в стилистике клиники и помогают сделать SEO-страницу визуально содержательной и более убедительной для пациента.</p>
+            <p>Фотографии помогают лучше почувствовать атмосферу клиники и заранее представить, как выглядит пространство приёма.</p>
           </div>
           <EditorialPhotoGrid items={editorial.gallery} altBase={page.title} />
         </section>
@@ -2450,7 +2474,7 @@ function ServiceSeoPage({ pageKey }) {
           <div className="related-articles__head">
             <p className="section-label">Блог</p>
             <h2>Статьи, которые помогают подготовиться к лечению</h2>
-            <p>SEO-страница усиливается связанным контентом: пациент видит не только описание услуги, но и полезные ответы на частые вопросы.</p>
+            <p>Связанные статьи помогают спокойнее подготовиться к приёму, понять этапы лечения и заранее снять часть вопросов.</p>
           </div>
           <div className="related-articles__grid">
             {relatedArticles.map(([key, article]) => (
@@ -2598,49 +2622,58 @@ function ReviewsPage() {
   const prevIndex = activeReview === 0 ? reviewGallery.length - 1 : activeReview - 1;
   const nextIndex = activeReview === reviewGallery.length - 1 ? 0 : activeReview + 1;
   const activeItem = reviewGallery[activeReview];
+
   const goPrevReview = () => {
     setSlideDirection("prev");
     setActiveReview(prevIndex);
   };
+
   const goNextReview = () => {
     setSlideDirection("next");
     setActiveReview(nextIndex);
   };
+
   const goToReview = (index) => {
     setSlideDirection(index > activeReview ? "next" : "prev");
     setActiveReview(index);
   };
 
   return (
-    <main className="page seo-page reviews-page reviews-page--carousel reviews-page--simple">
+    <main className="page seo-page reviews-page reviews-page--carousel reviews-page--refined reviews-page--minimal">
       <PageIntro
+        label="Отзывы"
         title="Отзывы пациентов"
+        text="Собрали реальные впечатления пациентов о лечении, профессиональной гигиене, удалении и восстановлении зубов в клинике «Новая улыбка»."
       />
 
-      <section className="container reviews-carousel-stage reviews-carousel-stage--clean reviews-carousel-stage--premium" aria-label="Карусель отзывов пациентов">
-        <button type="button" className="review-peek review-peek--prev" onClick={goPrevReview} aria-label="Предыдущий отзыв">
-          <img src={reviewGallery[prevIndex].image} alt="" loading="lazy" decoding="async" />
-        </button>
+      <section className="container reviews-carousel-stage reviews-carousel-stage--refined reviews-carousel-stage--minimal reveal-on-scroll" aria-label="Карусель отзывов пациентов">
+        <div className="reviews-carousel-stage__meta reviews-carousel-stage__meta--centered reviews-carousel-stage__meta--minimal">
+          <span>Реальные отзывы с Яндекс Карты</span>
+          <p>Листайте отзывы и знакомьтесь с впечатлениями пациентов клиники.</p>
+        </div>
 
-        <article className={`review-focus-card review-focus-card--${slideDirection}`} key={activeItem.name + activeItem.date}>
-          <figure className="review-focus-card__image">
-            <img src={activeItem.image} alt={"Отзыв пациента " + activeItem.name} loading="eager" decoding="async" />
-          </figure>
-          <div className="review-focus-card__content">
+        <article className={`review-focus-card review-focus-card--refined review-focus-card--minimal review-focus-card--${slideDirection}`} key={activeItem.name + activeItem.date}>
+          <div className="review-focus-card__visual">
+            <figure className="review-focus-card__image review-focus-card__image--shot review-focus-card__image--large">
+              <img src={activeItem.image} alt={"Отзыв пациента " + activeItem.name} loading="eager" decoding="async" />
+            </figure>
+            <figcaption className="review-focus-card__footnote">
+              <span aria-hidden="true">✅</span>
+              <p>{activeItem.caption}</p>
+            </figcaption>
+          </div>
+
+          <div className="review-focus-card__content review-focus-card__content--spacious review-focus-card__content--minimal">
             <span className="reviews-slider__tag">{activeItem.tag}</span>
             <h2>{activeItem.name}</h2>
             <p className="reviews-slider__date">{activeItem.date} · {activeItem.doctor}</p>
-            <p className="review-focus-card__summary">{activeItem.caption}</p>
+            <p className="review-focus-card__lede">Отзыв размещён на Яндекс Картах и отражает реальный опыт пациента после посещения клиники.</p>
             <div className="reviews-slider__actions">
               <button type="button" onClick={goPrevReview}><ChevronLeft size={18} /> Назад</button>
               <button type="button" onClick={goNextReview}>Вперёд <ChevronRight size={18} /></button>
             </div>
           </div>
         </article>
-
-        <button type="button" className="review-peek review-peek--next" onClick={goNextReview} aria-label="Следующий отзыв">
-          <img src={reviewGallery[nextIndex].image} alt="" loading="lazy" decoding="async" />
-        </button>
 
         <div className="reviews-carousel-dots" aria-label="Переключение отзывов">
           {reviewGallery.map((review, index) => (
@@ -2687,7 +2720,7 @@ function PromotionsPage() {
         <article className="promo-family-card reveal-on-scroll">
           <span>Для семьи</span>
           <h2>Скидка на профессиональную чистку</h2>
-          <p>При лечении семьёй сделаем специальную скидку на профессиональную чистку полости рта.</p>
+          <p>Если несколько близких планируют визит, подскажем удобный формат записи и действующие условия на профессиональную чистку.</p>
           <a href={PHONE_LINK} data-appointment>Уточнить условия</a>
         </article>
 
@@ -2765,11 +2798,11 @@ function BlogPage() {
   const featured = articles[0];
 
   return (
-    <main className="page seo-page blog-page blog-page--stable blog-page--editorial">
+    <main className="page seo-page blog-page blog-page--stable blog-page--editorial blog-page--polished">
       <PageIntro
         label="Блог"
         title="Полезные статьи о стоматологии"
-        text="Материалы для пациентов о лечении, профилактике, имплантации, эстетике улыбки и уходе за зубами. Блог усиливает SEO сайта и помогает пациенту получить ответы до визита в клинику."
+        text="Материалы для пациентов о лечении, профилактике, имплантации, эстетике улыбки и уходе за зубами. Всё объясняем простым и спокойным языком."
       />
 
       {featured ? (
@@ -2783,7 +2816,7 @@ function BlogPage() {
             <p>{featured[1].lead}</p>
             <div className="featured-blog__meta">
               <span>{serviceSeoPages[featured[1].service]?.label || "Полезная статья"}</span>
-              <span>Стоматология в Пензе · Новая улыбка</span>
+              <span>Понятно и без перегруза</span>
             </div>
             <div className="featured-blog__actions">
               <a className="blue-link" href={routeHref(featured[0])} data-route-link>Читать статью</a>
@@ -2795,7 +2828,7 @@ function BlogPage() {
 
       <section className="container blog-topics reveal-on-scroll">
         <p className="section-label">Темы блога</p>
-        <h2>Контент, на который может опираться поисковик</h2>
+        <h2>Темы, которые чаще всего интересуют пациентов</h2>
         <div className="blog-topics__chips">
           {serviceOrder.map((key) => (
             <a href={routeHref(key)} data-route-link key={key}>{serviceSeoPages[key].label}</a>
@@ -2806,10 +2839,12 @@ function BlogPage() {
       <section className="container blog-grid blog-grid--seo blog-grid--media">
         {articles.map(([key, article], index) => (
           <article className="blog-card blog-card--media reveal-on-scroll" key={key}>
-            <figure className="blog-card__media">
+            <a className="blog-card__media" href={routeHref(key)} data-route-link aria-label={article.title}>
               <img src={blogArticleMedia[key] || serviceSeoPages[article.service]?.image || "/page-hero-clinic.webp?v=final-hero-8"} alt={article.title} loading="lazy" decoding="async" />
-              <span><img src="/logo.webp" alt="" loading="lazy" decoding="async" /> Новая улыбка</span>
-            </figure>
+              <div className="blog-card__media-overlay" aria-hidden="true">
+                <img src="/logo-white.png" alt="" loading="lazy" decoding="async" />
+              </div>
+            </a>
             <div className="blog-card__content">
               <span>Статья {String(index + 1).padStart(2, "0")}</span>
               <h2>{article.title}</h2>
@@ -2830,13 +2865,14 @@ function BlogArticlePage({ articleKey }) {
   const article = blogArticles[articleKey] || blogArticles.blogKaries;
   const service = serviceSeoPages[article.service];
   const relatedArticles = Object.entries(blogArticles).filter(([key, item]) => key !== articleKey && item.service === article.service).slice(0, 2);
+  const articleEmojis = ["🦷", "✨", "📌", "👀", "✅", "💬", "🪥", "🌿"];
 
   return (
-    <main className="page seo-page blog-article-page">
+    <main className="page seo-page blog-article-page blog-article-page--polished">
       <PageIntro label="Полезная статья" title={article.h1} text={article.description} />
       <Breadcrumbs items={[{ label: "Блог", href: routePaths.blog }, { label: article.title }]} />
 
-      <section className="container blog-article-hero reveal-on-scroll">
+      <section className="container blog-article-hero blog-article-hero--polished reveal-on-scroll">
         <figure className="blog-article-hero__image">
           <img src={blogArticleMedia[articleKey] || service?.image} alt={article.title} loading="eager" decoding="async" />
         </figure>
@@ -2844,9 +2880,9 @@ function BlogArticlePage({ articleKey }) {
           <p className="section-label">Коротко по теме</p>
           <h2>{article.title}</h2>
           <p>{article.lead}</p>
-          <ul>
-            {(service?.bullets || []).slice(0, 3).map((item) => <li key={item}>{item}</li>)}
-          </ul>
+          <div className="blog-article__quick-facts">
+            {(service?.bullets || []).slice(0, 3).map((item) => <span key={item}>{item}</span>)}
+          </div>
           <div className="featured-blog__actions">
             <a className="blue-link" href={routeHref(article.service)} data-route-link>Связанная услуга</a>
             <a href={PHONE_LINK} data-appointment>Записаться на консультацию</a>
@@ -2854,13 +2890,29 @@ function BlogArticlePage({ articleKey }) {
         </div>
       </section>
 
-      <article className="container blog-article reveal-on-scroll">
+      <article className="container blog-article blog-article--polished reveal-on-scroll">
         <div className="blog-article__content">
-          <p className="blog-article__lead">{article.lead}</p>
-          {article.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+          <div className="blog-article__lead-card">
+            <span>✨ Главное</span>
+            <p className="blog-article__lead">{article.lead}</p>
+          </div>
+
+          <div className="blog-article__post-flow">
+            {article.paragraphs.map((paragraph, index) => (
+              <div className="blog-article__post-card" key={paragraph}>
+                <div className="blog-article__emoji">{articleEmojis[index % articleEmojis.length]}</div>
+                <p>{paragraph}</p>
+              </div>
+            ))}
+          </div>
 
           <div className="blog-article__note">
-            <strong>Важно:</strong> статья не заменяет консультацию врача. Если есть боль, воспаление, скол или дискомфорт — лучше записаться на осмотр.
+            <strong>Важно:</strong> статья не заменяет консультацию врача. Если есть боль, воспаление, скол или выраженный дискомфорт — лучше записаться на осмотр.
+          </div>
+
+          <div className="blog-article__placeholder" aria-label="Место под дополнительную фотографию">
+            <span>Место под фото / визуал</span>
+            <p>Если захотите, сюда можно добавить тематическую фотографию кабинета, врача или результата лечения.</p>
           </div>
         </div>
 
@@ -2878,7 +2930,7 @@ function BlogArticlePage({ articleKey }) {
           <div className="related-articles__head">
             <p className="section-label">Ещё по теме</p>
             <h2>Связанные статьи</h2>
-            <p>Дополнительные материалы по этой услуге усиливают тематичность раздела и помогают пользователю продолжить чтение.</p>
+            <p>Дополнительные материалы по этой теме помогают спокойно продолжить чтение и разобраться в вопросе глубже.</p>
           </div>
           <div className="related-articles__grid">
             {relatedArticles.map(([key, item]) => (
@@ -2947,7 +2999,8 @@ function BranchesPage() {
                 data-metrika-goal={METRIKA_GOALS.addressMapClick}
                 data-metrika-label={branch.title}
               >
-                {branch.address}
+                <span>{branch.address}</span>
+                <img className="branch-card__map-badge" src="/icons/yandex-maps.svg" alt="Яндекс Карты" loading="lazy" decoding="async" />
               </a>
               <div className="branch-meta">
                 <Clock size={18} />
