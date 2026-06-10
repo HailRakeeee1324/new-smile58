@@ -1,0 +1,20 @@
+{
+  "name": "Новая улыбка - стоматология в Пензе",
+  "short_name": "Новая улыбка",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#e7f1fb",
+  "theme_color": "#2f83ee",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png?v=4",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png?v=4",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

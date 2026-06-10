@@ -1,7 +1,8 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const SITE_URL = process.env.PUBLIC_SITE_URL || 'https://new-smile58.ru';
+const SITE_URL = 'https://new-smile58.ru';
 const PHONE = '+7 (967) 449-84-12';
 const PHONE_LINK = 'tel:+79674498412';
 const distDir = new URL('../dist/', import.meta.url);
@@ -325,7 +326,7 @@ function injectPage(route, page) {
 for (const [route, page] of Object.entries(pages)) {
   const html = injectPage(route, page);
   const outPath = route === '/' ? new URL('index.html', distDir) : new URL(`.${route}/index.html`, distDir);
-  await mkdir(dirname(outPath.pathname), { recursive: true });
+  await mkdir(dirname(fileURLToPath(outPath)), { recursive: true });
   await writeFile(outPath, html, 'utf8');
   if (route === '/404') await writeFile(new URL('404.html', distDir), html, 'utf8');
 }

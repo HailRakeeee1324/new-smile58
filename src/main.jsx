@@ -308,14 +308,14 @@ const localSeoKeyPhrases = [
 
 
 const seoImageLibrary = {
-  treatmentRoom1: "/seo-gallery/treatment-room-1.png",
-  treatmentRoom2: "/seo-gallery/treatment-room-2.png",
-  treatmentRoom3: "/seo-gallery/treatment-room-3.png",
-  yellowChairRoom: "/seo-gallery/yellow-chair-room.png",
-  consultationRoom1: "/seo-gallery/consultation-room-1.png",
-  consultationRoom2: "/seo-gallery/consultation-room-2.png",
-  practiceRoom1: "/seo-gallery/practice-room-1.png",
-  hygieneRoom1: "/seo-gallery/hygiene-room-1.png",
+  treatmentRoom1: "/seo-gallery/treatment-room-1.webp",
+  treatmentRoom2: "/seo-gallery/treatment-room-2.webp",
+  treatmentRoom3: "/seo-gallery/treatment-room-3.webp",
+  yellowChairRoom: "/seo-gallery/yellow-chair-room.webp",
+  consultationRoom1: "/seo-gallery/consultation-room-1.webp",
+  consultationRoom2: "/seo-gallery/consultation-room-2.webp",
+  practiceRoom1: "/seo-gallery/practice-room-1.webp",
+  hygieneRoom1: "/seo-gallery/hygiene-room-1.webp",
 };
 
 const additionalServiceDirections = [
@@ -1114,7 +1114,7 @@ const homeHeroPromotions = [
     eyebrow: "Спецпредложение",
     title: "Лечение кариеса в Пензе",
     text: "Если зуб начал реагировать на холодное, сладкое или при жевании, лучше не откладывать. Врач спокойно объяснит ситуацию, подберёт лечение и восстановит зуб аккуратно и эстетично.",
-    banner: "/promos/caries-banner-special.png",
+    banner: "/promos/caries-banner-special.webp",
     bannerAlt: "Спецпредложение на лечение кариеса в стоматологии Новая улыбка",
     route: "lechenieKariesa",
     chips: ["Комфортный терапевтический приём", "От 3 000 ₽", "Бережное восстановление зуба"],

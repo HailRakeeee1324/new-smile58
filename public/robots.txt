@@ -3,4 +3,4 @@ Allow: /
 Disallow: /api/
 Disallow: /*?*utm_
 Disallow: /*?*yclid
-Sitemap: https://novaya-ulybka.ru/sitemap.xml
+Sitemap: https://new-smile58.ru/sitemap.xml
