@@ -22324,3 +22324,412 @@ svg {
     height: 40px !important;
   }
 }
+
+/* =========================================================
+   MOBILE FINAL DESIGN QA PATCH — June 2026
+   Final targeted overrides after real-device review
+   ========================================================= */
+@media (max-width: 920px) {
+  /* Theme hint is removed on mobile completely. */
+  .theme-hint {
+    display: none !important;
+  }
+
+  /* Header / nav: clean single-layer surface without stray bars. */
+  .header,
+  .header--home,
+  .header--page {
+    padding: 10px 0 8px !important;
+    background: rgba(242, 247, 255, 0.92) !important;
+    border-bottom: 1px solid rgba(154, 186, 226, 0.32) !important;
+    box-shadow: 0 10px 28px rgba(20, 59, 110, 0.10) !important;
+  }
+
+  html[data-theme="dark"] .header,
+  html[data-theme="dark"] .header--home,
+  html[data-theme="dark"] .header--page {
+    background: linear-gradient(180deg, rgba(8, 29, 62, 0.96), rgba(8, 31, 67, 0.92)) !important;
+    border-bottom-color: rgba(125, 161, 222, 0.18) !important;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28) !important;
+  }
+
+  .header__top,
+  .nav {
+    position: relative !important;
+    z-index: 2 !important;
+  }
+
+  .nav {
+    margin-top: 8px !important;
+    padding-bottom: 2px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .nav a,
+  .header--page .nav a,
+  .header--home .nav a {
+    min-height: 36px !important;
+    padding: 0 14px !important;
+    color: #153c69 !important;
+    background: rgba(255, 255, 255, 0.74) !important;
+    border: 1px solid rgba(150, 181, 223, 0.34) !important;
+    box-shadow: none !important;
+  }
+
+  .nav a.active,
+  .nav a:hover,
+  .header--page .nav a.active,
+  .header--home .nav a.active {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #3f97ff, #226ae0) !important;
+    border-color: rgba(62, 129, 235, 0.55) !important;
+    box-shadow: 0 8px 20px rgba(34, 106, 224, 0.22) !important;
+  }
+
+  html[data-theme="dark"] .nav a,
+  html[data-theme="dark"] .header--page .nav a,
+  html[data-theme="dark"] .header--home .nav a {
+    color: rgba(237, 244, 255, 0.88) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  html[data-theme="dark"] .nav a.active,
+  html[data-theme="dark"] .header--page .nav a.active,
+  html[data-theme="dark"] .header--home .nav a.active {
+    color: #07244d !important;
+    background: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.74) !important;
+  }
+
+  /* Home hero: restore watermark and remove odd top strip feel. */
+  .hero.hero--wow {
+    background-position: center top !important;
+  }
+
+  .hero__overlay {
+    background: linear-gradient(180deg, rgba(241, 247, 255, 0.18) 0%, rgba(227, 239, 252, 0.42) 26%, rgba(205, 225, 247, 0.18) 38%, rgba(14, 48, 92, 0.56) 100%) !important;
+  }
+
+  html[data-theme="dark"] .hero__overlay {
+    background: linear-gradient(180deg, rgba(5, 18, 43, 0.20) 0%, rgba(6, 22, 51, 0.34) 28%, rgba(7, 24, 54, 0.52) 52%, rgba(4, 16, 39, 0.94) 100%) !important;
+  }
+
+  .hero__content {
+    padding-top: 26px !important;
+    padding-bottom: 114px !important;
+  }
+
+  .hero__bg-title {
+    display: block !important;
+    top: 26px !important;
+    left: 8px !important;
+    right: 8px !important;
+    font-size: clamp(60px, 18vw, 96px) !important;
+    line-height: 0.78 !important;
+    letter-spacing: -0.085em !important;
+    color: rgba(20, 55, 102, 0.14) !important;
+    opacity: 1 !important;
+    z-index: 0 !important;
+  }
+
+  html[data-theme="dark"] .hero__bg-title {
+    color: rgba(255, 255, 255, 0.14) !important;
+  }
+
+  .hero h1,
+  .hero .hero__content h1 {
+    margin-top: 134px !important;
+    position: relative !important;
+    z-index: 1 !important;
+  }
+
+  .hero p {
+    position: relative !important;
+    z-index: 1 !important;
+  }
+
+  /* Address cards on light theme should be blue. */
+  html:not([data-theme="dark"]) .hero-branch {
+    background: linear-gradient(135deg, rgba(234, 245, 255, 0.96), rgba(214, 232, 255, 0.94)) !important;
+    border-color: rgba(124, 167, 226, 0.30) !important;
+    box-shadow: 0 14px 30px rgba(28, 81, 143, 0.14) !important;
+  }
+
+  html:not([data-theme="dark"]) .hero-branch span {
+    color: #1f73c4 !important;
+  }
+
+  html:not([data-theme="dark"]) .hero-branch strong {
+    color: #123e72 !important;
+  }
+
+  html:not([data-theme="dark"]) .hero-branch em {
+    color: #1b66b8 !important;
+  }
+
+  html[data-theme="dark"] .hero-branch {
+    background: linear-gradient(135deg, rgba(12, 40, 82, 0.92), rgba(10, 33, 68, 0.94)) !important;
+    border-color: rgba(151, 194, 255, 0.14) !important;
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.22) !important;
+  }
+
+  html[data-theme="dark"] .hero-branch strong,
+  html[data-theme="dark"] .hero-branch em {
+    color: #f2f8ff !important;
+  }
+
+  html[data-theme="dark"] .hero-branch span {
+    color: #74bbff !important;
+  }
+
+  /* Promo carousel: arrows should be vertically centered. */
+  .home-promo-carousel {
+    overflow: visible !important;
+  }
+
+  .home-promo-carousel__control {
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    margin-top: 0 !important;
+    z-index: 4 !important;
+  }
+
+  .home-promo-carousel__control--prev {
+    left: -4px !important;
+  }
+
+  .home-promo-carousel__control--next {
+    right: -4px !important;
+  }
+
+  .feature-card--promo-carousel {
+    overflow: hidden !important;
+  }
+
+  /* Inner page hero: remove strange white slab, closer to desktop reference. */
+  .page-intro,
+  .page-intro--photo {
+    padding-top: 102px !important;
+    padding-bottom: 34px !important;
+    background: transparent !important;
+  }
+
+  .page-intro::before,
+  .page-intro--photo::before {
+    background:
+      linear-gradient(90deg, rgba(246, 250, 255, 0.90) 0%, rgba(241, 247, 255, 0.82) 52%, rgba(241, 247, 255, 0.44) 100%),
+      image-set(url('/page-hero-inner-light.webp') type('image/webp')) center / cover no-repeat !important;
+  }
+
+  html[data-theme="dark"] .page-intro::before,
+  html[data-theme="dark"] .page-intro--photo::before {
+    background:
+      linear-gradient(90deg, rgba(8, 24, 51, 0.90) 0%, rgba(9, 28, 59, 0.76) 52%, rgba(9, 28, 59, 0.38) 100%),
+      image-set(url('/page-hero-inner-dark.webp') type('image/webp')) center / cover no-repeat !important;
+  }
+
+  /* Appointment modal: fixed centered sheet without inner vertical scrolling. */
+  .appointment-modal {
+    padding: 16px !important;
+    place-items: center !important;
+    align-items: center !important;
+    overscroll-behavior: contain !important;
+  }
+
+  .appointment-modal__card {
+    width: min(100%, 520px) !important;
+    max-height: calc(100svh - 32px) !important;
+    overflow: hidden !important;
+    border-radius: 28px !important;
+    padding: 18px 16px 16px !important;
+  }
+
+  .appointment-modal__icon {
+    width: 56px !important;
+    height: 56px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .appointment-modal h2 {
+    font-size: clamp(26px, 7.4vw, 34px) !important;
+    margin-bottom: 8px !important;
+  }
+
+  .appointment-modal__phone,
+  .appointment-modal__card > p:not(.section-label) {
+    margin-bottom: 10px !important;
+  }
+
+  .appointment-modal__messengers {
+    margin-bottom: 12px !important;
+  }
+
+  .appointment-modal__messengers a,
+  .appointment-form button,
+  .appointment-form input,
+  .appointment-form__districts span {
+    min-height: 50px !important;
+  }
+
+  .appointment-form {
+    gap: 10px !important;
+  }
+
+  .appointment-form label > span,
+  .appointment-form__districts legend {
+    margin-bottom: 6px !important;
+  }
+
+  .appointment-form__districts {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .appointment-form__districts span {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 14px !important;
+    text-align: center !important;
+    font-size: 16px !important;
+    font-weight: 900 !important;
+    border-radius: 18px !important;
+  }
+
+  .appointment-form__districts input:checked + span,
+  html[data-theme="dark"] .appointment-form__districts input:checked + span {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #67cfff, #2d79ff) !important;
+    border-color: rgba(77, 159, 255, 0.58) !important;
+    box-shadow: 0 12px 24px rgba(45, 121, 255, 0.24) !important;
+  }
+
+  /* Promotions page: strike-through only on old price, not across the card. */
+  .promo-implant-card--clean .promo-price-row {
+    align-items: stretch !important;
+  }
+
+  .promo-implant-card--clean .promo-old-price strong,
+  .promo-old-price strong {
+    position: relative !important;
+    display: inline-block !important;
+    width: auto !important;
+    padding-right: 2px !important;
+  }
+
+  .promo-implant-card--clean .promo-old-price strong::after,
+  .promo-old-price strong::after {
+    left: -4px !important;
+    right: -4px !important;
+    top: 56% !important;
+    height: 4px !important;
+    transform: rotate(-9deg) !important;
+  }
+
+  .promo-implant-card--clean .promo-old-price,
+  .promo-implant-card--clean .promo-saving {
+    overflow: hidden !important;
+  }
+
+  /* Footer / ProDoctorov widget: white card background, no black rectangle. */
+  .footer__review {
+    padding: 10px !important;
+    border-radius: 24px !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    box-shadow: 0 14px 28px rgba(16, 57, 108, 0.10) !important;
+    overflow: hidden !important;
+  }
+
+  html[data-theme="dark"] .footer__review {
+    background: rgba(12, 33, 67, 0.92) !important;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.22) !important;
+  }
+
+  .footer__review img,
+  .footer__review-light,
+  .footer__review-dark {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    background: transparent !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .home-promo-carousel__control {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .home-promo-carousel__control--prev {
+    left: -2px !important;
+  }
+
+  .home-promo-carousel__control--next {
+    right: -2px !important;
+  }
+
+  .appointment-modal__card {
+    padding: 16px 14px !important;
+  }
+
+  .appointment-modal__icon {
+    width: 52px !important;
+    height: 52px !important;
+  }
+
+  .hero__content {
+    padding-top: 22px !important;
+  }
+
+  .hero h1,
+  .hero .hero__content h1 {
+    margin-top: 126px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .nav a,
+  .header--page .nav a,
+  .header--home .nav a {
+    min-height: 35px !important;
+    padding: 0 13px !important;
+    font-size: 12px !important;
+  }
+
+  .hero__bg-title {
+    font-size: clamp(54px, 18vw, 80px) !important;
+  }
+
+  .hero h1,
+  .hero .hero__content h1 {
+    margin-top: 118px !important;
+    font-size: clamp(34px, 10.8vw, 44px) !important;
+  }
+
+  .hero p {
+    font-size: 15px !important;
+    line-height: 1.45 !important;
+  }
+
+  .hero-branch {
+    min-height: 70px !important;
+    gap: 4px 10px !important;
+  }
+
+  .hero-branch em {
+    font-size: 12.5px !important;
+  }
+
+  .page-intro,
+  .page-intro--photo {
+    padding-top: 98px !important;
+  }
+
+  .appointment-modal__card {
+    width: min(100%, 420px) !important;
+    max-height: calc(100svh - 24px) !important;
+  }
+}

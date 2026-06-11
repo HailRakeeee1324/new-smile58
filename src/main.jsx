@@ -1580,7 +1580,7 @@ function App() {
   const [route, setRoute] = useState(getRouteFromLocation());
   const THEME_STORAGE_KEY = "site-theme-v5";
   const [theme, setTheme] = useState(() => localStorage.getItem(THEME_STORAGE_KEY) || "light");
-  const [themeHintVisible, setThemeHintVisible] = useState(true);
+  const [themeHintVisible, setThemeHintVisible] = useState(false);
   const [appointmentOpen, setAppointmentOpen] = useState(false);
 
   useEffect(() => {
@@ -1792,6 +1792,14 @@ function App() {
 function Header({ route, theme, onToggleTheme, themeHintVisible, onCloseThemeHint }) {
   const isHome = route === "home";
   const activeRoute = getNavActiveRoute(route);
+  const navRef = useRef(null);
+
+  useEffect(() => {
+    if (!navRef.current) return;
+    const activeLink = navRef.current.querySelector("a.active");
+    if (!activeLink) return;
+    activeLink.scrollIntoView({ block: "nearest", inline: "center", behavior: "auto" });
+  }, [activeRoute]);
 
   return (
     <header className={`header ${isHome ? "header--home" : "header--page"}`}>
@@ -1852,7 +1860,7 @@ function Header({ route, theme, onToggleTheme, themeHintVisible, onCloseThemeHin
         </div>
       </div>
 
-      <nav className="container nav" aria-label="Основное меню">
+      <nav ref={navRef} className="container nav" aria-label="Основное меню">
         {navItems.map((item) => (
           <a className={activeRoute === item.route ? "active" : ""} href={routeHref(item.route)} data-route-link key={item.route}>
             {item.label}
