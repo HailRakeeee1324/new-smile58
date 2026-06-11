@@ -22733,3 +22733,441 @@ svg {
     max-height: calc(100svh - 24px) !important;
   }
 }
+
+/* =========================================================
+   PROFESSIONAL MOBILE FINAL POLISH — June 2026
+   Clean final overrides after client QA review.
+   ========================================================= */
+
+/* Promo card markup support */
+.feature-card__promo-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.feature-card--promo-carousel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 410px);
+  grid-template-areas:
+    "head head"
+    "body banner";
+  align-items: center;
+  gap: 22px 26px;
+}
+
+.feature-card--promo-carousel .feature-card__promo-head {
+  grid-area: head;
+}
+
+.feature-card--promo-carousel .feature-card__promo-body {
+  grid-area: body;
+}
+
+.feature-card--promo-carousel .feature-card__banner--promo {
+  grid-area: banner;
+}
+
+.promo-implant-card--banner-first {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+  grid-template-areas:
+    "eyebrow banner"
+    "content banner";
+  align-items: start;
+  gap: 18px 26px;
+}
+
+.promo-implant-card--banner-first .promo-limited {
+  grid-area: eyebrow;
+}
+
+.promo-implant-card--banner-first .promo-implant-card__banner {
+  grid-area: banner;
+}
+
+.promo-implant-card--banner-first .promo-implant-card__content {
+  grid-area: content;
+}
+
+.promo-implant-card__lead {
+  margin: 0 0 4px;
+  color: #5f6f83;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.promo-implant-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.promo-implant-card__actions > a {
+  min-width: 180px;
+}
+
+@media (max-width: 920px) {
+  /* Remove stray decorative layers that create slabs/bands on mobile. */
+  .header::before,
+  .header::after,
+  .header__top::before,
+  .header__top::after,
+  .nav::before,
+  .nav::after,
+  .hero.hero--wow::before,
+  .page-intro::after,
+  .page-intro--photo::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  /* Header on home = same as inner pages. */
+  .header,
+  .header--home,
+  .header--page {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 12px 0 0 !important;
+  }
+
+  .header__top {
+    padding: 12px 16px !important;
+    border-radius: 30px !important;
+    background: rgba(246, 250, 255, 0.96) !important;
+    border: 1px solid rgba(166, 191, 224, 0.58) !important;
+    box-shadow: 0 14px 34px rgba(17, 58, 113, 0.12) !important;
+  }
+
+  .nav {
+    margin-top: 10px !important;
+    padding: 10px 12px !important;
+    border-radius: 26px !important;
+    background: rgba(246, 250, 255, 0.96) !important;
+    border: 1px solid rgba(166, 191, 224, 0.58) !important;
+    box-shadow: 0 12px 28px rgba(17, 58, 113, 0.10) !important;
+  }
+
+  html[data-theme="dark"] .header__top,
+  html[data-theme="dark"] .nav {
+    background: linear-gradient(180deg, rgba(11, 37, 76, 0.98), rgba(10, 33, 69, 0.96)) !important;
+    border-color: rgba(152, 191, 255, 0.18) !important;
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.26) !important;
+  }
+
+  .nav a,
+  .header--page .nav a,
+  .header--home .nav a {
+    min-height: 38px !important;
+    padding: 0 16px !important;
+    color: #163968 !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    border: 1px solid rgba(172, 194, 224, 0.42) !important;
+    box-shadow: none !important;
+    font-weight: 800 !important;
+  }
+
+  .nav a.active,
+  .nav a:hover,
+  .header--page .nav a.active,
+  .header--home .nav a.active {
+    color: #153968 !important;
+    background: rgba(76, 157, 255, 0.20) !important;
+    border-color: rgba(76, 157, 255, 0.34) !important;
+    box-shadow: 0 0 0 1px rgba(102, 176, 255, 0.14), 0 10px 20px rgba(55, 128, 224, 0.10) !important;
+  }
+
+  html[data-theme="dark"] .nav a,
+  html[data-theme="dark"] .header--page .nav a,
+  html[data-theme="dark"] .header--home .nav a {
+    color: rgba(242, 247, 255, 0.92) !important;
+    background: rgba(255, 255, 255, 0.07) !important;
+    border-color: rgba(255, 255, 255, 0.10) !important;
+  }
+
+  html[data-theme="dark"] .nav a.active,
+  html[data-theme="dark"] .nav a:hover,
+  html[data-theme="dark"] .header--page .nav a.active,
+  html[data-theme="dark"] .header--home .nav a.active {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.14) !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.10), 0 10px 20px rgba(0, 0, 0, 0.18) !important;
+  }
+
+  /* Clean hero: no slab under nav, watermark visible in both themes. */
+  .hero.hero--wow {
+    min-height: auto !important;
+    overflow: hidden !important;
+  }
+
+  .hero.hero--wow::after {
+    display: none !important;
+  }
+
+  .hero__overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(241, 247, 255, 0.70) 0%,
+      rgba(241, 247, 255, 0.62) 24%,
+      rgba(241, 247, 255, 0.28) 46%,
+      rgba(15, 55, 104, 0.22) 100%
+    ) !important;
+  }
+
+  html[data-theme="dark"] .hero__overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(7, 24, 53, 0.72) 0%,
+      rgba(8, 27, 58, 0.64) 24%,
+      rgba(8, 27, 58, 0.30) 48%,
+      rgba(5, 18, 44, 0.76) 100%
+    ) !important;
+  }
+
+  .hero__content {
+    padding-top: 32px !important;
+    padding-bottom: 112px !important;
+  }
+
+  .hero__bg-title {
+    display: block !important;
+    top: 44px !important;
+    left: 8px !important;
+    right: 8px !important;
+    font-size: clamp(62px, 18vw, 92px) !important;
+    line-height: 0.78 !important;
+    letter-spacing: -0.08em !important;
+    color: rgba(34, 95, 178, 0.12) !important;
+    opacity: 1 !important;
+  }
+
+  html[data-theme="dark"] .hero__bg-title {
+    top: 44px !important;
+    color: rgba(255, 255, 255, 0.10) !important;
+  }
+
+  .hero h1,
+  .hero .hero__content h1 {
+    margin-top: 138px !important;
+    position: relative !important;
+    z-index: 1 !important;
+  }
+
+  /* Branch cards on the light theme: blue cards with white type. */
+  html:not([data-theme="dark"]) .hero-branch {
+    background: linear-gradient(135deg, #5ea9ff, #2f77e7) !important;
+    border-color: rgba(76, 132, 214, 0.42) !important;
+    box-shadow: 0 18px 32px rgba(31, 88, 163, 0.20) !important;
+  }
+
+  html:not([data-theme="dark"]) .hero-branch span {
+    color: rgba(225, 240, 255, 0.92) !important;
+  }
+
+  html:not([data-theme="dark"]) .hero-branch strong,
+  html:not([data-theme="dark"]) .hero-branch em {
+    color: #ffffff !important;
+  }
+
+  /* Home promo + promotions page: banner first on mobile, then text and buttons. */
+  .home-promo-carousel {
+    overflow: visible !important;
+  }
+
+  .feature-card--promo-carousel {
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "head"
+      "banner"
+      "body" !important;
+    gap: 16px !important;
+    padding-top: 18px !important;
+  }
+
+  .feature-card--promo-carousel .feature-card__banner--promo,
+  .feature-card--promo-carousel .feature-card__banner--promo img {
+    width: 100% !important;
+  }
+
+  .feature-card--promo-carousel h2 {
+    margin: 0 !important;
+  }
+
+  .feature-card__promo-actions {
+    flex-direction: column !important;
+  }
+
+  .feature-card__promo-actions > a,
+  .feature-card__promo-actions > .blue-link {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .home-promo-carousel__control {
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    margin-top: 0 !important;
+    z-index: 5 !important;
+  }
+
+  .home-promo-carousel__control--prev {
+    left: 8px !important;
+  }
+
+  .home-promo-carousel__control--next {
+    right: 8px !important;
+  }
+
+  .promo-implant-card--banner-first {
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "eyebrow"
+      "banner"
+      "content" !important;
+    gap: 16px !important;
+  }
+
+  .promo-implant-card__actions {
+    flex-direction: column !important;
+  }
+
+  .promo-implant-card__actions > a {
+    width: 100% !important;
+    min-width: 0 !important;
+    justify-content: center !important;
+  }
+
+  .promo-implant-card__lead {
+    display: block !important;
+  }
+
+  .promo-price-row {
+    gap: 12px !important;
+  }
+
+  .promo-old-price strong,
+  .promo-implant-card--clean .promo-old-price strong {
+    position: relative !important;
+    display: inline-block !important;
+  }
+
+  .promo-old-price strong::after,
+  .promo-implant-card--clean .promo-old-price strong::after {
+    left: -4px !important;
+    right: -4px !important;
+    top: 56% !important;
+    height: 4px !important;
+    transform: rotate(-8deg) !important;
+  }
+
+  /* Director block: photo/card first, quote underneath. */
+  .home-advantages__hero--director {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+
+  .home-advantages__hero--director .director-profile-card {
+    order: 1 !important;
+  }
+
+  .home-advantages__hero--director .director-quote--panel {
+    order: 2 !important;
+  }
+
+  /* Inner page hero cleanup: no white/blue slab. */
+  .page-intro,
+  .page-intro--photo {
+    position: relative !important;
+    overflow: hidden !important;
+    border-radius: 32px !important;
+    background: transparent !important;
+  }
+
+  .page-intro::before,
+  .page-intro--photo::before {
+    border-radius: 32px !important;
+  }
+
+  html:not([data-theme="dark"]) .page-intro::before,
+  html:not([data-theme="dark"]) .page-intro--photo::before {
+    background:
+      linear-gradient(90deg, rgba(245, 249, 255, 0.86) 0%, rgba(245, 249, 255, 0.74) 48%, rgba(245, 249, 255, 0.18) 100%),
+      image-set(url('/page-hero-inner-light.webp') type('image/webp')) center / cover no-repeat !important;
+  }
+
+  html[data-theme="dark"] .page-intro::before,
+  html[data-theme="dark"] .page-intro--photo::before {
+    background:
+      linear-gradient(90deg, rgba(8, 25, 54, 0.82) 0%, rgba(8, 25, 54, 0.70) 48%, rgba(8, 25, 54, 0.22) 100%),
+      image-set(url('/page-hero-inner-dark.webp') type('image/webp')) center / cover no-repeat !important;
+  }
+
+  /* ProDoctorov banner: no black surround. */
+  .footer__review {
+    padding: 0 !important;
+    border-radius: 24px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+  }
+
+  .footer__review-light,
+  .footer__review-dark,
+  .footer__review img {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    background: transparent !important;
+    object-fit: contain !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero__bg-title {
+    top: 40px !important;
+    font-size: clamp(58px, 18vw, 84px) !important;
+  }
+
+  .hero h1,
+  .hero .hero__content h1 {
+    margin-top: 128px !important;
+  }
+
+  .home-promo-carousel__control {
+    width: 42px !important;
+    height: 42px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .header__top {
+    padding: 11px 14px !important;
+  }
+
+  .nav {
+    padding: 9px 10px !important;
+  }
+
+  .nav a,
+  .header--page .nav a,
+  .header--home .nav a {
+    min-height: 36px !important;
+    padding: 0 14px !important;
+    font-size: 13px !important;
+  }
+
+  .hero__bg-title {
+    top: 36px !important;
+    font-size: clamp(52px, 18vw, 76px) !important;
+  }
+
+  .hero h1,
+  .hero .hero__content h1 {
+    margin-top: 118px !important;
+    font-size: clamp(34px, 10.6vw, 44px) !important;
+  }
+}

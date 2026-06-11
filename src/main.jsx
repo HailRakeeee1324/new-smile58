@@ -1967,10 +1967,15 @@ function HomePage() {
           </button>
 
           <article className="feature-card feature-card--accent feature-card--hero feature-card--implant-mini feature-card--promo-carousel" key={activePromo.title}>
-            <div className="feature-card__hero-main">
-              <div className="feature-card__promo-head">
-                <span className="feature-card__promo-eyebrow">{activePromo.eyebrow}</span>
-              </div>
+            <div className="feature-card__promo-head">
+              <span className="feature-card__promo-eyebrow">{activePromo.eyebrow}</span>
+            </div>
+
+            <figure className="feature-card__banner feature-card__banner--promo">
+              <img src={activePromo.banner} alt={activePromo.bannerAlt} loading="lazy" decoding="async" />
+            </figure>
+
+            <div className="feature-card__promo-body">
               <h2 id="home-promo-title">{activePromo.title}</h2>
               <p className="feature-card__summary feature-card__summary--promo">{activePromo.text}</p>
               <div className="feature-card__promo-actions">
@@ -1978,10 +1983,6 @@ function HomePage() {
                 <a className="home-promo-cta" href={PHONE_LINK} data-appointment>Записаться</a>
               </div>
             </div>
-
-            <figure className="feature-card__banner feature-card__banner--promo">
-              <img src={activePromo.banner} alt={activePromo.bannerAlt} loading="lazy" decoding="async" />
-            </figure>
           </article>
 
           <button type="button" className="home-promo-carousel__control home-promo-carousel__control--next" aria-label="Следующее спецпредложение" onClick={goNextPromo}>
@@ -2037,14 +2038,6 @@ function HomePage() {
 
       <section className="container home-advantages home-advantages--director reveal-on-scroll" aria-labelledby="home-director-title">
         <div className="home-advantages__hero home-advantages__hero--director">
-          <div className="director-quote director-quote--panel">
-            <blockquote>
-             <p>«С 2004 года мы стараемся <span className="quote-nowrap">дарить нашим</span> пациентам здоровые и красивые улыбки.</p>
-             <p>Работаем на совесть - поэтому нам доверяют.</p>
-             <p>До встречи в филиалах нашей стоматологии!»</p>
-            </blockquote>
-          </div>
-
           <div className="director-profile-card">
             <figure className="home-advantages__media home-advantages__media--director">
               <img src="/director-kaftaev-renat.webp" alt="Кафтаев Ренат Идрисович, генеральный директор стоматологии Новая улыбка" loading="lazy" decoding="async" />
@@ -2054,6 +2047,14 @@ function HomePage() {
               <h2 id="home-director-title">Кафтаев Ренат Идрисович</h2>
               <p className="director-quote__label">Генеральный директор</p>
             </div>
+          </div>
+
+          <div className="director-quote director-quote--panel">
+            <blockquote>
+             <p>«С 2004 года мы стараемся <span className="quote-nowrap">дарить нашим</span> пациентам здоровые и красивые улыбки.</p>
+             <p>Работаем на совесть - поэтому нам доверяют.</p>
+             <p>До встречи в филиалах нашей стоматологии!»</p>
+            </blockquote>
           </div>
         </div>
 
@@ -2708,19 +2709,23 @@ function PromotionsPage() {
       />
 
       <section className="container promo-implant-section reveal-on-scroll" aria-labelledby="promo-implant-title">
-        <article className="promo-implant-card promo-implant-card--focus promo-implant-card--clean">
+        <article className="promo-implant-card promo-implant-card--focus promo-implant-card--clean promo-implant-card--banner-first">
+          <span className="promo-limited">Ограниченное предложение</span>
+          <figure className="promo-implant-card__banner">
+            <img src="/promos/implant-banner-final.webp" alt="Акция на имплантацию 26 000 рублей" loading="lazy" decoding="async" />
+          </figure>
           <div className="promo-implant-card__content">
-            <span className="promo-limited">Ограниченное предложение</span>
             <h2 id="promo-implant-title">Имплантация под ключ</h2>
+            <p className="promo-implant-card__lead">Южнокорейские импланты по специальной цене с понятным планом лечения и сопровождением врача.</p>
             <div className="promo-price-row promo-price-row--saving">
               <div className="promo-old-price"><span>старая цена</span><strong>45 000 ₽</strong></div>
               <div className="promo-saving"><span>экономия</span><strong>19 000 ₽</strong></div>
             </div>
-            <a className="blue-link promo-pulse-cta" href={PHONE_LINK} data-appointment>Записаться на консультацию</a>
+            <div className="promo-implant-card__actions">
+              <a className="blue-link" href={routePaths.implantaciya} data-route-link>Подробнее</a>
+              <a className="blue-link promo-pulse-cta" href={PHONE_LINK} data-appointment>Записаться</a>
+            </div>
           </div>
-          <figure className="promo-implant-card__banner">
-            <img src="/promos/implant-banner-final.webp" alt="Акция на имплантацию 26 000 рублей" loading="lazy" decoding="async" />
-          </figure>
         </article>
       </section>
 
