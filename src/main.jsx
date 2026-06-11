@@ -1932,7 +1932,7 @@ function HomePage() {
 
           <h1>
             Современная стоматология
-            <br />в Пензе
+            <br /> в Пензе
           </h1>
 
           <p>
@@ -3565,9 +3565,9 @@ function AppointmentModal({ isOpen, onClose }) {
         </div>
 
         <p className="section-label">Запись на приём</p>
-        <h2 id="appointment-modal-title">Оставьте заявку - администратор уточнит удобное время</h2>
+        <h2 id="appointment-modal-title">Запись на приём</h2>
         <a className="appointment-modal__phone" href={PHONE_LINK} data-metrika-label="Телефон в окне записи">{PHONE}</a>
-        <p>Выберите район, оставьте имя и телефон. Заявка уйдёт ответственному администратору для дальнейшей передачи в клинику.</p>
+        <p>Оставьте имя, телефон и район — администратор свяжется с вами.</p>
 
         <div className="appointment-modal__messengers" aria-label="Мессенджеры для связи">
           <a href={MAX_LINK} target="_blank" rel="noreferrer">Написать в MAX</a>
