@@ -3301,13 +3301,18 @@ function LicensePage() {
 
 function MobileStickyCta() {
   return (
-    <div className="mobile-sticky-cta" aria-label="Быстрая запись">
-      <a className="mobile-sticky-cta__phone" href={PHONE_LINK} data-metrika-label="Мобильная кнопка телефона">
+    <div className="mobile-sticky-cta mobile-sticky-cta--final" aria-label="Быстрая запись и навигация">
+      <a className="mobile-sticky-cta__item mobile-sticky-cta__item--phone" href={PHONE_LINK} data-metrika-label="Мобильная кнопка телефона">
         <Phone size={18} />
-        <span>{PHONE}</span>
+        <span>Позвонить</span>
       </a>
-      <a className="mobile-sticky-cta__button" href={PHONE_LINK} data-appointment>
-        Записаться
+      <a className="mobile-sticky-cta__item mobile-sticky-cta__item--primary" href={PHONE_LINK} data-appointment>
+        <CalendarDays size={18} />
+        <span>Записаться</span>
+      </a>
+      <a className="mobile-sticky-cta__item mobile-sticky-cta__item--route" href={routePaths.branches} data-route-link>
+        <MapPin size={18} />
+        <span>Адреса</span>
       </a>
     </div>
   );

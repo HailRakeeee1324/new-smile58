@@ -1,0 +1,12 @@
+Файлы, которые больше не нужны и могут остаться в старой локальной папке, если копировать проект обычным robocopy /E:
+public\seo-gallery\consultation-room-1.png
+public\seo-gallery\consultation-room-2.png
+public\seo-gallery\hygiene-room-1.png
+public\seo-gallery\practice-room-1.png
+public\seo-gallery\treatment-room-1.png
+public\seo-gallery\treatment-room-2.png
+public\seo-gallery\treatment-room-3.png
+public\seo-gallery\yellow-chair-room.png
+public\promos\caries-banner-special.png
+
+Их можно удалить вручную или выполнить команды из инструкции в ответе.
