@@ -1822,7 +1822,7 @@ function Header({ route, theme, onToggleTheme, themeHintVisible, onCloseThemeHin
             <span>3 филиала в Пензе</span>
           </a>
 
-          <a className="contact-item" href={PHONE_LINK} data-appointment data-metrika-label="Телефон в шапке">
+          <a className="contact-item" href={PHONE_LINK} data-metrika-label="Телефон в шапке">
             <Phone size={18} />
             <span>{PHONE}</span>
           </a>
@@ -1959,12 +1959,7 @@ function HomePage() {
                   className="hero-branch__phone"
                   href={branch.phoneHref}
                   aria-label={`Позвонить в филиал ${branch.name}: ${branch.phone}`}
-                  data-metrika-goal={METRIKA_GOALS.phoneClick}
                   data-metrika-label={`Телефон филиала ${branch.name}`}
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    sendMetrikaGoal(METRIKA_GOALS.phoneClick, { phone: branch.phone, branch: branch.name });
-                  }}
                 >
                   {branch.phone}
                 </a>
