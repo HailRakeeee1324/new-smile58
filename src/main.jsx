@@ -42,7 +42,7 @@ const MAX_LINK = `https://max.ru/?phone=${MAX_PHONE}`;
 const LEAD_ENDPOINT = "/api/lead";
 const SMARTCAPTCHA_SITE_KEY = import.meta.env.VITE_YANDEX_SMARTCAPTCHA_CLIENT_KEY || "";
 const SMARTCAPTCHA_SCRIPT_ID = "yandex-smartcaptcha-script";
-const YANDEX_METRIKA_ID = "109713557";
+const YANDEX_METRIKA_ID = "109789684";
 const METRIKA_ID_IS_VALID = /^\d+$/.test(YANDEX_METRIKA_ID);
 
 const METRIKA_GOALS = {
@@ -1062,9 +1062,9 @@ function getRouteFromLocation() {
 }
 
 const heroBranches = [
-  { name: "Светлая 11", area: "Спутник", phone: BRANCH_PHONES.svetlaya, href: `${routePaths.branches}?branch=svetlaya` },
-  { name: "Радужная 10", area: "Спутник", phone: BRANCH_PHONES.raduzhnaya, href: `${routePaths.branches}?branch=raduzhnaya` },
-  { name: "Антонова 76", area: "ГПЗ", phone: BRANCH_PHONES.antonova, href: `${routePaths.branches}?branch=antonova` },
+  { name: "Светлая 11", area: "Спутник", phone: BRANCH_PHONES.svetlaya, phoneHref: BRANCH_PHONE_LINKS.svetlaya, href: `${routePaths.branches}?branch=svetlaya` },
+  { name: "Радужная 10", area: "Спутник", phone: BRANCH_PHONES.raduzhnaya, phoneHref: BRANCH_PHONE_LINKS.raduzhnaya, href: `${routePaths.branches}?branch=raduzhnaya` },
+  { name: "Антонова 76", area: "ГПЗ", phone: BRANCH_PHONES.antonova, phoneHref: BRANCH_PHONE_LINKS.antonova, href: `${routePaths.branches}?branch=antonova` },
 ];
 
 const homeCards = [
@@ -1950,11 +1950,25 @@ function HomePage() {
 
           <div className="hero__branches" aria-label="Адреса и телефоны для записи">
             {heroBranches.map((branch) => (
-              <a className="hero-branch" href={branch.href} data-route-link key={branch.name}>
-                <span>{branch.area}</span>
-                <strong>{branch.name}</strong>
-                <em>{branch.phone}</em>
-              </a>
+              <article className="hero-branch" key={branch.name}>
+                <a className="hero-branch__main" href={branch.href} data-route-link aria-label={`Открыть филиал ${branch.name}`}>
+                  <span>{branch.area}</span>
+                  <strong>{branch.name}</strong>
+                </a>
+                <a
+                  className="hero-branch__phone"
+                  href={branch.phoneHref}
+                  aria-label={`Позвонить в филиал ${branch.name}: ${branch.phone}`}
+                  data-metrika-goal={METRIKA_GOALS.phoneClick}
+                  data-metrika-label={`Телефон филиала ${branch.name}`}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    sendMetrikaGoal(METRIKA_GOALS.phoneClick, { phone: branch.phone, branch: branch.name });
+                  }}
+                >
+                  {branch.phone}
+                </a>
+              </article>
             ))}
           </div>
         </div>
