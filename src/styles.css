@@ -23171,3 +23171,211 @@ svg {
     font-size: clamp(34px, 10.6vw, 44px) !important;
   }
 }
+
+/* =========================================================
+   HOTFIX QA — mobile header + watermark + ProDoctorov theme switch
+   Final targeted fixes after visual QA.
+   ========================================================= */
+
+/* Show only one ProDoctorov banner depending on theme */
+.footer__review .footer__review-light {
+  display: block !important;
+}
+
+.footer__review .footer__review-dark {
+  display: none !important;
+}
+
+html[data-theme="dark"] .footer__review .footer__review-light {
+  display: none !important;
+}
+
+html[data-theme="dark"] .footer__review .footer__review-dark {
+  display: block !important;
+}
+
+@media (max-width: 920px) {
+  /* Home header must look exactly like inner-page header on mobile */
+  .header,
+  .header.header--home,
+  .header.header--page,
+  html[data-theme="dark"] .header--home,
+  html[data-theme="dark"] .header--page,
+  html:not([data-theme="dark"]) .header--home,
+  html:not([data-theme="dark"]) .header--page {
+    position: relative !important;
+    inset: auto !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    padding-top: 12px !important;
+  }
+
+  .header .header__top,
+  .header.header--home .header__top,
+  .header.header--page .header__top {
+    padding: 14px 18px !important;
+    border-radius: 34px !important;
+    border: 1px solid rgba(170, 192, 224, 0.55) !important;
+    box-shadow: 0 14px 34px rgba(16, 58, 113, 0.10) !important;
+    background: rgba(245, 249, 255, 0.96) !important;
+  }
+
+  .header .nav,
+  .header.header--home .nav,
+  .header.header--page .nav {
+    margin-top: 12px !important;
+    padding: 10px 12px !important;
+    border-radius: 28px !important;
+    border: 1px solid rgba(170, 192, 224, 0.55) !important;
+    box-shadow: 0 12px 28px rgba(16, 58, 113, 0.08) !important;
+    background: rgba(232, 241, 252, 0.96) !important;
+  }
+
+  html[data-theme="dark"] .header .header__top,
+  html[data-theme="dark"] .header.header--home .header__top,
+  html[data-theme="dark"] .header.header--page .header__top {
+    background: linear-gradient(180deg, rgba(12, 41, 85, 0.98), rgba(9, 31, 67, 0.96)) !important;
+    border-color: rgba(145, 190, 255, 0.18) !important;
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22) !important;
+  }
+
+  html[data-theme="dark"] .header .nav,
+  html[data-theme="dark"] .header.header--home .nav,
+  html[data-theme="dark"] .header.header--page .nav {
+    background: linear-gradient(180deg, rgba(11, 36, 77, 0.98), rgba(9, 30, 65, 0.96)) !important;
+    border-color: rgba(145, 190, 255, 0.18) !important;
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18) !important;
+  }
+
+  /* identical nav pills on all pages */
+  .header .nav a,
+  .header.header--home .nav a,
+  .header.header--page .nav a {
+    min-height: 38px !important;
+    padding: 0 18px !important;
+    border-radius: 999px !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    color: #153968 !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    border: 1px solid rgba(176, 198, 227, 0.38) !important;
+    box-shadow: none !important;
+  }
+
+  .header .nav a.active,
+  .header .nav a:hover,
+  .header.header--home .nav a.active,
+  .header.header--home .nav a:hover,
+  .header.header--page .nav a.active,
+  .header.header--page .nav a:hover {
+    color: #377ee7 !important;
+    background: rgba(82, 156, 255, 0.18) !important;
+    border-color: rgba(82, 156, 255, 0.34) !important;
+    box-shadow: inset 0 0 0 1px rgba(102, 177, 255, 0.20), 0 8px 18px rgba(48, 115, 210, 0.10) !important;
+  }
+
+  html[data-theme="dark"] .header .nav a,
+  html[data-theme="dark"] .header.header--home .nav a,
+  html[data-theme="dark"] .header.header--page .nav a {
+    color: rgba(244, 248, 255, 0.94) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  html[data-theme="dark"] .header .nav a.active,
+  html[data-theme="dark"] .header .nav a:hover,
+  html[data-theme="dark"] .header.header--home .nav a.active,
+  html[data-theme="dark"] .header.header--home .nav a:hover,
+  html[data-theme="dark"] .header.header--page .nav a.active,
+  html[data-theme="dark"] .header.header--page .nav a:hover {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.14) !important;
+    border-color: rgba(255, 255, 255, 0.20) !important;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.10), 0 8px 18px rgba(0, 0, 0, 0.16) !important;
+  }
+
+  /* Home hero spacing + watermark restoration */
+  .home-page .hero,
+  .hero.hero--wow {
+    margin-top: 0 !important;
+  }
+
+  .home-page .hero__content,
+  .hero.hero--wow .hero__content {
+    padding-top: 34px !important;
+    padding-bottom: 118px !important;
+  }
+
+  .home-page .hero__bg-title,
+  .hero.hero--wow .hero__bg-title {
+    display: block !important;
+    top: 18px !important;
+    left: 0 !important;
+    right: auto !important;
+    z-index: 0 !important;
+    font-size: clamp(62px, 17vw, 90px) !important;
+    line-height: 0.80 !important;
+    letter-spacing: -0.08em !important;
+    opacity: 1 !important;
+  }
+
+  html:not([data-theme="dark"]) .home-page .hero__bg-title,
+  html:not([data-theme="dark"]) .hero.hero--wow .hero__bg-title {
+    color: rgba(36, 94, 176, 0.14) !important;
+  }
+
+  html[data-theme="dark"] .home-page .hero__bg-title,
+  html[data-theme="dark"] .hero.hero--wow .hero__bg-title {
+    color: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  .home-page .hero h1,
+  .hero.hero--wow h1 {
+    position: relative !important;
+    z-index: 1 !important;
+    margin-top: 124px !important;
+  }
+
+  .home-page .hero p,
+  .hero.hero--wow p,
+  .home-page .hero__branches,
+  .hero.hero--wow .hero__branches {
+    position: relative !important;
+    z-index: 1 !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .header .header__top,
+  .header.header--home .header__top,
+  .header.header--page .header__top {
+    padding: 13px 16px !important;
+  }
+
+  .header .nav,
+  .header.header--home .nav,
+  .header.header--page .nav {
+    padding: 9px 10px !important;
+  }
+
+  .header .nav a,
+  .header.header--home .nav a,
+  .header.header--page .nav a {
+    min-height: 36px !important;
+    padding: 0 15px !important;
+    font-size: 12.5px !important;
+  }
+
+  .home-page .hero__bg-title,
+  .hero.hero--wow .hero__bg-title {
+    top: 14px !important;
+    font-size: clamp(56px, 16.5vw, 78px) !important;
+  }
+
+  .home-page .hero h1,
+  .hero.hero--wow h1 {
+    margin-top: 112px !important;
+  }
+}
