@@ -23604,3 +23604,9 @@ html[data-theme="dark"] .hero-branch__phone {
     inset: -20px -20px -18px -20px !important;
   }
 }
+
+/* Doctor cards final content update */
+.doctor-card--ledyaikin .doctor-card__photo img {
+  object-position: center 18%;
+}
+

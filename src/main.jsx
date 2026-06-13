@@ -1428,7 +1428,7 @@ const doctors = [
     speciality: "Стоматолог-ортопед",
     branch: "Филиал на Светлой",
     image: "/team/akifiev-sergey.webp",
-    tags: ["Ортопедия", "Протезирование", "Восстановление улыбки"],
+    tags: ["Ортопедия", "Протезирование", "Стаж 16 лет"],
     note: "Помогает вернуть эстетику и функцию зубов с понятным планом ортопедического лечения.",
   },
   {
@@ -1436,7 +1436,7 @@ const doctors = [
     speciality: "Стоматолог-терапевт",
     branch: "Филиал на Антонова",
     image: "/team/amirdzhanyan-lilit.webp",
-    tags: ["Терапия", "Лечение кариеса", "Профилактика"],
+    tags: ["Терапия", "Лечение кариеса", "Стаж 7 лет"],
     note: "Внимательно ведёт терапевтический приём и помогает сохранить естественные зубы.",
   },
   {
@@ -1444,7 +1444,7 @@ const doctors = [
     speciality: "Стоматолог-терапевт",
     branch: "Филиал на Светлой",
     image: "/team/amyashkina-natalya.webp",
-    tags: ["Терапия", "Пульпит", "Комфортный приём"],
+    tags: ["Терапия", "Пульпит", "Стаж 15 лет"],
     note: "Проводит лечение аккуратно, спокойно и с фокусом на комфорт пациента.",
   },
   {
@@ -1452,20 +1452,28 @@ const doctors = [
     speciality: "Стоматолог-терапевт",
     branch: "Филиал на Радужной",
     image: "/team/razuvaeva-elena.webp",
-    tags: ["Терапия", "Диагностика", "Эстетика"],
+    tags: ["Терапия", "Диагностика", "Стаж 26 лет"],
     note: "Сочетает современный подход к лечению с внимательным отношением к деталям.",
   },
   {
-    name: "Сотрудник клиники",
-    speciality: "",
-    branch: "",
+    name: "Клочкова Лариса Николаевна",
+    speciality: "Стоматолог высшей категории",
+    branch: "Филиал на Радужной",
     image: "/team/doctor-therapist-raduzhnaya.webp",
-    tags: [],
-    note: "",
-    isBlank: true,
+    tags: ["Высшая категория", "Стаж 32 года", "Терапия"],
+    note: "Опытный врач с большим клиническим стажем, внимательным подходом к диагностике и лечению пациентов.",
   },
   {
-    name: ".. Валерия ..",
+    name: "Ледяйкин Дмитрий Витальевич",
+    speciality: "Стоматолог-ортопед",
+    branch: "Ортопедический приём",
+    image: "/team/ledyaikin-dmitry.webp",
+    className: "doctor-card--ledyaikin",
+    tags: ["Ортопедия", "Протезирование", "Стаж 8 лет"],
+    note: "Занимается восстановлением зубов, протезированием и подбором ортопедических решений с понятным планом лечения.",
+  },
+  {
+    name: "Азова Валерия Дмитриевна",
     speciality: "Медицинская сестра",
     branch: "Филиал на Радужной",
     image: "/team/valeriya-nurse.webp",
@@ -2609,7 +2617,7 @@ function DoctorsPage() {
 
       <section className="container doctors-grid doctors-grid--wow doctors-grid--restored">
         {doctors.map((doctor) => (
-          <article className={`doctor-card doctor-card--wow reveal-on-scroll ${doctor.isBlank ? "doctor-card--blank" : ""}`} key={doctor.image || doctor.name}>
+          <article className={`doctor-card doctor-card--wow reveal-on-scroll ${doctor.className || ""} ${doctor.isBlank ? "doctor-card--blank" : ""}`} key={doctor.image || doctor.name}>
             <figure className="doctor-card__photo">
               <img src={doctor.image} alt={doctor.isBlank ? "Сотрудник стоматологии Новая улыбка" : doctor.name} loading="lazy" decoding="async" />
             </figure>
