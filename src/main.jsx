@@ -29,13 +29,13 @@ const PHONE_DIGITS = "79674498412";
 const BRANCH_PHONES = {
   svetlaya: "+7 902 207-70-08",
   raduzhnaya: "+7 927 288-83-06",
-  antonova: "+7 (8412) 24-33-44",
+  antonova: "+7 952 196-93-35",
 };
 
 const BRANCH_PHONE_LINKS = {
   svetlaya: "tel:+79022077008",
   raduzhnaya: "tel:+79272888306",
-  antonova: "tel:+78412243344",
+  antonova: "tel:+79521969335",
 };
 
 const MAX_PHONE = "89869492003";
