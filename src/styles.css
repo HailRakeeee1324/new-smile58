@@ -23612,349 +23612,92 @@ html[data-theme="dark"] .hero-branch__phone {
 
 
 /* =========================================================
-   LEGAL PAGES + EXPLICIT PERSONAL DATA CONSENT — June 2026
+   FINAL 2026-06-27 - doctors photo safety / mobile adaptation
    ========================================================= */
-.legal-page {
-  background:
-    radial-gradient(circle at 10% 10%, rgba(87, 164, 255, 0.10), transparent 34%),
-    linear-gradient(180deg, #f7fbff 0%, #edf5ff 100%);
+
+/* Амирджанян: новая фотография отцентрирована в карточке без сжатия. */
+.doctor-card--amirdzhanyan .doctor-card__photo img {
+  object-position: center center !important;
 }
 
-.legal-document {
-  max-width: 1080px;
-  margin-top: 34px;
-  margin-bottom: 72px;
-  padding: clamp(26px, 4vw, 52px);
-  border-radius: 34px;
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid rgba(151, 184, 225, 0.34);
-  box-shadow: 0 24px 70px rgba(22, 66, 122, 0.12);
+/* На странице врачей фото-карточки не должны визуально прилипать к тексту. */
+.doctor-card--wow .doctor-card__content {
+  position: relative;
+  z-index: 1;
+  padding: 28px 28px 28px 0;
 }
 
-.legal-document__meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 22px;
-}
-
-.legal-document__meta span {
-  display: inline-flex;
-  align-items: center;
-  min-height: 34px;
-  padding: 0 14px;
-  border-radius: 999px;
-  color: #255b9d;
-  background: #e9f3ff;
-  border: 1px solid rgba(82, 139, 212, 0.18);
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 0.02em;
-}
-
-.legal-document > section {
-  padding: 28px 0;
-  border-top: 1px solid rgba(142, 170, 207, 0.22);
-}
-
-.legal-document > section:first-of-type {
-  border-top: 0;
-}
-
-.legal-document h2 {
-  margin: 0 0 16px;
-  color: #102f59;
-  font-size: clamp(23px, 3vw, 31px);
-  line-height: 1.15;
-  font-weight: 950;
-  letter-spacing: -0.035em;
-}
-
-.legal-document h3 {
-  margin: 0;
-  color: #123768;
-  font-size: 21px;
-  line-height: 1.2;
-  font-weight: 900;
-}
-
-.legal-document p,
-.legal-document li,
-.legal-table td,
-.legal-table th {
-  color: #40536d;
-  font-size: 15.5px;
-  line-height: 1.72;
-  font-weight: 620;
-}
-
-.legal-document p {
-  margin: 0 0 14px;
-}
-
-.legal-document ul {
-  display: grid;
-  gap: 10px;
-  margin: 0 0 16px;
-  padding-left: 22px;
-}
-
-.legal-document a {
-  color: #216bd2;
-  font-weight: 900;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-}
-
-.legal-document__notice {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 16px;
-  align-items: start;
-  margin: 0 0 10px;
-  padding: 22px;
-  border-radius: 24px;
-  color: #12427b;
-  background: linear-gradient(135deg, #e6f4ff, #f4f9ff);
-  border: 1px solid rgba(72, 143, 231, 0.22);
-}
-
-.legal-document__notice--accent {
-  background: linear-gradient(135deg, #e9fff6, #eef8ff);
-  border-color: rgba(54, 175, 127, 0.24);
-}
-
-.legal-document__notice svg {
-  color: #2f7be5;
-}
-
-.legal-document__notice h2 {
-  margin-bottom: 8px;
-  font-size: 22px;
-}
-
-.legal-document__notice p {
-  margin: 0;
-}
-
-.legal-operator-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 18px;
-}
-
-.legal-operator-card {
-  padding: 22px;
-  border-radius: 24px;
-  background: linear-gradient(145deg, #f2f8ff, #ffffff);
-  border: 1px solid rgba(129, 165, 211, 0.28);
-}
-
-.legal-operator-card > span {
-  display: block;
-  margin-bottom: 8px;
-  color: #4380c9;
-  font-size: 11px;
-  font-weight: 950;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-}
-
-.legal-operator-card dl {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin: 16px 0;
-}
-
-.legal-operator-card dl div {
-  padding: 12px;
-  border-radius: 16px;
-  background: rgba(218, 234, 253, 0.58);
-}
-
-.legal-operator-card dt {
-  color: #67809f;
-  font-size: 11px;
-  font-weight: 900;
-}
-
-.legal-operator-card dd {
-  margin: 3px 0 0;
-  color: #153b6b;
-  font-size: 14px;
-  font-weight: 950;
-}
-
-.legal-table-wrap {
-  overflow-x: auto;
-  margin: 18px 0;
-  border-radius: 22px;
-  border: 1px solid rgba(137, 169, 210, 0.28);
-}
-
-.legal-table {
-  width: 100%;
-  min-width: 820px;
-  border-collapse: collapse;
-  background: #ffffff;
-}
-
-.legal-table th,
-.legal-table td {
-  padding: 16px;
-  text-align: left;
-  vertical-align: top;
-  border-bottom: 1px solid rgba(137, 169, 210, 0.20);
-}
-
-.legal-table th {
-  color: #153b6b;
-  background: #edf6ff;
-  font-size: 13px;
-  font-weight: 950;
-}
-
-.legal-table tbody tr:last-child td {
-  border-bottom: 0;
-}
-
-.appointment-form__consent-check {
-  display: grid;
-  grid-template-columns: 24px minmax(0, 1fr);
-  gap: 11px;
-  align-items: start;
-  margin: 2px 0;
-  padding: 13px;
-  border-radius: 16px;
-  background: rgba(232, 242, 255, 0.72);
-  border: 1px solid rgba(117, 158, 214, 0.24);
-}
-
-.appointment-form__consent-check input {
-  width: 20px !important;
-  height: 20px !important;
-  min-height: 20px !important;
-  margin: 1px 0 0 !important;
-  padding: 0 !important;
-  accent-color: #2f75df;
-  cursor: pointer;
-}
-
-.appointment-form__consent-check label {
-  padding: 0 !important;
-  border: 0 !important;
-  background: transparent !important;
-  color: #536982;
-  font-size: 12px;
-  line-height: 1.45;
-  font-weight: 750;
-  cursor: pointer;
-}
-
-.appointment-form__consent-check a {
-  color: #236cd2;
-  font-weight: 950;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.footer__primary-phone {
-  margin-top: 8px !important;
-  color: rgba(255, 255, 255, 0.88) !important;
-}
-
-.footer__primary-phone a {
-  color: #a9d1ff !important;
-  white-space: nowrap;
-}
-
-html[data-theme="dark"] .legal-page {
-  background:
-    radial-gradient(circle at 10% 10%, rgba(53, 117, 214, 0.14), transparent 34%),
-    linear-gradient(180deg, #071832 0%, #091f42 100%);
-}
-
-html[data-theme="dark"] .legal-document {
-  background: rgba(10, 30, 62, 0.94);
-  border-color: rgba(112, 153, 218, 0.22);
-  box-shadow: 0 26px 72px rgba(0, 0, 0, 0.30);
-}
-
-html[data-theme="dark"] .legal-document h2,
-html[data-theme="dark"] .legal-document h3 {
-  color: #f0f6ff;
-}
-
-html[data-theme="dark"] .legal-document p,
-html[data-theme="dark"] .legal-document li,
-html[data-theme="dark"] .legal-table td {
-  color: rgba(223, 235, 252, 0.84);
-}
-
-html[data-theme="dark"] .legal-document__meta span,
-html[data-theme="dark"] .legal-document__notice,
-html[data-theme="dark"] .legal-operator-card,
-html[data-theme="dark"] .appointment-form__consent-check {
-  background: rgba(31, 68, 119, 0.40);
-  border-color: rgba(129, 175, 240, 0.22);
-}
-
-html[data-theme="dark"] .legal-operator-card dd,
-html[data-theme="dark"] .legal-document__meta span,
-html[data-theme="dark"] .legal-document__notice,
-html[data-theme="dark"] .appointment-form__consent-check label {
-  color: #e5f0ff;
-}
-
-html[data-theme="dark"] .legal-operator-card dl div,
-html[data-theme="dark"] .legal-table,
-html[data-theme="dark"] .legal-table th {
-  background: rgba(19, 48, 91, 0.78);
-}
-
-html[data-theme="dark"] .legal-table th {
-  color: #eff6ff;
-}
-
-html[data-theme="dark"] .appointment-form__consent-check a,
-html[data-theme="dark"] .legal-document a {
-  color: #93c9ff;
+@media (max-width: 1080px) {
+  .doctors-page .doctors-grid,
+  .doctors-page .doctors-grid--wow,
+  .doctors-page .doctors-grid--restored {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 @media (max-width: 760px) {
-  .legal-document {
-    margin-top: 20px;
-    margin-bottom: 42px;
-    padding: 20px 16px;
-    border-radius: 26px;
+  /* Мобильная версия страницы "Врачи": показываем фото целиком, без cover-обрезки, растяжения и съезда. */
+  .doctors-page .doctor-card--wow {
+    overflow: hidden !important;
   }
 
-  .legal-document > section {
-    padding: 22px 0;
+  .doctors-page .doctor-card--wow .doctor-card__photo {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: clamp(270px, 76vw, 330px) !important;
+    min-height: clamp(270px, 76vw, 330px) !important;
+    padding: 12px !important;
+    background:
+      radial-gradient(circle at 78% 12%, rgba(80, 162, 255, 0.12), transparent 36%),
+      linear-gradient(180deg, #eef6ff, #f8fbff) !important;
   }
 
-  .legal-document__notice {
-    grid-template-columns: 1fr;
-    padding: 18px;
+  .doctors-page .doctor-card--wow .doctor-card__photo img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    transform: none !important;
+    border-radius: 22px !important;
   }
 
-  .legal-operator-grid {
-    grid-template-columns: 1fr;
+  .doctors-page .doctor-card--wow:hover .doctor-card__photo img {
+    transform: none !important;
   }
 
-  .legal-operator-card {
-    padding: 18px;
+  .doctors-page .doctor-card--wow .doctor-card__content {
+    padding: 22px !important;
   }
+}
 
-  .legal-table-wrap {
-    margin-right: -4px;
-    margin-left: -4px;
+@media (max-width: 420px) {
+  .doctors-page .doctor-card--wow .doctor-card__photo {
+    height: clamp(252px, 74vw, 300px) !important;
+    min-height: clamp(252px, 74vw, 300px) !important;
+    padding: 10px !important;
   }
+}
 
-  .appointment-form__consent-check {
-    padding: 11px;
+/* =========================================================
+   FINAL 2026-06-27 v2 - dark theme doctor photo fields
+   ========================================================= */
+
+/* В тёмной теме боковые поля вокруг фото врачей не должны оставаться светлыми. */
+html[data-theme="dark"] .doctors-page .doctor-card--wow .doctor-card__photo {
+  background:
+    radial-gradient(circle at 78% 12%, rgba(80, 162, 255, 0.10), transparent 36%),
+    linear-gradient(180deg, #0b2347 0%, #07172f 100%) !important;
+  border-color: rgba(190, 220, 255, 0.12) !important;
+}
+
+@media (max-width: 760px) {
+  html[data-theme="dark"] .doctors-page .doctor-card--wow .doctor-card__photo {
+    background:
+      radial-gradient(circle at 78% 12%, rgba(80, 162, 255, 0.10), transparent 36%),
+      linear-gradient(180deg, #0b2347 0%, #07172f 100%) !important;
   }
 }

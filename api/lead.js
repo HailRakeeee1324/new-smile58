@@ -118,10 +118,6 @@ function formatLeadText(lead) {
     `📍 <b>Район:</b> ${escapeHtml(lead.district)}`,
     `🌐 <b>Страница:</b> ${escapeHtml(lead.page || process.env.PUBLIC_SITE_URL || "new-smile58.ru")}`,
     `🕒 <b>Время:</b> ${escapeHtml(new Date().toLocaleString("ru-RU", { timeZone: "Europe/Moscow" }))}`,
-    `✅ <b>Согласие на обработку ПД:</b> ${lead.consentAccepted ? "получено" : "не получено"}`,
-    lead.consentVersion ? `📄 <b>Версия согласия:</b> ${escapeHtml(lead.consentVersion)}` : null,
-    lead.consentUrl ? `🔗 <b>Текст согласия:</b> ${escapeHtml(lead.consentUrl)}` : null,
-    lead.createdAt ? `🧾 <b>Время подтверждения в форме:</b> ${escapeHtml(lead.createdAt)}` : null,
     attributionLines.length ? "" : null,
     attributionLines.length ? "<b>UTM / источник:</b>" : null,
     ...attributionLines.map((line) => escapeHtml(line)),
@@ -178,19 +174,11 @@ export default async function handler(request, response) {
       createdAt: clean(body.createdAt) || new Date().toISOString(),
       attribution: body.attribution && typeof body.attribution === "object" ? body.attribution : {},
       smartToken: clean(body.smartToken || body["smart-token"]),
-      consentAccepted: body.consentAccepted === true,
-      consentVersion: clean(body.consentVersion),
-      consentUrl: clean(body.consentUrl),
-      privacyUrl: clean(body.privacyUrl),
     };
 
     const captchaOk = await validateSmartCaptcha(lead.smartToken, request);
     if (!captchaOk) {
       return json(response, 400, { ok: false, message: "Проверка капчи не пройдена. Попробуйте отправить заявку ещё раз." });
-    }
-
-    if (!lead.consentAccepted) {
-      return json(response, 400, { ok: false, message: "Необходимо согласие на обработку персональных данных" });
     }
 
     if (!lead.name || lead.name.length < 2) {
