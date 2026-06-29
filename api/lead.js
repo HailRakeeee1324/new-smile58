@@ -116,6 +116,7 @@ function formatLeadText(lead) {
     `👤 <b>Имя:</b> ${escapeHtml(lead.name)}`,
     `📞 <b>Телефон:</b> ${escapeHtml(lead.phone)}`,
     `📍 <b>Район:</b> ${escapeHtml(lead.district)}`,
+    `✅ <b>Согласие ПДн:</b> ${lead.consentAccepted ? "получено" : "не подтверждено"}`,
     `🌐 <b>Страница:</b> ${escapeHtml(lead.page || process.env.PUBLIC_SITE_URL || "new-smile58.ru")}`,
     `🕒 <b>Время:</b> ${escapeHtml(new Date().toLocaleString("ru-RU", { timeZone: "Europe/Moscow" }))}`,
     attributionLines.length ? "" : null,
@@ -171,6 +172,7 @@ export default async function handler(request, response) {
       // На всякий случай поддерживаем оба варианта: district и location.
       district: clean(body.district || body.location),
       page: clean(body.page),
+      consentAccepted: body.consentAccepted === true || body.consentAccepted === "true" || body.personalDataConsent === "on",
       createdAt: clean(body.createdAt) || new Date().toISOString(),
       attribution: body.attribution && typeof body.attribution === "object" ? body.attribution : {},
       smartToken: clean(body.smartToken || body["smart-token"]),
@@ -191,6 +193,10 @@ export default async function handler(request, response) {
 
     if (!ALLOWED_DISTRICTS.has(lead.district)) {
       return json(response, 400, { ok: false, message: "Выберите район: Спутник или ГПЗ" });
+    }
+
+    if (!lead.consentAccepted) {
+      return json(response, 400, { ok: false, message: "Подтвердите согласие на обработку персональных данных" });
     }
 
     await sendToTelegram(lead);

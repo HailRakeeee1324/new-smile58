@@ -23701,3 +23701,231 @@ html[data-theme="dark"] .doctors-page .doctor-card--wow .doctor-card__photo {
       linear-gradient(180deg, #0b2347 0%, #07172f 100%) !important;
   }
 }
+
+/* =========================================================
+   HOTFIX 2026-06-29 — compact mobile appointment modal
+   Fixes iPhone/Safari case where consent block pushed submit button below viewport.
+   ========================================================= */
+.appointment-form__consent-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 18px;
+  color: rgba(235, 246, 255, .82);
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.13);
+}
+
+.appointment-form__consent-check input[type="checkbox"] {
+  appearance: auto;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  min-height: 0;
+  margin: 2px 0 0;
+  padding: 0;
+  accent-color: #70d7ff;
+}
+
+.appointment-form__consent-check label {
+  display: block;
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  font-size: 13px;
+  line-height: 1.35;
+  font-weight: 750;
+}
+
+.appointment-form__consent-check a {
+  color: #9ed5ff;
+  font-weight: 900;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.appointment-form button:disabled {
+  cursor: not-allowed !important;
+  opacity: .54 !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 640px) {
+  body.modal-open {
+    overflow: hidden !important;
+  }
+
+  .appointment-modal {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    padding: max(8px, env(safe-area-inset-top)) 10px max(10px, env(safe-area-inset-bottom)) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .appointment-modal__card {
+    width: min(100%, 390px) !important;
+    max-width: 390px !important;
+    max-height: calc(100svh - 18px) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 14px !important;
+    border-radius: 22px !important;
+  }
+
+  .appointment-modal__card::after,
+  .appointment-modal__icon,
+  .appointment-modal__messengers,
+  .appointment-modal__card .section-label {
+    display: none !important;
+  }
+
+  .appointment-modal__close {
+    top: 10px !important;
+    right: 10px !important;
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 24px !important;
+  }
+
+  .appointment-modal__card h2 {
+    margin: 0 42px 4px 0 !important;
+    padding: 0 !important;
+    font-size: clamp(23px, 7vw, 30px) !important;
+    line-height: 1.03 !important;
+  }
+
+  .appointment-modal__phone {
+    margin: 0 0 6px !important;
+    font-size: 17px !important;
+    line-height: 1.05 !important;
+  }
+
+  .appointment-modal__card > p:not(.section-label) {
+    margin: 0 0 8px !important;
+    font-size: 12.5px !important;
+    line-height: 1.32 !important;
+  }
+
+  .appointment-form {
+    gap: 7px !important;
+    margin-top: 8px !important;
+    padding: 10px !important;
+    border-radius: 18px !important;
+  }
+
+  .appointment-form > label {
+    gap: 4px !important;
+    padding: 7px !important;
+    border-radius: 13px !important;
+  }
+
+  .appointment-form > label > span,
+  .appointment-form__districts legend {
+    font-size: 11px !important;
+    line-height: 1 !important;
+  }
+
+  .appointment-form input:not([type="checkbox"]) {
+    min-height: 36px !important;
+    height: 36px !important;
+    padding: 0 11px !important;
+    border-radius: 12px !important;
+    font-size: 16px !important;
+  }
+
+  .appointment-form__districts {
+    gap: 7px !important;
+  }
+
+  .appointment-form__districts legend {
+    margin-bottom: 0 !important;
+  }
+
+  .appointment-form__districts span {
+    min-height: 36px !important;
+    height: 36px !important;
+    border-radius: 12px !important;
+    font-size: 14px !important;
+  }
+
+  .appointment-form__consent,
+  .appointment-form__consent-check {
+    margin: 0 !important;
+    padding: 7px 8px !important;
+    border-radius: 12px !important;
+  }
+
+  .appointment-form__consent-check {
+    gap: 7px !important;
+    align-items: flex-start !important;
+  }
+
+  .appointment-form__consent-check input[type="checkbox"] {
+    width: 17px !important;
+    height: 17px !important;
+    min-height: 0 !important;
+    margin-top: 1px !important;
+  }
+
+  .appointment-form__consent-check label {
+    font-size: 10.5px !important;
+    line-height: 1.24 !important;
+    font-weight: 750 !important;
+  }
+
+  .appointment-form__consent-check a {
+    font-weight: 900 !important;
+    text-underline-offset: 2px !important;
+  }
+
+  .appointment-form button {
+    min-height: 40px !important;
+    height: 40px !important;
+    padding: 0 14px !important;
+    border-radius: 13px !important;
+    font-size: 14px !important;
+  }
+
+  .appointment-form__status {
+    min-height: 0 !important;
+    font-size: 10.5px !important;
+    line-height: 1.25 !important;
+  }
+}
+
+@media (max-width: 380px), (max-height: 760px) {
+  .appointment-modal__card {
+    padding: 12px !important;
+  }
+
+  .appointment-modal__card h2 {
+    font-size: 22px !important;
+  }
+
+  .appointment-modal__phone {
+    font-size: 16px !important;
+  }
+
+  .appointment-form {
+    gap: 6px !important;
+    padding: 8px !important;
+  }
+
+  .appointment-form > label {
+    padding: 6px !important;
+  }
+
+  .appointment-form input:not([type="checkbox"]),
+  .appointment-form__districts span,
+  .appointment-form button {
+    min-height: 34px !important;
+    height: 34px !important;
+  }
+}

@@ -1435,7 +1435,7 @@ const doctors = [
     name: "Амирджанян Лилит Лерниковна",
     speciality: "Стоматолог-терапевт",
     branch: "Филиал на Антонова",
-    image: "/team/amirdzhanyan-lilit.webp",
+    image: "/team/amirdzhanyan-lilit-2026.webp",
     className: "doctor-card--amirdzhanyan",
     tags: ["Терапия", "Лечение кариеса", "Стаж 7 лет"],
     note: "Внимательно ведёт терапевтический приём и помогает сохранить естественные зубы.",
@@ -3458,6 +3458,7 @@ function AppointmentModal({ isOpen, onClose }) {
   const [submitMessage, setSubmitMessage] = useState("");
   const [captchaOpen, setCaptchaOpen] = useState(false);
   const [pendingPayload, setPendingPayload] = useState(null);
+  const [consentAccepted, setConsentAccepted] = useState(false);
 
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -3479,6 +3480,7 @@ function AppointmentModal({ isOpen, onClose }) {
     setSubmitMessage("");
     setCaptchaOpen(false);
     setPendingPayload(null);
+    setConsentAccepted(false);
     document.body.classList.add("modal-open");
     window.addEventListener("keydown", handleKeyDown);
 
@@ -3550,6 +3552,8 @@ function AppointmentModal({ isOpen, onClose }) {
       name: String(formData.get("name") || "").trim(),
       phone: String(formData.get("phone") || "").trim(),
       district: String(formData.get("district") || "").trim(),
+      consentAccepted: formData.get("personalDataConsent") === "on",
+      consentText: "Согласие на обработку персональных данных и ознакомление с политикой",
       page: typeof window !== "undefined" ? window.location.href : "",
       attribution: getAttribution(),
       createdAt: new Date().toISOString(),
@@ -3566,6 +3570,12 @@ function AppointmentModal({ isOpen, onClose }) {
     if (!payload.name || !payload.phone || !payload.district) {
       setSubmitState("error");
       setSubmitMessage("Пожалуйста, заполните имя, телефон и выберите район.");
+      return;
+    }
+
+    if (!payload.consentAccepted) {
+      setSubmitState("error");
+      setSubmitMessage("Поставьте галочку согласия, чтобы отправить заявку.");
       return;
     }
 
@@ -3627,10 +3637,20 @@ function AppointmentModal({ isOpen, onClose }) {
             </label>
           </fieldset>
 
-          <p className="appointment-form__consent">
-            Нажимая кнопку, вы соглашаетесь на <a href={routePaths.consent} data-route-link>обработку персональных данных</a>.
-          </p>
-          <button type="submit" disabled={submitState === "sending" || submitState === "captcha"}>
+          <div className="appointment-form__consent-check">
+            <input
+              id="personal-data-consent"
+              name="personalDataConsent"
+              type="checkbox"
+              checked={consentAccepted}
+              onChange={(event) => setConsentAccepted(event.target.checked)}
+              required
+            />
+            <label htmlFor="personal-data-consent">
+              Я согласен(на) на <a href={routePaths.consent} target="_blank" rel="noreferrer">обработку персональных данных</a> и ознакомлен(а) с <a href={routePaths.privacy} data-route-link>политикой</a>.
+            </label>
+          </div>
+          <button type="submit" disabled={!consentAccepted || submitState === "sending" || submitState === "captcha"}>
             {submitState === "sending" ? "Отправляем..." : submitState === "captcha" ? "Ждём проверку..." : "Отправить заявку"}
           </button>
           <small className={`appointment-form__status appointment-form__status--${submitState}`} aria-live="polite">
