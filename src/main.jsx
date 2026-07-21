@@ -1129,6 +1129,97 @@ const homeAdvantages = [
   { icon: <ShieldCheck />, title: "Лицензия и безопасность", text: "Работаем официально, соблюдаем медицинские требования и аккуратный протокол приёма." },
 ];
 
+
+const homeTrustFacts = [
+  { icon: <Smile />, value: "22+", label: "лет бережной работы", text: "Спокойный клинический подход и стабильная команда." },
+  { icon: <MapPin />, value: "3", label: "филиала в Пензе", text: "Спутник и ГПЗ — удобно выбрать стоматологию рядом с домом." },
+  { icon: <BadgeCheck />, value: "7", label: "основных направлений", text: "От лечения кариеса и гигиены до имплантации и протезирования." },
+  { icon: <ShieldCheck />, value: "100%", label: "понятный маршрут", text: "Объясняем этапы, сроки и ориентиры по стоимости до начала лечения." },
+];
+
+const homeMainDirections = [
+  {
+    icon: <HeartPulse />,
+    title: "Лечение кариеса",
+    label: "Терапевтическая стоматология",
+    text: "Бережно устраняем кариес, восстанавливаем форму зуба и объясняем каждое действие простым языком.",
+    bullets: ["Эстетичная реставрация", "Лечение без лишней спешки", "Понятные рекомендации после приёма"],
+    price: "от 3 000 ₽",
+    image: "/services/treatment.webp?v=home-direction-1",
+    route: "lechenieKariesa",
+    tone: "blue",
+  },
+  {
+    icon: <BadgeCheck />,
+    title: "Имплантация зубов",
+    label: "Восстановление утраченных зубов",
+    text: "Подбираем понятный план имплантации, обсуждаем сроки и сопровождаем пациента на каждом этапе.",
+    bullets: ["План лечения до старта", "Современные системы имплантов", "Фокус на комфорте и прогнозируемом результате"],
+    price: "от 26 000 ₽",
+    image: "/services/implantation.webp?v=home-direction-2",
+    route: "implantaciya",
+    tone: "violet",
+  },
+  {
+    icon: <Gem />,
+    title: "Протезирование",
+    label: "Ортопедическая стоматология",
+    text: "Помогаем вернуть жевательную функцию и эстетику улыбки с продуманным ортопедическим решением.",
+    bullets: ["Коронки и ортопедические конструкции", "Акцент на эстетику", "Подбор решения под задачу пациента"],
+    price: "от 12 000 ₽",
+    image: "/services/prosthetics.webp?v=home-direction-3",
+    route: "protezirovanie",
+    tone: "teal",
+  },
+  {
+    icon: <ShieldCheck />,
+    title: "Профессиональная гигиена",
+    label: "Профилактика и уход",
+    text: "Снимаем налёт и зубные отложения, полируем эмаль и даём понятные рекомендации по домашнему уходу.",
+    bullets: ["AirFlow и ультразвук", "Свежесть и гладкость эмали", "Регулярная профилактика для всей семьи"],
+    price: "от 3 000 ₽",
+    image: "/services/cleaning.webp?v=home-direction-4",
+    route: "gigiena",
+    tone: "gold",
+  },
+];
+
+const homeJourneySteps = [
+  { number: "01", icon: <Phone />, title: "Запись без лишних шагов", text: "Вы оставляете заявку или звоните — администратор помогает выбрать филиал, врача и удобное время." },
+  { number: "02", icon: <ClipboardList />, title: "Осмотр и понятный план", text: "Врач проводит диагностику, объясняет ситуацию простыми словами и заранее озвучивает варианты лечения." },
+  { number: "03", icon: <Smile />, title: "Лечение с сопровождением", text: "После приёма вы понимаете, что делать дальше: получаете рекомендации, этапы и уверенность в результате." },
+];
+
+const homeBeforeAfterCases = [
+  {
+    title: "Лечение кариеса",
+    category: "Терапия",
+    image: "/before-after/home-result-karies-v3.webp",
+    text: "Клинический пример восстановления зуба после кариеса: аккуратная работа, естественная форма и комфортное ощущение после лечения.",
+    route: "beforeAfter",
+  },
+  {
+    title: "Эстетическая коррекция",
+    category: "Эстетика улыбки",
+    image: "/before-after/home-result-esthetic-v3.webp",
+    text: "До/после, где важен не просто результат, а естественный вид улыбки — без ощущения “сделанных” зубов.",
+    route: "beforeAfter",
+  },
+  {
+    title: "Восстановление жевательного зуба",
+    category: "Реставрация",
+    image: "/before-after/home-result-restoration-v3.webp",
+    text: "Показываем, как может выглядеть результат после лечения и реставрации, когда зуб снова работает и выглядит естественно.",
+    route: "beforeAfter",
+  },
+];
+
+const homeBranchShowcase = [
+  { id: "svetlaya", area: "Спутник", name: "Светлая 11", phone: BRANCH_PHONES.svetlaya, href: `${routePaths.branches}?branch=svetlaya`, phoneHref: BRANCH_PHONE_LINKS.svetlaya, image: "/branches/svetlaya.webp" },
+  { id: "raduzhnaya", area: "Спутник", name: "Радужная 10", phone: BRANCH_PHONES.raduzhnaya, href: `${routePaths.branches}?branch=raduzhnaya`, phoneHref: BRANCH_PHONE_LINKS.raduzhnaya, image: "/branches/raduzhnaya.webp" },
+  { id: "antonova", area: "ГПЗ", name: "Антонова 76", phone: BRANCH_PHONES.antonova, href: `${routePaths.branches}?branch=antonova`, phoneHref: BRANCH_PHONE_LINKS.antonova, image: "/branches/antonova.webp" },
+];
+
 const services = [
   {
     icon: <HeartPulse />,
@@ -1589,7 +1680,13 @@ function getBranchTargetFromHash() {
 function App() {
   const [route, setRoute] = useState(getRouteFromLocation());
   const THEME_STORAGE_KEY = "site-theme-v5";
-  const [theme, setTheme] = useState(() => localStorage.getItem(THEME_STORAGE_KEY) || "light");
+  const [theme, setTheme] = useState(() => {
+    try {
+      return localStorage.getItem(THEME_STORAGE_KEY) || "light";
+    } catch (error) {
+      return "light";
+    }
+  });
   const [themeHintVisible, setThemeHintVisible] = useState(false);
   const [appointmentOpen, setAppointmentOpen] = useState(false);
 
@@ -1673,7 +1770,11 @@ function App() {
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
-    localStorage.setItem(THEME_STORAGE_KEY, theme);
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, theme);
+    } catch (error) {
+      // Theme still works in restricted preview/private contexts.
+    }
   }, [theme]);
 
   useEffect(() => {
@@ -1930,15 +2031,66 @@ function LocalSeoCluster({ pageLabel = "стоматология", variant = "se
 }
 
 function HomePage() {
-  const homeOfferCards = homeCards.filter((card) => card.offer);
   const [promoIndex, setPromoIndex] = useState(0);
+  const [promoPaused, setPromoPaused] = useState(false);
+  const [resultIndex, setResultIndex] = useState(0);
   const activePromo = homeHeroPromotions[promoIndex];
+  const activeResult = homeBeforeAfterCases[resultIndex];
+  const promoTouchStartX = useRef(null);
 
-  const goPrevPromo = () => setPromoIndex((current) => (current === 0 ? homeHeroPromotions.length - 1 : current - 1));
-  const goNextPromo = () => setPromoIndex((current) => (current === homeHeroPromotions.length - 1 ? 0 : current + 1));
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+    homeHeroPromotions.forEach((item) => {
+      const image = new Image();
+      image.src = item.banner;
+    });
+    return undefined;
+  }, []);
+
+  useEffect(() => {
+    if (
+      promoPaused ||
+      typeof window === "undefined" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) return undefined;
+
+    const timer = window.setInterval(() => {
+      setPromoIndex((current) => (current + 1) % homeHeroPromotions.length);
+    }, 8200);
+
+    return () => window.clearInterval(timer);
+  }, [promoPaused]);
+
+  const changePromo = (direction) => {
+    setPromoIndex((current) => {
+      if (direction === "next") return (current + 1) % homeHeroPromotions.length;
+      return current === 0 ? homeHeroPromotions.length - 1 : current - 1;
+    });
+  };
+
+  const changeResult = (direction) => {
+    setResultIndex((current) => {
+      if (direction === "next") return (current + 1) % homeBeforeAfterCases.length;
+      return current === 0 ? homeBeforeAfterCases.length - 1 : current - 1;
+    });
+  };
+
+  const handlePromoTouchStart = (event) => {
+    promoTouchStartX.current = event.touches?.[0]?.clientX ?? null;
+  };
+
+  const handlePromoTouchEnd = (event) => {
+    if (promoTouchStartX.current == null) return;
+    const endX = event.changedTouches?.[0]?.clientX;
+    if (typeof endX !== "number") return;
+    const delta = endX - promoTouchStartX.current;
+    promoTouchStartX.current = null;
+    if (Math.abs(delta) < 46) return;
+    changePromo(delta < 0 ? "next" : "prev");
+  };
 
   return (
-    <main className="home-page">
+    <main className="home-page home-final">
       <section className="hero hero--wow">
         <div className="hero__overlay" />
         <div className="container hero__content">
@@ -1979,132 +2131,294 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="features container" aria-labelledby="home-offers-title">
-        <div className="home-promo-carousel reveal-on-scroll" aria-labelledby="home-promo-title">
-          <button type="button" className="home-promo-carousel__control home-promo-carousel__control--prev" aria-label="Предыдущее спецпредложение" onClick={goPrevPromo}>
-            <ChevronLeft size={22} />
-          </button>
-
-          <article className="feature-card feature-card--accent feature-card--hero feature-card--implant-mini feature-card--promo-carousel" key={activePromo.title}>
-            <div className="feature-card__promo-head">
-              <span className="feature-card__promo-eyebrow">{activePromo.eyebrow}</span>
-            </div>
-
-            <figure className="feature-card__banner feature-card__banner--promo">
-              <img src={activePromo.banner} alt={activePromo.bannerAlt} loading="lazy" decoding="async" />
-            </figure>
-
-            <div className="feature-card__promo-body">
-              <h2 id="home-promo-title">{activePromo.title}</h2>
-              <p className="feature-card__summary feature-card__summary--promo">{activePromo.text}</p>
-              <div className="feature-card__promo-actions">
-                <a className="blue-link" href={routeHref(activePromo.route)} data-route-link>Подробнее</a>
-                <a className="home-promo-cta" href={PHONE_LINK} data-appointment>Записаться</a>
+      <section className="container home-final__trust reveal-on-scroll" aria-label="Преимущества стоматологии Новая улыбка">
+        {homeTrustFacts.map((item, index) => (
+          <article className="home-trust-item" key={item.label} style={{ "--reveal-delay": `${index * 70}ms` }}>
+            <div className="home-trust-item__icon">{item.icon}</div>
+            <div className="home-trust-item__copy">
+              <div className="home-trust-item__headline">
+                <strong>{item.value}</strong>
+                <span>{item.label}</span>
               </div>
+              <p>{item.text}</p>
             </div>
           </article>
+        ))}
+      </section>
 
-          <button type="button" className="home-promo-carousel__control home-promo-carousel__control--next" aria-label="Следующее спецпредложение" onClick={goNextPromo}>
-            <ChevronRight size={22} />
-          </button>
+      <section className="home-final__section home-final__section--promo" aria-labelledby="home-promo-heading">
+        <div className="container home-final__promo-grid">
+          <article
+            className="home-promo-final home-promo-final--showcase reveal-on-scroll"
+            onTouchStart={handlePromoTouchStart}
+            onTouchEnd={handlePromoTouchEnd}
+            onMouseEnter={() => setPromoPaused(true)}
+            onMouseLeave={() => setPromoPaused(false)}
+            onFocus={() => setPromoPaused(true)}
+            onBlur={() => setPromoPaused(false)}
+            aria-label={`Спецпредложение: ${activePromo.title}`}
+          >
+            <div className="home-promo-final__content">
+              <span>{activePromo.eyebrow}</span>
+              <h2 id="home-promo-heading">
+                {activePromo.route === "implantaciya" ? (
+                  <>
+                    Имплантация
+                    <br />
+                    зубов в Пензе
+                  </>
+                ) : activePromo.route === "lechenieKariesa" ? (
+                  <>
+                    Лечение кариеса
+                    <br />
+                    в Пензе
+                  </>
+                ) : (
+                  activePromo.title
+                )}
+              </h2>
+              <p>{activePromo.text}</p>
+              <div className="home-promo-final__chips">
+                {activePromo.chips.map((chip) => (
+                  <em key={chip}>{chip}</em>
+                ))}
+              </div>
+              <div className="home-promo-final__actions">
+                <a className="blue-link" href={routeHref(activePromo.route)} data-route-link>Подробнее</a>
+                <a className="home-final__secondary-button" href={PHONE_LINK} data-appointment>Записаться</a>
+              </div>
+            </div>
 
-          <div className="home-promo-carousel__dots" aria-label="Слайды спецпредложений">
-            {homeHeroPromotions.map((item, index) => (
-              <button
-                type="button"
-                key={item.title}
-                className={index === promoIndex ? "active" : ""}
-                onClick={() => setPromoIndex(index)}
-                aria-label={`Показать предложение: ${item.title}`}
+            <a
+              className="home-promo-final__image"
+              href={routeHref(activePromo.route)}
+              data-route-link
+              aria-label={`Подробнее: ${activePromo.title}`}
+            >
+              <img
+                key={activePromo.banner}
+                src={activePromo.banner}
+                alt={activePromo.bannerAlt}
+                loading="eager"
+                decoding="async"
               />
+            </a>
+
+            <div className="home-promo-final__nav" aria-label="Навигация по спецпредложениям">
+              <button type="button" onClick={() => changePromo("prev")} aria-label="Предыдущее предложение"><ChevronLeft size={20} /></button>
+              <span>{String(promoIndex + 1).padStart(2, "0")} / {String(homeHeroPromotions.length).padStart(2, "0")}</span>
+              <button type="button" onClick={() => changePromo("next")} aria-label="Следующее предложение"><ChevronRight size={20} /></button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section className="home-final__section home-final__section--services" aria-labelledby="home-services-heading">
+        <div className="container">
+          <div className="home-final__heading home-final__heading--light home-final__heading--services reveal-on-scroll">
+            <span className="home-final__eyebrow">Основные направления</span>
+            <h2 id="home-services-heading">Всё нужное для здоровья и восстановления улыбки</h2>
+            <p>Выберите направление — на странице услуги будут этапы, ориентиры по стоимости и ответы на частые вопросы.</p>
+          </div>
+
+          <div className="home-services-bento">
+            {services.slice(0, 6).map((service, index) => (
+              <a
+                className={`home-service-tile home-service-tile--${index + 1} reveal-on-scroll`}
+                href={service.detailPath}
+                data-route-link
+                key={service.title}
+                style={{ "--reveal-delay": `${index * 65}ms` }}
+              >
+                <img src={service.image} alt={service.title} loading="lazy" decoding="async" />
+                <span className="home-service-tile__shade" />
+                <div className="home-service-tile__content">
+                  <em>{service.subtitle}</em>
+                  <h3>{service.title}</h3>
+                  <p>{service.text}</p>
+                  <span className="home-service-tile__link">Подробнее <ChevronRight size={17} /></span>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          <div className="home-final__center-action reveal-on-scroll">
+            <a className="home-final__secondary-button home-final__secondary-button--light" href={routeHref("services")} data-route-link>Все услуги</a>
+          </div>
+        </div>
+      </section>
+
+      <section className="home-final__section home-final__section--director" aria-labelledby="home-director-heading">
+        <div className="container home-director-final home-director-final--refined">
+          <div className="home-director-final__story reveal-on-scroll reveal--left">
+            <span className="home-final__eyebrow">О клинике</span>
+            <h2 id="home-director-heading">Внимание к человеку — принцип нашей работы</h2>
+            <p className="home-director-final__lead">Мы строим лечение вокруг конкретной ситуации пациента: спокойно объясняем, не торопим с решением и заранее обозначаем понятный маршрут.</p>
+
+            <blockquote>«С 2004 года мы стараемся дарить пациентам здоровые и красивые улыбки. Работаем на совесть — поэтому нам доверяют».</blockquote>
+
+            <div className="home-director-final__proofs">
+              {homeAdvantages.map((advantage, index) => (
+                <article className="reveal-on-scroll" key={advantage.title} style={{ "--reveal-delay": `${index * 70}ms` }}>
+                  <div>{advantage.icon}</div>
+                  <strong>{advantage.title}</strong>
+                  <p>{advantage.text}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div className="home-director-final__visual reveal-on-scroll reveal--right">
+            <figure className="home-director-final__portrait home-director-final__media-card">
+              <img src="/director-kaftaev-renat.webp" alt="Кафтаев Ренат Идрисович, руководитель стоматологии Новая улыбка" loading="lazy" decoding="async" />
+              <figcaption className="home-director-final__media-caption">
+                <span>Руководитель</span>
+                <strong>Кафтаев Ренат Идрисович</strong>
+              </figcaption>
+            </figure>
+
+            <figure className="home-director-final__clinic home-director-final__media-card">
+              <img src="/home-advantages-clinic-v3.webp" alt="Современный кабинет стоматологии Новая улыбка" loading="lazy" decoding="async" />
+              <figcaption className="home-director-final__media-caption">
+                <span>Пространство клиники</span>
+                <strong>Современные кабинеты и спокойная атмосфера</strong>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section className="home-final__section home-final__section--journey" aria-labelledby="home-journey-heading">
+        <div className="container home-journey-final">
+          <div className="home-journey-final__visual reveal-on-scroll reveal--left">
+            <img src="/home-journey-patient.webp" alt="Консультация пациента в стоматологии Новая улыбка" loading="lazy" decoding="async" />
+            <div className="home-journey-final__visual-copy">
+              <span>Как проходит обращение</span>
+              <strong>От первого сообщения до понятного результата</strong>
+            </div>
+          </div>
+
+          <div className="home-journey-final__content">
+            <div className="home-final__heading home-final__heading--light reveal-on-scroll">
+              <span className="home-final__eyebrow">Три понятных шага</span>
+              <h2 id="home-journey-heading">Пациент понимает, что происходит на каждом этапе</h2>
+              <p>Без давления и неожиданностей: сначала знакомимся с ситуацией, затем обсуждаем план и только после этого начинаем лечение.</p>
+            </div>
+
+            <div className="home-journey-final__steps">
+              {homeJourneySteps.map((step, index) => (
+                <article className="home-journey-step reveal-on-scroll" key={step.title} style={{ "--reveal-delay": `${index * 90}ms` }}>
+                  <div className="home-journey-step__number">{step.number}</div>
+                  <div className="home-journey-step__icon">{step.icon}</div>
+                  <h3>{step.title}</h3>
+                  <p>{step.text}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="home-final__actions reveal-on-scroll">
+              <a className="blue-link" href={PHONE_LINK} data-appointment>Начать с консультации</a>
+              <a className="home-final__text-link" href={routeHref("contacts")} data-route-link>Контакты и филиалы <ChevronRight size={17} /></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="home-final__section home-final__section--results" aria-labelledby="home-results-heading">
+        <div className="container home-results-final">
+          <div className="home-results-final__copy reveal-on-scroll reveal--left">
+            <span className="home-final__eyebrow">До / После</span>
+            <h2 id="home-results-heading" className="home-results-final__title">
+              <span>Важен не только процесс.</span>
+              <span>Важен результат, с которым хочется улыбаться.</span>
+            </h2>
+            <p>{activeResult.text}</p>
+            <div className="home-results-final__meta">
+              <span>{activeResult.category}</span>
+              <strong>{activeResult.title}</strong>
+            </div>
+            <div className="home-results-final__controls">
+              <button type="button" onClick={() => changeResult("prev")} aria-label="Предыдущий результат"><ChevronLeft size={20} /></button>
+              <span>{String(resultIndex + 1).padStart(2, "0")} / {String(homeBeforeAfterCases.length).padStart(2, "0")}</span>
+              <button type="button" onClick={() => changeResult("next")} aria-label="Следующий результат"><ChevronRight size={20} /></button>
+            </div>
+            <a className="home-final__secondary-button" href={routeHref("beforeAfter")} data-route-link>Все результаты</a>
+          </div>
+
+          <div className="home-results-final__gallery reveal-on-scroll reveal--right">
+            <figure className="home-results-final__main-image">
+              <img src={activeResult.image} alt={activeResult.title} loading="lazy" decoding="async" />
+            </figure>
+            <div className="home-results-final__thumbs">
+              {homeBeforeAfterCases.map((item, index) => (
+                <button type="button" className={index === resultIndex ? "is-active" : ""} key={item.title} onClick={() => setResultIndex(index)} aria-label={`Показать результат: ${item.title}`}>
+                  <img src={item.image} alt="" loading="lazy" decoding="async" />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="home-final__section home-final__section--branches" aria-labelledby="home-branches-heading">
+        <div className="container">
+          <div className="home-final__heading reveal-on-scroll">
+            <span className="home-final__eyebrow">Рядом с домом</span>
+            <h2 id="home-branches-heading">Выберите удобный филиал</h2>
+            <p>Два филиала в Спутнике и один на ГПЗ. Позвоните напрямую или откройте страницу филиала.</p>
+          </div>
+
+          <div className="home-branches-final">
+            {homeBranchShowcase.map((branch, index) => (
+              <a
+                className={`home-branch-final home-branch-final--${branch.id} reveal-on-scroll`}
+                href={branch.href}
+                data-route-link
+                key={branch.id}
+                style={{ "--reveal-delay": `${index * 90}ms` }}
+                aria-label={`Открыть страницу филиала ${branch.name}`}
+              >
+                <figure>
+                  <img src={branch.image} alt={`Филиал стоматологии на ${branch.name}`} loading="lazy" decoding="async" />
+                  <span className="home-branch-final__glow" />
+                </figure>
+                <div>
+                  <span>{branch.area}</span>
+                  <h3>{branch.name}</h3>
+                  <strong>{branch.phone}</strong>
+                  <span className="home-branch-final__details">Открыть филиал <ChevronRight size={16} /></span>
+                </div>
+              </a>
             ))}
           </div>
         </div>
-
-        <div className="home-offers__head reveal-on-scroll">
-          <p className="section-label">Популярные услуги</p>
-          <h2 id="home-offers-title">Два понятных направления для эстетики и профилактики</h2>
-        </div>
-
-        <div className="home-offers__grid">
-          {homeOfferCards.map((card) => {
-            const CardTag = card.route ? "a" : "article";
-            const cardProps = card.route ? { href: routeHref(card.route), "data-route-link": true } : {};
-            return (
-              <CardTag className={`feature-card feature-card--secondary feature-card--service-offer reveal-on-scroll ${card.route ? "feature-card--clickable" : ""}`} key={card.title} {...cardProps}>
-                <div className="feature-card__service-head">
-                  <div className="feature-card__icon">{card.icon}</div>
-                  {card.label ? <span>{card.label}</span> : null}
-                </div>
-                <h3>{card.title}</h3>
-                <p>{card.text}</p>
-                {card.items ? (
-                  <ul className="feature-card__offer-list">
-                    {card.items.map((item) => <li key={item}>{item}</li>)}
-                  </ul>
-                ) : null}
-                {card.price ? (
-                  <div className="feature-card__offer-footer">
-                    <strong>{card.price}</strong>
-                    <em>Подробнее</em>
-                  </div>
-                ) : null}
-              </CardTag>
-            );
-          })}
-        </div>
       </section>
 
-      <section className="container home-advantages home-advantages--director reveal-on-scroll" aria-labelledby="home-director-title">
-        <div className="home-advantages__hero home-advantages__hero--director">
-          <div className="director-profile-card">
-            <figure className="home-advantages__media home-advantages__media--director">
-              <img src="/director-kaftaev-renat.webp" alt="Кафтаев Ренат Идрисович, генеральный директор стоматологии Новая улыбка" loading="lazy" decoding="async" />
-            </figure>
-
-            <div className="director-profile-card__caption">
-              <h2 id="home-director-title">Кафтаев Ренат Идрисович</h2>
-              <p className="director-quote__label">Генеральный директор</p>
-            </div>
-          </div>
-
-          <div className="director-quote director-quote--panel">
-            <blockquote>
-             <p>«С 2004 года мы стараемся <span className="quote-nowrap">дарить нашим</span> пациентам здоровые и красивые улыбки.</p>
-             <p>Работаем на совесть - поэтому нам доверяют.</p>
-             <p>До встречи в филиалах нашей стоматологии!»</p>
-            </blockquote>
-          </div>
+      <section className="container home-final-cta reveal-on-scroll" aria-labelledby="home-final-cta-heading">
+        <div>
+          <span className="home-final__eyebrow">Запись на приём</span>
+          <h2 id="home-final-cta-heading">Не уверены, с чего начать?</h2>
+          <p>Оставьте заявку — администратор уточнит задачу, подберёт филиал и предложит удобное время.</p>
         </div>
-
-        <div className="home-advantages__grid">
-          {homeAdvantages.map((advantage) => (
-            <article className="home-advantage-card" key={advantage.title}>
-              <div>{advantage.icon}</div>
-              <h3>{advantage.title}</h3>
-              <p>{advantage.text}</p>
-            </article>
-          ))}
+        <div>
+          <a className="blue-link" href={PHONE_LINK} data-appointment>Записаться</a>
+          <a className="home-final__secondary-button" href={PHONE_LINK}>Позвонить</a>
         </div>
       </section>
+    </main>
+  );
+}
 
-      <PopularHomeSections />
-
-      <section className="container wow-offers" aria-label="Специальные предложения">
-        <div className="wow-section-head">
-          <h2>Спецпредложения для пациентов</h2>
+function NotFoundPage() {
+  return (
+    <main className="page not-found-page">
+      <section className="container page-cta">
+        <div>
+          <p className="section-label">404</p>
+          <h1>Страница не найдена</h1>
+          <p>Возможно, адрес изменился. Вернитесь на главную страницу или выберите нужный раздел в меню.</p>
         </div>
-
-        <div className="wow-offers__grid">
-          {wowOffers.map((offer) => (
-            <article className="wow-offer reveal-on-scroll" key={offer.title}>
-              <span>{offer.eyebrow}</span>
-              <h3>{offer.title}</h3>
-              <p>{offer.text}</p>
-              {offer.price ? <strong>{offer.price}</strong> : null}
-            </article>
-          ))}
-        </div>
+        <a className="blue-link" href={routePaths.home} data-route-link>На главную</a>
       </section>
     </main>
   );
