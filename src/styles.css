@@ -30604,3 +30604,278 @@ html[data-theme="dark"] .home-final__section--services::before {
     translate: none !important;
   }
 }
+
+/* =========================================================
+   SITE STABILITY & MOTION V15
+   Unified motion language, reduced layout shifts, smoother UI.
+   ========================================================= */
+
+:root {
+  --motion-fast: 180ms;
+  --motion-base: 360ms;
+  --motion-slow: 720ms;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-ease-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app,
+.page,
+.home-page {
+  min-height: 100vh;
+}
+
+/* A single calm entrance for route changes. */
+.page,
+.home-page {
+  animation: sitePageEnter 520ms var(--motion-ease) both;
+}
+
+@keyframes sitePageEnter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Scroll reveals: no expensive blur and no horizontal jumps. */
+.reveal-on-scroll,
+.home-final .reveal-on-scroll,
+.home-final .reveal-on-scroll.reveal--left,
+.home-final .reveal-on-scroll.reveal--right {
+  opacity: 0;
+  filter: none !important;
+  transform: translate3d(0, 18px, 0) scale(0.995) !important;
+  transition:
+    opacity var(--motion-slow) var(--motion-ease),
+    transform var(--motion-slow) var(--motion-ease) !important;
+  transition-delay: var(--reveal-delay, 0ms) !important;
+  will-change: auto !important;
+}
+
+.reveal-on-scroll.is-visible,
+.home-final .reveal-on-scroll.is-visible,
+.home-final .reveal-on-scroll.reveal--left.is-visible,
+.home-final .reveal-on-scroll.reveal--right.is-visible {
+  opacity: 1;
+  filter: none !important;
+  transform: translate3d(0, 0, 0) scale(1) !important;
+}
+
+/* One consistent interaction rhythm. */
+.header__button,
+.hero__button,
+.blue-link,
+.home-final__secondary-button,
+.home-final__text-link,
+.home-service-tile,
+.home-branch-final,
+.home-director-final__media-card,
+.home-journey-step,
+.home-results-final__thumbs button,
+.doctor-card,
+.service-card,
+.blog-card,
+.contact-panel,
+.price-accordion-card,
+button,
+a {
+  transition-timing-function: var(--motion-ease-soft) !important;
+}
+
+.home-service-tile,
+.home-branch-final,
+.home-director-final__media-card,
+.home-journey-step,
+.home-results-final__thumbs button,
+.doctor-card,
+.service-card,
+.blog-card,
+.contact-panel,
+.price-accordion-card {
+  transition-duration: var(--motion-base) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .header__button:hover,
+  .hero__button:hover,
+  .blue-link:hover,
+  .home-final__secondary-button:hover,
+  .home-final__text-link:hover {
+    transform: translateY(-1px) !important;
+  }
+
+  .home-service-tile:hover,
+  .home-branch-final:hover,
+  .home-director-final__media-card:hover,
+  .home-journey-step:hover,
+  .doctor-card:hover,
+  .service-card:hover,
+  .blog-card:hover,
+  .contact-panel:hover,
+  .price-accordion-card:hover {
+    transform: translateY(-3px) !important;
+  }
+}
+
+/* Stable carousel dimensions prevent the page from jumping between slides. */
+@media (min-width: 901px) {
+  .home-promo-final--showcase {
+    min-height: 590px;
+  }
+
+  .home-promo-final--showcase .home-promo-final__content {
+    min-height: 450px;
+    justify-content: center;
+  }
+
+  .home-results-final__copy {
+    min-height: 470px;
+    justify-content: center;
+  }
+}
+
+.home-promo-final--showcase .home-promo-final__image img {
+  animation: stablePromoFade 620ms var(--motion-ease) both !important;
+  backface-visibility: hidden;
+}
+
+@keyframes stablePromoFade {
+  from {
+    opacity: 0;
+    transform: scale(0.992);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.home-results-final__main-image img {
+  animation: stableResultFade 520ms var(--motion-ease) both;
+  backface-visibility: hidden;
+}
+
+@keyframes stableResultFade {
+  from { opacity: 0.2; }
+  to { opacity: 1; }
+}
+
+/* Doctor names remain aligned even when a full name wraps to two lines. */
+.doctor-card__content h2 {
+  min-height: 2.2em;
+  text-wrap: balance;
+}
+
+/* Infinite effects are slowed down and no longer move whole cards. */
+.feature-card--accent,
+.feature-card--accent::before,
+.promo-implant-card::before,
+.promo-pulse-cta,
+.home-final__trust::after {
+  animation-duration: 8s !important;
+  animation-timing-function: ease-in-out !important;
+}
+
+.feature-card--accent {
+  transform: none !important;
+}
+
+/* Media boxes reserve their space before images finish loading. */
+.home-director-final__portrait img,
+.home-director-final__clinic img,
+.home-journey-final__visual img,
+.home-results-final__main-image img,
+.doctor-card__photo img,
+.service-card img,
+.blog-card img {
+  backface-visibility: hidden;
+}
+
+/* Modal opening no longer shifts the desktop layout. */
+body.modal-open {
+  overscroll-behavior: contain;
+}
+
+@media (max-width: 920px) {
+  /* Mobile should feel calm and responsive, not animated in every direction. */
+  .page,
+  .home-page {
+    animation-duration: 380ms;
+  }
+
+  .reveal-on-scroll,
+  .home-final .reveal-on-scroll,
+  .home-final .reveal-on-scroll.reveal--left,
+  .home-final .reveal-on-scroll.reveal--right {
+    transform: translate3d(0, 10px, 0) scale(0.998) !important;
+    transition-duration: 560ms !important;
+  }
+
+  .feature-card--accent,
+  .feature-card--accent::before,
+  .promo-implant-card::before,
+  .promo-pulse-cta,
+  .home-final__trust::after,
+  html[data-theme="dark"] .home-final::before,
+  html[data-theme="dark"] .home-final::after {
+    animation: none !important;
+  }
+
+  .home-service-tile:hover,
+  .home-branch-final:hover,
+  .home-director-final__media-card:hover,
+  .home-journey-step:hover,
+  .doctor-card:hover,
+  .service-card:hover,
+  .blog-card:hover,
+  .contact-panel:hover,
+  .price-accordion-card:hover {
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .page,
+  .home-page,
+  .reveal-on-scroll,
+  .home-final .reveal-on-scroll,
+  .home-promo-final--showcase .home-promo-final__image img,
+  .home-results-final__main-image img {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Theme changes affect the major surfaces together instead of flashing section by section. */
+body,
+.app,
+.header--page,
+.footer,
+.page,
+.home-final {
+  transition:
+    background-color 420ms var(--motion-ease-soft),
+    color 320ms var(--motion-ease-soft),
+    border-color 320ms var(--motion-ease-soft),
+    box-shadow 320ms var(--motion-ease-soft);
+}

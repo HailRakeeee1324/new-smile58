@@ -1589,7 +1589,7 @@ const doctors = [
     note: "Создаёт аккуратную рабочую среду и помогает пациентам чувствовать себя увереннее.",
   },
   {
-    name: ".. Мария ..",
+    name: "Черкова Мария Андреевна",
     speciality: "Медицинская сестра",
     branch: "Филиал на Светлой",
     image: "/team/mariya-nurse.webp",
@@ -1597,7 +1597,7 @@ const doctors = [
     note: "Помогает команде проводить приём организованно, спокойно и бережно.",
   },
   {
-    name: ".. Олеся ..",
+    name: "Лапшина Олеся Николаевна",
     speciality: "Медицинская сестра",
     branch: "Филиал на Антонова",
     image: "/team/olesya-nurse.webp",
@@ -1816,7 +1816,7 @@ function App() {
   }, [route]);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "auto" });
   }, [route]);
 
   useEffect(() => {
@@ -2048,17 +2048,42 @@ function HomePage() {
   }, []);
 
   useEffect(() => {
-    if (
-      promoPaused ||
-      typeof window === "undefined" ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) return undefined;
+    if (typeof window === "undefined") return undefined;
 
-    const timer = window.setInterval(() => {
-      setPromoIndex((current) => (current + 1) % homeHeroPromotions.length);
-    }, 8200);
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const compactViewport = window.matchMedia("(max-width: 900px)");
+    let timer = null;
 
-    return () => window.clearInterval(timer);
+    const stopTimer = () => {
+      if (timer) {
+        window.clearInterval(timer);
+        timer = null;
+      }
+    };
+
+    const syncTimer = () => {
+      stopTimer();
+
+      // On phones/tablets, in background tabs and for reduced-motion users,
+      // the promo remains under the user's control and never changes unexpectedly.
+      if (promoPaused || reduceMotion.matches || compactViewport.matches || document.hidden) return;
+
+      timer = window.setInterval(() => {
+        setPromoIndex((current) => (current + 1) % homeHeroPromotions.length);
+      }, 12000);
+    };
+
+    syncTimer();
+    document.addEventListener("visibilitychange", syncTimer);
+    reduceMotion.addEventListener?.("change", syncTimer);
+    compactViewport.addEventListener?.("change", syncTimer);
+
+    return () => {
+      stopTimer();
+      document.removeEventListener("visibilitychange", syncTimer);
+      reduceMotion.removeEventListener?.("change", syncTimer);
+      compactViewport.removeEventListener?.("change", syncTimer);
+    };
   }, [promoPaused]);
 
   const changePromo = (direction) => {
