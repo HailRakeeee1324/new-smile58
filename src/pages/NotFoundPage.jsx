@@ -3,7 +3,7 @@ import { routePaths } from "../config/routes.js";
 import "../styles/pages.css";
 import "../styles/page-layout.css";
 import "../styles/stability-v19.css";
-import "../styles/inner-pages-band-fix-v20.css";
+import "../styles/inner-pages-band-fix-v21.css";
 
 export default function NotFoundPage() {
   return (

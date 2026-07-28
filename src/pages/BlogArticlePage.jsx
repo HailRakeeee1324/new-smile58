@@ -6,7 +6,7 @@ import { Breadcrumbs, LocalSeoCluster, PageIntro } from "../components/Common.js
 import "../styles/pages.css";
 import "../styles/page-layout.css";
 import "../styles/stability-v19.css";
-import "../styles/inner-pages-band-fix-v20.css";
+import "../styles/inner-pages-band-fix-v21.css";
 
 export default function BlogArticlePage({ articleKey }) {
   const article = blogArticles[articleKey] || blogArticles.blogKaries;
