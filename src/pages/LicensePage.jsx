@@ -4,6 +4,7 @@ import { PageIntro } from "../components/Common.jsx";
 import "../styles/pages.css";
 import "../styles/page-layout.css";
 import "../styles/stability-v19.css";
+import "../styles/inner-pages-band-fix-v20.css";
 
 export default function LicensePage() {
   return (

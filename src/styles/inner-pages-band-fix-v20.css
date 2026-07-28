@@ -1,0 +1,46 @@
+/* v20 — remove the legacy blue band between inner-page content and footer. */
+
+/* Lazy-loaded pages.css still contains an old #155f9d canvas rule. This file is
+   imported last by every inner page so the page canvas remains continuous. */
+html[data-theme="dark"] body .app > main.page:not(.home-page),
+html[data-theme="dark"] body .app > main.seo-page:not(.home-page) {
+  background:
+    radial-gradient(circle at 18% 0%, rgba(63, 137, 235, .14), transparent 34%),
+    radial-gradient(circle at 82% 22%, rgba(57, 185, 255, .07), transparent 30%),
+    linear-gradient(180deg, #071a35 0%, #06162d 100%) !important;
+  background-color: #06162d !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 0 !important;
+}
+
+html:not([data-theme="dark"]) body .app > main.page:not(.home-page),
+html:not([data-theme="dark"]) body .app > main.seo-page:not(.home-page) {
+  background:
+    radial-gradient(circle at 16% 0%, rgba(102, 177, 255, .14), transparent 34%),
+    radial-gradient(circle at 86% 14%, rgba(124, 205, 255, .10), transparent 30%),
+    linear-gradient(180deg, rgba(244, 249, 255, .98), rgba(234, 244, 255, .98)) !important;
+  background-color: #eaf4ff !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 0 !important;
+}
+
+body .app > main.page:not(.home-page)::after,
+body .app > main.seo-page:not(.home-page)::after {
+  content: none !important;
+  display: none !important;
+}
+
+body .app > main.page:not(.home-page) + .footer,
+body .app > main.seo-page:not(.home-page) + .footer {
+  margin-top: 0 !important;
+  border-top: 0 !important;
+}
+
+html[data-theme="dark"] body .app > main.page:not(.home-page) + .footer,
+html[data-theme="dark"] body .app > main.seo-page:not(.home-page) + .footer {
+  background:
+    radial-gradient(circle at 86% 8%, rgba(50, 136, 255, .13), transparent 26%),
+    linear-gradient(180deg, #071a36 0%, #06162f 100%) !important;
+}

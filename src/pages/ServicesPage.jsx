@@ -9,6 +9,7 @@ import ResponsiveImage from "../components/ResponsiveImage.jsx";
 import "../styles/pages.css";
 import "../styles/page-layout.css";
 import "../styles/stability-v19.css";
+import "../styles/inner-pages-band-fix-v20.css";
 
 export default function ServicesPage() {
   return (

@@ -7,6 +7,7 @@ import { Breadcrumbs, EditorialPhotoGrid, LocalSeoCluster, RelatedArticlesSectio
 import "../styles/pages.css";
 import "../styles/page-layout.css";
 import "../styles/stability-v19.css";
+import "../styles/inner-pages-band-fix-v20.css";
 
 export default function LocalSeoLandingPage({ pageKey }) {
   const page = localLandingPages[pageKey] || localLandingPages.stomatologiyaSputnik;
