@@ -4,6 +4,7 @@ import { priceFilters, priceGroups } from "../data/prices.js";
 import { PageIntro } from "../components/Common.jsx";
 import "../styles/pages.css";
 import "../styles/page-layout.css";
+import "../styles/fixes-v18.css";
 
 function normalize(value) {
   return String(value || "").trim().toLowerCase().replace(/ё/g, "е");

@@ -12,6 +12,7 @@ import "./styles/base.css";
 import "./styles/components.css";
 import "./styles/responsive.css";
 import "./styles/layout-system.css";
+import "./styles/fixes-v18.css";
 
 const pageLoaders = {
   appointment: () => import("./components/AppointmentModal.jsx").then((module) => ({ default: module.AppointmentModal })),

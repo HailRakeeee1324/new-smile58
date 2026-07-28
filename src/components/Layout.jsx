@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { CalendarDays, Clock, MapPin, Menu, Moon, Phone, Sun, X } from "lucide-react";
 import { METRIKA_GOALS, PHONE, PHONE_LINK } from "../config/site.js";
 import { getNavActiveRoute, navItems, routeHref, routePaths } from "../config/routes.js";
+import "../styles/fixes-v18.css";
 
 const mobilePrimaryLinks = [
   { label: "Цены", route: "prices" },
