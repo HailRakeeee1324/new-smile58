@@ -6,6 +6,7 @@ import { doctors } from "../data/doctors.js";
 import { Breadcrumbs, EditorialPhotoGrid, LocalSeoCluster } from "../components/Common.jsx";
 import "../styles/pages.css";
 import "../styles/page-layout.css";
+import "../styles/stability-v19.css";
 
 export default function ServiceSeoPage({ pageKey }) {
   const page = serviceSeoPages[pageKey] || serviceSeoPages.lechenieKariesa;

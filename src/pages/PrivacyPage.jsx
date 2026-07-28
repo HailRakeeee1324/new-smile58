@@ -2,6 +2,7 @@ import React from "react";
 import { PageIntro } from "../components/Common.jsx";
 import "../styles/pages.css";
 import "../styles/page-layout.css";
+import "../styles/stability-v19.css";
 
 export default function PrivacyPage() {
   return (

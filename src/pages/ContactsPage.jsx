@@ -7,6 +7,7 @@ import { branches } from "../data/branches.js";
 import { PageIntro } from "../components/Common.jsx";
 import "../styles/pages.css";
 import "../styles/page-layout.css";
+import "../styles/stability-v19.css";
 
 export default function ContactsPage() {
   const contactBranches = [

@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { CalendarDays, Clock, MapPin, Menu, Moon, Phone, Sun, X } from "lucide-react";
+import { createPortal } from "react-dom";
+import { CalendarDays, Clock, MapPin, Moon, Phone, Sun, X } from "lucide-react";
 import { METRIKA_GOALS, PHONE, PHONE_LINK } from "../config/site.js";
 import { getNavActiveRoute, navItems, routeHref, routePaths } from "../config/routes.js";
-import "../styles/fixes-v18.css";
+import "../styles/stability-v19.css";
 
 const mobilePrimaryLinks = [
   { label: "Цены", route: "prices" },
@@ -98,7 +99,11 @@ export function Header({ route, theme, onToggleTheme }) {
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-site-menu"
           >
-            <Menu size={22} />
+            <span className="mobile-menu-toggle__icon" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+            </span>
           </button>
         </div>
       </div>
@@ -111,38 +116,41 @@ export function Header({ route, theme, onToggleTheme }) {
         ))}
       </nav>
 
-      <div className={`mobile-menu ${mobileMenuOpen ? "is-open" : ""}`} id="mobile-site-menu" aria-hidden={!mobileMenuOpen}>
-        <button className="mobile-menu__backdrop" type="button" aria-label="Закрыть меню" onClick={() => setMobileMenuOpen(false)} />
-        <div className="mobile-menu__panel" role="dialog" aria-modal="true" aria-label="Меню сайта">
-          <div className="mobile-menu__head">
-            <div>
-              <span>Новая улыбка</span>
-              <strong>Выберите раздел</strong>
+      {typeof document !== "undefined" ? createPortal(
+        <div className={`mobile-menu ${mobileMenuOpen ? "is-open" : ""}`} id="mobile-site-menu" aria-hidden={!mobileMenuOpen}>
+          <button className="mobile-menu__backdrop" type="button" aria-label="Закрыть меню" onClick={() => setMobileMenuOpen(false)} />
+          <div className="mobile-menu__panel" role="dialog" aria-modal="true" aria-label="Меню сайта">
+            <div className="mobile-menu__head">
+              <div>
+                <span>Новая улыбка</span>
+                <strong>Выберите раздел</strong>
+              </div>
+              <button type="button" onClick={() => setMobileMenuOpen(false)} aria-label="Закрыть меню"><X size={24} /></button>
             </div>
-            <button type="button" onClick={() => setMobileMenuOpen(false)} aria-label="Закрыть меню"><X size={22} /></button>
+
+            <nav className="mobile-menu__primary" aria-label="Основные мобильные разделы">
+              {mobilePrimaryLinks.map((item) => (
+                <a className={activeRoute === item.route ? "active" : ""} href={routeHref(item.route)} data-route-link key={item.route}>
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+
+            <nav className="mobile-menu__secondary" aria-label="Дополнительные разделы">
+              {mobileSecondaryLinks.map((item) => (
+                <a className={activeRoute === item.route ? "active" : ""} href={routeHref(item.route)} data-route-link key={item.route}>
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+
+            <a className="mobile-menu__appointment" href={PHONE_LINK} data-appointment>
+              <CalendarDays size={19} /> Записаться на приём
+            </a>
           </div>
-
-          <nav className="mobile-menu__primary" aria-label="Основные мобильные разделы">
-            {mobilePrimaryLinks.map((item) => (
-              <a className={activeRoute === item.route ? "active" : ""} href={routeHref(item.route)} data-route-link key={item.route}>
-                {item.label}
-              </a>
-            ))}
-          </nav>
-
-          <nav className="mobile-menu__secondary" aria-label="Дополнительные разделы">
-            {mobileSecondaryLinks.map((item) => (
-              <a className={activeRoute === item.route ? "active" : ""} href={routeHref(item.route)} data-route-link key={item.route}>
-                {item.label}
-              </a>
-            ))}
-          </nav>
-
-          <a className="mobile-menu__appointment" href={PHONE_LINK} data-appointment>
-            <CalendarDays size={19} /> Записаться на приём
-          </a>
-        </div>
-      </div>
+        </div>,
+        document.body,
+      ) : null}
     </header>
   );
 }

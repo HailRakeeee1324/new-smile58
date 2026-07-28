@@ -1,0 +1,647 @@
+/* =========================================================
+   v19 — canonical visual stability layer
+   Owns: page background, theme transition, mobile menu,
+   home service grid, director height and final CTA gutters.
+   ========================================================= */
+
+/* ---------- Smooth theme transition ---------- */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 360ms;
+  animation-timing-function: cubic-bezier(.22, 1, .36, 1);
+}
+
+::view-transition-old(root) {
+  animation-name: ny-theme-fade-out;
+}
+
+::view-transition-new(root) {
+  animation-name: ny-theme-fade-in;
+}
+
+@keyframes ny-theme-fade-out {
+  from { opacity: 1; }
+  to { opacity: .32; }
+}
+
+@keyframes ny-theme-fade-in {
+  from { opacity: .28; }
+  to { opacity: 1; }
+}
+
+html.theme-transitioning body,
+html.theme-transitioning .app,
+html.theme-transitioning .header,
+html.theme-transitioning .footer,
+html.theme-transitioning main,
+html.theme-transitioning section,
+html.theme-transitioning article,
+html.theme-transitioning a,
+html.theme-transitioning button {
+  transition:
+    background-color 420ms cubic-bezier(.22, 1, .36, 1),
+    background 420ms cubic-bezier(.22, 1, .36, 1),
+    color 340ms ease,
+    border-color 340ms ease,
+    box-shadow 420ms ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
+
+/* ---------- One stable background for all inner pages ---------- */
+html:not([data-theme="dark"]) body,
+html:not([data-theme="dark"]) .app {
+  background:
+    radial-gradient(circle at 16% 0%, rgba(102, 177, 255, .17), transparent 34%),
+    radial-gradient(circle at 86% 14%, rgba(124, 205, 255, .12), transparent 30%),
+    linear-gradient(180deg, #f4f9ff 0%, #eaf4ff 100%) !important;
+  background-attachment: fixed !important;
+}
+
+html:not([data-theme="dark"]) body .page,
+html:not([data-theme="dark"]) body .seo-page {
+  background:
+    radial-gradient(circle at 16% 0%, rgba(102, 177, 255, .14), transparent 34%),
+    radial-gradient(circle at 86% 14%, rgba(124, 205, 255, .10), transparent 30%),
+    linear-gradient(180deg, rgba(244, 249, 255, .98), rgba(234, 244, 255, .98)) !important;
+  color: #102544 !important;
+}
+
+html[data-theme="dark"] body,
+html[data-theme="dark"] .app {
+  background:
+    radial-gradient(circle at 18% 0%, rgba(63, 137, 235, .17), transparent 34%),
+    radial-gradient(circle at 82% 22%, rgba(57, 185, 255, .08), transparent 30%),
+    linear-gradient(180deg, #071a35 0%, #06162d 100%) !important;
+  background-attachment: fixed !important;
+}
+
+html[data-theme="dark"] body .page,
+html[data-theme="dark"] body .seo-page {
+  background:
+    radial-gradient(circle at 18% 0%, rgba(63, 137, 235, .14), transparent 34%),
+    radial-gradient(circle at 82% 22%, rgba(57, 185, 255, .07), transparent 30%),
+    linear-gradient(180deg, #071a35 0%, #06162d 100%) !important;
+  color: #f4f8ff !important;
+}
+
+/* Never allow a page section to repaint the whole canvas with a flat color. */
+html body .page > section:not(.page-intro):not(.team-hero),
+html body .seo-page > section:not(.page-intro):not(.team-hero) {
+  background-color: transparent !important;
+}
+
+/* ---------- Mobile menu: rendered in a body portal ---------- */
+.mobile-menu-toggle__icon {
+  display: grid;
+  gap: 4px;
+  width: 22px;
+  pointer-events: none;
+}
+
+.mobile-menu-toggle__icon i {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+body.mobile-menu-open {
+  overflow: hidden !important;
+  touch-action: none;
+}
+
+@media (max-width: 900px) {
+  .header .header__actions {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-left: auto !important;
+  }
+
+  .header .mobile-menu-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 46px !important;
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px !important;
+    padding: 0 !important;
+    border: 1px solid rgba(92, 143, 211, .42) !important;
+    border-radius: 15px !important;
+    background: rgba(248, 252, 255, .96) !important;
+    color: #173a68 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    box-shadow: 0 12px 28px rgba(20, 55, 107, .14) !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+  }
+
+  html[data-theme="dark"] .header .mobile-menu-toggle {
+    border-color: rgba(149, 201, 255, .25) !important;
+    background: rgba(12, 35, 72, .96) !important;
+    color: #eef7ff !important;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, .28) !important;
+  }
+
+  body > .mobile-menu {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 9999 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    max-width: none !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+  }
+
+  body > .mobile-menu.is-open {
+    pointer-events: auto !important;
+    visibility: visible !important;
+  }
+
+  body > .mobile-menu .mobile-menu__backdrop {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border: 0 !important;
+    background: rgba(3, 14, 32, .68) !important;
+    backdrop-filter: blur(8px) !important;
+    opacity: 0 !important;
+  }
+
+  body > .mobile-menu.is-open .mobile-menu__backdrop {
+    opacity: 1 !important;
+  }
+
+  body > .mobile-menu .mobile-menu__panel {
+    position: absolute !important;
+    inset: 0 0 0 auto !important;
+    display: block !important;
+    width: min(100vw, 410px) !important;
+    max-width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    padding: max(20px, env(safe-area-inset-top)) 18px calc(26px + env(safe-area-inset-bottom)) !important;
+    overflow-y: auto !important;
+    border-radius: 0 !important;
+    background: linear-gradient(180deg, #f7fbff 0%, #e7f2ff 100%) !important;
+    color: #102544 !important;
+    box-shadow: -28px 0 72px rgba(3, 22, 57, .28) !important;
+    transform: translate3d(102%, 0, 0) !important;
+    opacity: 1 !important;
+  }
+
+  body > .mobile-menu.is-open .mobile-menu__panel {
+    transform: translate3d(0, 0, 0) !important;
+  }
+
+  html[data-theme="dark"] body > .mobile-menu .mobile-menu__panel {
+    background: linear-gradient(180deg, #0b326f 0%, #071d46 100%) !important;
+    color: #f4f8ff !important;
+  }
+
+  body > .mobile-menu .mobile-menu__head {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    margin: 0 0 18px !important;
+    padding: 0 0 18px !important;
+  }
+
+  body > .mobile-menu .mobile-menu__head strong {
+    display: block !important;
+    font-size: clamp(22px, 7vw, 30px) !important;
+    line-height: 1.04 !important;
+  }
+
+  body > .mobile-menu .mobile-menu__head button {
+    display: inline-grid !important;
+    place-items: center !important;
+    flex: 0 0 54px !important;
+    width: 54px !important;
+    height: 54px !important;
+    border-radius: 18px !important;
+  }
+
+  body > .mobile-menu .mobile-menu__primary {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    margin: 0 !important;
+  }
+
+  body > .mobile-menu .mobile-menu__primary a {
+    display: grid !important;
+    place-items: center !important;
+    min-width: 0 !important;
+    min-height: 70px !important;
+    border-radius: 18px !important;
+    font-size: 15px !important;
+  }
+
+  body > .mobile-menu .mobile-menu__secondary {
+    display: grid !important;
+    margin-top: 16px !important;
+  }
+
+  body > .mobile-menu .mobile-menu__secondary a {
+    display: flex !important;
+    align-items: center !important;
+    min-height: 52px !important;
+  }
+}
+
+@media (max-width: 520px) {
+  body > .mobile-menu .mobile-menu__panel {
+    width: 100vw !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
+
+/* ---------- Footer banner: no matte/black bands ---------- */
+.footer__review {
+  overflow: hidden !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.footer__review .footer__review-light {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  object-fit: contain !important;
+  background: transparent !important;
+}
+
+.footer__review .footer__review-dark,
+html[data-theme="dark"] .footer__review .footer__review-dark {
+  display: none !important;
+}
+
+html[data-theme="dark"] .footer__review .footer__review-light {
+  display: block !important;
+}
+
+/* ---------- Home: canonical desktop layout ---------- */
+.home-page,
+.home-final {
+  overflow-x: clip !important;
+}
+
+.home-final__section {
+  width: 100% !important;
+  overflow: clip !important;
+}
+
+.home-page .home-final__trust {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 0 !important;
+}
+
+.home-page .home-final__promo-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  width: var(--layout-width) !important;
+  max-width: var(--layout-max) !important;
+  margin-inline: auto !important;
+}
+
+.home-page .home-promo-final--showcase {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.02fr) minmax(360px, .98fr) !important;
+  gap: 26px !important;
+  align-items: stretch !important;
+  width: min(100%, 1080px) !important;
+  max-width: 1080px !important;
+  margin: 0 auto !important;
+  padding: 30px 30px 76px !important;
+  overflow: hidden !important;
+}
+
+.home-page .home-promo-final__content,
+.home-page .home-promo-final__image {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.home-page .home-promo-final__image,
+.home-page .home-promo-final__image picture,
+.home-page .home-promo-final__image img {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: none !important;
+}
+
+.home-page .home-promo-final__image {
+  overflow: hidden !important;
+  border-radius: 26px !important;
+}
+
+.home-page .home-promo-final__image img {
+  display: block !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+/* Clean 3×2 services grid; disable all legacy nth-child bento placement. */
+.home-page .home-services-bento {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-auto-flow: row !important;
+  grid-auto-rows: minmax(350px, auto) !important;
+  gap: 18px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: visible !important;
+}
+
+.home-page .home-services-bento > .home-service-tile,
+.home-page .home-services-bento > .home-service-tile:nth-child(n) {
+  grid-column: auto !important;
+  grid-row: auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  min-height: 350px !important;
+  height: auto !important;
+  margin: 0 !important;
+  transform: none !important;
+  overflow: hidden !important;
+}
+
+.home-page .home-service-tile picture,
+.home-page .home-service-tile img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* Director: right column fills the left story height exactly. */
+.home-page .home-director-final--refined {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.08fr) minmax(410px, .92fr) !important;
+  align-items: stretch !important;
+  gap: 24px !important;
+}
+
+.home-page .home-director-final__story {
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
+.home-page .home-director-final__visual {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
+  align-self: stretch !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  gap: 16px !important;
+}
+
+.home-page .home-director-final__media-card {
+  display: grid !important;
+  grid-template-rows: minmax(0, 1fr) auto !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+.home-page .home-director-final__media-card picture,
+.home-page .home-director-final__media-card img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  aspect-ratio: auto !important;
+  object-fit: cover !important;
+}
+
+/* CTA aligns with the same 1080px rail and always keeps side fields. */
+.home-page .home-final-cta.container {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 24px !important;
+  width: min(1080px, calc(100% - 48px)) !important;
+  max-width: 1080px !important;
+  margin: 16px auto 28px !important;
+  padding: 34px 36px !important;
+  box-sizing: border-box !important;
+}
+
+.home-page .home-final-cta > div:last-child {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: flex-end !important;
+  gap: 12px !important;
+}
+
+/* ---------- Home: mobile refinement ---------- */
+@media (max-width: 1100px) {
+  .home-page .home-final__trust {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+  }
+
+  .home-page .home-services-bento {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .home-page .home-director-final--refined {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .home-page .home-director-final__visual {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: minmax(0, 1fr) !important;
+    height: auto !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .home-page .hero {
+    min-height: auto !important;
+  }
+
+  .home-page .hero__content {
+    padding-top: 168px !important;
+    padding-bottom: 88px !important;
+  }
+
+  .home-page .hero__bg-title {
+    top: 136px !important;
+    left: 0 !important;
+    font-size: clamp(54px, 18vw, 92px) !important;
+    line-height: .88 !important;
+  }
+
+  .home-page .hero h1 {
+    margin-top: 58px !important;
+    font-size: clamp(38px, 11vw, 58px) !important;
+    line-height: .97 !important;
+  }
+
+  .home-page .hero p {
+    max-width: 100% !important;
+    margin-top: 16px !important;
+    font-size: 15px !important;
+    line-height: 1.56 !important;
+  }
+
+  .home-page .hero__branches {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+    margin-top: 26px !important;
+  }
+
+  .home-page .hero-branch {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 10px !important;
+    min-height: 0 !important;
+    padding: 16px !important;
+    border-radius: 22px !important;
+  }
+
+  .home-page .home-final__section {
+    padding-top: 34px !important;
+    padding-bottom: 34px !important;
+  }
+
+  .home-page .home-promo-final--showcase {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 18px !important;
+    padding: 18px 18px 68px !important;
+    border-radius: 28px !important;
+  }
+
+  .home-page .home-promo-final__image {
+    order: -1 !important;
+    aspect-ratio: 1 / 1 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    border-radius: 22px !important;
+  }
+
+  .home-page .home-promo-final__image picture,
+  .home-page .home-promo-final__image img {
+    height: 100% !important;
+    min-height: 0 !important;
+  }
+
+  .home-page .home-promo-final__actions {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+
+  .home-page .home-promo-final__actions > a {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .home-page .home-services-bento {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-auto-rows: auto !important;
+    gap: 14px !important;
+  }
+
+  .home-page .home-services-bento > .home-service-tile,
+  .home-page .home-services-bento > .home-service-tile:nth-child(n) {
+    min-height: 0 !important;
+    aspect-ratio: 10 / 11 !important;
+    border-radius: 26px !important;
+  }
+
+  .home-page .home-service-tile__content {
+    padding: 18px !important;
+  }
+
+  .home-page .home-service-tile__content h3 {
+    font-size: 1.65rem !important;
+    line-height: 1.02 !important;
+  }
+
+  .home-page .home-director-final__visual {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: auto !important;
+    gap: 14px !important;
+  }
+
+  .home-page .home-director-final__media-card {
+    height: auto !important;
+  }
+
+  .home-page .home-director-final__media-card picture,
+  .home-page .home-director-final__media-card img {
+    min-height: 240px !important;
+    height: 240px !important;
+  }
+
+  .home-page .home-journey-final,
+  .home-page .home-results-final,
+  .home-page .home-final-cta.container {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .home-page .home-final-cta.container {
+    width: min(620px, calc(100% - 24px)) !important;
+    margin: 12px auto 22px !important;
+    padding: 22px 18px !important;
+  }
+
+  .home-page .home-final-cta > div:last-child {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    justify-content: stretch !important;
+    width: 100% !important;
+  }
+
+  .home-page .home-final-cta > div:last-child > a {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .home-page .home-final__trust {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .home-page .hero__content {
+    padding-top: 154px !important;
+  }
+
+  .home-page .hero__bg-title {
+    top: 128px !important;
+  }
+
+  .home-page .hero-branch {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .home-page .hero-branch__phone {
+    justify-self: start !important;
+  }
+}

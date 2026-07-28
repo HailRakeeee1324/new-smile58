@@ -4,6 +4,7 @@ import { routePaths } from "../config/routes.js";
 import { PageIntro } from "../components/Common.jsx";
 import "../styles/pages.css";
 import "../styles/page-layout.css";
+import "../styles/stability-v19.css";
 
 export default function ConsentPage() {
   return (

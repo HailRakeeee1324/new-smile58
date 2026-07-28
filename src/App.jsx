@@ -1,4 +1,5 @@
 import React, { Suspense, lazy, startTransition, useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 import { YandexMetrika } from "./components/Analytics.jsx";
 import { Footer, Header, MobileStickyCta } from "./components/Layout.jsx";
 import HomePage from "./pages/HomePage.jsx";
@@ -12,7 +13,7 @@ import "./styles/base.css";
 import "./styles/components.css";
 import "./styles/responsive.css";
 import "./styles/layout-system.css";
-import "./styles/fixes-v18.css";
+import "./styles/stability-v19.css";
 
 const pageLoaders = {
   appointment: () => import("./components/AppointmentModal.jsx").then((module) => ({ default: module.AppointmentModal })),
@@ -205,6 +206,23 @@ export default function App() {
     }
   }, [theme]);
 
+  const handleToggleTheme = () => {
+    const root = document.documentElement;
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    const applyTheme = () => flushSync(() => setTheme(nextTheme));
+
+    if (!reduceMotion && typeof document.startViewTransition === "function") {
+      document.startViewTransition(applyTheme);
+      return;
+    }
+
+    root.classList.add("theme-transitioning");
+    applyTheme();
+    window.setTimeout(() => root.classList.remove("theme-transitioning"), 460);
+  };
+
+
   useEffect(() => {
     updatePageMeta(route);
     window.scrollTo({ top: 0, behavior: "auto" });
@@ -262,7 +280,7 @@ export default function App() {
   return (
     <div className="app">
       <YandexMetrika />
-      <Header route={route} theme={theme} onToggleTheme={() => setTheme((value) => value === "dark" ? "light" : "dark")} />
+      <Header route={route} theme={theme} onToggleTheme={handleToggleTheme} />
       <Suspense fallback={<RouteFallback />}>
         <RouteContent route={route} />
       </Suspense>

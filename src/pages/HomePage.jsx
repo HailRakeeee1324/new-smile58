@@ -7,7 +7,7 @@ import { services } from "../data/services.jsx";
 import ResponsiveImage from "../components/ResponsiveImage.jsx";
 import "../styles/home.css";
 import "../styles/home-layout.css";
-import "../styles/fixes-v18.css";
+import "../styles/stability-v19.css";
 
 export default function HomePage() {
   const [promoIndex, setPromoIndex] = useState(0);

@@ -4,6 +4,7 @@ import { reviewGallery } from "../data/reviews.js";
 import { PageIntro } from "../components/Common.jsx";
 import "../styles/pages.css";
 import "../styles/page-layout.css";
+import "../styles/stability-v19.css";
 
 export default function ReviewsPage() {
   const [activeReview, setActiveReview] = useState(0);
