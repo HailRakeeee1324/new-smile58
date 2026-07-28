@@ -1,0 +1,2299 @@
+:root {
+  --wow-blue: #3288ff;
+  --wow-cyan: #5ce5ff;
+  --wow-indigo: #1d45b8;
+  --wow-deep: #071a36;
+  --wow-card: rgba(255, 255, 255, 0.78);
+  --wow-glass: rgba(255, 255, 255, 0.12);
+}
+
+body {
+  background:
+    radial-gradient(circle at 8% 8%, rgba(50, 136, 255, 0.10), transparent 28%),
+    radial-gradient(circle at 92% 12%, rgba(92, 229, 255, 0.10), transparent 30%),
+    linear-gradient(180deg, #f3f8ff 0%, #eef5ff 100%);
+}
+
+html[data-theme="dark"] body {
+  background:
+    radial-gradient(circle at 8% 8%, rgba(50, 136, 255, 0.22), transparent 28%),
+    radial-gradient(circle at 88% 10%, rgba(92, 229, 255, 0.10), transparent 30%),
+    linear-gradient(180deg, #071a36 0%, #06162f 100%);
+}
+
+.app {
+  position: relative;
+  overflow: hidden;
+}
+
+.app::before,
+.app::after {
+  content: "";
+  position: fixed;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(38px);
+  opacity: 0.28;
+  animation: floatGlow 10s ease-in-out infinite;
+}
+
+.app::before {
+  top: -160px;
+  left: -160px;
+  background: rgba(50, 136, 255, 0.34);
+}
+
+.app::after {
+  right: -180px;
+  bottom: 10%;
+  background: rgba(92, 229, 255, 0.22);
+  animation-delay: -4s;
+}
+
+@keyframes floatGlow {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(28px, -22px, 0) scale(1.08); }
+}
+
+.header {
+  transition: background 0.25s ease, box-shadow 0.25s ease, border 0.25s ease;
+}
+
+.header--home .header__top {
+  border-bottom-color: rgba(255,255,255,0.18);
+}
+
+.logo {
+  transform: translateZ(0);
+}
+
+.logo__text h3 {
+  text-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+}
+
+.header--page .logo__text h3 {
+  text-shadow: none;
+}
+
+.hero--wow {
+  min-height: 104vh;
+}
+
+.hero--wow::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 220px;
+  background: linear-gradient(180deg, transparent, rgba(5, 18, 46, 0.72));
+  pointer-events: none;
+}
+
+@keyframes heroAuraOne {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(36px, -24px) scale(1.16); }
+}
+
+@keyframes heroAuraTwo {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-34px, 18px) scale(1.10); }
+}
+
+.hero h1 {
+  animation: fadeUp 0.75s ease 0.08s both;
+}
+
+.hero p {
+  animation: fadeUp 0.75s ease 0.16s both;
+}
+
+.hero__actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  animation: fadeUp 0.75s ease 0.24s both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.service-card,
+.price-table,
+.doctor-card,
+.branch-card,
+.page-cta,
+.price-highlights article {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.service-card__body a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  color: var(--blue);
+  font-weight: 900;
+}
+
+.page-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 110px;
+  padding: 34px;
+  border-radius: 34px;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(50, 136, 255, 0.14), transparent 36%),
+    rgba(255,255,255,0.84);
+  border: 1px solid rgba(255,255,255,0.75);
+  box-shadow: var(--shadow);
+}
+
+.page-cta h2 {
+  font-size: clamp(28px, 3vw, 44px);
+  line-height: 1.08;
+  letter-spacing: -0.05em;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.page-cta p:not(.section-label) {
+  max-width: 650px;
+  color: var(--muted);
+  font-weight: 650;
+  line-height: 1.65;
+}
+
+.price-table--wow .price-row--head {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.16), transparent 32%),
+    linear-gradient(135deg, #071a36, #1c66da);
+}
+
+.team-hero {
+  padding: 84px 0 58px;
+  background:
+    radial-gradient(circle at 18% 16%, rgba(50, 136, 255, 0.18), transparent 34%),
+    radial-gradient(circle at 88% 20%, rgba(92, 229, 255, 0.14), transparent 30%),
+    linear-gradient(180deg, rgba(255,255,255,0.78), rgba(238,245,255,0.94));
+}
+
+.team-hero__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(360px, 0.8fr);
+  align-items: center;
+  gap: 44px;
+}
+
+.team-hero h1 {
+  font-size: clamp(42px, 5.2vw, 78px);
+  line-height: 1.02;
+  letter-spacing: -0.065em;
+  font-weight: 900;
+  max-width: 780px;
+}
+
+.team-hero p:not(.section-label) {
+  margin-top: 22px;
+  max-width: 700px;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.72;
+  font-weight: 650;
+}
+
+.team-hero__photo {
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+  border-radius: 42px;
+  box-shadow: 0 34px 100px rgba(15, 50, 112, 0.20);
+  border: 1px solid rgba(255,255,255,0.75);
+}
+
+.team-hero__photo img {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.team-hero__photo:hover img {
+  transform: scale(1.045);
+}
+
+.team-hero__photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 45%, rgba(5, 18, 46, 0.72));
+}
+
+.doctors-grid--wow {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px;
+}
+
+.doctor-card--wow {
+  position: relative;
+  overflow: hidden;
+  grid-template-columns: 190px 1fr;
+  min-height: 270px;
+  align-items: stretch;
+  padding: 0;
+  border-radius: 34px;
+  background: rgba(255,255,255,0.86);
+  border: 1px solid rgba(255,255,255,0.72);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.doctor-card--wow:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 34px 90px rgba(15, 50, 112, 0.18);
+}
+
+.doctor-card--wow::before {
+  content: "";
+  position: absolute;
+  right: -80px;
+  top: -80px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: rgba(50, 136, 255, 0.12);
+  filter: blur(6px);
+}
+
+.doctor-card--wow .doctor-card__photo {
+  width: 190px;
+  height: auto;
+  min-height: 270px;
+  border: none;
+  border-radius: 0;
+  background: #dcecff;
+  overflow: hidden;
+}
+
+.doctor-card--wow .doctor-card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.7s ease;
+}
+
+.doctor-card--wow:hover .doctor-card__photo img {
+  transform: scale(1.055);
+}
+
+.doctor-card--wow .doctor-card__info {
+  position: relative;
+  z-index: 1;
+  padding: 28px 28px 28px 0;
+}
+
+.doctor-card__branch {
+  display: inline-flex;
+  margin-bottom: 14px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: var(--blue);
+  background: #eef5ff;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.doctor-card--wow h2 {
+  font-size: 27px;
+  line-height: 1.06;
+  letter-spacing: -0.045em;
+}
+
+.doctor-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.doctor-tags span {
+  display: inline-flex;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(50, 136, 255, 0.10);
+  color: #1c66da;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.branch-card {
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.branch-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 34px 90px rgba(15, 50, 112, 0.18);
+}
+
+.branch-card img {
+  transition: transform 0.8s ease, filter 0.25s ease;
+}
+
+.branch-card:hover img {
+  transform: scale(1.035);
+}
+
+html[data-theme="dark"] .page-cta,
+html[data-theme="dark"] .price-highlights article,
+html[data-theme="dark"] .doctor-card--wow {
+  border-color: rgba(158, 190, 232, 0.18);
+}
+
+html[data-theme="dark"] .team-hero {
+  background:
+    radial-gradient(circle at 18% 16%, rgba(50, 136, 255, 0.20), transparent 34%),
+    radial-gradient(circle at 88% 20%, rgba(92, 229, 255, 0.10), transparent 30%),
+    linear-gradient(180deg, #091d3b 0%, #071a36 100%);
+}
+
+html[data-theme="dark"] .team-hero h1,
+html[data-theme="dark"] .page-cta h2,
+html[data-theme="dark"] .price-highlights h3,
+html[data-theme="dark"] .doctor-card--wow h2 {
+  color: #ffffff;
+}
+
+html[data-theme="dark"] .team-hero p:not(.section-label),
+html[data-theme="dark"] .page-cta p:not(.section-label),
+html[data-theme="dark"] .price-highlights p,
+html[data-theme="dark"] .doctor-card--wow p {
+  color: rgba(226, 236, 250, 0.76);
+}
+
+html[data-theme="dark"] .page-cta,
+html[data-theme="dark"] .price-highlights article,
+html[data-theme="dark"] .doctor-card--wow {
+  background:
+    linear-gradient(180deg, rgba(18, 47, 88, 0.96) 0%, rgba(12, 37, 75, 0.96) 100%);
+}
+
+html[data-theme="dark"] .doctor-card__branch,
+html[data-theme="dark"] .doctor-tags span,
+html[data-theme="dark"] .price-highlights span {
+  background: rgba(141, 184, 255, 0.13);
+  color: #a9c9ff;
+}
+
+@media (max-width: 1100px) {
+
+  .team-hero__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .doctors-grid--wow {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .hero__actions {
+    align-items: stretch;
+  }
+
+  .page-cta {
+    display: block;
+    padding: 26px;
+  }
+
+  .page-cta .blue-link {
+    margin-top: 22px;
+    width: 100%;
+  }
+
+  .team-hero {
+    padding-top: 58px;
+  }
+
+  .team-hero__photo,
+  .team-hero__photo img {
+    min-height: 320px;
+  }
+
+  .doctor-card--wow {
+    grid-template-columns: 1fr;
+  }
+
+  .doctor-card--wow .doctor-card__photo {
+    width: 100%;
+    height: 360px;
+    min-height: 360px;
+  }
+
+  .doctor-card--wow .doctor-card__info {
+    padding: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app::before,
+  .app::after,
+  .hero h1,
+  .hero p,
+  .hero__actions {
+    animation: none !important;
+  }
+}
+
+/* Scroll reveal: expensive, calm motion instead of noisy animation */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(34px) scale(0.985);
+  filter: blur(10px);
+  transition:
+    opacity 0.72s cubic-bezier(.22, 1, .36, 1),
+    transform 0.72s cubic-bezier(.22, 1, .36, 1),
+    filter 0.72s cubic-bezier(.22, 1, .36, 1);
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+.features__grid .reveal-on-scroll:nth-child(1),
+.services-grid .reveal-on-scroll:nth-child(1),
+.doctors-grid .reveal-on-scroll:nth-child(1),
+.price-highlights .reveal-on-scroll:nth-child(1) { transition-delay: .04s; }
+.features__grid .reveal-on-scroll:nth-child(2),
+.services-grid .reveal-on-scroll:nth-child(2),
+.doctors-grid .reveal-on-scroll:nth-child(2),
+.price-highlights .reveal-on-scroll:nth-child(2) { transition-delay: .12s; }
+.features__grid .reveal-on-scroll:nth-child(3),
+.services-grid .reveal-on-scroll:nth-child(3),
+.doctors-grid .reveal-on-scroll:nth-child(3),
+.price-highlights .reveal-on-scroll:nth-child(3) { transition-delay: .20s; }
+
+/* Hero: remove CTA buttons, make phones visible and useful */
+.hero__content {
+  padding-top: 320px;
+}
+
+.hero h1 {
+  margin-top: 50px;
+  max-width: 760px;
+}
+
+.hero p {
+  margin-bottom: 34px;
+}
+
+.hero__branches {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  max-width: 920px;
+  animation: fadeUp 0.75s ease .18s both;
+}
+
+.hero-branch {
+  position: relative;
+  overflow: hidden;
+  min-height: 116px;
+  padding: 18px 18px 17px;
+  border-radius: 28px;
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255,255,255,.22), transparent 32%),
+    linear-gradient(145deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+  border: 1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(22px);
+  box-shadow: 0 22px 60px rgba(0,0,0,.18);
+  transition: transform .32s ease, box-shadow .32s ease, border-color .32s ease;
+}
+
+.hero-branch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 10%, rgba(255,255,255,.16) 48%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform .82s ease;
+}
+
+.hero-branch:hover {
+  transform: translateY(-5px);
+  border-color: rgba(141,184,255,.48);
+  box-shadow: 0 30px 78px rgba(30,102,218,.25);
+}
+
+.hero-branch:hover::after {
+  transform: translateX(120%);
+}
+
+.hero-branch span,
+.hero-branch strong,
+.hero-branch em {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.hero-branch span {
+  color: #9dc3ff;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  margin-bottom: 10px;
+}
+
+.hero-branch strong {
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -.04em;
+  margin-bottom: 12px;
+}
+
+.hero-branch em {
+  font-style: normal;
+  color: rgba(255,255,255,.88);
+  font-weight: 850;
+}
+
+/* Features: more sales-like and less placeholder-looking */
+
+/* Offers section */
+
+/* Inner page headers: real clinic photo + same deep blue gradient as home */
+.page-intro--photo {
+  position: relative;
+  overflow: hidden;
+  min-height: 360px;
+  display: flex;
+  align-items: flex-end;
+  padding: 130px 0 64px;
+  background-image:
+    linear-gradient(90deg, rgba(6, 22, 48, .98) 0%, rgba(7, 29, 61, .86) 42%, rgba(7, 29, 61, .42) 100%),
+    linear-gradient(180deg, rgba(7, 29, 61, .34) 0%, rgba(7, 29, 61, .94) 100%),
+    url('/hero.webp') !important;
+  background-size: cover;
+  background-position: center;
+  border-bottom: 1px solid rgba(141,184,255,.20);
+}
+
+.page-intro--photo::before {
+  content: "";
+  position: absolute;
+  inset: -40% auto auto -10%;
+  width: 560px;
+  height: 560px;
+  border-radius: 50%;
+  background: rgba(50,136,255,.20);
+  filter: blur(32px);
+}
+
+.page-intro--photo .container {
+  position: relative;
+  z-index: 1;
+}
+
+.page-intro--photo .section-label {
+  color: #9dc3ff !important;
+}
+
+.page-intro--photo h1 {
+  color: #ffffff !important;
+  text-shadow: 0 20px 60px rgba(0,0,0,.26);
+}
+
+.page-intro--photo p {
+  color: rgba(235,244,255,.82) !important;
+  text-shadow: 0 12px 36px rgba(0,0,0,.20);
+}
+
+.page-intro--photo p strong {
+  display: inline-flex;
+  margin: 0 4px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  color: #ffffff;
+  background: rgba(50,136,255,.24);
+  border: 1px solid rgba(157,195,255,.28);
+  letter-spacing: .04em;
+}
+
+/* Services: real photo cards + frosted readable captions */
+.services-grid {
+  align-items: stretch;
+}
+
+.service-card__body {
+  padding: 26px 28px 30px;
+}
+
+.service-card__body p {
+  min-height: 76px;
+}
+
+/* Price page copy and visual depth */
+
+/* Doctors */
+.team-hero__inner > div:first-child {
+  align-self: center;
+}
+
+.team-hero__inner > div:first-child h1 {
+  margin-bottom: 0;
+}
+
+.doctor-card--akifiev .doctor-card__photo img {
+  object-position: 42% top !important;
+}
+
+/* Branches */
+.branch-card__content span {
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.branch-meta {
+  align-items: flex-start;
+  line-height: 1.45;
+}
+
+.branch-meta strong {
+  display: block;
+  max-width: 520px;
+}
+
+/* More premium cards */
+.service-card,
+.price-table,
+.doctor-card,
+.branch-card,
+.price-highlights article,
+.page-cta {
+  backdrop-filter: blur(18px);
+}
+
+.doctor-card--wow:hover,
+.branch-card:hover,
+.price-highlights article:hover {
+  border-color: rgba(50,136,255,.28) !important;
+}
+
+@media (max-width: 920px) {
+  .hero__content {
+    padding-top: 250px;
+  }
+
+  .hero__branches {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+  }
+
+  .page-intro--photo {
+    min-height: 310px;
+    padding: 112px 0 48px;
+  }
+}
+
+@media (max-width: 560px) {
+  .hero h1 {
+    margin-top: 34px;
+  }
+
+  .hero-branch {
+    min-height: 104px;
+  }
+
+  .page-intro--photo h1 {
+    font-size: 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
+
+/* 1) Remove the floating blue circle/aurora from the main hero */
+
+/* 1) Make the implant offer card price area wider and keep "вместо 60 000 ₽" on one line */
+
+/* 1) Hide the small "Спецпредложения" eyebrow in the offers section */
+.wow-offers .section-label,
+.wow-section-head .section-label {
+  display: none !important;
+}
+
+/* 1) Let the second offer badge sit higher, not on the very bottom edge */
+
+/* 2) Inner page headers: use clinic interior photo everywhere and remove the pale blue blob */
+.page-intro--photo {
+  min-height: 390px !important;
+  background-image:
+    linear-gradient(90deg, rgba(5, 18, 46, .98) 0%, rgba(5, 18, 46, .90) 34%, rgba(5, 18, 46, .58) 65%, rgba(5, 18, 46, .26) 100%),
+    linear-gradient(180deg, rgba(5, 18, 46, .28) 0%, rgba(5, 18, 46, .88) 100%),
+    url('/page-hero-clinic.webp?v=2') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+}
+
+/* 2) Service cards: make photos visible, text readable and less "empty" */
+
+.service-card__body {
+  background: linear-gradient(180deg, rgba(12, 43, 86, .98), rgba(8, 31, 66, .98)) !important;
+}
+
+.service-card__body p {
+  color: rgba(229, 240, 255, 0.82) !important;
+}
+
+.service-card__body a {
+  color: #5aa2ff !important;
+}
+
+/* Responsive protection for the widened implant card */
+
+@media (max-width: 560px) {
+
+  .page-intro--photo {
+    min-height: 330px !important;
+  }
+}
+
+/* Remove decorative light balls that felt cheap on the hero/page headers */
+
+/* Inner page headers: use clinic interior with the same noble dark-blue dimming as the main hero */
+.page-intro--photo {
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(6, 22, 48, .98) 0%,
+      rgba(7, 29, 61, .88) 36%,
+      rgba(7, 29, 61, .58) 68%,
+      rgba(7, 29, 61, .38) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(7, 29, 61, .38) 0%,
+      rgba(7, 29, 61, .92) 100%
+    ),
+    url('/page-hero-clinic.webp') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+}
+
+/* Navigation: make the extra "Главная" item feel native */
+.nav a {
+  white-space: nowrap;
+}
+
+/* Main page address cards and branch feature are navigation cards now */
+.hero-branch {
+  cursor: pointer;
+}
+
+/* Implant offer: wider old-price box and higher new-price value */
+
+/* Offers: remove artificial lower label in the family card and keep text breathable */
+
+/* Services: captions move from photo to the dark-blue body, above text */
+
+.service-card__body {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  padding: 24px 28px 30px !important;
+  background:
+    radial-gradient(circle at 12% 4%, rgba(50,136,255,.10), transparent 34%),
+    linear-gradient(180deg, #0b2b5a 0%, #08264f 100%);
+}
+
+.service-card__body p {
+  min-height: 0 !important;
+  margin-bottom: 18px;
+  color: rgba(235,244,255,.78) !important;
+}
+
+.service-card__body a {
+  margin-top: auto !important;
+  color: #66a7ff !important;
+}
+
+/* Appointment modal */
+body.modal-open {
+  overflow: hidden;
+}
+
+.appointment-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.appointment-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(3, 12, 30, 0.56);
+  backdrop-filter: blur(16px);
+  cursor: pointer;
+}
+
+.appointment-modal__card {
+  position: relative;
+  z-index: 1;
+  width: min(560px, 100%);
+  overflow: hidden;
+  padding: 38px;
+  border-radius: 36px;
+  color: #ffffff;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(96,165,250,.26), transparent 34%),
+    linear-gradient(145deg, rgba(8,31,69,.98), rgba(10,58,127,.96));
+  border: 1px solid rgba(157,195,255,.28);
+  box-shadow:
+    0 42px 120px rgba(0,0,0,.38),
+    inset 0 1px 0 rgba(255,255,255,.16);
+  animation: modalIn .36s cubic-bezier(.22,1,.36,1) both;
+}
+
+.appointment-modal__card::after {
+  content: "";
+  position: absolute;
+  inset: auto -25% -35% auto;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: rgba(59,130,246,.22);
+  filter: blur(18px);
+  pointer-events: none;
+}
+
+.appointment-modal__close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 50%;
+  color: #ffffff;
+  background: rgba(255,255,255,.10);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  transition: .22s ease;
+}
+
+.appointment-modal__close:hover {
+  transform: rotate(90deg);
+  background: rgba(255,255,255,.17);
+}
+
+.appointment-modal__icon {
+  width: 66px;
+  height: 66px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 22px;
+  border-radius: 22px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.18);
+  color: #8db8ff;
+}
+
+.appointment-modal h2 {
+  position: relative;
+  z-index: 1;
+  max-width: 430px;
+  margin: 0 0 18px;
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.05;
+  letter-spacing: -.055em;
+  font-weight: 900;
+}
+
+.appointment-modal__phone {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  margin-bottom: 18px;
+  color: #fff4ad;
+  font-size: clamp(28px, 5vw, 46px);
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -.055em;
+  text-shadow: 0 0 28px rgba(255,244,173,.24);
+}
+
+.appointment-modal__card > p:not(.section-label) {
+  position: relative;
+  z-index: 1;
+  max-width: 440px;
+  color: rgba(235,244,255,.78);
+  font-weight: 650;
+  line-height: 1.65;
+}
+
+.appointment-modal .section-label {
+  color: #9dc3ff !important;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(18px) scale(.96); filter: blur(8px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@media (max-width: 920px) {
+  .hero__branches {
+    grid-template-columns: 1fr;
+    max-width: 540px;
+  }
+}
+
+@media (max-width: 560px) {
+  .appointment-modal__card {
+    padding: 30px 24px;
+    border-radius: 30px;
+  }
+}
+
+/* 1) Doctor crop: move Akifiev photo slightly left so the doctor is centered */
+.doctor-card--akifiev .doctor-card__photo img {
+  object-position: 30% top !important;
+}
+
+/* 2) Price page: clearer grouped catalog instead of one flat table */
+
+.price-category .price-row {
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 260px);
+  align-items: center;
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(174, 197, 224, 0.42);
+  font-size: 15px;
+}
+
+.price-category .price-row:last-child {
+  border-bottom: 0;
+}
+
+.price-category .price-row:not(.price-row--head):nth-child(odd) {
+  background: rgba(238, 245, 255, 0.58);
+}
+
+.price-category .price-row > div:last-child {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 132px;
+  padding: 9px 13px;
+  border-radius: 999px;
+  color: #1d58b7;
+  background: rgba(47, 117, 223, 0.10);
+  font-weight: 900;
+}
+
+.price-category .price-row--head {
+  background: linear-gradient(135deg, #071a36, #1d58b7) !important;
+  color: #ffffff !important;
+}
+
+.price-category .price-row--head > div:last-child {
+  color: #ffffff;
+  background: transparent;
+  padding: 0;
+  min-width: 0;
+}
+
+html[data-theme="dark"] .price-category .price-row:not(.price-row--head):nth-child(odd) {
+  background: rgba(141, 184, 255, 0.055);
+}
+
+html[data-theme="dark"] .price-category .price-row > div:last-child {
+  color: #a9c9ff;
+  background: rgba(141, 184, 255, 0.12);
+}
+
+html[data-theme="dark"] .price-category .price-row--head > div:last-child {
+  color: #ffffff;
+  background: transparent;
+}
+
+/* 3) More varied feature-card effects: not the same circle everywhere */
+@media (min-width: 1181px) {
+  .services-grid .service-card:nth-child(4) {
+    grid-column: 2;
+  }
+
+  .services-grid .service-card:nth-child(5) {
+    grid-column: 3;
+  }
+}
+
+@media (max-width: 1180px) {
+  .services-grid .service-card:nth-child(4),
+  .services-grid .service-card:nth-child(5) {
+    grid-column: auto;
+  }
+}
+
+/* 5) Premium footer with clinic logo and ProDoctorov banner */
+.footer {
+  position: relative;
+  overflow: hidden;
+  padding: 46px 0 52px !important;
+  background:
+    radial-gradient(circle at 88% 10%, rgba(50,136,255,.12), transparent 26%),
+    linear-gradient(180deg, #eaf2fa 0%, #ddeaf7 100%) !important;
+}
+
+.footer::before {
+  content: "";
+  position: absolute;
+  right: -110px;
+  bottom: -170px;
+  width: 430px;
+  height: 430px;
+  border-radius: 50%;
+  background: rgba(47, 117, 223, 0.10);
+  filter: blur(22px);
+}
+
+.footer__inner--premium {
+  position: relative;
+  z-index: 1;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.15fr) minmax(240px, .72fr) minmax(220px, .58fr);
+  gap: 26px !important;
+  align-items: center;
+  padding: 28px !important;
+  border-radius: 34px !important;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.72), rgba(244,249,255,.60)) !important;
+  border: 1px solid rgba(174, 197, 224, 0.56) !important;
+  box-shadow: 0 28px 82px rgba(15, 50, 112, 0.12);
+}
+
+.footer__legal {
+  display: grid;
+  gap: 11px;
+  color: #53647a;
+  font-size: 13px;
+  line-height: 1.7;
+  font-weight: 700;
+}
+
+.footer__legal a {
+  color: #1d58b7;
+  font-weight: 900;
+  width: fit-content;
+}
+
+.footer__review {
+  display: block;
+  align-self: center;
+  justify-self: center;
+  width: min(330px, 100%);
+  border-radius: 24px;
+  transition: transform .28s ease, filter .28s ease;
+}
+
+.footer__review:hover {
+  transform: translateY(-4px) scale(1.02);
+  filter: drop-shadow(0 20px 34px rgba(15, 50, 112, 0.16));
+}
+
+.footer__review img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.footer__review-dark {
+  display: none;
+}
+
+.footer__brand {
+  justify-self: end;
+  text-align: right;
+  color: #142033;
+}
+
+.footer__brand img {
+  width: 132px;
+  height: auto;
+  margin: 0 0 10px auto;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 14px 28px rgba(15, 50, 112, .18));
+}
+
+.footer__brand p {
+  max-width: 230px;
+  margin-left: auto;
+  color: #53647a;
+  font-size: 13px;
+  line-height: 1.55;
+  font-weight: 800;
+}
+
+html[data-theme="dark"] .footer {
+  background:
+    radial-gradient(circle at 86% 8%, rgba(50,136,255,.13), transparent 26%),
+    linear-gradient(180deg, #071a36 0%, #06162f 100%) !important;
+}
+
+html[data-theme="dark"] .footer__inner--premium {
+  background:
+    linear-gradient(180deg, rgba(18, 47, 88, 0.96), rgba(12, 37, 75, 0.96)) !important;
+  border-color: rgba(158, 190, 232, 0.18) !important;
+  box-shadow: 0 28px 82px rgba(0, 0, 0, 0.25);
+}
+
+html[data-theme="dark"] .footer__legal {
+  color: rgba(226, 236, 250, 0.76);
+}
+
+html[data-theme="dark"] .footer__legal a {
+  color: #a9c9ff;
+}
+
+html[data-theme="dark"] .footer__brand p {
+  color: rgba(226, 236, 250, 0.76);
+}
+
+html[data-theme="dark"] .footer__review-light {
+  display: none;
+}
+
+html[data-theme="dark"] .footer__review-dark {
+  display: block;
+}
+
+@media (max-width: 1050px) {
+  .footer__inner--premium {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .footer__review {
+    justify-self: start;
+  }
+
+  .footer__brand {
+    justify-self: start;
+    text-align: left;
+  }
+
+  .footer__brand img,
+  .footer__brand p {
+    margin-left: 0;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 620px) {
+
+  .price-category .price-row {
+    grid-template-columns: 1fr;
+  }
+
+  .price-category .price-row > div:last-child {
+    justify-self: start;
+  }
+}
+
+/* Footer brand plate: white logo remains visible in both themes */
+.footer__brand {
+  padding: 18px 18px 16px;
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(92,229,255,.18), transparent 30%),
+    linear-gradient(145deg, #071a36, #123d82);
+  border: 1px solid rgba(157,195,255,.18);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 18px 42px rgba(15, 50, 112, .18);
+}
+
+.footer__brand p {
+  color: rgba(255,255,255,.82) !important;
+}
+
+/* Internal page logo: dark mark on light theme, white mark on dark theme */
+.header--page .logo__icon--image img {
+  filter: invert(1) brightness(0.18) drop-shadow(0 8px 20px rgba(15, 50, 112, 0.10)) !important;
+}
+
+html[data-theme="dark"] .header--page .logo__icon--image img {
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.18)) !important;
+}
+
+/* Light theme page hero: clinic photo with a soft blue medical gradient instead of the dark navy overlay */
+.page-intro--photo {
+  background-image:
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.72) 0%, rgba(217, 238, 255, 0.42) 28%, transparent 52%),
+    linear-gradient(90deg, rgba(205, 231, 255, 0.96) 0%, rgba(187, 222, 255, 0.84) 42%, rgba(154, 205, 255, 0.42) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.20) 0%, rgba(194, 225, 255, 0.70) 100%),
+    url('/page-hero-clinic.webp') !important;
+  background-size: cover;
+  background-position: center;
+  border-bottom: 1px solid rgba(125, 181, 235, 0.42);
+}
+
+.page-intro--photo::before {
+  display: none !important;
+}
+
+.page-intro--photo .section-label {
+  color: #2f75df !important;
+  text-shadow: none !important;
+}
+
+.page-intro--photo h1 {
+  color: #10213d !important;
+  text-shadow: 0 20px 60px rgba(255, 255, 255, 0.55) !important;
+}
+
+.page-intro--photo p {
+  color: #4d5f76 !important;
+  text-shadow: none !important;
+}
+
+.page-intro--photo p strong {
+  color: #0d3d76 !important;
+  background: rgba(255, 255, 255, 0.72) !important;
+  border-color: rgba(47, 117, 223, 0.18) !important;
+  box-shadow: 0 10px 28px rgba(15, 50, 112, 0.08);
+}
+
+/* Dark theme keeps the cinematic navy overlay */
+html[data-theme="dark"] .page-intro--photo {
+  background-image:
+    linear-gradient(90deg, rgba(6, 22, 48, .98) 0%, rgba(7, 29, 61, .86) 42%, rgba(7, 29, 61, .42) 100%),
+    linear-gradient(180deg, rgba(7, 29, 61, .34) 0%, rgba(7, 29, 61, .94) 100%),
+    url('/page-hero-clinic.webp') !important;
+  border-bottom-color: rgba(141,184,255,.20);
+}
+
+html[data-theme="dark"] .page-intro--photo .section-label {
+  color: #9dc3ff !important;
+}
+
+html[data-theme="dark"] .page-intro--photo h1 {
+  color: #ffffff !important;
+  text-shadow: 0 20px 60px rgba(0,0,0,.26) !important;
+}
+
+html[data-theme="dark"] .page-intro--photo p {
+  color: rgba(235,244,255,.82) !important;
+  text-shadow: 0 12px 36px rgba(0,0,0,.20) !important;
+}
+
+html[data-theme="dark"] .page-intro--photo p strong {
+  color: #ffffff !important;
+  background: rgba(50,136,255,.24) !important;
+  border-color: rgba(157,195,255,.28) !important;
+}
+@media (min-width: 1181px) {
+  .services-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    gap: 28px !important;
+  }
+
+  .services-grid .service-card {
+    grid-column: span 2 !important;
+  }
+
+  .services-grid .service-card:nth-child(4) {
+    grid-column: 2 / span 2 !important;
+  }
+
+  .services-grid .service-card:nth-child(5) {
+    grid-column: 4 / span 2 !important;
+  }
+}
+
+@media (max-width: 1180px) {
+  .services-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .services-grid .service-card,
+  .services-grid .service-card:nth-child(4),
+  .services-grid .service-card:nth-child(5) {
+    grid-column: auto !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .services-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Akifiev: shift the photo content left so the doctor stands visually centered in the card crop */
+.doctor-card--akifiev .doctor-card__photo img {
+  object-position: 62% top !important;
+  transform: translateX(-14px) scale(1.035) !important;
+  transform-origin: center;
+}
+
+/* Price page: the three explanation cards must feel different, not copied */
+
+/* Price tables: category sections with clear visual difference */
+
+.price-category .price-row--head {
+  background: linear-gradient(135deg, var(--price-a), color-mix(in srgb, var(--price-a) 72%, #061936)) !important;
+}
+
+/* Footer: light theme uses a light brand card with the provided colored logo; dark theme keeps the white logo */
+.footer__brand {
+  justify-self: end;
+  text-align: center !important;
+  width: min(270px, 100%);
+  padding: 20px 18px 18px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(246,250,255,.92)) !important;
+  border: 1px solid rgba(174, 197, 224, 0.62);
+  box-shadow: 0 20px 58px rgba(15, 50, 112, 0.12);
+  color: #142033;
+}
+
+.footer__brand-mark {
+  display: grid;
+  place-items: center;
+  margin-bottom: 12px;
+}
+
+.footer__brand-logo {
+  width: 175px !important;
+  max-width: 100%;
+  height: auto !important;
+  margin: 0 auto !important;
+  object-fit: contain;
+  filter: none !important;
+}
+
+.footer__brand-logo--dark {
+  display: none !important;
+}
+
+.footer__brand p {
+  max-width: 230px;
+  margin: 0 auto !important;
+  color: #40536b !important;
+  font-size: 13px;
+  line-height: 1.55;
+  font-weight: 850;
+}
+
+html[data-theme="dark"] .footer__brand {
+  background: linear-gradient(180deg, rgba(12, 37, 75, 0.98), rgba(8, 25, 54, 0.98)) !important;
+  border-color: rgba(158, 190, 232, 0.18);
+  box-shadow: 0 24px 68px rgba(0,0,0,.28);
+}
+
+html[data-theme="dark"] .footer__brand-logo--light {
+  display: none !important;
+}
+
+html[data-theme="dark"] .footer__brand-logo--dark {
+  display: block !important;
+}
+
+html[data-theme="dark"] .footer__brand p {
+  color: rgba(226, 236, 250, 0.78) !important;
+}
+
+/* Soft iOS-style hint near the theme switcher */
+
+@keyframes themeHintIn {
+  from { opacity: 0; transform: translateY(-8px) scale(.96); filter: blur(4px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+/* Light theme service cards: light, expensive, separated from the pale background */
+html:not([data-theme="dark"]) .services-grid {
+  background:
+    radial-gradient(circle at 5% 9%, rgba(47, 117, 223, 0.10), transparent 28%),
+    radial-gradient(circle at 96% 74%, rgba(92, 229, 255, 0.11), transparent 30%);
+}
+
+html:not([data-theme="dark"]) .service-card__body {
+  background:
+    radial-gradient(circle at 92% 16%, rgba(92, 229, 255, 0.12), transparent 34%),
+    linear-gradient(180deg, rgba(255,255,255,0.98), rgba(238,247,255,0.96)) !important;
+  border-top: 1px solid rgba(47, 117, 223, 0.14);
+}
+
+html:not([data-theme="dark"]) .service-card__body p {
+  color: #52647c !important;
+}
+
+html:not([data-theme="dark"]) .service-card__body a {
+  color: #2f75df !important;
+}
+
+/* Light theme contacts: phone panel becomes light but still attention-grabbing */
+
+html:not([data-theme="dark"]) .contact-panel--main .blue-link {
+  box-shadow:
+    0 18px 42px rgba(47, 117, 223, 0.22),
+    0 0 34px rgba(92, 229, 255, 0.16);
+}
+
+@keyframes phoneNumberPulse {
+  0%, 100% {
+    transform: translateZ(0);
+    text-shadow: 0 0 0 rgba(47, 117, 223, 0);
+  }
+  50% {
+    transform: translateY(-1px);
+    text-shadow: 0 0 24px rgba(47, 117, 223, 0.22);
+  }
+}
+
+/* Doctor cards: every card gets its own accent, not the same top-right circle */
+.doctor-card--wow {
+  --doctor-a: #2f75df;
+  --doctor-b: #5ce5ff;
+  --doctor-soft: rgba(47,117,223,.12);
+}
+
+.doctors-grid--wow .doctor-card--wow:nth-child(2n) {
+  --doctor-a: #1ba8c8;
+  --doctor-b: #78b5ff;
+  --doctor-soft: rgba(92,229,255,.14);
+}
+
+.doctors-grid--wow .doctor-card--wow:nth-child(3n) {
+  --doctor-a: #6c63ff;
+  --doctor-b: #2f75df;
+  --doctor-soft: rgba(108,99,255,.12);
+}
+
+.doctors-grid--wow .doctor-card--wow:nth-child(4n) {
+  --doctor-a: #0f7aa7;
+  --doctor-b: #7dd3fc;
+  --doctor-soft: rgba(14,165,233,.12);
+}
+
+.doctors-grid--wow .doctor-card--wow:nth-child(5n) {
+  --doctor-a: #d7a026;
+  --doctor-b: #60a5fa;
+  --doctor-soft: rgba(215,160,38,.12);
+}
+
+html:not([data-theme="dark"]) .doctor-card--wow {
+  background:
+    radial-gradient(circle at 86% 12%, var(--doctor-soft), transparent 28%),
+    linear-gradient(180deg, rgba(255,255,255,0.98), rgba(245,250,255,0.92)) !important;
+  border: 1px solid rgba(174, 197, 224, 0.62) !important;
+}
+
+.doctors-grid--wow .doctor-card--wow::before {
+  opacity: 1;
+  filter: none;
+  background: none;
+}
+
+.doctors-grid--wow .doctor-card--wow:nth-child(1)::before {
+  right: -74px;
+  top: -78px;
+  width: 224px;
+  height: 224px;
+  border-radius: 52px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--doctor-a) 22%, transparent), color-mix(in srgb, var(--doctor-b) 8%, transparent));
+  transform: rotate(18deg);
+}
+
+.doctors-grid--wow .doctor-card--wow:nth-child(2)::before {
+  right: 28px;
+  top: 26px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--doctor-a) 22%, transparent);
+  background:
+    radial-gradient(circle, transparent 0 43%, color-mix(in srgb, var(--doctor-b) 12%, transparent) 44% 53%, transparent 54% 100%);
+  box-shadow: 48px 30px 0 color-mix(in srgb, var(--doctor-a) 7%, transparent);
+}
+
+.doctors-grid--wow .doctor-card--wow:nth-child(3)::before {
+  right: -20px;
+  top: 0;
+  width: 190px;
+  height: 100%;
+  border-radius: 0;
+  background:
+    repeating-linear-gradient(135deg, color-mix(in srgb, var(--doctor-a) 11%, transparent) 0 8px, transparent 8px 20px);
+  opacity: .58;
+}
+
+.doctors-grid--wow .doctor-card--wow:nth-child(4)::before {
+  right: -30px;
+  top: -22px;
+  width: 210px;
+  height: 210px;
+  border-radius: 42% 58% 55% 45%;
+  background:
+    radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--doctor-b) 18%, transparent), transparent 32%),
+    linear-gradient(145deg, color-mix(in srgb, var(--doctor-a) 16%, transparent), transparent);
+  transform: rotate(-12deg);
+}
+
+.doctors-grid--wow .doctor-card--wow:nth-child(5)::before,
+.doctors-grid--wow .doctor-card--wow:nth-child(6)::before,
+.doctors-grid--wow .doctor-card--wow:nth-child(7)::before,
+.doctors-grid--wow .doctor-card--wow:nth-child(8)::before,
+.doctors-grid--wow .doctor-card--wow:nth-child(9)::before,
+.doctors-grid--wow .doctor-card--wow:nth-child(10)::before {
+  right: -38px;
+  top: 22px;
+  width: 180px;
+  height: 180px;
+  border-radius: 40px;
+  background:
+    radial-gradient(circle at 18px 18px, color-mix(in srgb, var(--doctor-a) 25%, transparent) 0 4px, transparent 5px) 0 0 / 26px 26px,
+    linear-gradient(135deg, color-mix(in srgb, var(--doctor-b) 10%, transparent), transparent);
+  transform: rotate(8deg);
+}
+
+.doctors-grid--wow .doctor-card--wow::after {
+  content: "";
+  position: absolute;
+  left: 190px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--doctor-a), var(--doctor-b));
+  opacity: .76;
+}
+
+.doctor-card__branch,
+.doctor-tags span {
+  color: var(--doctor-a) !important;
+  background: color-mix(in srgb, var(--doctor-a) 10%, #ffffff) !important;
+}
+
+html[data-theme="dark"] .doctor-card__branch,
+html[data-theme="dark"] .doctor-tags span {
+  color: color-mix(in srgb, var(--doctor-b) 80%, #ffffff) !important;
+  background: color-mix(in srgb, var(--doctor-a) 20%, transparent) !important;
+}
+
+/* Mobile refinements for the hint and new doctor line */
+@media (max-width: 700px) {
+
+  .doctors-grid--wow .doctor-card--wow::after {
+    left: 0;
+    top: auto;
+    right: 0;
+    bottom: auto;
+    width: auto;
+    height: 4px;
+  }
+}
+
+/* Targeted филиал after clicking address on home page */
+.branch-card {
+  scroll-margin-top: 148px;
+}
+
+.branch-card--target {
+  position: relative;
+  border-color: rgba(92, 229, 255, 0.42) !important;
+  box-shadow:
+    0 34px 100px rgba(47, 117, 223, 0.24),
+    0 0 0 1px rgba(92, 229, 255, 0.30) inset !important;
+}
+
+.branch-card--target::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    linear-gradient(120deg, transparent 10%, rgba(92, 229, 255, 0.14) 45%, transparent 70%);
+  transform: translateX(-120%);
+  animation: branchTargetShine 1.7s ease 0.25s 1 forwards;
+}
+
+@keyframes branchTargetShine {
+  to {
+    transform: translateX(120%);
+  }
+}
+
+/* Dark theme price tables: no pale rows, all groups stay readable and premium */
+
+html[data-theme="dark"] .price-category .price-row {
+  color: rgba(235, 244, 255, 0.92) !important;
+  background: rgba(10, 35, 75, 0.58) !important;
+  border-bottom-color: rgba(141, 184, 255, 0.15) !important;
+}
+
+html[data-theme="dark"] .price-category .price-row:not(.price-row--head):nth-child(odd) {
+  background: rgba(16, 50, 98, 0.66) !important;
+}
+
+html[data-theme="dark"] .price-category .price-row:not(.price-row--head):hover {
+  background: rgba(34, 83, 151, 0.52) !important;
+}
+
+html[data-theme="dark"] .price-category .price-row > div:first-child {
+  color: rgba(245, 249, 255, 0.92) !important;
+}
+
+html[data-theme="dark"] .price-category .price-row > div:last-child {
+  color: #d7e8ff !important;
+  background: rgba(141, 184, 255, 0.16) !important;
+  border: 1px solid rgba(141, 184, 255, 0.18);
+}
+
+html[data-theme="dark"] .price-category .price-row--head {
+  background: linear-gradient(135deg, #1e64c8, #0f3f91) !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="dark"] .price-category .price-row--head > div:first-child,
+html[data-theme="dark"] .price-category .price-row--head > div:last-child {
+  color: #ffffff !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+html[data-theme="dark"] body,
+html[data-theme="dark"] .app {
+  background:
+    radial-gradient(circle at 50% 104vh, rgba(50, 136, 255, 0.055), transparent 34%),
+    linear-gradient(180deg, #071a36 0%, #071a36 100%) !important;
+}
+
+html[data-theme="dark"] main {
+  background: #071a36;
+}
+
+html[data-theme="dark"] .hero--wow {
+  background-color: #071a36 !important;
+  margin-bottom: -2px;
+}
+
+html[data-theme="dark"] .hero__overlay {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(7, 26, 54, 0.98) 0%,
+      rgba(7, 26, 54, 0.90) 28%,
+      rgba(10, 36, 72, 0.58) 55%,
+      rgba(10, 36, 72, 0.20) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(7, 26, 54, 0.38) 0%,
+      rgba(7, 26, 54, 0.06) 34%,
+      rgba(7, 26, 54, 0.78) 74%,
+      #071a36 100%
+    ) !important;
+}
+
+html[data-theme="dark"] .hero--wow::after {
+  height: 360px !important;
+  bottom: -1px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(7, 26, 54, 0) 0%,
+      rgba(7, 26, 54, 0.45) 42%,
+      rgba(7, 26, 54, 0.82) 72%,
+      #071a36 100%
+    ) !important;
+}
+
+/* Light theme: the photo header dissolves into the light page background. */
+.page-intro--photo {
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: -1px;
+  background-image:
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.72) 0%, rgba(217, 238, 255, 0.42) 28%, transparent 52%),
+    linear-gradient(90deg, rgba(205, 231, 255, 0.96) 0%, rgba(187, 222, 255, 0.84) 42%, rgba(154, 205, 255, 0.42) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(223, 239, 255, 0.78) 72%, var(--page) 100%),
+    url('/page-hero-clinic.webp') !important;
+}
+
+/* Dark theme: the photo header now fades into the exact site background color. */
+html[data-theme="dark"] .page-intro--photo {
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+  background-color: #071a36 !important;
+  background-image:
+    linear-gradient(90deg, rgba(7, 26, 54, 0.98) 0%, rgba(7, 26, 54, 0.86) 42%, rgba(7, 26, 54, 0.42) 100%),
+    linear-gradient(180deg, rgba(7, 26, 54, 0.28) 0%, rgba(7, 26, 54, 0.76) 68%, #071a36 100%),
+    url('/page-hero-clinic.webp') !important;
+}
+
+/* The first block after the header starts on the same color, so the transition is invisible. */
+html[data-theme="dark"] .page > section:not(.page-intro):first-of-type,
+html[data-theme="dark"] .services-grid,
+html[data-theme="dark"] .price-page {
+  background-color: #071a36;
+}
+html[data-theme="dark"] body,
+html[data-theme="dark"] .app,
+html[data-theme="dark"] main,
+html[data-theme="dark"] .page {
+  background: #071a36 !important;
+  background-color: #071a36 !important;
+}
+
+html[data-theme="dark"] .page-intro--photo {
+  position: relative !important;
+  isolation: isolate;
+  overflow: hidden !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 0 !important;
+  background-color: #071a36 !important;
+  background-image:
+    linear-gradient(180deg,
+      rgba(7, 26, 54, 0.18) 0%,
+      rgba(7, 26, 54, 0.58) 50%,
+      rgba(7, 26, 54, 0.90) 78%,
+      #071a36 100%
+    ),
+    linear-gradient(90deg,
+      rgba(7, 26, 54, 0.99) 0%,
+      rgba(7, 26, 54, 0.90) 34%,
+      rgba(7, 26, 54, 0.56) 68%,
+      rgba(7, 26, 54, 0.44) 100%
+    ),
+    url('/page-hero-clinic.webp') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+}
+
+html[data-theme="dark"] .page-intro--photo::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 210px;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    rgba(7, 26, 54, 0) 0%,
+    rgba(7, 26, 54, 0.72) 48%,
+    #071a36 86%,
+    #071a36 100%
+  );
+}
+
+html[data-theme="dark"] .page-intro--photo .container {
+  position: relative;
+  z-index: 2;
+}
+
+html[data-theme="dark"] .services-grid,
+html[data-theme="dark"] .price-highlights,
+html[data-theme="dark"] .price-wrap,
+html[data-theme="dark"] .price-catalog,
+html[data-theme="dark"] .branches-list,
+html[data-theme="dark"] .doctors-grid,
+html[data-theme="dark"] .doctors-grid--wow {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+html[data-theme="dark"] .team-hero {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 0 !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+  background:
+    radial-gradient(circle at 78% 12%, rgba(50, 136, 255, 0.11), transparent 34%),
+    radial-gradient(circle at 16% 88%, rgba(92, 229, 255, 0.07), transparent 30%),
+    linear-gradient(180deg, #071a36 0%, #071a36 100%) !important;
+}
+
+html[data-theme="dark"] .team-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 150px;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(7, 26, 54, 0) 0%, #071a36 78%, #071a36 100%);
+}
+
+html[data-theme="dark"] .team-hero__inner {
+  position: relative;
+  z-index: 2;
+}
+
+html[data-theme="dark"] .page > section:not(.page-intro),
+html[data-theme="dark"] .doctors-page > section:not(.team-hero) {
+  background-color: #071a36 !important;
+}
+:root {
+  --dark-page-solid: #071a36;
+}
+
+html[data-theme="dark"] body,
+html[data-theme="dark"] .app,
+html[data-theme="dark"] main,
+html[data-theme="dark"] .page {
+  background: var(--dark-page-solid) !important;
+  background-color: var(--dark-page-solid) !important;
+}
+
+/* Общая геометрия для Услуги / Цены / Филиалы / Контакты / документы */
+.page-intro--photo {
+  min-height: 430px !important;
+  height: 430px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  margin-bottom: 0 !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+.page-intro--photo .container {
+  position: relative !important;
+  z-index: 3 !important;
+  padding-top: 18px !important;
+}
+
+.page-intro--photo .section-label {
+  margin-bottom: 18px !important;
+}
+
+.page-intro--photo h1 {
+  margin: 0 !important;
+}
+
+/* Тёмная тема: фон шапки принудительно уходит в ровно тот же цвет, что и вся страница */
+html[data-theme="dark"] .page-intro--photo {
+  background-color: var(--dark-page-solid) !important;
+  background-image:
+    linear-gradient(180deg,
+      rgba(7, 26, 54, 0.20) 0%,
+      rgba(7, 26, 54, 0.72) 42%,
+      rgba(7, 26, 54, 0.96) 70%,
+      var(--dark-page-solid) 86%,
+      var(--dark-page-solid) 100%
+    ),
+    linear-gradient(90deg,
+      rgba(7, 26, 54, 0.99) 0%,
+      rgba(7, 26, 54, 0.92) 34%,
+      rgba(7, 26, 54, 0.66) 66%,
+      rgba(7, 26, 54, 0.58) 100%
+    ),
+    url('/page-hero-clinic.webp') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+}
+
+html[data-theme="dark"] .page-intro--photo::after {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: -2px !important;
+  height: 260px !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  background: linear-gradient(180deg,
+    rgba(7, 26, 54, 0) 0%,
+    rgba(7, 26, 54, 0.62) 34%,
+    var(--dark-page-solid) 72%,
+    var(--dark-page-solid) 100%
+  ) !important;
+}
+
+/* Первый контентный блок каждой страницы начинается на том же цвете, без отдельной полосы */
+html[data-theme="dark"] .page > section:not(.page-intro),
+html[data-theme="dark"] .services-grid,
+html[data-theme="dark"] .price-highlights,
+html[data-theme="dark"] .price-wrap,
+html[data-theme="dark"] .price-catalog,
+html[data-theme="dark"] .branches-list,
+html[data-theme="dark"] .doctors-grid,
+html[data-theme="dark"] .doctors-grid--wow {
+  background: var(--dark-page-solid) !important;
+  background-color: var(--dark-page-solid) !important;
+}
+
+/* Убираем визуальный перепад за счёт одинакового верхнего отступа после фотошапки */
+.services-grid,
+.price-highlights,
+.branches-list {
+  padding-top: 58px !important;
+}
+
+/* Врачи раньше имели свою шапку, поэтому выравниваем её по высоте и низу с остальными страницами */
+.team-hero {
+  min-height: 430px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  margin-bottom: 0 !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+.team-hero__inner {
+  width: min(1280px, calc(100% - 48px)) !important;
+  margin: 0 auto !important;
+  padding-top: 18px !important;
+}
+
+html[data-theme="dark"] .team-hero {
+  background:
+    linear-gradient(180deg,
+      var(--dark-page-solid) 0%,
+      var(--dark-page-solid) 72%,
+      var(--dark-page-solid) 100%
+    ) !important;
+}
+
+html[data-theme="dark"] .team-hero::after {
+  display: none !important;
+}
+
+html[data-theme="dark"] .doctors-grid--wow {
+  padding-top: 58px !important;
+}
+
+/* Подсказка возле переключателя темы: текст и позиционирование для тёмной темы по умолчанию */
+html[data-theme="dark"] .page-intro--photo {
+  background-image:
+    linear-gradient(180deg,
+      rgba(7, 26, 54, 0.14) 0%,
+      rgba(7, 26, 54, 0.30) 58%,
+      rgba(7, 26, 54, 0.58) 84%,
+      var(--dark-page-solid) 100%
+    ),
+    linear-gradient(90deg,
+      rgba(7, 26, 54, 0.98) 0%,
+      rgba(7, 26, 54, 0.90) 34%,
+      rgba(7, 26, 54, 0.58) 68%,
+      rgba(7, 26, 54, 0.48) 100%
+    ),
+    url('/page-hero-clinic.webp') !important;
+}
+
+/* Было слишком высокое затемнение 260px, из-за этого казалось,
+   что половина шапки перекрыта полосой. */
+html[data-theme="dark"] .page-intro--photo::after {
+  height: 96px !important;
+  bottom: -2px !important;
+  background: linear-gradient(180deg,
+    rgba(7, 26, 54, 0) 0%,
+    rgba(7, 26, 54, 0.18) 35%,
+    rgba(7, 26, 54, 0.62) 74%,
+    var(--dark-page-solid) 100%
+  ) !important;
+}
+
+/* Чтобы после уменьшения градиента первая секция не выглядела оторванной */
+html[data-theme="dark"] .services-grid,
+html[data-theme="dark"] .price-highlights,
+html[data-theme="dark"] .branches-list {
+  padding-top: 46px !important;
+}
+
+
+/* ===== Image optimization: AVIF first for heavy background photos, WebP fallback ===== */
+.hero {
+  background-image: image-set(
+    url("/hero.avif") type("image/avif"),
+    url("/hero.webp") type("image/webp")
+  ) !important;
+}
+
+.inner-page .page-hero,
+.services-page .page-hero,
+.prices-page .page-hero,
+.doctors-page .page-hero,
+.branches-page .page-hero,
+.contacts-page .page-hero {
+  background-image: image-set(
+    url("/page-hero-clinic.avif") type("image/avif"),
+    url("/page-hero-clinic.webp") type("image/webp")
+  ) !important;
+}
+.seo-fallback {
+  width: min(960px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 120px 0 80px;
+  font-family: Montserrat, Arial, sans-serif;
+  color: #f4f8ff;
+}
+
+.seo-fallback h1 {
+  max-width: 820px;
+  font-size: clamp(38px, 6vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -0.055em;
+  margin-bottom: 22px;
+}
+
+.seo-fallback p {
+  max-width: 740px;
+  color: rgba(226, 236, 250, 0.82);
+  line-height: 1.7;
+  font-weight: 650;
+  margin-bottom: 12px;
+}
+
+.mobile-sticky-cta {
+  display: none;
+}
+
+/* ===== Application shell, route loading and compact mobile menu (v16) ===== */
+.route-fallback {
+  display: grid;
+  place-items: center;
+  min-height: 54vh;
+  padding-block: 80px;
+}
+
+.route-fallback__card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 92px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: rgba(255,255,255,.78);
+  box-shadow: var(--shadow);
+}
+
+.route-fallback__spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(59,130,246,.2);
+  border-top-color: var(--blue);
+  border-radius: 50%;
+  animation: routeSpinner 780ms linear infinite;
+}
+
+@keyframes routeSpinner { to { transform: rotate(360deg); } }
+
+html[data-theme="dark"] .route-fallback__card {
+  background: rgba(8,31,70,.78);
+  border-color: rgba(150,198,255,.18);
+}
+
+.mobile-menu-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(111,161,231,.3);
+  border-radius: 14px;
+  background: rgba(255,255,255,.12);
+  color: inherit;
+  cursor: pointer;
+}
+
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.mobile-menu.is-open {
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.mobile-menu__backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: rgba(3,15,38,.58);
+  opacity: 0;
+  transition: opacity 260ms ease;
+}
+
+.mobile-menu.is-open .mobile-menu__backdrop { opacity: 1; }
+
+.mobile-menu__panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(88vw, 390px);
+  height: 100%;
+  padding: max(20px, env(safe-area-inset-top)) 18px calc(26px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  background: linear-gradient(180deg, #f9fcff, #eaf4ff);
+  color: #102544;
+  box-shadow: -28px 0 70px rgba(3,22,57,.24);
+  transform: translate3d(100%,0,0);
+  transition: transform 340ms var(--motion-ease);
+}
+
+.mobile-menu.is-open .mobile-menu__panel { transform: translate3d(0,0,0); }
+
+html[data-theme="dark"] .mobile-menu__panel {
+  background: linear-gradient(180deg, #0d3473, #071f4b);
+  color: #f4f8ff;
+}
+
+.mobile-menu__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(87,139,214,.2);
+}
+
+.mobile-menu__head div {
+  display: grid;
+  gap: 4px;
+}
+
+.mobile-menu__head span {
+  color: var(--blue-dark);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+html[data-theme="dark"] .mobile-menu__head span { color: #8fc6ff; }
+
+.mobile-menu__head strong { font-size: 22px; }
+
+.mobile-menu__head button {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(87,139,214,.22);
+  border-radius: 14px;
+  background: rgba(255,255,255,.55);
+  color: inherit;
+  cursor: pointer;
+}
+
+html[data-theme="dark"] .mobile-menu__head button { background: rgba(255,255,255,.08); }
+
+.mobile-menu__primary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.mobile-menu__primary a {
+  display: grid;
+  place-items: center;
+  min-height: 74px;
+  padding: 12px;
+  border: 1px solid rgba(65,127,216,.18);
+  border-radius: 18px;
+  background: rgba(255,255,255,.72);
+  font-weight: 900;
+  text-align: center;
+}
+
+.mobile-menu__primary a.active {
+  background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+  color: #fff;
+  box-shadow: 0 14px 30px rgba(37,99,235,.24);
+}
+
+html[data-theme="dark"] .mobile-menu__primary a {
+  background: rgba(255,255,255,.07);
+  border-color: rgba(154,202,255,.16);
+}
+
+.mobile-menu__secondary {
+  display: grid;
+  margin-top: 16px;
+  border-block: 1px solid rgba(87,139,214,.18);
+}
+
+.mobile-menu__secondary a {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  border-bottom: 1px solid rgba(87,139,214,.13);
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.mobile-menu__secondary a:last-child { border-bottom: 0; }
+.mobile-menu__secondary a.active { color: var(--blue-dark); }
+html[data-theme="dark"] .mobile-menu__secondary a.active { color: #8fc6ff; }
+
+.mobile-menu__appointment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 52px;
+  margin-top: 18px;
+  border-radius: 17px;
+  background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+  color: #fff;
+  font-weight: 900;
+  box-shadow: 0 16px 34px rgba(37,99,235,.28);
+}
+
+.mobile-sticky-cta {
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+/* Stable application shell: no permanent background movement. */
+.app::before,
+.app::after {
+  animation: none !important;
+}
+
+.header,
+.mobile-menu__panel,
+.appointment-modal__card {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}

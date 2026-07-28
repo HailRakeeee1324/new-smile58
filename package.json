@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && node scripts/prerender.mjs",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "check": "node scripts/validate.mjs && node --check scripts/prerender.mjs && node --check vite.config.js && node --check api/lead.js"
   },
   "dependencies": {
     "react": "^18.3.1",

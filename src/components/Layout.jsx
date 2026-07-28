@@ -1,0 +1,207 @@
+import React, { useEffect, useRef, useState } from "react";
+import { CalendarDays, Clock, MapPin, Menu, Moon, Phone, Sun, X } from "lucide-react";
+import { METRIKA_GOALS, PHONE, PHONE_LINK } from "../config/site.js";
+import { getNavActiveRoute, navItems, routeHref, routePaths } from "../config/routes.js";
+
+const mobilePrimaryLinks = [
+  { label: "Цены", route: "prices" },
+  { label: "Врачи", route: "doctors" },
+  { label: "Акции", route: "promotions" },
+  { label: "Услуги", route: "services" },
+];
+
+const mobileSecondaryLinks = [
+  { label: "Филиалы", route: "branches" },
+  { label: "До / После", route: "beforeAfter" },
+  { label: "Отзывы", route: "reviews" },
+  { label: "Контакты", route: "contacts" },
+  { label: "Блог", route: "blog" },
+];
+
+export function Header({ route, theme, onToggleTheme }) {
+  const isHome = route === "home";
+  const activeRoute = getNavActiveRoute(route);
+  const navRef = useRef(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!navRef.current) return;
+    navRef.current.querySelector("a.active")?.scrollIntoView({
+      block: "nearest",
+      inline: "center",
+      behavior: "auto",
+    });
+  }, [activeRoute]);
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [route]);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return undefined;
+    const handleEscape = (event) => {
+      if (event.key === "Escape") setMobileMenuOpen(false);
+    };
+    document.body.classList.add("mobile-menu-open");
+    window.addEventListener("keydown", handleEscape);
+    return () => {
+      document.body.classList.remove("mobile-menu-open");
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [mobileMenuOpen]);
+
+  return (
+    <header className={`header ${isHome ? "header--home" : "header--page"}`}>
+      <div className="container header__top">
+        <a className="logo" href="/" data-route-link aria-label="На главную">
+          <span className="logo__icon logo__icon--image" aria-hidden="true">
+            <img className="logo__theme-image logo__theme-image--light" src="/logo-black.png" alt="" width="106" height="92" decoding="async" fetchPriority="high" />
+            <img className="logo__theme-image logo__theme-image--dark" src="/logo-white.png" alt="" width="106" height="92" decoding="async" fetchPriority="high" />
+          </span>
+          <div className="logo__text">
+            <h3>Новая улыбка</h3>
+            <span>стоматология</span>
+          </div>
+        </a>
+
+        <div className="header__contacts">
+          <a className="contact-item" href={routePaths.branches} data-route-link>
+            <MapPin size={18} />
+            <span>3 филиала в Пензе</span>
+          </a>
+          <a className="contact-item" href={PHONE_LINK} data-metrika-label="Телефон в шапке">
+            <Phone size={18} />
+            <span>{PHONE}</span>
+          </a>
+          <div className="contact-item">
+            <Clock size={18} />
+            <span>Пн–Пт 09:00–21:00</span>
+          </div>
+        </div>
+
+        <div className="header__actions">
+          <a className="header__button" href={PHONE_LINK} data-appointment>Записаться</a>
+          <button
+            className="theme-toggle"
+            type="button"
+            onClick={onToggleTheme}
+            aria-label={theme === "dark" ? "Включить светлую тему" : "Включить тёмную тему"}
+          >
+            {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+          <button
+            className="mobile-menu-toggle"
+            type="button"
+            onClick={() => setMobileMenuOpen(true)}
+            aria-label="Открыть меню"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-site-menu"
+          >
+            <Menu size={22} />
+          </button>
+        </div>
+      </div>
+
+      <nav ref={navRef} className="container nav" aria-label="Основное меню">
+        {navItems.map((item) => (
+          <a className={activeRoute === item.route ? "active" : ""} href={routeHref(item.route)} data-route-link key={item.route}>
+            {item.label}
+          </a>
+        ))}
+      </nav>
+
+      <div className={`mobile-menu ${mobileMenuOpen ? "is-open" : ""}`} id="mobile-site-menu" aria-hidden={!mobileMenuOpen}>
+        <button className="mobile-menu__backdrop" type="button" aria-label="Закрыть меню" onClick={() => setMobileMenuOpen(false)} />
+        <div className="mobile-menu__panel" role="dialog" aria-modal="true" aria-label="Меню сайта">
+          <div className="mobile-menu__head">
+            <div>
+              <span>Новая улыбка</span>
+              <strong>Выберите раздел</strong>
+            </div>
+            <button type="button" onClick={() => setMobileMenuOpen(false)} aria-label="Закрыть меню"><X size={22} /></button>
+          </div>
+
+          <nav className="mobile-menu__primary" aria-label="Основные мобильные разделы">
+            {mobilePrimaryLinks.map((item) => (
+              <a className={activeRoute === item.route ? "active" : ""} href={routeHref(item.route)} data-route-link key={item.route}>
+                {item.label}
+              </a>
+            ))}
+          </nav>
+
+          <nav className="mobile-menu__secondary" aria-label="Дополнительные разделы">
+            {mobileSecondaryLinks.map((item) => (
+              <a className={activeRoute === item.route ? "active" : ""} href={routeHref(item.route)} data-route-link key={item.route}>
+                {item.label}
+              </a>
+            ))}
+          </nav>
+
+          <a className="mobile-menu__appointment" href={PHONE_LINK} data-appointment>
+            <CalendarDays size={19} /> Записаться на приём
+          </a>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+export function MobileStickyCta({ hidden = false }) {
+  if (hidden) return null;
+
+  return (
+    <nav className="mobile-sticky-cta mobile-sticky-cta--final" aria-label="Быстрые действия">
+      <a className="mobile-sticky-cta__item mobile-sticky-cta__item--phone" href={PHONE_LINK} data-metrika-label="Мобильная кнопка телефона">
+        <Phone size={18} />
+        <span>Позвонить</span>
+      </a>
+      <a className="mobile-sticky-cta__item mobile-sticky-cta__item--primary" href={PHONE_LINK} data-appointment>
+        <CalendarDays size={18} />
+        <span>Записаться</span>
+      </a>
+      <a className="mobile-sticky-cta__item mobile-sticky-cta__item--route" href={routePaths.branches} data-route-link>
+        <MapPin size={18} />
+        <span>Филиалы</span>
+      </a>
+    </nav>
+  );
+}
+
+export function Footer() {
+  return (
+    <footer className="footer">
+      <div className="container footer__inner footer__inner--premium">
+        <div className="footer__legal">
+          <p>Указанные на сайте цены не являются публичной офертой. Точная стоимость лечения определяется после осмотра врача.</p>
+          <a href={routePaths.privacy} data-route-link>Политика конфиденциальности</a>
+          <a href={routePaths.consent} data-route-link>Согласие на обработку персональных данных</a>
+          <a href={routePaths.license} data-route-link>Лицензия и реквизиты клиники</a>
+        </div>
+
+        <a
+          className="footer__review"
+          href="https://prodoctorov.ru/penza/lpu/102261-novaya-ulybka/"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Открыть страницу клиники Новая улыбка на ПроДокторов"
+          data-metrika-goal={METRIKA_GOALS.prodoctorovClick}
+        >
+          <img className="footer__review-light" src="/prodoctorov-light.webp" alt="Новая улыбка на ПроДокторов" loading="lazy" decoding="async" />
+          <img className="footer__review-dark" src="/prodoctorov-dark.webp" alt="Новая улыбка на ПроДокторов" loading="lazy" decoding="async" />
+        </a>
+
+        <div className="footer__brand">
+          <div className="footer__brand-mark">
+            <img className="footer__brand-logo footer__brand-logo--light" src="/footer-logo-color.webp" alt="Новая улыбка" loading="lazy" decoding="async" />
+            <img className="footer__brand-logo footer__brand-logo--dark" src="/footer-logo-white.webp" alt="Новая улыбка" loading="lazy" decoding="async" />
+          </div>
+          <p>Новая улыбка — сеть клиник современной стоматологии.</p>
+        </div>
+      </div>
+
+      <div className="footer__contra-watermark">
+        МЕДИЦИНСКИЕ УСЛУГИ ИМЕЮТ ПРОТИВОПОКАЗАНИЯ, НЕОБХОДИМА КОНСУЛЬТАЦИЯ СПЕЦИАЛИСТА.
+      </div>
+    </footer>
+  );
+}
