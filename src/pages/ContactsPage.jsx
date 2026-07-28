@@ -6,6 +6,7 @@ import { routePaths } from "../config/routes.js";
 import { branches } from "../data/branches.js";
 import { PageIntro } from "../components/Common.jsx";
 import "../styles/pages.css";
+import "../styles/page-layout.css";
 
 export default function ContactsPage() {
   const contactBranches = [

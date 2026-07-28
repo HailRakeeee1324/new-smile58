@@ -7,6 +7,7 @@ import { services } from "../data/services.jsx";
 import { LocalSeoCluster, PageIntro } from "../components/Common.jsx";
 import ResponsiveImage from "../components/ResponsiveImage.jsx";
 import "../styles/pages.css";
+import "../styles/page-layout.css";
 
 export default function ServicesPage() {
   return (

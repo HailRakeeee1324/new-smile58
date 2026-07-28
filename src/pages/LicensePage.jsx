@@ -2,6 +2,7 @@ import React from "react";
 import { PHONE_LINK } from "../config/site.js";
 import { PageIntro } from "../components/Common.jsx";
 import "../styles/pages.css";
+import "../styles/page-layout.css";
 
 export default function LicensePage() {
   return (

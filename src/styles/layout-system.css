@@ -1,0 +1,75 @@
+/* Canonical site shell. This file owns page width, centering and overflow. */
+:root {
+  --layout-max: 1280px;
+  --layout-gutter: 24px;
+  --layout-width: min(var(--layout-max), calc(100% - (var(--layout-gutter) * 2)));
+}
+
+html,
+body,
+#root,
+.app {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+
+html,
+body {
+  overflow-x: clip !important;
+}
+
+.app {
+  position: relative;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
+.header,
+main,
+.page,
+.seo-page,
+.home-page,
+.home-final,
+.page-intro,
+.footer {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.container {
+  width: var(--layout-width) !important;
+  max-width: var(--layout-max) !important;
+  min-width: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.page > .container,
+.seo-page > .container,
+.home-final > .container,
+.home-final__section > .container,
+.footer > .container,
+.header > .container {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --layout-gutter: 12px;
+  }
+}

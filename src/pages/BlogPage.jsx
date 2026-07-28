@@ -3,6 +3,7 @@ import { routeHref, routePaths } from "../config/routes.js";
 import { blogArticleMedia, blogArticles, serviceOrder, serviceSeoPages } from "../data/seo.js";
 import { PageIntro } from "../components/Common.jsx";
 import "../styles/pages.css";
+import "../styles/page-layout.css";
 
 export default function BlogPage() {
   const articles = Object.entries(blogArticles).filter(([, article]) => article?.title && article?.lead);

@@ -11,6 +11,7 @@ import { updatePageMeta } from "./utils/seo.js";
 import "./styles/base.css";
 import "./styles/components.css";
 import "./styles/responsive.css";
+import "./styles/layout-system.css";
 
 const pageLoaders = {
   appointment: () => import("./components/AppointmentModal.jsx").then((module) => ({ default: module.AppointmentModal })),

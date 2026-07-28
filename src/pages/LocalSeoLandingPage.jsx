@@ -5,6 +5,7 @@ import { localLandingEditorialContent, localLandingPages, routeMeta, seoImageLib
 import { branches } from "../data/branches.js";
 import { Breadcrumbs, EditorialPhotoGrid, LocalSeoCluster, RelatedArticlesSection } from "../components/Common.jsx";
 import "../styles/pages.css";
+import "../styles/page-layout.css";
 
 export default function LocalSeoLandingPage({ pageKey }) {
   const page = localLandingPages[pageKey] || localLandingPages.stomatologiyaSputnik;

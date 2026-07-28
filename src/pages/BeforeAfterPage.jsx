@@ -3,6 +3,7 @@ import { ChevronRight } from "lucide-react";
 import { beforeAfterCases } from "../data/beforeAfter.js";
 import { PageIntro } from "../components/Common.jsx";
 import "../styles/pages.css";
+import "../styles/page-layout.css";
 
 const storyLabels = [
   ["reason", "С чем обратился пациент"],

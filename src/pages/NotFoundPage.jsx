@@ -1,6 +1,7 @@
 import React from "react";
 import { routePaths } from "../config/routes.js";
 import "../styles/pages.css";
+import "../styles/page-layout.css";
 
 export default function NotFoundPage() {
   return (

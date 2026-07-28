@@ -2,6 +2,7 @@ import React from "react";
 import { doctors } from "../data/doctors.js";
 import ResponsiveImage from "../components/ResponsiveImage.jsx";
 import "../styles/pages.css";
+import "../styles/page-layout.css";
 
 export default function DoctorsPage() {
   return (

@@ -4,6 +4,7 @@ import { routeHref, routePaths } from "../config/routes.js";
 import { blogArticleMedia, blogArticles, serviceSeoPages } from "../data/seo.js";
 import { Breadcrumbs, LocalSeoCluster, PageIntro } from "../components/Common.jsx";
 import "../styles/pages.css";
+import "../styles/page-layout.css";
 
 export default function BlogArticlePage({ articleKey }) {
   const article = blogArticles[articleKey] || blogArticles.blogKaries;

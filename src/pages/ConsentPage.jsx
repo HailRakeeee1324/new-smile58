@@ -3,6 +3,7 @@ import { PHONE, PHONE_LINK } from "../config/site.js";
 import { routePaths } from "../config/routes.js";
 import { PageIntro } from "../components/Common.jsx";
 import "../styles/pages.css";
+import "../styles/page-layout.css";
 
 export default function ConsentPage() {
   return (

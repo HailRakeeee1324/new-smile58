@@ -4,6 +4,7 @@ import { promotions } from "../data/promotions.js";
 import { PageIntro } from "../components/Common.jsx";
 import ResponsiveImage from "../components/ResponsiveImage.jsx";
 import "../styles/pages.css";
+import "../styles/page-layout.css";
 
 export default function PromotionsPage() {
   const implant = promotions.implant;
