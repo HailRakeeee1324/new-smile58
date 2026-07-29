@@ -16,6 +16,7 @@ import "./styles/layout-system.css";
 import "./styles/stability-v19.css";
 import "./styles/final-polish-v22.css";
 import "./styles/final-polish-v23.css";
+import "./styles/final-polish-v24.css";
 
 const pageLoaders = {
   appointment: () => import("./components/AppointmentModal.jsx").then((module) => ({ default: module.AppointmentModal })),

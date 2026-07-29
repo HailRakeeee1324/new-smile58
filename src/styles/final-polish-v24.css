@@ -1,0 +1,287 @@
+/* v24 — alignment and mobile gutter corrections */
+
+/* Repair the malformed legacy v23 menu block by re-declaring the full rules. */
+body > .mobile-menu .mobile-menu__primary a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 20% 0%, rgba(94, 159, 255, .18), transparent 44%);
+}
+
+/* Footer: stable three-column alignment on desktop, clean stack on mobile. */
+.footer__inner--premium {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.12fr) minmax(260px, .72fr) minmax(230px, .62fr) !important;
+  align-items: center !important;
+  gap: 34px !important;
+  padding: 34px !important;
+}
+
+.footer__legal {
+  align-self: center !important;
+  justify-self: stretch !important;
+  min-width: 0 !important;
+  padding: 4px 0 !important;
+}
+
+.footer__legal p {
+  max-width: 560px !important;
+  margin: 0 0 8px !important;
+}
+
+.footer__legal a {
+  display: inline-flex !important;
+  align-items: center !important;
+  min-height: 30px !important;
+}
+
+.footer__review {
+  align-self: center !important;
+  justify-self: center !important;
+  width: min(320px, 100%) !important;
+  margin: 0 !important;
+}
+
+.footer__brand {
+  align-self: center !important;
+  justify-self: end !important;
+  width: 100% !important;
+  max-width: 250px !important;
+  margin: 0 !important;
+  text-align: center !important;
+}
+
+.footer__brand-mark {
+  width: 100% !important;
+  min-height: 190px !important;
+  margin: 0 auto !important;
+}
+
+.footer__brand p {
+  max-width: 230px !important;
+  margin: 12px auto 0 !important;
+  text-align: center !important;
+}
+
+/* Home director: captions always visible, media cells balanced. */
+.home-director-final--refined > .home-director-final__portrait,
+.home-director-final--refined > .home-director-final__clinic {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.home-director-final--refined .home-director-final__media-caption,
+.home-director-final--refined .home-director-final__clinic figcaption {
+  display: block !important;
+  position: absolute !important;
+  z-index: 4 !important;
+  inset: auto 18px 18px !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 16px 18px !important;
+  border-radius: 18px !important;
+  background: rgba(4, 19, 48, .66) !important;
+  border: 1px solid rgba(255,255,255,.18) !important;
+  backdrop-filter: blur(16px) !important;
+  box-shadow: 0 16px 36px rgba(0,0,0,.24) !important;
+  color: #fff !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.home-director-final--refined .home-director-final__media-caption span,
+.home-director-final--refined .home-director-final__clinic figcaption span {
+  display: block !important;
+  margin: 0 0 6px !important;
+  color: #a9d3ff !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+}
+
+.home-director-final--refined .home-director-final__media-caption strong,
+.home-director-final--refined .home-director-final__clinic figcaption strong {
+  display: block !important;
+  color: #fff !important;
+  font-size: clamp(16px, 1.5vw, 20px) !important;
+  line-height: 1.25 !important;
+}
+
+/* Contacts: outer card must visibly frame its inner cards. */
+.contacts-page .contacts-main-card {
+  padding: 24px !important;
+  gap: 18px !important;
+  border-radius: 34px !important;
+}
+
+.contacts-page .contacts-main-card__phone,
+.contacts-page .contacts-main-card__schedule,
+.contacts-page .contacts-main-card__addresses {
+  min-width: 0 !important;
+  margin: 0 !important;
+  border-radius: 26px !important;
+}
+
+/* Mobile page intros: prevent clipped headings and text touching the viewport. */
+@media (max-width: 900px) {
+  .page-intro,
+  .page-intro--photo,
+  .team-hero,
+  .service-landing-hero {
+    overflow: hidden !important;
+  }
+
+  .page-intro > .container,
+  .page-intro--photo > .container,
+  .team-hero__inner,
+  .service-landing-hero__grid {
+    width: calc(100% - 32px) !important;
+    max-width: 620px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    min-width: 0 !important;
+  }
+
+  .page-intro h1,
+  .page-intro--photo h1,
+  .team-hero h1,
+  .service-landing-hero h1 {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    font-size: clamp(38px, 10.4vw, 58px) !important;
+    line-height: .98 !important;
+    letter-spacing: -.052em !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+  }
+
+  .page-intro p,
+  .page-intro--photo p,
+  .team-hero p:not(.section-label),
+  .service-landing-hero__content > p {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    font-size: 15px !important;
+    line-height: 1.58 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  /* Prices: keep a real visual gap between the outer panel and its contents. */
+  .prices-page .price-search-panel {
+    width: calc(100% - 28px) !important;
+    max-width: 620px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: 24px 18px !important;
+    border-radius: 28px !important;
+    overflow: hidden !important;
+  }
+
+  .price-search-panel__copy,
+  .price-search-field,
+  .price-search-summary {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .price-search-panel__copy h2 {
+    font-size: clamp(31px, 8.4vw, 44px) !important;
+    line-height: 1.02 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .price-filter-chips {
+    width: calc(100% + 36px) !important;
+    max-width: none !important;
+    margin-left: -18px !important;
+    margin-right: -18px !important;
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Contacts mobile framing. */
+  .contacts-page .contacts-main-card {
+    width: calc(100% - 28px) !important;
+    max-width: 620px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: 14px !important;
+    gap: 14px !important;
+    border-radius: 28px !important;
+  }
+
+  .contacts-page .contacts-main-card__phone,
+  .contacts-page .contacts-main-card__schedule,
+  .contacts-page .contacts-main-card__addresses {
+    padding: 20px 18px !important;
+    border-radius: 22px !important;
+  }
+
+  /* Footer stack alignment. */
+  .footer__inner--premium {
+    grid-template-columns: 1fr !important;
+    width: calc(100% - 28px) !important;
+    max-width: 620px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: 20px !important;
+    gap: 18px !important;
+  }
+
+  .footer__legal,
+  .footer__review,
+  .footer__brand {
+    width: 100% !important;
+    max-width: 100% !important;
+    justify-self: stretch !important;
+    text-align: left !important;
+  }
+
+  .footer__brand {
+    justify-items: start !important;
+  }
+
+  .footer__brand-mark {
+    width: 100% !important;
+    min-height: 170px !important;
+  }
+
+  .footer__brand p {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    text-align: left !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .page-intro > .container,
+  .page-intro--photo > .container,
+  .team-hero__inner,
+  .service-landing-hero__grid {
+    width: calc(100% - 24px) !important;
+  }
+
+  .page-intro h1,
+  .page-intro--photo h1,
+  .team-hero h1,
+  .service-landing-hero h1 {
+    font-size: clamp(36px, 10vw, 50px) !important;
+  }
+
+  .home-director-final--refined .home-director-final__media-caption,
+  .home-director-final--refined .home-director-final__clinic figcaption {
+    inset: auto 12px 12px !important;
+    padding: 13px 14px !important;
+    border-radius: 16px !important;
+  }
+}

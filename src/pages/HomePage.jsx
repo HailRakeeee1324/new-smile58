@@ -356,7 +356,7 @@ export default function HomePage() {
           <figure className="home-director-final__portrait home-director-final__media-card reveal-on-scroll reveal--left">
             <ResponsiveImage src="/director-kaftaev-renat.webp" mobileSrc="/mobile/director-kaftaev-renat-720.webp" alt="Кафтаев Ренат Идрисович, руководитель стоматологии Новая улыбка" width="960" height="720" />
             <figcaption className="home-director-final__media-caption">
-              <span>Руководитель</span>
+              <span>Руководитель клиники</span>
               <strong>Кафтаев Ренат Идрисович</strong>
             </figcaption>
           </figure>
@@ -382,7 +382,7 @@ export default function HomePage() {
           <figure className="home-director-final__clinic home-director-final__media-card reveal-on-scroll reveal--right">
             <ResponsiveImage src="/home-advantages-clinic-v3.webp" mobileSrc="/mobile/home-advantages-clinic-v3-720.webp" alt="Современный кабинет стоматологии Новая улыбка" width="1280" height="720" />
             <figcaption className="home-director-final__media-caption">
-              <span>Пространство клиники</span>
+              <span>Пространство стоматологии</span>
               <strong>Современные кабинеты и спокойная атмосфера</strong>
             </figcaption>
           </figure>
