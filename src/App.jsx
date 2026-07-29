@@ -14,6 +14,7 @@ import "./styles/components.css";
 import "./styles/responsive.css";
 import "./styles/layout-system.css";
 import "./styles/stability-v19.css";
+import "./styles/final-polish-v22.css";
 
 const pageLoaders = {
   appointment: () => import("./components/AppointmentModal.jsx").then((module) => ({ default: module.AppointmentModal })),
@@ -51,7 +52,6 @@ const LicensePage = lazy(pageLoaders.license);
 const ServiceSeoPage = lazy(pageLoaders.serviceSeo);
 const LocalSeoLandingPage = lazy(pageLoaders.localSeo);
 
-const THEME_STORAGE_KEY = "site-theme-v6";
 const serviceRoutes = new Set([
   "implantaciya",
   "lechenieKariesa",
@@ -106,13 +106,7 @@ function RouteContent({ route }) {
 
 export default function App() {
   const [route, setRoute] = useState(getRouteFromLocation());
-  const [theme, setTheme] = useState(() => {
-    try {
-      return localStorage.getItem(THEME_STORAGE_KEY) || "light";
-    } catch {
-      return "light";
-    }
-  });
+  const [theme, setTheme] = useState("light");
   const [appointmentOpen, setAppointmentOpen] = useState(false);
 
   useEffect(() => {
@@ -199,11 +193,6 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem(THEME_STORAGE_KEY, theme);
-    } catch {
-      // Theme remains available even when storage is restricted.
-    }
   }, [theme]);
 
   const handleToggleTheme = () => {

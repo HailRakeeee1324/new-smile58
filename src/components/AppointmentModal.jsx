@@ -1,10 +1,13 @@
 // @ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
-import { CalendarDays, Phone } from "lucide-react";
+import { createPortal } from "react-dom";
+import { Phone } from "lucide-react";
 import { LEAD_ENDPOINT, MAX_LINK, PHONE, PHONE_LINK, SMARTCAPTCHA_SCRIPT_ID, SMARTCAPTCHA_SITE_KEY } from "../config/site.js";
 import { routePaths } from "../config/routes.js";
 import { getAttribution, sendMetrikaGoal } from "../utils/analytics.js";
 import { METRIKA_GOALS } from "../config/site.js";
+
+const renderInPortal = (node) => (typeof document !== "undefined" ? createPortal(node, document.body) : node);
 
 export function YandexCaptchaDialog({ isOpen, siteKey, onVerify, onClose }) {
   const containerRef = useRef(null);
@@ -84,7 +87,7 @@ export function YandexCaptchaDialog({ isOpen, siteKey, onVerify, onClose }) {
 
   if (!isOpen) return null;
 
-  return (
+  const captchaNode = (
     <div className="captcha-modal" role="dialog" aria-modal="true" aria-labelledby="captcha-modal-title">
       <button className="captcha-modal__backdrop" type="button" aria-label="Закрыть проверку" onClick={onClose} />
       <div className="captcha-modal__card">
@@ -102,6 +105,8 @@ export function YandexCaptchaDialog({ isOpen, siteKey, onVerify, onClose }) {
       </div>
     </div>
   );
+
+  return renderInPortal(captchaNode);
 }
 
 export function AppointmentModal({ isOpen, onClose }) {
@@ -141,7 +146,7 @@ export function AppointmentModal({ isOpen, onClose }) {
       document.body.classList.remove("modal-open");
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, captchaOpen]);
 
   const sendLead = async (payload, smartToken) => {
     setCaptchaOpen(false);
@@ -247,7 +252,7 @@ export function AppointmentModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  return (
+  const modalNode = (
     <div className="appointment-modal" role="dialog" aria-modal="true" aria-labelledby="appointment-modal-title">
       <button className="appointment-modal__backdrop" type="button" aria-label="Закрыть окно записи" onClick={onClose} />
       <div className="appointment-modal__card">
@@ -320,4 +325,6 @@ export function AppointmentModal({ isOpen, onClose }) {
       />
     </div>
   );
+
+  return renderInPortal(modalNode);
 }

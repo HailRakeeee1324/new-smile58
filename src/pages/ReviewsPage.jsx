@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { reviewGallery } from "../data/reviews.js";
 import { PageIntro } from "../components/Common.jsx";
@@ -13,6 +13,7 @@ export default function ReviewsPage() {
   const prevIndex = activeReview === 0 ? reviewGallery.length - 1 : activeReview - 1;
   const nextIndex = activeReview === reviewGallery.length - 1 ? 0 : activeReview + 1;
   const activeItem = reviewGallery[activeReview];
+  const reviewTouchStartX = useRef(null);
 
   const goPrevReview = () => {
     setSlideDirection("prev");
@@ -29,6 +30,24 @@ export default function ReviewsPage() {
     setActiveReview(index);
   };
 
+  const handleReviewTouchStart = (event) => {
+    reviewTouchStartX.current = event.touches?.[0]?.clientX ?? null;
+  };
+
+  const handleReviewTouchEnd = (event) => {
+    if (reviewTouchStartX.current == null) return;
+    const endX = event.changedTouches?.[0]?.clientX;
+    if (typeof endX !== "number") return;
+    const delta = endX - reviewTouchStartX.current;
+    reviewTouchStartX.current = null;
+    if (Math.abs(delta) < 44) return;
+    if (delta < 0) {
+      goNextReview();
+      return;
+    }
+    goPrevReview();
+  };
+
   return (
     <main className="page seo-page reviews-page reviews-page--carousel reviews-page--editorial reviews-page--final">
       <PageIntro
@@ -43,7 +62,12 @@ export default function ReviewsPage() {
           <p>Листайте отзывы и знакомьтесь с впечатлениями пациентов клиники.</p>
         </div>
 
-        <article className={`review-focus-card review-focus-card--editorial review-focus-card--final review-focus-card--${slideDirection}`} key={activeItem.name + activeItem.date}>
+        <article
+          className={`review-focus-card review-focus-card--editorial review-focus-card--final review-focus-card--${slideDirection}`}
+          key={activeItem.name + activeItem.date}
+          onTouchStart={handleReviewTouchStart}
+          onTouchEnd={handleReviewTouchEnd}
+        >
           <figure className="review-focus-card__image review-focus-card__image--editorial review-focus-card__image--final">
             <img src={activeItem.image} alt={"Отзыв пациента " + activeItem.name} loading="eager" decoding="async" />
           </figure>

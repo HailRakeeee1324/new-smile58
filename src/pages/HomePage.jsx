@@ -266,7 +266,15 @@ export default function HomePage() {
 
       <section className="home-final__section home-final__section--director" aria-labelledby="home-director-heading">
         <div className="container home-director-final home-director-final--refined">
-          <div className="home-director-final__story reveal-on-scroll reveal--left">
+          <figure className="home-director-final__portrait home-director-final__media-card reveal-on-scroll reveal--left">
+            <ResponsiveImage src="/director-kaftaev-renat.webp" mobileSrc="/mobile/director-kaftaev-renat-720.webp" alt="Кафтаев Ренат Идрисович, руководитель стоматологии Новая улыбка" width="960" height="720" />
+            <figcaption className="home-director-final__media-caption">
+              <span>Руководитель</span>
+              <strong>Кафтаев Ренат Идрисович</strong>
+            </figcaption>
+          </figure>
+
+          <article className="home-director-final__story reveal-on-scroll">
             <span className="home-final__eyebrow">О клинике</span>
             <h2 id="home-director-heading">Внимание к человеку — принцип нашей работы</h2>
             <p className="home-director-final__lead">Мы строим лечение вокруг конкретной ситуации пациента: спокойно объясняем, не торопим с решением и заранее обозначаем понятный маршрут.</p>
@@ -282,25 +290,15 @@ export default function HomePage() {
                 </article>
               ))}
             </div>
-          </div>
+          </article>
 
-          <div className="home-director-final__visual reveal-on-scroll reveal--right">
-            <figure className="home-director-final__portrait home-director-final__media-card">
-              <ResponsiveImage src="/director-kaftaev-renat.webp" mobileSrc="/mobile/director-kaftaev-renat-720.webp" alt="Кафтаев Ренат Идрисович, руководитель стоматологии Новая улыбка" width="960" height="720" />
-              <figcaption className="home-director-final__media-caption">
-                <span>Руководитель</span>
-                <strong>Кафтаев Ренат Идрисович</strong>
-              </figcaption>
-            </figure>
-
-            <figure className="home-director-final__clinic home-director-final__media-card">
-              <ResponsiveImage src="/home-advantages-clinic-v3.webp" mobileSrc="/mobile/home-advantages-clinic-v3-720.webp" alt="Современный кабинет стоматологии Новая улыбка" width="1280" height="720" />
-              <figcaption className="home-director-final__media-caption">
-                <span>Пространство клиники</span>
-                <strong>Современные кабинеты и спокойная атмосфера</strong>
-              </figcaption>
-            </figure>
-          </div>
+          <figure className="home-director-final__clinic home-director-final__media-card reveal-on-scroll reveal--right">
+            <ResponsiveImage src="/home-advantages-clinic-v3.webp" mobileSrc="/mobile/home-advantages-clinic-v3-720.webp" alt="Современный кабинет стоматологии Новая улыбка" width="1280" height="720" />
+            <figcaption className="home-director-final__media-caption">
+              <span>Пространство клиники</span>
+              <strong>Современные кабинеты и спокойная атмосфера</strong>
+            </figcaption>
+          </figure>
         </div>
       </section>
 
