@@ -121,18 +121,6 @@ export function AppointmentModal({ isOpen, onClose }) {
   useEffect(() => {
     if (!isOpen) return undefined;
 
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape") {
-        if (captchaOpen) {
-          setCaptchaOpen(false);
-          setSubmitState("idle");
-          setSubmitMessage("Проверка отменена. Чтобы отправить заявку, нажмите кнопку ещё раз.");
-        } else {
-          onClose();
-        }
-      }
-    };
-
     setFormSent(false);
     setSubmitState("idle");
     setSubmitMessage("");
@@ -140,13 +128,29 @@ export function AppointmentModal({ isOpen, onClose }) {
     setPendingPayload(null);
     setConsentAccepted(false);
     document.body.classList.add("modal-open");
-    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
       document.body.classList.remove("modal-open");
-      window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onClose, captchaOpen]);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key !== "Escape") return;
+      if (captchaOpen) {
+        setCaptchaOpen(false);
+        setSubmitState("idle");
+        setSubmitMessage("Проверка отменена. Чтобы отправить заявку, нажмите кнопку ещё раз.");
+        return;
+      }
+      onClose();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, captchaOpen, onClose]);
 
   const sendLead = async (payload, smartToken) => {
     setCaptchaOpen(false);

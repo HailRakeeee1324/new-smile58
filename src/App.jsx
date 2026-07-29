@@ -15,6 +15,7 @@ import "./styles/responsive.css";
 import "./styles/layout-system.css";
 import "./styles/stability-v19.css";
 import "./styles/final-polish-v22.css";
+import "./styles/final-polish-v23.css";
 
 const pageLoaders = {
   appointment: () => import("./components/AppointmentModal.jsx").then((module) => ({ default: module.AppointmentModal })),
@@ -130,8 +131,25 @@ export default function App() {
       const url = new URL(link.href, window.location.origin);
       if (url.origin !== window.location.origin) return;
       event.preventDefault();
-      window.history.pushState({}, "", `${url.pathname}${url.search}${url.hash}`);
-      startTransition(() => setRoute(getRouteFromLocation()));
+
+      const navigate = () => {
+        window.history.pushState({}, "", `${url.pathname}${url.search}${url.hash}`);
+        flushSync(() => setRoute(getRouteFromLocation()));
+      };
+
+      const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+      if (!reduceMotion && typeof document.startViewTransition === "function") {
+        document.startViewTransition(navigate);
+        return;
+      }
+
+      document.documentElement.classList.add("route-transitioning");
+      window.setTimeout(() => {
+        navigate();
+        window.requestAnimationFrame(() => {
+          document.documentElement.classList.remove("route-transitioning");
+        });
+      }, 110);
     };
     document.addEventListener("click", handleInternalNavigation);
     return () => document.removeEventListener("click", handleInternalNavigation);

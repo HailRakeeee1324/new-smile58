@@ -16,6 +16,9 @@ export default function HomePage() {
   const activePromo = homeHeroPromotions[promoIndex];
   const activeResult = homeBeforeAfterCases[resultIndex];
   const promoTouchStartX = useRef(null);
+  const trustCarouselRef = useRef(null);
+  const trustAutoplayPausedRef = useRef(false);
+  const [trustIndex, setTrustIndex] = useState(0);
 
   useEffect(() => {
     if (typeof window === "undefined" || homeHeroPromotions.length < 2) return undefined;
@@ -73,6 +76,70 @@ export default function HomePage() {
       compactViewport.removeEventListener?.("change", syncTimer);
     };
   }, [promoPaused]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+
+    const mobileViewport = window.matchMedia("(max-width: 900px)");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let timer = null;
+
+    const scrollToTrustCard = (index, behavior = "smooth") => {
+      const rail = trustCarouselRef.current;
+      const card = rail?.querySelectorAll(".home-trust-item")?.[index];
+      if (!rail || !card) return;
+      rail.scrollTo({ left: Math.max(0, card.offsetLeft - 2), behavior });
+    };
+
+    const stop = () => {
+      if (timer) {
+        window.clearInterval(timer);
+        timer = null;
+      }
+    };
+
+    const start = () => {
+      stop();
+      if (!mobileViewport.matches || reduceMotion.matches || document.hidden) return;
+      timer = window.setInterval(() => {
+        if (trustAutoplayPausedRef.current) return;
+        setTrustIndex((current) => {
+          const next = (current + 1) % homeTrustFacts.length;
+          scrollToTrustCard(next);
+          return next;
+        });
+      }, 3800);
+    };
+
+    const handleVisibility = () => start();
+    const handleViewport = () => {
+      if (!mobileViewport.matches) {
+        setTrustIndex(0);
+        trustCarouselRef.current?.scrollTo({ left: 0, behavior: "auto" });
+      }
+      start();
+    };
+
+    start();
+    document.addEventListener("visibilitychange", handleVisibility);
+    mobileViewport.addEventListener?.("change", handleViewport);
+    reduceMotion.addEventListener?.("change", start);
+
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", handleVisibility);
+      mobileViewport.removeEventListener?.("change", handleViewport);
+      reduceMotion.removeEventListener?.("change", start);
+    };
+  }, []);
+
+  const goToTrustCard = (index) => {
+    const rail = trustCarouselRef.current;
+    const card = rail?.querySelectorAll(".home-trust-item")?.[index];
+    if (!rail || !card) return;
+    setTrustIndex(index);
+    rail.scrollTo({ left: Math.max(0, card.offsetLeft - 2), behavior: "smooth" });
+  };
 
   const changePromo = (direction) => {
     setPromoIndex((current) => {
@@ -144,19 +211,39 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="container home-final__trust reveal-on-scroll" aria-label="Преимущества стоматологии Новая улыбка">
-        {homeTrustFacts.map((item, index) => (
-          <article className="home-trust-item" key={item.label} style={{ "--reveal-delay": `${index * 70}ms` }}>
-            <div className="home-trust-item__icon">{item.icon}</div>
-            <div className="home-trust-item__copy">
-              <div className="home-trust-item__headline">
-                <strong>{item.value}</strong>
-                <span>{item.label}</span>
+      <section className="container home-trust-shell reveal-on-scroll" aria-label="Преимущества стоматологии Новая улыбка">
+        <div
+          className="home-final__trust"
+          ref={trustCarouselRef}
+          onPointerEnter={() => { trustAutoplayPausedRef.current = true; }}
+          onPointerLeave={() => { trustAutoplayPausedRef.current = false; }}
+          onTouchStart={() => { trustAutoplayPausedRef.current = true; }}
+          onTouchEnd={() => { window.setTimeout(() => { trustAutoplayPausedRef.current = false; }, 1400); }}
+        >
+          {homeTrustFacts.map((item, index) => (
+            <article className="home-trust-item" key={item.label} style={{ "--reveal-delay": `${index * 70}ms` }}>
+              <div className="home-trust-item__icon">{item.icon}</div>
+              <div className="home-trust-item__copy">
+                <div className="home-trust-item__headline">
+                  <strong>{item.value}</strong>
+                  <span>{item.label}</span>
+                </div>
+                <p>{item.text}</p>
               </div>
-              <p>{item.text}</p>
-            </div>
-          </article>
-        ))}
+            </article>
+          ))}
+        </div>
+        <div className="home-trust-dots" aria-label="Навигация по преимуществам">
+          {homeTrustFacts.map((item, index) => (
+            <button
+              type="button"
+              className={index === trustIndex ? "is-active" : ""}
+              onClick={() => goToTrustCard(index)}
+              aria-label={`Показать: ${item.label}`}
+              key={item.label}
+            />
+          ))}
+        </div>
       </section>
 
       <section className="home-final__section home-final__section--promo" aria-labelledby="home-promo-heading">
