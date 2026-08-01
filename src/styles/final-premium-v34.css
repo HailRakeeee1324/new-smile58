@@ -1,0 +1,291 @@
+/* =========================================================
+   V34 — final mobile spacing, centering, header and footer fix
+   Loaded after V33.
+   ========================================================= */
+
+/* ---------- Header shell: absolutely no visible card/frame ---------- */
+.header.header--home,
+.header.header--home .header__top,
+.header.header--home .nav {
+  border: 0 !important;
+  outline: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.header.header--home::before,
+.header.header--home::after,
+.header.header--home .header__top::before,
+.header.header--home .header__top::after,
+.header.header--home .nav::before,
+.header.header--home .nav::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* ---------- Footer review badge: remove every matte/black frame ---------- */
+.footer__review,
+html[data-theme="dark"] .footer__review {
+  display: block !important;
+  width: min(330px, 100%) !important;
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  border-radius: 20px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+.footer__review img,
+.footer__review-light,
+.footer__review-dark {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 20px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  object-fit: contain !important;
+}
+
+.footer__review-dark,
+html[data-theme="dark"] .footer__review-dark {
+  display: none !important;
+}
+
+.footer__review-light,
+html[data-theme="dark"] .footer__review-light {
+  display: block !important;
+}
+
+/* ---------- Carousel footers: always geometrically centered ---------- */
+.centered-carousel--doctors .centered-carousel__footer,
+.centered-carousel--reviews .centered-carousel__footer {
+  grid-column: 1 / -1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 9px !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 8px auto 0 !important;
+  padding: 0 !important;
+  text-align: center !important;
+  transform: none !important;
+}
+
+.centered-carousel--doctors .centered-carousel__dots,
+.centered-carousel--reviews .centered-carousel__dots,
+.centered-carousel--doctors .conversion-inline-link,
+.centered-carousel--reviews .centered-carousel__footer > span {
+  align-self: center !important;
+  justify-content: center !important;
+  margin-inline: auto !important;
+  text-align: center !important;
+}
+
+.centered-carousel--doctors .conversion-inline-link {
+  width: fit-content !important;
+}
+
+@media (max-width: 720px) {
+  /* ---------- Stable mobile gutters across the whole site ---------- */
+  .container,
+  .conversion-home .container,
+  .page .container,
+  .footer .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-inline: auto !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  .conversion-section,
+  .conversion-section > .container,
+  .conversion-concerns__shell,
+  .conversion-prices__shell,
+  .conversion-doctors > .container,
+  .conversion-cases > .container,
+  .conversion-reviews > .container {
+    min-width: 0 !important;
+  }
+
+  /* ---------- Mobile header: transparent, compact and non-overlapping ---------- */
+  .header.header--home {
+    position: absolute !important;
+    inset: 0 0 auto 0 !important;
+    padding: 0 !important;
+  }
+
+  .header.header--home .header__top {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 6px !important;
+    width: 100% !important;
+    min-height: 66px !important;
+    padding: 8px 10px !important;
+  }
+
+  .header.header--home .logo {
+    min-width: 0 !important;
+    max-width: 170px !important;
+    gap: 5px !important;
+    overflow: hidden !important;
+  }
+
+  .header.header--home .logo__icon {
+    flex: 0 0 38px !important;
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  .header.header--home .logo__icon--image img {
+    width: 48px !important;
+    height: 44px !important;
+    transform: translate(3px, 2px) !important;
+  }
+
+  .header.header--home .logo__text {
+    min-width: 0 !important;
+  }
+
+  .header.header--home .logo__text h3 {
+    overflow: hidden !important;
+    font-size: 17px !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .header.header--home .logo__text span {
+    margin-top: 3px !important;
+    font-size: 6.8px !important;
+    letter-spacing: .14em !important;
+    white-space: nowrap !important;
+  }
+
+  .header.header--home .header__actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    margin: 0 !important;
+  }
+
+  .header.header--home .header__button {
+    flex: 0 0 auto !important;
+    min-width: 56px !important;
+    min-height: 38px !important;
+    padding: 8px 10px !important;
+    border-radius: 14px !important;
+    font-size: 11px !important;
+    line-height: 1 !important;
+  }
+
+  .header.header--home .theme-toggle,
+  .header.header--home .mobile-menu-toggle {
+    flex: 0 0 38px !important;
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+  }
+
+  /* ---------- First screen: remove the repeated empty top field ---------- */
+  .conversion-hero__inner {
+    display: flex !important;
+    min-height: auto !important;
+    padding-top: 66px !important;
+    padding-bottom: 16px !important;
+    justify-content: flex-start !important;
+  }
+
+  .conversion-hero__copy {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .conversion-hero__copy .conversion-eyebrow {
+    margin-top: 2px !important;
+  }
+
+  .conversion-hero h1 {
+    margin-top: 12px !important;
+  }
+
+  .conversion-hero__actions {
+    display: none !important;
+  }
+
+  /* ---------- Doctors/reviews: full viewport centering, arrows overlay ---------- */
+  .centered-carousel--doctors,
+  .centered-carousel--reviews {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 0 !important;
+  }
+
+  .centered-carousel--doctors .centered-carousel__viewport,
+  .centered-carousel--reviews .centered-carousel__viewport {
+    grid-column: 1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .centered-carousel--doctors .centered-carousel__arrow,
+  .centered-carousel--reviews .centered-carousel__arrow {
+    position: absolute !important;
+    z-index: 6 !important;
+    top: 43% !important;
+    width: 38px !important;
+    height: 38px !important;
+    margin: 0 !important;
+  }
+
+  .centered-carousel--doctors .centered-carousel__arrow--left,
+  .centered-carousel--reviews .centered-carousel__arrow--left {
+    left: 0 !important;
+  }
+
+  .centered-carousel--doctors .centered-carousel__arrow--right,
+  .centered-carousel--reviews .centered-carousel__arrow--right {
+    right: 0 !important;
+  }
+
+  .centered-carousel--doctors .centered-carousel__rail {
+    padding-left: calc(50% - 150px) !important;
+    padding-right: calc(50% - 150px) !important;
+  }
+
+  .centered-carousel--reviews .centered-carousel__rail {
+    padding-left: calc(50% - 145px) !important;
+    padding-right: calc(50% - 145px) !important;
+  }
+
+  .centered-carousel--doctors .centered-carousel__footer,
+  .centered-carousel--reviews .centered-carousel__footer {
+    grid-column: 1 !important;
+    margin-top: 6px !important;
+  }
+
+  /* Footer on mobile: no black/matte frame and consistent gutters */
+  .footer__inner--premium {
+    width: 100% !important;
+    padding: 18px !important;
+  }
+
+  .footer__review {
+    justify-self: center !important;
+    width: min(100%, 330px) !important;
+  }
+}
