@@ -33,8 +33,14 @@ function useCenteredRail(length, initialIndex = 0) {
   const loopLength = Math.max(length * 3, length);
   const [virtualIndex, setVirtualIndex] = useState(length + Math.min(initialIndex, Math.max(0, length - 1)));
   const railRef = useRef(null);
-  const touchStartRef = useRef(null);
+  const gestureRef = useRef(null);
   const animationRef = useRef(null);
+  const resizeFrameRef = useRef(null);
+  const virtualIndexRef = useRef(virtualIndex);
+
+  useEffect(() => {
+    virtualIndexRef.current = virtualIndex;
+  }, [virtualIndex]);
 
   const stopAnimation = () => {
     if (animationRef.current) {
@@ -43,14 +49,19 @@ function useCenteredRail(length, initialIndex = 0) {
     }
   };
 
-  const centerCard = (targetIndex, instant = false) => {
+  const cardCenterOffset = (targetIndex) => {
     const rail = railRef.current;
     const card = rail?.children?.[targetIndex];
-    if (!rail || !card) return;
+    if (!rail || !card) return null;
+    return Math.max(0, card.offsetLeft - (rail.clientWidth - card.clientWidth) / 2);
+  };
 
-    const target = Math.max(0, card.offsetLeft - (rail.clientWidth - card.clientWidth) / 2);
-    const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+  const centerCard = (targetIndex, instant = false) => {
+    const rail = railRef.current;
+    const target = cardCenterOffset(targetIndex);
+    if (!rail || target == null) return;
 
+    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
     stopAnimation();
 
     if (instant || reduceMotion) {
@@ -60,21 +71,23 @@ function useCenteredRail(length, initialIndex = 0) {
 
     const start = rail.scrollLeft;
     const distance = target - start;
-    if (Math.abs(distance) < 1) return;
+    if (Math.abs(distance) < 0.75) {
+      rail.scrollLeft = target;
+      return;
+    }
 
     const startedAt = performance.now();
-    const duration = Math.min(720, Math.max(520, 500 + Math.abs(distance) * 0.16));
+    const duration = Math.min(620, Math.max(430, 430 + Math.abs(distance) * 0.12));
 
     const tick = (now) => {
       const progress = Math.min(1, (now - startedAt) / duration);
-      const eased = progress < 0.5
-        ? 16 * Math.pow(progress, 5)
-        : 1 - Math.pow(-2 * progress + 2, 5) / 2;
+      const eased = 1 - Math.pow(1 - progress, 4);
       rail.scrollLeft = start + distance * eased;
 
       if (progress < 1) {
         animationRef.current = window.requestAnimationFrame(tick);
       } else {
+        rail.scrollLeft = target;
         animationRef.current = null;
       }
     };
@@ -83,13 +96,27 @@ function useCenteredRail(length, initialIndex = 0) {
   };
 
   useEffect(() => {
-    const frame = window.requestAnimationFrame(() => centerCard(virtualIndex, true));
-    const handleResize = () => centerCard(virtualIndex, true);
-    window.addEventListener("resize", handleResize, { passive: true });
+    const rail = railRef.current;
+    const recenter = () => {
+      if (resizeFrameRef.current) window.cancelAnimationFrame(resizeFrameRef.current);
+      resizeFrameRef.current = window.requestAnimationFrame(() => centerCard(virtualIndexRef.current, true));
+    };
+
+    const firstFrame = window.requestAnimationFrame(recenter);
+    window.addEventListener('resize', recenter, { passive: true });
+
+    const resizeObserver = typeof ResizeObserver !== 'undefined' && rail
+      ? new ResizeObserver(recenter)
+      : null;
+    resizeObserver?.observe(rail);
+
+    document.fonts?.ready?.then(recenter).catch(() => {});
 
     return () => {
-      window.cancelAnimationFrame(frame);
-      window.removeEventListener("resize", handleResize);
+      window.cancelAnimationFrame(firstFrame);
+      if (resizeFrameRef.current) window.cancelAnimationFrame(resizeFrameRef.current);
+      window.removeEventListener('resize', recenter);
+      resizeObserver?.disconnect();
       stopAnimation();
     };
   }, []);
@@ -104,7 +131,7 @@ function useCenteredRail(length, initialIndex = 0) {
         const resetIndex = length + normalized;
         setVirtualIndex(resetIndex);
         window.requestAnimationFrame(() => centerCard(resetIndex, true));
-      }, 760);
+      }, 650);
     }
 
     return () => {
@@ -126,24 +153,66 @@ function useCenteredRail(length, initialIndex = 0) {
   const goNext = () => setVirtualIndex((current) => current + 1);
 
   const onTouchStart = (event) => {
+    const rail = railRef.current;
+    const touch = event.touches?.[0];
+    if (!rail || !touch) return;
+
     stopAnimation();
-    touchStartRef.current = event.touches?.[0]?.clientX ?? null;
+    gestureRef.current = {
+      startX: touch.clientX,
+      startY: touch.clientY,
+      startScrollLeft: rail.scrollLeft,
+      startedAt: performance.now(),
+      horizontal: false,
+    };
   };
 
-  const onTouchEnd = (event) => {
-    if (touchStartRef.current == null) return;
-    const endX = event.changedTouches?.[0]?.clientX;
-    if (typeof endX !== "number") return;
-    const delta = endX - touchStartRef.current;
-    touchStartRef.current = null;
+  const onTouchMove = (event) => {
+    const rail = railRef.current;
+    const gesture = gestureRef.current;
+    const touch = event.touches?.[0];
+    if (!rail || !gesture || !touch) return;
 
-    if (Math.abs(delta) < 38) {
+    const deltaX = touch.clientX - gesture.startX;
+    const deltaY = touch.clientY - gesture.startY;
+
+    if (!gesture.horizontal && Math.abs(deltaX) > Math.abs(deltaY) + 5) {
+      gesture.horizontal = true;
+    }
+
+    if (!gesture.horizontal) return;
+    if (event.cancelable) event.preventDefault();
+    rail.scrollLeft = gesture.startScrollLeft - deltaX;
+  };
+
+  const finishTouch = (event) => {
+    const gesture = gestureRef.current;
+    const touch = event.changedTouches?.[0];
+    gestureRef.current = null;
+
+    if (!gesture || !touch) {
       centerCard(virtualIndex);
       return;
     }
 
-    if (delta < 0) goNext();
+    const deltaX = touch.clientX - gesture.startX;
+    const elapsed = Math.max(1, performance.now() - gesture.startedAt);
+    const velocity = Math.abs(deltaX) / elapsed;
+    const shouldMove = gesture.horizontal && (Math.abs(deltaX) >= 34 || velocity >= 0.34);
+
+    if (!shouldMove) {
+      centerCard(virtualIndex);
+      return;
+    }
+
+    if (deltaX < 0) goNext();
     else goPrev();
+  };
+
+  const onTouchEnd = (event) => finishTouch(event);
+  const onTouchCancel = () => {
+    gestureRef.current = null;
+    centerCard(virtualIndex);
   };
 
   const items = useMemo(
@@ -163,10 +232,11 @@ function useCenteredRail(length, initialIndex = 0) {
     goPrev,
     goNext,
     onTouchStart,
+    onTouchMove,
     onTouchEnd,
+    onTouchCancel,
   };
 }
-
 
 function useTransformCarousel(length, initialIndex = 0) {
   const loopLength = Math.max(length * 3, length);
@@ -175,7 +245,13 @@ function useTransformCarousel(length, initialIndex = 0) {
   const [transitionEnabled, setTransitionEnabled] = useState(false);
   const viewportRef = useRef(null);
   const trackRef = useRef(null);
-  const touchStartRef = useRef(null);
+  const gestureRef = useRef(null);
+  const resizeFrameRef = useRef(null);
+  const virtualIndexRef = useRef(virtualIndex);
+
+  useEffect(() => {
+    virtualIndexRef.current = virtualIndex;
+  }, [virtualIndex]);
 
   const measureOffset = (index) => {
     const viewport = viewportRef.current;
@@ -185,27 +261,41 @@ function useTransformCarousel(length, initialIndex = 0) {
     return viewport.clientWidth / 2 - (card.offsetLeft + card.offsetWidth / 2);
   };
 
+  const settleAt = (index, animate = true) => {
+    setTransitionEnabled(animate);
+    setOffset(measureOffset(index));
+  };
+
   useLayoutEffect(() => {
-    setOffset(measureOffset(virtualIndex));
+    settleAt(virtualIndex, true);
   }, [virtualIndex]);
 
   useEffect(() => {
-    const frame = window.requestAnimationFrame(() => {
-      setTransitionEnabled(false);
-      setOffset(measureOffset(virtualIndex));
-      window.requestAnimationFrame(() => setTransitionEnabled(true));
-    });
-
-    const handleResize = () => {
-      setTransitionEnabled(false);
-      setOffset(measureOffset(virtualIndex));
-      window.requestAnimationFrame(() => setTransitionEnabled(true));
+    const recenter = () => {
+      if (resizeFrameRef.current) window.cancelAnimationFrame(resizeFrameRef.current);
+      resizeFrameRef.current = window.requestAnimationFrame(() => {
+        setTransitionEnabled(false);
+        setOffset(measureOffset(virtualIndexRef.current));
+        window.requestAnimationFrame(() => setTransitionEnabled(true));
+      });
     };
 
-    window.addEventListener("resize", handleResize, { passive: true });
+    const frame = window.requestAnimationFrame(recenter);
+    window.addEventListener('resize', recenter, { passive: true });
+
+    const observer = typeof ResizeObserver !== 'undefined'
+      ? new ResizeObserver(recenter)
+      : null;
+    if (viewportRef.current) observer?.observe(viewportRef.current);
+    if (trackRef.current) observer?.observe(trackRef.current);
+
+    document.fonts?.ready?.then(recenter).catch(() => {});
+
     return () => {
       window.cancelAnimationFrame(frame);
-      window.removeEventListener("resize", handleResize);
+      if (resizeFrameRef.current) window.cancelAnimationFrame(resizeFrameRef.current);
+      window.removeEventListener('resize', recenter);
+      observer?.disconnect();
     };
   }, []);
 
@@ -221,7 +311,7 @@ function useTransformCarousel(length, initialIndex = 0) {
         setOffset(measureOffset(resetIndex));
         window.requestAnimationFrame(() => setTransitionEnabled(true));
       });
-    }, 540);
+    }, 620);
 
     return () => window.clearTimeout(timeoutId);
   }, [virtualIndex, length]);
@@ -247,18 +337,64 @@ function useTransformCarousel(length, initialIndex = 0) {
   };
 
   const onTouchStart = (event) => {
-    touchStartRef.current = event.touches?.[0]?.clientX ?? null;
+    const touch = event.touches?.[0];
+    if (!touch) return;
+
+    setTransitionEnabled(false);
+    gestureRef.current = {
+      startX: touch.clientX,
+      startY: touch.clientY,
+      startOffset: offset,
+      startedAt: performance.now(),
+      horizontal: false,
+    };
   };
 
-  const onTouchEnd = (event) => {
-    if (touchStartRef.current == null) return;
-    const endX = event.changedTouches?.[0]?.clientX;
-    if (typeof endX !== "number") return;
-    const delta = endX - touchStartRef.current;
-    touchStartRef.current = null;
-    if (Math.abs(delta) < 42) return;
-    if (delta < 0) goNext();
+  const onTouchMove = (event) => {
+    const gesture = gestureRef.current;
+    const touch = event.touches?.[0];
+    if (!gesture || !touch) return;
+
+    const deltaX = touch.clientX - gesture.startX;
+    const deltaY = touch.clientY - gesture.startY;
+
+    if (!gesture.horizontal && Math.abs(deltaX) > Math.abs(deltaY) + 5) {
+      gesture.horizontal = true;
+    }
+
+    if (!gesture.horizontal) return;
+    if (event.cancelable) event.preventDefault();
+    setOffset(gesture.startOffset + deltaX);
+  };
+
+  const finishTouch = (event) => {
+    const gesture = gestureRef.current;
+    const touch = event.changedTouches?.[0];
+    gestureRef.current = null;
+
+    if (!gesture || !touch) {
+      settleAt(virtualIndex, true);
+      return;
+    }
+
+    const deltaX = touch.clientX - gesture.startX;
+    const elapsed = Math.max(1, performance.now() - gesture.startedAt);
+    const velocity = Math.abs(deltaX) / elapsed;
+    const shouldMove = gesture.horizontal && (Math.abs(deltaX) >= 34 || velocity >= 0.34);
+
+    if (!shouldMove) {
+      settleAt(virtualIndex, true);
+      return;
+    }
+
+    if (deltaX < 0) goNext();
     else goPrev();
+  };
+
+  const onTouchEnd = (event) => finishTouch(event);
+  const onTouchCancel = () => {
+    gestureRef.current = null;
+    settleAt(virtualIndex, true);
   };
 
   const items = useMemo(
@@ -279,10 +415,12 @@ function useTransformCarousel(length, initialIndex = 0) {
     goPrev,
     goNext,
     onTouchStart,
+    onTouchMove,
     onTouchEnd,
+    onTouchCancel,
     trackStyle: {
       transform: `translate3d(${offset}px, 0, 0)`,
-      transition: transitionEnabled ? "transform 520ms cubic-bezier(.22, 1, .36, 1)" : "none",
+      transition: transitionEnabled ? 'transform 560ms cubic-bezier(.16, 1, .3, 1)' : 'none',
     },
   };
 }
@@ -444,7 +582,7 @@ export default function HomePage() {
             <div className="centered-carousel centered-carousel--concerns reveal-on-scroll">
               <button className="centered-carousel__arrow centered-carousel__arrow--left" type="button" onClick={concerns.goPrev} aria-label="Предыдущая жалоба"><ChevronLeft /></button>
               <div className="centered-carousel__viewport">
-                <div className="centered-carousel__rail" ref={concerns.railRef} onTouchStart={concerns.onTouchStart} onTouchEnd={concerns.onTouchEnd}>
+                <div className="centered-carousel__rail" ref={concerns.railRef} onTouchStart={concerns.onTouchStart} onTouchMove={concerns.onTouchMove} onTouchEnd={concerns.onTouchEnd} onTouchCancel={concerns.onTouchCancel}>
                   {concerns.items.map(({ sourceIndex, loopIndex }) => {
                     const item = concernCards[sourceIndex];
                     const isSelected = loopIndex === concerns.virtualIndex;
@@ -522,7 +660,9 @@ export default function HomePage() {
                     ref={prices.trackRef}
                     style={prices.trackStyle}
                     onTouchStart={prices.onTouchStart}
+                    onTouchMove={prices.onTouchMove}
                     onTouchEnd={prices.onTouchEnd}
+                    onTouchCancel={prices.onTouchCancel}
                   >
                     {prices.items.map(({ sourceIndex, loopIndex }) => (
                       <PriceCard
@@ -569,7 +709,7 @@ export default function HomePage() {
           <div className="centered-carousel centered-carousel--doctors reveal-on-scroll">
             <button className="centered-carousel__arrow centered-carousel__arrow--left" type="button" onClick={doctors.goPrev} aria-label="Предыдущий врач"><ChevronLeft /></button>
             <div className="centered-carousel__viewport">
-              <div className="centered-carousel__rail" ref={doctors.railRef} onTouchStart={doctors.onTouchStart} onTouchEnd={doctors.onTouchEnd}>
+              <div className="centered-carousel__rail" ref={doctors.railRef} onTouchStart={doctors.onTouchStart} onTouchMove={doctors.onTouchMove} onTouchEnd={doctors.onTouchEnd} onTouchCancel={doctors.onTouchCancel}>
                 {doctors.items.map(({ sourceIndex, loopIndex }) => {
                   const doctor = homeDoctorCards[sourceIndex];
                   const isSelected = loopIndex === doctors.virtualIndex;
@@ -678,7 +818,7 @@ export default function HomePage() {
           <div className="centered-carousel centered-carousel--reviews reveal-on-scroll">
             <button className="centered-carousel__arrow centered-carousel__arrow--left" type="button" onClick={reviews.goPrev} aria-label="Предыдущий отзыв"><ChevronLeft /></button>
             <div className="centered-carousel__viewport">
-              <div className="centered-carousel__rail" ref={reviews.railRef} onTouchStart={reviews.onTouchStart} onTouchEnd={reviews.onTouchEnd}>
+              <div className="centered-carousel__rail" ref={reviews.railRef} onTouchStart={reviews.onTouchStart} onTouchMove={reviews.onTouchMove} onTouchEnd={reviews.onTouchEnd} onTouchCancel={reviews.onTouchCancel}>
                 {reviews.items.map(({ sourceIndex, loopIndex }) => {
                   const review = homeReviewCards[sourceIndex];
                   const isSelected = loopIndex === reviews.virtualIndex;

@@ -1,0 +1,181 @@
+/* =========================================================
+   V35 — full mobile brand name and stable touch carousels
+   Loaded after V34.
+   ========================================================= */
+
+/* ---------- Carousel rendering and touch stability ---------- */
+.centered-carousel__viewport,
+.premium-price-carousel__viewport {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  contain: layout paint !important;
+  isolation: isolate !important;
+  transform: translateZ(0) !important;
+}
+
+.centered-carousel__rail {
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+  scroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+  overscroll-behavior: contain !important;
+  touch-action: pan-y !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -webkit-overflow-scrolling: auto !important;
+  will-change: scroll-position !important;
+  transform: translateZ(0) !important;
+}
+
+.centered-carousel__rail > *,
+.premium-price-carousel__track > * {
+  flex-shrink: 0 !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+}
+
+.centered-carousel__rail img,
+.premium-price-carousel__track img {
+  pointer-events: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -webkit-user-drag: none !important;
+}
+
+.premium-price-carousel__track {
+  touch-action: pan-y !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  will-change: transform !important;
+  transform-style: preserve-3d !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+}
+
+.centered-carousel__arrow,
+.premium-price-carousel__arrow {
+  -webkit-tap-highlight-color: transparent !important;
+  touch-action: manipulation !important;
+}
+
+/* ---------- Mobile header: show the full clinic name ---------- */
+@media (max-width: 720px) {
+  .header.header--home .header__top {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 4px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  .header.header--home .logo {
+    display: flex !important;
+    flex: 1 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    gap: 4px !important;
+    overflow: visible !important;
+  }
+
+  .header.header--home .logo__icon {
+    flex: 0 0 34px !important;
+    width: 34px !important;
+    height: 36px !important;
+  }
+
+  .header.header--home .logo__icon--image img {
+    width: 43px !important;
+    height: 40px !important;
+    transform: translate(2px, 1px) !important;
+  }
+
+  .header.header--home .logo__text {
+    display: block !important;
+    flex: 0 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    overflow: visible !important;
+  }
+
+  .header.header--home .logo__text h3 {
+    display: block !important;
+    width: auto !important;
+    max-width: none !important;
+    overflow: visible !important;
+    font-size: clamp(14.5px, 4.15vw, 17px) !important;
+    line-height: 1.02 !important;
+    white-space: nowrap !important;
+    text-overflow: clip !important;
+    letter-spacing: -0.025em !important;
+  }
+
+  .header.header--home .logo__text span {
+    display: block !important;
+    overflow: visible !important;
+    font-size: 6.5px !important;
+    white-space: nowrap !important;
+    text-overflow: clip !important;
+  }
+
+  .header.header--home .header__actions {
+    flex: 0 0 auto !important;
+    gap: 4px !important;
+  }
+
+  .header.header--home .header__button {
+    min-width: 50px !important;
+    min-height: 36px !important;
+    padding: 7px 8px !important;
+    border-radius: 13px !important;
+    font-size: 10.5px !important;
+  }
+
+  .header.header--home .theme-toggle,
+  .header.header--home .mobile-menu-toggle {
+    flex-basis: 36px !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+  }
+
+  /* Keep every mobile carousel on a fixed geometry while animating. */
+  .centered-carousel--concerns .centered-carousel__rail,
+  .centered-carousel--doctors .centered-carousel__rail,
+  .centered-carousel--reviews .centered-carousel__rail {
+    align-items: stretch !important;
+  }
+
+  .concern-card,
+  .concern-card.is-selected,
+  .doctor-showcase-card,
+  .doctor-showcase-card.is-selected,
+  .review-showcase-card,
+  .review-showcase-card.is-selected,
+  .price-showcase-card--mobile,
+  .price-showcase-card--mobile.is-selected {
+    transform-origin: center center !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .header.header--home .logo__text h3 {
+    font-size: 14px !important;
+  }
+
+  .header.header--home .header__button {
+    min-width: 46px !important;
+    padding-inline: 7px !important;
+    font-size: 10px !important;
+  }
+
+  .header.header--home .theme-toggle,
+  .header.header--home .mobile-menu-toggle {
+    flex-basis: 34px !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+  }
+}
