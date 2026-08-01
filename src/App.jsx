@@ -17,6 +17,13 @@ import "./styles/stability-v19.css";
 import "./styles/final-polish-v22.css";
 import "./styles/final-polish-v23.css";
 import "./styles/final-polish-v24.css";
+import "./styles/home-conversion-v25.css";
+import "./styles/final-premium-v27.css";
+import "./styles/final-premium-v28.css";
+import "./styles/final-premium-v29.css";
+import "./styles/final-premium-v31.css";
+import "./styles/final-premium-v32.css";
+import "./styles/final-premium-v33.css";
 
 const pageLoaders = {
   appointment: () => import("./components/AppointmentModal.jsx").then((module) => ({ default: module.AppointmentModal })),

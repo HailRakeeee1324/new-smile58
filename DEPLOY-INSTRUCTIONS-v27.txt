@@ -1,0 +1,16 @@
+Локальный запуск:
+1) npm install
+2) npm run dev
+3) открыть http://127.0.0.1:5173
+
+Сборка:
+1) npm install
+2) npm run build
+
+Проверка:
+1) npm run check
+
+Vercel deploy:
+1) vercel --prod
+или
+2) подключить проект к Git / импортировать архив

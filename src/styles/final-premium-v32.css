@@ -1,0 +1,430 @@
+/* =========================================================
+   V32 — exact header restoration, dark hero and stable reviews
+   Loaded last. This file intentionally overrides V27–V31.
+   ========================================================= */
+
+:root {
+  --v32-blue: #3b82f6;
+  --v32-blue-deep: #2563eb;
+  --v32-navy: #05122e;
+  --v32-card: linear-gradient(155deg, rgba(255,255,255,.96), rgba(235,245,255,.94));
+  --v32-card-line: rgba(112, 160, 225, .28);
+  --v32-card-shadow: 0 22px 52px rgba(27, 79, 153, .12), 0 0 0 1px rgba(97, 153, 234, .06);
+}
+
+/* ---------------------------------------------------------
+   HOME HEADER — restored from the old project, no panels
+   --------------------------------------------------------- */
+.header.header--home {
+  position: absolute !important;
+  inset: 0 0 auto 0 !important;
+  width: 100% !important;
+  padding: 0 !important;
+  color: #fff !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.header.header--home .header__top {
+  min-height: 0 !important;
+  padding: 22px 0 18px !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(255,255,255,.16) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.header.header--home .nav {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 48px !important;
+  width: min(1280px, calc(100% - 48px)) !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+  padding: 20px 0 22px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.header.header--home .nav a {
+  min-height: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: rgba(255,255,255,.92) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  line-height: normal !important;
+  text-shadow: 0 2px 12px rgba(0,0,0,.16) !important;
+  transform: none !important;
+}
+
+.header.header--home .nav a:hover,
+.header.header--home .nav a.active {
+  color: #78b5ff !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.header.header--home .logo__text h3,
+.header.header--home .logo__text span,
+.header.header--home .contact-item,
+.header.header--home .theme-toggle,
+.header.header--home .mobile-menu-toggle {
+  color: #fff !important;
+}
+
+.header.header--home .logo__theme-image--light {
+  display: none !important;
+}
+
+.header.header--home .logo__theme-image--dark {
+  display: block !important;
+}
+
+.header.header--home .theme-toggle,
+.header.header--home .mobile-menu-toggle {
+  border-color: rgba(255,255,255,.26) !important;
+  background: rgba(255,255,255,.10) !important;
+  box-shadow: none !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+/* Light home header from the original light version */
+html:not([data-theme="dark"]) .header.header--home {
+  color: #14335e !important;
+}
+
+html:not([data-theme="dark"]) .header.header--home .header__top {
+  border-bottom-color: rgba(65, 102, 153, .20) !important;
+}
+
+html:not([data-theme="dark"]) .header.header--home .logo__theme-image--light {
+  display: block !important;
+}
+
+html:not([data-theme="dark"]) .header.header--home .logo__theme-image--dark {
+  display: none !important;
+}
+
+html:not([data-theme="dark"]) .header.header--home .logo__text h3,
+html:not([data-theme="dark"]) .header.header--home .logo__text span,
+html:not([data-theme="dark"]) .header.header--home .contact-item,
+html:not([data-theme="dark"]) .header.header--home .nav a,
+html:not([data-theme="dark"]) .header.header--home .theme-toggle,
+html:not([data-theme="dark"]) .header.header--home .mobile-menu-toggle {
+  color: #14335e !important;
+  text-shadow: none !important;
+}
+
+html:not([data-theme="dark"]) .header.header--home .nav a:hover,
+html:not([data-theme="dark"]) .header.header--home .nav a.active {
+  color: #2f75df !important;
+  background: transparent !important;
+  box-shadow: 0 10px 24px rgba(48,117,223,.12) !important;
+}
+
+html:not([data-theme="dark"]) .header.header--home .theme-toggle,
+html:not([data-theme="dark"]) .header.header--home .mobile-menu-toggle {
+  border-color: rgba(78, 125, 190, .24) !important;
+  background: rgba(255,255,255,.52) !important;
+}
+
+/* ---------------------------------------------------------
+   HERO — dark overlay copied from the original visual logic
+   --------------------------------------------------------- */
+html[data-theme="dark"] .conversion-hero {
+  background: #05122e !important;
+}
+
+html[data-theme="dark"] .conversion-hero__photo {
+  filter: saturate(.86) brightness(.78) contrast(1.02) !important;
+}
+
+html[data-theme="dark"] .conversion-hero__wash {
+  background:
+    linear-gradient(90deg,
+      rgba(5,18,46,.97) 0%,
+      rgba(5,18,46,.89) 28%,
+      rgba(5,18,46,.56) 55%,
+      rgba(5,18,46,.16) 100%),
+    linear-gradient(180deg,
+      rgba(5,18,46,.42) 0%,
+      rgba(5,18,46,.04) 36%,
+      rgba(5,18,46,.78) 100%) !important;
+}
+
+html[data-theme="dark"] .conversion-hero h1,
+html[data-theme="dark"] .conversion-hero__copy > p,
+html[data-theme="dark"] .conversion-hero__proofs > div {
+  color: #fff !important;
+}
+
+html[data-theme="dark"] .conversion-hero h1 span {
+  color: #3b82f6 !important;
+}
+
+html[data-theme="dark"] .conversion-branch-card {
+  border-color: rgba(112,170,244,.26) !important;
+  background: linear-gradient(145deg, rgba(18,60,125,.94), rgba(7,37,83,.96)) !important;
+  box-shadow: 0 24px 58px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
+
+html[data-theme="dark"] .conversion-branch-card__content span,
+html[data-theme="dark"] .conversion-branch-card__content strong,
+html[data-theme="dark"] .conversion-branch-card__phone {
+  color: #fff !important;
+}
+
+/* ---------------------------------------------------------
+   LIGHT CARDS — visible on white without looking heavy
+   --------------------------------------------------------- */
+html:not([data-theme="dark"]) .conversion-assurance,
+html:not([data-theme="dark"]) .conversion-prices__description,
+html:not([data-theme="dark"]) .concern-card,
+html:not([data-theme="dark"]) .price-showcase-card,
+html:not([data-theme="dark"]) .doctor-showcase-card,
+html:not([data-theme="dark"]) .case-strip,
+html:not([data-theme="dark"]) .case-detail,
+html:not([data-theme="dark"]) .conversion-case-cta,
+html:not([data-theme="dark"]) .review-showcase-card,
+html:not([data-theme="dark"]) .conversion-reviews__stats article,
+html:not([data-theme="dark"]) .review-platforms,
+html:not([data-theme="dark"]) .conversion-prices__bottom {
+  border-color: var(--v32-card-line) !important;
+  background: var(--v32-card) !important;
+  box-shadow: var(--v32-card-shadow) !important;
+}
+
+/* Promise must stay blue in the light theme */
+html:not([data-theme="dark"]) .conversion-prices__promise {
+  color: #fff !important;
+  border-color: rgba(93,156,245,.28) !important;
+  background: linear-gradient(145deg, #4bb3ff 0%, #2f80ff 52%, #0f4dbc 100%) !important;
+  box-shadow: 0 22px 48px rgba(38,106,218,.25) !important;
+}
+
+html:not([data-theme="dark"]) .conversion-prices__promise,
+html:not([data-theme="dark"]) .conversion-prices__promise * {
+  color: #fff !important;
+}
+
+/* ---------------------------------------------------------
+   CONCERNS — move carousel and its controls toward the centre
+   --------------------------------------------------------- */
+.conversion-concerns__content {
+  grid-template-columns: 320px minmax(0, 640px) !important;
+  justify-content: center !important;
+  gap: 30px !important;
+}
+
+.centered-carousel--concerns {
+  width: 640px !important;
+  max-width: 100% !important;
+  justify-self: start !important;
+  transform: translateX(-18px) !important;
+}
+
+.centered-carousel--concerns .centered-carousel__footer {
+  width: 100% !important;
+}
+
+/* ---------------------------------------------------------
+   TWO-LINE HEADINGS — no accidental 3–4 line wrapping
+   --------------------------------------------------------- */
+.conversion-cases .conversion-heading,
+.conversion-reviews .conversion-heading {
+  max-width: none !important;
+}
+
+.conversion-cases .conversion-heading h2 {
+  max-width: none !important;
+  white-space: nowrap !important;
+  font-size: clamp(44px, 4.8vw, 70px) !important;
+  line-height: .98 !important;
+}
+
+.conversion-reviews__heading {
+  grid-template-columns: minmax(650px, 1fr) 470px !important;
+  gap: 28px !important;
+  align-items: end !important;
+}
+
+.conversion-reviews .conversion-heading h2 {
+  max-width: none !important;
+  white-space: nowrap !important;
+  font-size: clamp(44px, 4.7vw, 68px) !important;
+  line-height: .98 !important;
+}
+
+.conversion-reviews .conversion-heading > p {
+  max-width: none !important;
+  white-space: nowrap !important;
+  font-size: 16px !important;
+  line-height: 1.55 !important;
+}
+
+/* ---------------------------------------------------------
+   REVIEWS — every card has exactly the same dimensions
+   --------------------------------------------------------- */
+.centered-carousel--reviews .centered-carousel__rail {
+  min-height: 430px !important;
+  padding: 22px calc(50% - 220px) 24px !important;
+}
+
+.review-showcase-card,
+.review-showcase-card.is-selected {
+  flex: 0 0 440px !important;
+  width: 440px !important;
+  min-width: 440px !important;
+  height: 380px !important;
+  min-height: 380px !important;
+  max-height: 380px !important;
+  padding: 24px !important;
+  transform: none !important;
+  overflow: hidden !important;
+  border-radius: 28px !important;
+  transition: border-color 320ms ease, box-shadow 420ms cubic-bezier(.22,1,.36,1), background 320ms ease !important;
+}
+
+.review-showcase-card.is-selected {
+  border-color: rgba(45,114,231,.68) !important;
+  box-shadow: 0 28px 66px rgba(35,92,190,.18), 0 0 0 1px rgba(67,136,244,.12) !important;
+}
+
+.review-showcase-card h3,
+.review-showcase-card.is-selected h3 {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  min-height: 50px !important;
+  max-height: 50px !important;
+  overflow: hidden !important;
+  font-size: 21px !important;
+  line-height: 1.18 !important;
+}
+
+.review-showcase-card > p,
+.review-showcase-card.is-selected > p {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 6 !important;
+  -webkit-box-orient: vertical !important;
+  max-height: 128px !important;
+  overflow: hidden !important;
+  font-size: 13px !important;
+  line-height: 1.62 !important;
+}
+
+/* Dark sections: deep navy, not bright blue */
+html[data-theme="dark"] .conversion-concerns,
+html[data-theme="dark"] .conversion-prices,
+html[data-theme="dark"] .conversion-doctors,
+html[data-theme="dark"] .conversion-cases,
+html[data-theme="dark"] .conversion-reviews {
+  background:
+    radial-gradient(circle at 13% 10%, rgba(42,94,175,.13), transparent 32%),
+    radial-gradient(circle at 86% 16%, rgba(31,78,155,.09), transparent 30%),
+    linear-gradient(180deg, #06152d 0%, #081a36 58%, #06142a 100%) !important;
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE
+   --------------------------------------------------------- */
+@media (max-width: 1180px) {
+  .conversion-concerns__content {
+    grid-template-columns: 300px minmax(0, 620px) !important;
+  }
+
+  .centered-carousel--concerns {
+    width: 620px !important;
+    transform: none !important;
+  }
+
+  .conversion-reviews__heading {
+    grid-template-columns: 1fr !important;
+  }
+
+  .conversion-reviews .conversion-heading h2,
+  .conversion-reviews .conversion-heading > p {
+    white-space: normal !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .header.header--home .header__contacts,
+  .header.header--home > .nav {
+    display: none !important;
+  }
+
+  .header.header--home .header__top {
+    padding: 12px 0 !important;
+    border-bottom: 0 !important;
+  }
+
+  .header.header--home .header__button {
+    display: inline-flex !important;
+  }
+
+  .conversion-concerns__content {
+    grid-template-columns: 1fr !important;
+    justify-content: stretch !important;
+  }
+
+  .centered-carousel--concerns {
+    width: 100% !important;
+    justify-self: stretch !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .conversion-cases .conversion-heading h2,
+  .conversion-reviews .conversion-heading h2 {
+    white-space: normal !important;
+    font-size: clamp(36px, 10.5vw, 48px) !important;
+  }
+
+  .conversion-reviews .conversion-heading > p {
+    white-space: normal !important;
+    font-size: 14px !important;
+  }
+
+  .centered-carousel--reviews .centered-carousel__rail {
+    min-height: 370px !important;
+    padding: 14px calc(50% - 145px) 18px !important;
+  }
+
+  .review-showcase-card,
+  .review-showcase-card.is-selected {
+    flex-basis: 290px !important;
+    width: 290px !important;
+    min-width: 290px !important;
+    height: 338px !important;
+    min-height: 338px !important;
+    max-height: 338px !important;
+    padding: 18px !important;
+  }
+
+  .review-showcase-card h3,
+  .review-showcase-card.is-selected h3 {
+    min-height: 46px !important;
+    max-height: 46px !important;
+    font-size: 18px !important;
+  }
+
+  .review-showcase-card > p,
+  .review-showcase-card.is-selected > p {
+    -webkit-line-clamp: 5 !important;
+    max-height: 105px !important;
+    font-size: 12px !important;
+  }
+}

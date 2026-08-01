@@ -1,512 +1,723 @@
-import React, { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import {
+  ArrowRight,
+  BadgeCheck,
+  CalendarDays,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  HandHeart,
+  MapPin,
+  Phone,
+  ShieldCheck,
+  Sparkles,
+  Star,
+  X,
+} from "lucide-react";
 import { PHONE_LINK } from "../config/site.js";
-import { routeHref } from "../config/routes.js";
-import { heroBranches, homeAdvantages, homeBeforeAfterCases, homeBranchShowcase, homeHeroPromotions, homeJourneySteps, homeTrustFacts } from "../data/home.jsx";
-import { services } from "../data/services.jsx";
+import { routeHref, routePaths } from "../config/routes.js";
 import ResponsiveImage from "../components/ResponsiveImage.jsx";
-import "../styles/home.css";
-import "../styles/home-layout.css";
-import "../styles/stability-v19.css";
+import {
+  concernCards,
+  conversionHeroBranches,
+  conversionTrustBadges,
+  homeCaseCards,
+  homeDoctorCards,
+  homeReviewCards,
+  popularPriceCards,
+  yandexReviewLinks,
+} from "../data/homeConversion.jsx";
 
-export default function HomePage() {
-  const [promoIndex, setPromoIndex] = useState(0);
-  const [promoPaused, setPromoPaused] = useState(false);
-  const [resultIndex, setResultIndex] = useState(0);
-  const activePromo = homeHeroPromotions[promoIndex];
-  const activeResult = homeBeforeAfterCases[resultIndex];
-  const promoTouchStartX = useRef(null);
-  const trustCarouselRef = useRef(null);
-  const trustAutoplayPausedRef = useRef(false);
-  const [trustIndex, setTrustIndex] = useState(0);
+function useCenteredRail(length, initialIndex = 0) {
+  const loopLength = Math.max(length * 3, length);
+  const [virtualIndex, setVirtualIndex] = useState(length + Math.min(initialIndex, Math.max(0, length - 1)));
+  const railRef = useRef(null);
+  const touchStartRef = useRef(null);
+  const animationRef = useRef(null);
 
-  useEffect(() => {
-    if (typeof window === "undefined" || homeHeroPromotions.length < 2) return undefined;
+  const stopAnimation = () => {
+    if (animationRef.current) {
+      window.cancelAnimationFrame(animationRef.current);
+      animationRef.current = null;
+    }
+  };
 
-    const preloadNextPromotion = () => {
-      const next = homeHeroPromotions[(promoIndex + 1) % homeHeroPromotions.length];
-      const image = new Image();
-      image.src = next.mobileBanner || next.banner;
-    };
+  const centerCard = (targetIndex, instant = false) => {
+    const rail = railRef.current;
+    const card = rail?.children?.[targetIndex];
+    if (!rail || !card) return;
 
-    if ("requestIdleCallback" in window) {
-      const idleId = window.requestIdleCallback(preloadNextPromotion, { timeout: 3500 });
-      return () => window.cancelIdleCallback?.(idleId);
+    const target = Math.max(0, card.offsetLeft - (rail.clientWidth - card.clientWidth) / 2);
+    const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+
+    stopAnimation();
+
+    if (instant || reduceMotion) {
+      rail.scrollLeft = target;
+      return;
     }
 
-    const timer = globalThis.setTimeout(preloadNextPromotion, 2200);
-    return () => globalThis.clearTimeout(timer);
-  }, [promoIndex]);
+    const start = rail.scrollLeft;
+    const distance = target - start;
+    if (Math.abs(distance) < 1) return;
+
+    const startedAt = performance.now();
+    const duration = Math.min(720, Math.max(520, 500 + Math.abs(distance) * 0.16));
+
+    const tick = (now) => {
+      const progress = Math.min(1, (now - startedAt) / duration);
+      const eased = progress < 0.5
+        ? 16 * Math.pow(progress, 5)
+        : 1 - Math.pow(-2 * progress + 2, 5) / 2;
+      rail.scrollLeft = start + distance * eased;
+
+      if (progress < 1) {
+        animationRef.current = window.requestAnimationFrame(tick);
+      } else {
+        animationRef.current = null;
+      }
+    };
+
+    animationRef.current = window.requestAnimationFrame(tick);
+  };
 
   useEffect(() => {
-    if (typeof window === "undefined") return undefined;
-
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const compactViewport = window.matchMedia("(max-width: 900px)");
-    let timer = null;
-
-    const stopTimer = () => {
-      if (timer) {
-        window.clearInterval(timer);
-        timer = null;
-      }
-    };
-
-    const syncTimer = () => {
-      stopTimer();
-
-      // On phones/tablets, in background tabs and for reduced-motion users,
-      // the promo remains under the user's control and never changes unexpectedly.
-      if (promoPaused || reduceMotion.matches || compactViewport.matches || document.hidden) return;
-
-      timer = window.setInterval(() => {
-        setPromoIndex((current) => (current + 1) % homeHeroPromotions.length);
-      }, 12000);
-    };
-
-    syncTimer();
-    document.addEventListener("visibilitychange", syncTimer);
-    reduceMotion.addEventListener?.("change", syncTimer);
-    compactViewport.addEventListener?.("change", syncTimer);
+    const frame = window.requestAnimationFrame(() => centerCard(virtualIndex, true));
+    const handleResize = () => centerCard(virtualIndex, true);
+    window.addEventListener("resize", handleResize, { passive: true });
 
     return () => {
-      stopTimer();
-      document.removeEventListener("visibilitychange", syncTimer);
-      reduceMotion.removeEventListener?.("change", syncTimer);
-      compactViewport.removeEventListener?.("change", syncTimer);
-    };
-  }, [promoPaused]);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return undefined;
-
-    const mobileViewport = window.matchMedia("(max-width: 900px)");
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let timer = null;
-
-    const scrollToTrustCard = (index, behavior = "smooth") => {
-      const rail = trustCarouselRef.current;
-      const card = rail?.querySelectorAll(".home-trust-item")?.[index];
-      if (!rail || !card) return;
-      rail.scrollTo({ left: Math.max(0, card.offsetLeft - 2), behavior });
-    };
-
-    const stop = () => {
-      if (timer) {
-        window.clearInterval(timer);
-        timer = null;
-      }
-    };
-
-    const start = () => {
-      stop();
-      if (!mobileViewport.matches || reduceMotion.matches || document.hidden) return;
-      timer = window.setInterval(() => {
-        if (trustAutoplayPausedRef.current) return;
-        setTrustIndex((current) => {
-          const next = (current + 1) % homeTrustFacts.length;
-          scrollToTrustCard(next);
-          return next;
-        });
-      }, 3800);
-    };
-
-    const handleVisibility = () => start();
-    const handleViewport = () => {
-      if (!mobileViewport.matches) {
-        setTrustIndex(0);
-        trustCarouselRef.current?.scrollTo({ left: 0, behavior: "auto" });
-      }
-      start();
-    };
-
-    start();
-    document.addEventListener("visibilitychange", handleVisibility);
-    mobileViewport.addEventListener?.("change", handleViewport);
-    reduceMotion.addEventListener?.("change", start);
-
-    return () => {
-      stop();
-      document.removeEventListener("visibilitychange", handleVisibility);
-      mobileViewport.removeEventListener?.("change", handleViewport);
-      reduceMotion.removeEventListener?.("change", start);
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("resize", handleResize);
+      stopAnimation();
     };
   }, []);
 
-  const goToTrustCard = (index) => {
-    const rail = trustCarouselRef.current;
-    const card = rail?.querySelectorAll(".home-trust-item")?.[index];
-    if (!rail || !card) return;
-    setTrustIndex(index);
-    rail.scrollTo({ left: Math.max(0, card.offsetLeft - 2), behavior: "smooth" });
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => centerCard(virtualIndex));
+    const normalized = ((virtualIndex % length) + length) % length;
+    let timeoutId;
+
+    if (virtualIndex < length || virtualIndex >= length * 2) {
+      timeoutId = window.setTimeout(() => {
+        const resetIndex = length + normalized;
+        setVirtualIndex(resetIndex);
+        window.requestAnimationFrame(() => centerCard(resetIndex, true));
+      }, 760);
+    }
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      if (timeoutId) window.clearTimeout(timeoutId);
+    };
+  }, [virtualIndex, length]);
+
+  const goTo = (nextIndex) => {
+    const normalized = ((nextIndex % length) + length) % length;
+    const candidates = [normalized, normalized + length, normalized + length * 2];
+    const nearest = candidates.reduce((best, value) => (
+      Math.abs(value - virtualIndex) < Math.abs(best - virtualIndex) ? value : best
+    ), candidates[0]);
+    setVirtualIndex(nearest);
   };
 
-  const changePromo = (direction) => {
-    setPromoIndex((current) => {
-      if (direction === "next") return (current + 1) % homeHeroPromotions.length;
-      return current === 0 ? homeHeroPromotions.length - 1 : current - 1;
-    });
+  const goPrev = () => setVirtualIndex((current) => current - 1);
+  const goNext = () => setVirtualIndex((current) => current + 1);
+
+  const onTouchStart = (event) => {
+    stopAnimation();
+    touchStartRef.current = event.touches?.[0]?.clientX ?? null;
   };
 
-  const changeResult = (direction) => {
-    setResultIndex((current) => {
-      if (direction === "next") return (current + 1) % homeBeforeAfterCases.length;
-      return current === 0 ? homeBeforeAfterCases.length - 1 : current - 1;
-    });
-  };
-
-  const handlePromoTouchStart = (event) => {
-    promoTouchStartX.current = event.touches?.[0]?.clientX ?? null;
-  };
-
-  const handlePromoTouchEnd = (event) => {
-    if (promoTouchStartX.current == null) return;
+  const onTouchEnd = (event) => {
+    if (touchStartRef.current == null) return;
     const endX = event.changedTouches?.[0]?.clientX;
     if (typeof endX !== "number") return;
-    const delta = endX - promoTouchStartX.current;
-    promoTouchStartX.current = null;
-    if (Math.abs(delta) < 46) return;
-    changePromo(delta < 0 ? "next" : "prev");
+    const delta = endX - touchStartRef.current;
+    touchStartRef.current = null;
+
+    if (Math.abs(delta) < 38) {
+      centerCard(virtualIndex);
+      return;
+    }
+
+    if (delta < 0) goNext();
+    else goPrev();
   };
 
+  const items = useMemo(
+    () => Array.from({ length: loopLength }, (_, index) => ({
+      sourceIndex: index % length,
+      loopIndex: index,
+    })),
+    [loopLength, length],
+  );
+
+  return {
+    index: ((virtualIndex % length) + length) % length,
+    virtualIndex,
+    railRef,
+    items,
+    goTo,
+    goPrev,
+    goNext,
+    onTouchStart,
+    onTouchEnd,
+  };
+}
+
+
+function useTransformCarousel(length, initialIndex = 0) {
+  const loopLength = Math.max(length * 3, length);
+  const [virtualIndex, setVirtualIndex] = useState(length + Math.min(initialIndex, Math.max(0, length - 1)));
+  const [offset, setOffset] = useState(0);
+  const [transitionEnabled, setTransitionEnabled] = useState(false);
+  const viewportRef = useRef(null);
+  const trackRef = useRef(null);
+  const touchStartRef = useRef(null);
+
+  const measureOffset = (index) => {
+    const viewport = viewportRef.current;
+    const track = trackRef.current;
+    const card = track?.children?.[index];
+    if (!viewport || !card) return 0;
+    return viewport.clientWidth / 2 - (card.offsetLeft + card.offsetWidth / 2);
+  };
+
+  useLayoutEffect(() => {
+    setOffset(measureOffset(virtualIndex));
+  }, [virtualIndex]);
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      setTransitionEnabled(false);
+      setOffset(measureOffset(virtualIndex));
+      window.requestAnimationFrame(() => setTransitionEnabled(true));
+    });
+
+    const handleResize = () => {
+      setTransitionEnabled(false);
+      setOffset(measureOffset(virtualIndex));
+      window.requestAnimationFrame(() => setTransitionEnabled(true));
+    };
+
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    const normalized = ((virtualIndex % length) + length) % length;
+    if (virtualIndex >= length && virtualIndex < length * 2) return undefined;
+
+    const timeoutId = window.setTimeout(() => {
+      const resetIndex = length + normalized;
+      setTransitionEnabled(false);
+      setVirtualIndex(resetIndex);
+      window.requestAnimationFrame(() => {
+        setOffset(measureOffset(resetIndex));
+        window.requestAnimationFrame(() => setTransitionEnabled(true));
+      });
+    }, 540);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [virtualIndex, length]);
+
+  const goTo = (nextIndex) => {
+    const normalized = ((nextIndex % length) + length) % length;
+    const candidates = [normalized, normalized + length, normalized + length * 2];
+    const nearest = candidates.reduce((best, value) => (
+      Math.abs(value - virtualIndex) < Math.abs(best - virtualIndex) ? value : best
+    ), candidates[0]);
+    setTransitionEnabled(true);
+    setVirtualIndex(nearest);
+  };
+
+  const goPrev = () => {
+    setTransitionEnabled(true);
+    setVirtualIndex((current) => current - 1);
+  };
+
+  const goNext = () => {
+    setTransitionEnabled(true);
+    setVirtualIndex((current) => current + 1);
+  };
+
+  const onTouchStart = (event) => {
+    touchStartRef.current = event.touches?.[0]?.clientX ?? null;
+  };
+
+  const onTouchEnd = (event) => {
+    if (touchStartRef.current == null) return;
+    const endX = event.changedTouches?.[0]?.clientX;
+    if (typeof endX !== "number") return;
+    const delta = endX - touchStartRef.current;
+    touchStartRef.current = null;
+    if (Math.abs(delta) < 42) return;
+    if (delta < 0) goNext();
+    else goPrev();
+  };
+
+  const items = useMemo(
+    () => Array.from({ length: loopLength }, (_, index) => ({
+      sourceIndex: index % length,
+      loopIndex: index,
+    })),
+    [loopLength, length],
+  );
+
+  return {
+    index: ((virtualIndex % length) + length) % length,
+    virtualIndex,
+    viewportRef,
+    trackRef,
+    items,
+    goTo,
+    goPrev,
+    goNext,
+    onTouchStart,
+    onTouchEnd,
+    trackStyle: {
+      transform: `translate3d(${offset}px, 0, 0)`,
+      transition: transitionEnabled ? "transform 520ms cubic-bezier(.22, 1, .36, 1)" : "none",
+    },
+  };
+}
+
+function SectionHeading({ eyebrow, title, text, align = "left", id }) {
   return (
-    <main className="home-page home-final">
-      <section className="hero hero--wow">
-        <div className="hero__overlay" />
-        <div className="container hero__content">
-          <div className="hero__bg-title">
-            НОВАЯ
-            <br />
-            УЛЫБКА
+    <div className={`conversion-heading conversion-heading--${align}`}>
+      <span className="conversion-eyebrow"><Sparkles size={15} /> {eyebrow}</span>
+      <h2 id={id}>{title}</h2>
+      {text ? <p>{text}</p> : null}
+    </div>
+  );
+}
+
+function ConcernGlyph({ item }) {
+  return (
+    <span className="concern-glyph" aria-hidden="true">
+      {item.iconImage ? <img src={item.iconImage} alt="" loading="lazy" decoding="async" /> : item.icon}
+    </span>
+  );
+}
+
+function PriceCard({ item, selected = false, loopKey, mobile = false, onSelect }) {
+  const contents = (
+    <>
+      <div className="price-showcase-card__top">
+        <span className="price-showcase-card__icon">{item.icon}</span>
+        {item.featured ? <span className="price-showcase-card__badge"><Star size={14} /> Популярная услуга</span> : null}
+        <h3>{item.title}</h3>
+      </div>
+      <figure>
+        <ResponsiveImage src={item.image} alt={item.title} width="1000" height="750" sizes={mobile ? "(max-width: 720px) 72vw" : "(max-width: 1100px) 42vw, 360px"} />
+      </figure>
+      <div className="price-showcase-card__footer">
+        <strong>{item.price}</strong>
+        {mobile ? (
+          selected ? (
+            <a className="price-showcase-card__open" href={routeHref(item.route)} data-route-link>
+              Подробнее <ArrowRight size={16} />
+            </a>
+          ) : (
+            <span className="price-showcase-card__choose">Выбрать</span>
+          )
+        ) : (
+          <span className="price-showcase-card__link">Подробнее <ArrowRight size={16} /></span>
+        )}
+      </div>
+    </>
+  );
+
+  if (mobile) {
+    return (
+      <article
+        className={`price-showcase-card price-showcase-card--mobile ${selected ? "is-selected" : ""}`}
+        onClick={onSelect}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            onSelect?.();
+          }
+        }}
+        role="button"
+        tabIndex={0}
+        aria-pressed={selected}
+        key={loopKey || item.id}
+      >
+        {contents}
+      </article>
+    );
+  }
+
+  return (
+    <a className={`price-showcase-card ${item.featured ? "price-showcase-card--featured" : ""}`} href={routeHref(item.route)} data-route-link key={loopKey || item.id}>
+      {contents}
+    </a>
+  );
+}
+
+export default function HomePage() {
+  const concerns = useCenteredRail(concernCards.length, 2);
+  const prices = useTransformCarousel(popularPriceCards.length, 0);
+  const doctors = useCenteredRail(homeDoctorCards.length, 1);
+  const reviews = useCenteredRail(homeReviewCards.length, 1);
+  const [expandedCaseIndex, setExpandedCaseIndex] = useState(null);
+
+  const selectedConcern = concernCards[concerns.index];
+  const selectedDoctor = homeDoctorCards[doctors.index];
+
+  return (
+    <main className="conversion-home">
+      <section className="conversion-hero" aria-labelledby="conversion-hero-title">
+        <div className="conversion-hero__photo" aria-hidden="true" />
+        <div className="conversion-hero__wash" aria-hidden="true" />
+        <div className="container conversion-hero__inner">
+          <div className="conversion-hero__copy reveal-on-scroll">
+            <span className="conversion-eyebrow"><Sparkles size={15} /> Улыбайтесь с уверенностью</span>
+            <h1 id="conversion-hero-title">Современная <span>стоматология</span> в Пензе</h1>
+            <p>Лечение, имплантация и протезирование с современным подходом и заботой о пациентах.</p>
+
+            <div className="conversion-hero__proofs" aria-label="Преимущества клиники">
+              {conversionTrustBadges.slice(0, 3).map((item) => (
+                <div key={item.title}>{item.icon}<span>{item.title}</span></div>
+              ))}
+            </div>
+
+            <div className="conversion-hero__actions">
+              <a className="conversion-button conversion-button--primary" href={PHONE_LINK} data-appointment>
+                <CalendarDays size={19} /> Записаться на приём
+              </a>
+              <a className="conversion-button conversion-button--ghost" href={routePaths.contacts} data-route-link>
+                Контакты <ArrowRight size={18} />
+              </a>
+            </div>
           </div>
 
-          <h1>
-            Современная стоматология
-            <br /> в Пензе
-          </h1>
-
-          <p>
-            Лечение, имплантация и протезирование
-            <br />с современным подходом и заботой о пациентах
-          </p>
-
-          <div className="hero__branches" aria-label="Адреса и телефоны для записи">
-            {heroBranches.map((branch) => (
-              <article className="hero-branch" key={branch.name}>
-                <a className="hero-branch__main" href={branch.href} data-route-link aria-label={`Открыть филиал ${branch.name}`}>
-                  <span>{branch.area}</span>
+          <div className="conversion-hero__branches" aria-label="Филиалы стоматологии">
+            {conversionHeroBranches.map((branch, index) => (
+              <article className={`conversion-branch-card conversion-branch-card--${branch.id} reveal-on-scroll`} key={branch.id} style={{ "--delay": `${index * 80}ms` }}>
+                <a className="conversion-branch-card__content" href={branch.href} data-route-link>
+                  <span><MapPin size={16} /> {branch.area}</span>
                   <strong>{branch.name}</strong>
                 </a>
-                <a
-                  className="hero-branch__phone"
-                  href={branch.phoneHref}
-                  aria-label={`Позвонить в филиал ${branch.name}: ${branch.phone}`}
-                  data-metrika-label={`Телефон филиала ${branch.name}`}
-                >
-                  {branch.phone}
+                <a className="conversion-branch-card__phone" href={branch.phoneHref} aria-label={`Позвонить: ${branch.phone}`}>
+                  <Phone size={15} /> {branch.phone}
+                </a>
+                <a className="conversion-branch-card__image" href={branch.href} data-route-link aria-label={`Открыть филиал ${branch.name}`}>
+                  <ResponsiveImage src={branch.image} alt={`Филиал стоматологии Новая улыбка — ${branch.name}`} width="960" height="640" loading="eager" sizes="(max-width: 720px) 124px, 220px" />
                 </a>
               </article>
             ))}
           </div>
+
+          <div className="conversion-hero__scroll-hint" aria-hidden="true"><span /><strong>Прокрутите вниз</strong></div>
         </div>
       </section>
 
-      <section className="container home-trust-shell reveal-on-scroll" aria-label="Преимущества стоматологии Новая улыбка">
-        <div
-          className="home-final__trust"
-          ref={trustCarouselRef}
-          onPointerEnter={() => { trustAutoplayPausedRef.current = true; }}
-          onPointerLeave={() => { trustAutoplayPausedRef.current = false; }}
-          onTouchStart={() => { trustAutoplayPausedRef.current = true; }}
-          onTouchEnd={() => { window.setTimeout(() => { trustAutoplayPausedRef.current = false; }, 1400); }}
-        >
-          {homeTrustFacts.map((item, index) => (
-            <article className="home-trust-item" key={item.label} style={{ "--reveal-delay": `${index * 70}ms` }}>
-              <div className="home-trust-item__icon">{item.icon}</div>
-              <div className="home-trust-item__copy">
-                <div className="home-trust-item__headline">
-                  <strong>{item.value}</strong>
-                  <span>{item.label}</span>
+      <section className="conversion-section conversion-concerns" aria-labelledby="conversion-concerns-title">
+        <div className="container conversion-concerns__shell">
+          <SectionHeading
+            eyebrow="Мы здесь, чтобы помочь"
+            title={<>Что вас беспокоит?</>}
+            id="conversion-concerns-title"
+          />
+
+          <div className="conversion-concerns__content">
+            <div className="conversion-concerns__intro reveal-on-scroll">
+              <p className="conversion-concerns__description">
+                Выберите симптом или задачу — и мы покажем наиболее подходящее направление лечения.
+              </p>
+              <div className="conversion-assurance">
+                <ShieldCheck size={24} />
+                <div>
+                  <strong>Ваше здоровье — наш приоритет</strong>
+                  <p>Сначала диагностика и спокойное объяснение, затем — понятный вариант решения без навязанных процедур.</p>
                 </div>
-                <p>{item.text}</p>
               </div>
-            </article>
-          ))}
-        </div>
-        <div className="home-trust-dots" aria-label="Навигация по преимуществам">
-          {homeTrustFacts.map((item, index) => (
-            <button
-              type="button"
-              className={index === trustIndex ? "is-active" : ""}
-              onClick={() => goToTrustCard(index)}
-              aria-label={`Показать: ${item.label}`}
-              key={item.label}
-            />
-          ))}
+            </div>
+
+            <div className="centered-carousel centered-carousel--concerns reveal-on-scroll">
+              <button className="centered-carousel__arrow centered-carousel__arrow--left" type="button" onClick={concerns.goPrev} aria-label="Предыдущая жалоба"><ChevronLeft /></button>
+              <div className="centered-carousel__viewport">
+                <div className="centered-carousel__rail" ref={concerns.railRef} onTouchStart={concerns.onTouchStart} onTouchEnd={concerns.onTouchEnd}>
+                  {concerns.items.map(({ sourceIndex, loopIndex }) => {
+                    const item = concernCards[sourceIndex];
+                    const isSelected = loopIndex === concerns.virtualIndex;
+                    return (
+                      <article
+                        className={`concern-card ${isSelected ? "is-selected" : ""}`}
+                        onClick={() => concerns.goTo(sourceIndex)}
+                        onKeyDown={(event) => {
+                          if (event.key === "Enter" || event.key === " ") {
+                            event.preventDefault();
+                            concerns.goTo(sourceIndex);
+                          }
+                        }}
+                        aria-pressed={isSelected}
+                        role="button"
+                        tabIndex={0}
+                        key={`${item.id}-${loopIndex}`}
+                      >
+                        <span className="concern-card__icon"><ConcernGlyph item={item} /></span>
+                        <strong>{item.title}</strong>
+                        <p>{item.text}</p>
+                      </article>
+                    );
+                  })}
+                </div>
+              </div>
+              <button className="centered-carousel__arrow centered-carousel__arrow--right" type="button" onClick={concerns.goNext} aria-label="Следующая жалоба"><ChevronRight /></button>
+
+              <div className="centered-carousel__footer centered-carousel__footer--concerns">
+                <div className="centered-carousel__dots" aria-label="Переключение жалоб">
+                  {concernCards.map((item, index) => (
+                    <button type="button" className={index === concerns.index ? "is-active" : ""} onClick={() => concerns.goTo(index)} aria-label={`Выбрать: ${item.title}`} key={item.id} />
+                  ))}
+                </div>
+                <a className="conversion-inline-link conversion-inline-link--accent" href={routeHref(selectedConcern.route)} data-route-link>
+                  Найти решение для этой ситуации <ArrowRight size={17} />
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="home-final__section home-final__section--promo" aria-labelledby="home-promo-heading">
-        <div className="container home-final__promo-grid">
-          <article
-            className="home-promo-final home-promo-final--showcase reveal-on-scroll"
-            onTouchStart={handlePromoTouchStart}
-            onTouchEnd={handlePromoTouchEnd}
-            onMouseEnter={() => setPromoPaused(true)}
-            onMouseLeave={() => setPromoPaused(false)}
-            onFocus={() => setPromoPaused(true)}
-            onBlur={() => setPromoPaused(false)}
-            aria-label={`Спецпредложение: ${activePromo.title}`}
-          >
-            <div className="home-promo-final__content">
-              <span>{activePromo.eyebrow}</span>
-              <h2 id="home-promo-heading">
-                {activePromo.route === "implantaciya" ? (
-                  <>
-                    Имплантация
-                    <br />
-                    зубов в Пензе
-                  </>
-                ) : activePromo.route === "lechenieKariesa" ? (
-                  <>
-                    Лечение кариеса
-                    <br />
-                    в Пензе
-                  </>
-                ) : (
-                  activePromo.title
-                )}
-              </h2>
-              <p>{activePromo.text}</p>
-              <div className="home-promo-final__chips">
-                {activePromo.chips.map((chip) => (
-                  <em key={chip}>{chip}</em>
+      <section className="conversion-section conversion-prices" aria-labelledby="conversion-prices-title">
+        <div className="container conversion-prices__shell">
+          <SectionHeading
+            eyebrow="Прозрачно · честно · без сюрпризов"
+            title={<>Популярные услуги и цены</>}
+            id="conversion-prices-title"
+          />
+
+          <div className="conversion-prices__body">
+            <div className="conversion-prices__intro reveal-on-scroll">
+              <p className="conversion-prices__description">
+                Самые частые услуги — в удобном формате, чтобы быстро сориентироваться по направлению и стоимости.
+              </p>
+              <div className="conversion-prices__promise">
+                <BadgeCheck size={26} />
+                <div><strong>Понятные цены и честный подход</strong><p>Объясняем состав лечения заранее и не добавляем лишнего.</p></div>
+              </div>
+            </div>
+
+            <div className="conversion-prices__catalog">
+              <div className="conversion-price-grid conversion-price-grid--desktop">
+                {popularPriceCards.map((item, index) => (
+                  <div className="reveal-on-scroll" key={item.id} style={{ "--delay": `${index * 55}ms` }}><PriceCard item={item} /></div>
                 ))}
               </div>
-              <div className="home-promo-final__actions">
-                <a className="blue-link" href={routeHref(activePromo.route)} data-route-link>Подробнее</a>
-                <a className="home-final__secondary-button" href={PHONE_LINK} data-appointment>Записаться</a>
+
+              <div className="premium-price-carousel reveal-on-scroll">
+                <button className="premium-price-carousel__arrow premium-price-carousel__arrow--left" type="button" onClick={prices.goPrev} aria-label="Предыдущая услуга"><ChevronLeft /></button>
+                <div className="premium-price-carousel__viewport" ref={prices.viewportRef}>
+                  <div
+                    className="premium-price-carousel__track"
+                    ref={prices.trackRef}
+                    style={prices.trackStyle}
+                    onTouchStart={prices.onTouchStart}
+                    onTouchEnd={prices.onTouchEnd}
+                  >
+                    {prices.items.map(({ sourceIndex, loopIndex }) => (
+                      <PriceCard
+                        item={popularPriceCards[sourceIndex]}
+                        selected={loopIndex === prices.virtualIndex}
+                        mobile
+                        onSelect={() => prices.goTo(sourceIndex)}
+                        loopKey={`${popularPriceCards[sourceIndex].id}-${loopIndex}`}
+                        key={`${popularPriceCards[sourceIndex].id}-${loopIndex}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <button className="premium-price-carousel__arrow premium-price-carousel__arrow--right" type="button" onClick={prices.goNext} aria-label="Следующая услуга"><ChevronRight /></button>
+                <div className="premium-price-carousel__footer">
+                  <div className="centered-carousel__dots">
+                    {popularPriceCards.map((item, index) => (
+                      <button type="button" className={index === prices.index ? "is-active" : ""} onClick={() => prices.goTo(index)} aria-label={`Выбрать ${item.title}`} key={item.id} />
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
+          </div>
 
-            <a
-              className="home-promo-final__image"
-              href={routeHref(activePromo.route)}
-              data-route-link
-              aria-label={`Подробнее: ${activePromo.title}`}
-            >
-              <ResponsiveImage
-                key={activePromo.banner}
-                src={activePromo.banner}
-                mobileSrc={activePromo.mobileBanner}
-                alt={activePromo.bannerAlt}
-                width="1254"
-                height="1254"
-                loading="lazy"
-                sizes="(max-width: 720px) calc(100vw - 52px), 480px"
-              />
-            </a>
-
-            <div className="home-promo-final__nav" aria-label="Навигация по спецпредложениям">
-              <button type="button" onClick={() => changePromo("prev")} aria-label="Предыдущее предложение"><ChevronLeft size={20} /></button>
-              <span>{String(promoIndex + 1).padStart(2, "0")} / {String(homeHeroPromotions.length).padStart(2, "0")}</span>
-              <button type="button" onClick={() => changePromo("next")} aria-label="Следующее предложение"><ChevronRight size={20} /></button>
-            </div>
-          </article>
+          <div className="conversion-prices__bottom reveal-on-scroll">
+            <span><ShieldCheck size={19} /> Точная стоимость определяется после осмотра и диагностики</span>
+            <a className="conversion-button conversion-button--outline" href={routePaths.prices} data-route-link>Смотреть все цены <ArrowRight size={17} /></a>
+            <a className="conversion-button conversion-button--primary" href={PHONE_LINK} data-appointment>Записаться <ArrowRight size={17} /></a>
+          </div>
         </div>
       </section>
 
-      <section className="home-final__section home-final__section--services" aria-labelledby="home-services-heading">
+      <section className="conversion-section conversion-doctors" aria-labelledby="conversion-doctors-title">
         <div className="container">
-          <div className="home-final__heading home-final__heading--light home-final__heading--services reveal-on-scroll">
-            <span className="home-final__eyebrow">Основные направления</span>
-            <h2 id="home-services-heading">Всё нужное для здоровья и восстановления улыбки</h2>
-            <p>Выберите направление — на странице услуги будут этапы, ориентиры по стоимости и ответы на частые вопросы.</p>
-          </div>
+          <SectionHeading
+            eyebrow="Опыт · доверие · результат"
+            title={<>Наши <span>врачи</span></>}
+            text="Команда стоматологов, которым можно доверять. Выберите врача и познакомьтесь с его подходом."
+            align="center"
+            id="conversion-doctors-title"
+          />
 
-          <div className="home-services-bento">
-            {services.slice(0, 6).map((service, index) => (
-              <a
-                className={`home-service-tile home-service-tile--${index + 1} reveal-on-scroll`}
-                href={service.detailPath}
-                data-route-link
-                key={service.title}
-                style={{ "--reveal-delay": `${index * 65}ms` }}
-              >
-                <ResponsiveImage src={service.image} mobileSrc={service.mobileImage} alt={service.title} width="1000" height="750" sizes="(max-width: 720px) 82vw, 32vw" />
-                <span className="home-service-tile__shade" />
-                <div className="home-service-tile__content">
-                  <em>{service.subtitle}</em>
-                  <h3>{service.title}</h3>
-                  <p>{service.text}</p>
-                  <span className="home-service-tile__link">Подробнее <ChevronRight size={17} /></span>
-                </div>
-              </a>
-            ))}
-          </div>
-
-          <div className="home-final__center-action reveal-on-scroll">
-            <a className="home-final__secondary-button home-final__secondary-button--light" href={routeHref("services")} data-route-link>Все услуги</a>
-          </div>
-        </div>
-      </section>
-
-      <section className="home-final__section home-final__section--director" aria-labelledby="home-director-heading">
-        <div className="container home-director-final home-director-final--refined">
-          <figure className="home-director-final__portrait home-director-final__media-card reveal-on-scroll reveal--left">
-            <ResponsiveImage src="/director-kaftaev-renat.webp" mobileSrc="/mobile/director-kaftaev-renat-720.webp" alt="Кафтаев Ренат Идрисович, руководитель стоматологии Новая улыбка" width="960" height="720" />
-            <figcaption className="home-director-final__media-caption">
-              <span>Руководитель клиники</span>
-              <strong>Кафтаев Ренат Идрисович</strong>
-            </figcaption>
-          </figure>
-
-          <article className="home-director-final__story reveal-on-scroll">
-            <span className="home-final__eyebrow">О клинике</span>
-            <h2 id="home-director-heading">Внимание к человеку — принцип нашей работы</h2>
-            <p className="home-director-final__lead">Мы строим лечение вокруг конкретной ситуации пациента: спокойно объясняем, не торопим с решением и заранее обозначаем понятный маршрут.</p>
-
-            <blockquote>«С 2004 года мы стараемся дарить пациентам здоровые и красивые улыбки. Работаем на совесть — поэтому нам доверяют».</blockquote>
-
-            <div className="home-director-final__proofs">
-              {homeAdvantages.map((advantage, index) => (
-                <article className="reveal-on-scroll" key={advantage.title} style={{ "--reveal-delay": `${index * 70}ms` }}>
-                  <div>{advantage.icon}</div>
-                  <strong>{advantage.title}</strong>
-                  <p>{advantage.text}</p>
-                </article>
-              ))}
+          <div className="centered-carousel centered-carousel--doctors reveal-on-scroll">
+            <button className="centered-carousel__arrow centered-carousel__arrow--left" type="button" onClick={doctors.goPrev} aria-label="Предыдущий врач"><ChevronLeft /></button>
+            <div className="centered-carousel__viewport">
+              <div className="centered-carousel__rail" ref={doctors.railRef} onTouchStart={doctors.onTouchStart} onTouchEnd={doctors.onTouchEnd}>
+                {doctors.items.map(({ sourceIndex, loopIndex }) => {
+                  const doctor = homeDoctorCards[sourceIndex];
+                  const isSelected = loopIndex === doctors.virtualIndex;
+                  return (
+                    <button className={`doctor-showcase-card ${isSelected ? "is-selected" : ""}`} type="button" onClick={() => doctors.goTo(sourceIndex)} aria-pressed={isSelected} key={`${doctor.name}-${loopIndex}`}>
+                      <figure><ResponsiveImage src={doctor.image} alt={doctor.name} width="620" height="760" sizes="(max-width: 720px) 74vw, 310px" /></figure>
+                      <div>
+                        <span>{doctor.speciality}</span>
+                        <h3>{doctor.name}</h3>
+                        <em>{doctor.branch}</em>
+                        <p>{doctor.note}</p>
+                        <span className="doctor-showcase-card__button">Подробнее <ArrowRight size={16} /></span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </article>
-
-          <figure className="home-director-final__clinic home-director-final__media-card reveal-on-scroll reveal--right">
-            <ResponsiveImage src="/home-advantages-clinic-v3.webp" mobileSrc="/mobile/home-advantages-clinic-v3-720.webp" alt="Современный кабинет стоматологии Новая улыбка" width="1280" height="720" />
-            <figcaption className="home-director-final__media-caption">
-              <span>Пространство стоматологии</span>
-              <strong>Современные кабинеты и спокойная атмосфера</strong>
-            </figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <section className="home-final__section home-final__section--journey" aria-labelledby="home-journey-heading">
-        <div className="container home-journey-final">
-          <div className="home-journey-final__visual reveal-on-scroll reveal--left">
-            <ResponsiveImage src="/home-journey-patient.webp" mobileSrc="/mobile/home-journey-patient-720.webp" alt="Консультация пациента в стоматологии Новая улыбка" width="1280" height="720" />
-            <div className="home-journey-final__visual-copy">
-              <span>Как проходит обращение</span>
-              <strong>От первого сообщения до понятного результата</strong>
-            </div>
-          </div>
-
-          <div className="home-journey-final__content">
-            <div className="home-final__heading home-final__heading--light reveal-on-scroll">
-              <span className="home-final__eyebrow">Три понятных шага</span>
-              <h2 id="home-journey-heading">Пациент понимает, что происходит на каждом этапе</h2>
-              <p>Без давления и неожиданностей: сначала знакомимся с ситуацией, затем обсуждаем план и только после этого начинаем лечение.</p>
-            </div>
-
-            <div className="home-journey-final__steps">
-              {homeJourneySteps.map((step, index) => (
-                <article className="home-journey-step reveal-on-scroll" key={step.title} style={{ "--reveal-delay": `${index * 90}ms` }}>
-                  <div className="home-journey-step__number">{step.number}</div>
-                  <div className="home-journey-step__icon">{step.icon}</div>
-                  <h3>{step.title}</h3>
-                  <p>{step.text}</p>
-                </article>
-              ))}
-            </div>
-
-            <div className="home-final__actions reveal-on-scroll">
-              <a className="blue-link" href={PHONE_LINK} data-appointment>Начать с консультации</a>
-              <a className="home-final__text-link" href={routeHref("contacts")} data-route-link>Контакты и филиалы <ChevronRight size={17} /></a>
+            <button className="centered-carousel__arrow centered-carousel__arrow--right" type="button" onClick={doctors.goNext} aria-label="Следующий врач"><ChevronRight /></button>
+            <div className="centered-carousel__footer">
+              <div className="centered-carousel__dots">
+                {homeDoctorCards.map((doctor, index) => <button type="button" className={index === doctors.index ? "is-active" : ""} onClick={() => doctors.goTo(index)} aria-label={`Выбрать врача ${doctor.name}`} key={doctor.name} />)}
+              </div>
+              <a className="conversion-inline-link" href={routeHref(selectedDoctor.route)} data-route-link>Все врачи <ArrowRight size={17} /></a>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="home-final__section home-final__section--results" aria-labelledby="home-results-heading">
-        <div className="container home-results-final">
-          <div className="home-results-final__copy reveal-on-scroll reveal--left">
-            <span className="home-final__eyebrow">До / После</span>
-            <h2 id="home-results-heading" className="home-results-final__title">
-              <span>Важен не только процесс.</span>
-              <span>Важен результат, с которым хочется улыбаться.</span>
-            </h2>
-            <p>{activeResult.text}</p>
-            <div className="home-results-final__meta">
-              <span>{activeResult.category}</span>
-              <strong>{activeResult.title}</strong>
-            </div>
-            <div className="home-results-final__controls">
-              <button type="button" onClick={() => changeResult("prev")} aria-label="Предыдущий результат"><ChevronLeft size={20} /></button>
-              <span>{String(resultIndex + 1).padStart(2, "0")} / {String(homeBeforeAfterCases.length).padStart(2, "0")}</span>
-              <button type="button" onClick={() => changeResult("next")} aria-label="Следующий результат"><ChevronRight size={20} /></button>
-            </div>
-            <a className="home-final__secondary-button" href={routeHref("beforeAfter")} data-route-link>Все результаты</a>
-          </div>
-
-          <div className="home-results-final__gallery reveal-on-scroll reveal--right">
-            <figure className="home-results-final__main-image">
-              <img src={activeResult.image} alt={activeResult.title} loading="lazy" decoding="async" />
-            </figure>
-            <div className="home-results-final__thumbs">
-              {homeBeforeAfterCases.map((item, index) => (
-                <button type="button" className={index === resultIndex ? "is-active" : ""} key={item.title} onClick={() => setResultIndex(index)} aria-label={`Показать результат: ${item.title}`}>
-                  <img src={item.image} alt="" loading="lazy" decoding="async" />
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="home-final__section home-final__section--branches" aria-labelledby="home-branches-heading">
+      <section className="conversion-section conversion-cases" aria-labelledby="conversion-cases-title">
         <div className="container">
-          <div className="home-final__heading reveal-on-scroll">
-            <span className="home-final__eyebrow">Рядом с домом</span>
-            <h2 id="home-branches-heading">Выберите удобный филиал</h2>
-            <p>Два филиала в Спутнике и один на ГПЗ. Позвоните напрямую или откройте страницу филиала.</p>
+          <SectionHeading
+            eyebrow="До / После"
+            title={<>Результаты лечения,<br /><span>которые можно увидеть</span></>}
+            text="Выберите случай, чтобы открыть подробное описание лечения и результата."
+            align="center"
+            id="conversion-cases-title"
+          />
+
+          <div className="case-strip-list reveal-on-scroll">
+            {homeCaseCards.map((item, index) => {
+              const isOpen = expandedCaseIndex === index;
+              return (
+                <article className={`case-strip-item ${isOpen ? "is-open" : ""}`} key={item.id}>
+                  <button
+                    type="button"
+                    className={`case-strip ${isOpen ? "is-open" : ""}`}
+                    onClick={() => setExpandedCaseIndex(isOpen ? null : index)}
+                    aria-expanded={isOpen}
+                  >
+                    <span className="case-strip__media">
+                      <img src={item.before} alt="" loading="lazy" decoding="async" />
+                      <ArrowRight size={16} />
+                      <img src={item.after} alt="" loading="lazy" decoding="async" />
+                    </span>
+                    <span className="case-strip__copy"><em>{item.label}</em><strong>{item.title}</strong></span>
+                    <span className="case-strip__open">{isOpen ? "Свернуть" : "Открыть кейс"}<ChevronDown size={18} /></span>
+                  </button>
+
+                  {isOpen ? (
+                    <div className="case-detail" role="region" aria-live="polite">
+                      <button className="case-detail__close" type="button" onClick={() => setExpandedCaseIndex(null)} aria-label="Закрыть кейс"><X size={20} /></button>
+                      <div className="case-detail__photos">
+                        <figure><span>До</span><ResponsiveImage src={item.before} alt={`${item.title}: до лечения`} width="720" height="540" /></figure>
+                        <div className="case-detail__transition"><ArrowRight /></div>
+                        <figure><span className="is-after">После</span><ResponsiveImage src={item.after} alt={`${item.title}: после лечения`} width="720" height="540" /></figure>
+                      </div>
+                      <article className="case-detail__story">
+                        <span className="case-detail__label">{item.label}</span>
+                        <h3>{item.title}</h3>
+                        <div><strong>Что беспокоило</strong><p>{item.problem}</p></div>
+                        <div><strong>Что сделали</strong><p>{item.treatment}</p></div>
+                        <div><strong>Результат</strong><p>{item.result}</p></div>
+                        <small><ShieldCheck size={15} /> Результат лечения индивидуален и зависит от клинической ситуации.</small>
+                      </article>
+                    </div>
+                  ) : null}
+                </article>
+              );
+            })}
           </div>
 
-          <div className="home-branches-final">
-            {homeBranchShowcase.map((branch, index) => (
-              <a
-                className={`home-branch-final home-branch-final--${branch.id} reveal-on-scroll`}
-                href={branch.href}
-                data-route-link
-                key={branch.id}
-                style={{ "--reveal-delay": `${index * 90}ms` }}
-                aria-label={`Открыть страницу филиала ${branch.name}`}
-              >
-                <figure>
-                  <ResponsiveImage src={branch.image} mobileSrc={`/mobile/${branch.id}-720.webp`} alt={`Филиал стоматологии на ${branch.name}`} width="960" height="640" />
-                  <span className="home-branch-final__glow" />
-                </figure>
-                <div>
-                  <span>{branch.area}</span>
-                  <h3>{branch.name}</h3>
-                  <strong>{branch.phone}</strong>
-                  <span className="home-branch-final__details">Открыть филиал <ChevronRight size={16} /></span>
-                </div>
-              </a>
-            ))}
+          <div className="conversion-case-cta reveal-on-scroll">
+            <div><Sparkles size={26} /><div><strong>Хотите такой же уверенный результат?</strong><p>Подберём решение именно под вашу ситуацию.</p></div></div>
+            <a className="conversion-button conversion-button--primary" href={PHONE_LINK} data-appointment>Записаться на приём <ArrowRight size={18} /></a>
           </div>
         </div>
       </section>
 
-      <section className="container home-final-cta reveal-on-scroll" aria-labelledby="home-final-cta-heading">
-        <div>
-          <span className="home-final__eyebrow">Запись на приём</span>
-          <h2 id="home-final-cta-heading">Не уверены, с чего начать?</h2>
-          <p>Оставьте заявку — администратор уточнит задачу, подберёт филиал и предложит удобное время.</p>
-        </div>
-        <div>
-          <a className="blue-link" href={PHONE_LINK} data-appointment>Записаться</a>
-          <a className="home-final__secondary-button" href={PHONE_LINK}>Позвонить</a>
+      <section className="conversion-section conversion-reviews" aria-labelledby="conversion-reviews-title">
+        <div className="container">
+          <div className="conversion-reviews__heading">
+            <SectionHeading
+              eyebrow="Отзывы пациентов"
+              title={<>То, что пациенты<br /><span>ценят больше всего</span></>}
+              text={<>Реальные впечатления пациентов<br />трёх филиалов «Новой улыбки».</>}
+              id="conversion-reviews-title"
+            />
+            <div className="conversion-reviews__stats">
+              <article><Star /><strong>4,9</strong><span>средняя оценка</span></article>
+              <article><BadgeCheck /><strong>175</strong><span>отзывов на площадках</span></article>
+              <article><HandHeart /><strong>98%</strong><span>пациентов рекомендуют</span></article>
+            </div>
+          </div>
+
+          <div className="centered-carousel centered-carousel--reviews reveal-on-scroll">
+            <button className="centered-carousel__arrow centered-carousel__arrow--left" type="button" onClick={reviews.goPrev} aria-label="Предыдущий отзыв"><ChevronLeft /></button>
+            <div className="centered-carousel__viewport">
+              <div className="centered-carousel__rail" ref={reviews.railRef} onTouchStart={reviews.onTouchStart} onTouchEnd={reviews.onTouchEnd}>
+                {reviews.items.map(({ sourceIndex, loopIndex }) => {
+                  const review = homeReviewCards[sourceIndex];
+                  const isSelected = loopIndex === reviews.virtualIndex;
+                  return (
+                    <article className={`review-showcase-card ${isSelected ? "is-selected" : ""}`} onClick={() => reviews.goTo(sourceIndex)} key={`${review.name}-${review.date}-${loopIndex}`}>
+                      <div className="review-showcase-card__top">
+                        <div className="review-avatar" aria-hidden="true">{review.name.slice(0, 1)}</div>
+                        <div><strong>{review.name}</strong><span>{review.branch}</span></div>
+                      </div>
+                      <div className="review-stars" aria-label="Оценка 5 из 5">★★★★★ <span>5,0</span></div>
+                      <h3>{review.short}</h3>
+                      <p>{review.text}</p>
+                      <footer><span>{review.tag}</span><time>{review.date}</time></footer>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+            <button className="centered-carousel__arrow centered-carousel__arrow--right" type="button" onClick={reviews.goNext} aria-label="Следующий отзыв"><ChevronRight /></button>
+            <div className="centered-carousel__footer">
+              <div className="centered-carousel__dots">
+                {homeReviewCards.map((review, index) => <button type="button" className={index === reviews.index ? "is-active" : ""} onClick={() => reviews.goTo(index)} aria-label={`Показать отзыв ${review.name}`} key={`${review.name}-${index}`} />)}
+              </div>
+              <span>{reviews.index + 1} / {homeReviewCards.length}</span>
+            </div>
+          </div>
+
+          <div className="review-platforms reveal-on-scroll">
+            <div><strong>Отзывы на Яндекс Картах</strong><p>Откройте страницу конкретного филиала на независимой площадке.</p></div>
+            <nav aria-label="Отзывы филиалов на Яндекс Картах">
+              {yandexReviewLinks.map((item) => (
+                <a href={item.href} target="_blank" rel="noreferrer" key={item.label}>
+                  <span className="yandex-mark">Я</span>{item.label}<ExternalLink size={15} />
+                </a>
+              ))}
+            </nav>
+          </div>
         </div>
       </section>
     </main>
   );
 }
-

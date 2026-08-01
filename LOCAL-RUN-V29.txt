@@ -1,0 +1,11 @@
+1. Остановить текущий сервер: Ctrl+C
+2. Распаковать архив в C:\Users\HailRake\Desktop\syte
+3. Скопировать папку worksite в C:\Users\HailRake\novaya-ulybka-git-clean через robocopy
+4. Выполнить:
+   cd C:\Users\HailRake\novaya-ulybka-git-clean
+   npm install
+   npm run check
+   npm run dev -- --force
+5. Открыть http://localhost:5173
+6. Обновить Ctrl+Shift+R
+7. После проверки выполнить npm run build

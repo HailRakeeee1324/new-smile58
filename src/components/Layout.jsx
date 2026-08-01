@@ -77,12 +77,12 @@ export function Header({ route, theme, onToggleTheme }) {
           </a>
           <div className="contact-item">
             <Clock size={18} />
-            <span>Пн–Пт 09:00–21:00</span>
+            <span>Пн–Пт 09:00–20:00</span>
           </div>
         </div>
 
         <div className="header__actions">
-          <a className="header__button" href={PHONE_LINK} data-appointment>Записаться</a>
+          <a className="header__button" href={PHONE_LINK} data-appointment><span className="header__button-label header__button-label--desktop">Записаться</span><span className="header__button-label header__button-label--mobile">Запись</span></a>
           <button
             className="theme-toggle"
             type="button"
@@ -200,10 +200,10 @@ export function Footer() {
         </a>
 
         <div className="footer__brand">
-          <div className="footer__brand-mark">
+          <a className="footer__brand-mark" href="https://yandex.ru/maps/?ll=45.071746%2C53.105815&mode=search&sll=45.071746%2C53.105771&source=serp_navig&text=%D0%BD%D0%BE%D0%B2%D0%B0%D1%8F%20%D1%83%D0%BB%D1%8B%D0%B1%D0%BA%D0%B0&z=12" target="_blank" rel="noreferrer" aria-label="Открыть Новую улыбку на Яндекс Картах">
             <img className="footer__brand-logo footer__brand-logo--light" src="/footer-logo-color.webp" alt="Новая улыбка" loading="lazy" decoding="async" />
             <img className="footer__brand-logo footer__brand-logo--dark" src="/footer-logo-white.webp" alt="Новая улыбка" loading="lazy" decoding="async" />
-          </div>
+          </a>
           <p>Новая улыбка — сеть клиник современной стоматологии.</p>
         </div>
       </div>

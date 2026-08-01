@@ -35,7 +35,7 @@ export default function ContactsPage() {
 
         <div className="contacts-main-card__schedule" aria-label="График работы">
           <h3>График работы</h3>
-          <div><strong>Пн-Пт</strong><span>09:00-21:00</span></div>
+          <div><strong>Пн-Пт</strong><span>09:00-20:00</span></div>
           <div><strong>Сб</strong><span>09:00-14:00</span></div>
           <div><strong>Вс</strong><span>Выходной</span></div>
         </div>

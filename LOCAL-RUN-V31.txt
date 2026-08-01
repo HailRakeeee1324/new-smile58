@@ -1,0 +1,6 @@
+1. npm install
+2. npm run check
+3. npm run dev -- --force
+4. открыть http://localhost:5173
+5. Ctrl + Shift + R
+6. для production: npm run build

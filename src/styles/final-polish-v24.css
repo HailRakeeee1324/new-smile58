@@ -285,3 +285,100 @@ body > .mobile-menu .mobile-menu__primary a::before {
     border-radius: 16px !important;
   }
 }
+
+/* v26 — global footer refinement */
+.footer {
+  padding: 28px 0 34px !important;
+}
+
+.footer__inner--premium {
+  grid-template-columns: minmax(0, 1.18fr) minmax(240px, .72fr) minmax(220px, .54fr) !important;
+  gap: 24px !important;
+  padding: 28px !important;
+  border-radius: 30px !important;
+  background: linear-gradient(145deg, rgba(255,255,255,.84), rgba(245,250,255,.76)) !important;
+  box-shadow: 0 26px 68px rgba(15, 50, 112, 0.10) !important;
+}
+
+.footer__legal {
+  gap: 10px !important;
+}
+
+.footer__review {
+  border-radius: 22px;
+  overflow: hidden;
+}
+
+.footer__brand {
+  max-width: 238px !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.footer__brand-mark {
+  min-height: auto !important;
+  padding: 18px !important;
+  border-radius: 28px !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(243,248,255,.92)) !important;
+  border: 1px solid rgba(173, 197, 224, 0.36) !important;
+  box-shadow: 0 18px 44px rgba(15, 50, 112, 0.10) !important;
+}
+
+.footer__brand-logo {
+  width: 150px !important;
+}
+
+.footer__brand p {
+  max-width: 220px !important;
+  margin: 12px auto 0 !important;
+  color: #51657f !important;
+}
+
+.footer__contra-watermark {
+  position: relative;
+  z-index: 1;
+  margin-top: 16px;
+  text-align: center;
+  color: rgba(38, 62, 96, 0.48);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+html[data-theme="dark"] .footer__inner--premium {
+  background: linear-gradient(180deg, rgba(16, 42, 79, 0.96), rgba(11, 34, 69, 0.96)) !important;
+}
+
+html[data-theme="dark"] .footer__brand-mark {
+  background: linear-gradient(180deg, rgba(19,46,84,.98), rgba(12,34,68,.98)) !important;
+  border-color: rgba(158, 190, 232, 0.16) !important;
+}
+
+html[data-theme="dark"] .footer__brand p,
+html[data-theme="dark"] .footer__contra-watermark {
+  color: rgba(226, 236, 250, 0.70) !important;
+}
+
+@media (max-width: 960px) {
+  .footer {
+    padding: 22px 0 28px !important;
+  }
+
+  .footer__inner--premium {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+    padding: 22px !important;
+  }
+
+  .footer__review,
+  .footer__brand {
+    justify-self: start !important;
+  }
+
+  .footer__brand p {
+    margin-left: 0 !important;
+    text-align: left !important;
+  }
+}

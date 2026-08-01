@@ -1,0 +1,7 @@
+1. Распаковать архив.
+2. Скопировать содержимое папки worksite в основной Git-проект.
+3. npm install
+4. npm run check
+5. npm run dev -- --force
+6. Открыть http://localhost:5173
+7. Для production: npm run build

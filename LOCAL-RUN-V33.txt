@@ -1,0 +1,16 @@
+Локальный запуск проекта:
+
+1) Распаковать архив
+2) Открыть терминал в папке worksite
+3) Выполнить команды:
+
+npm install
+npm run dev
+
+После запуска открыть адрес:
+http://localhost:5173
+
+Сборка production:
+
+npm run build
+npm run preview

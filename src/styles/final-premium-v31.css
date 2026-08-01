@@ -1,0 +1,546 @@
+/* =========================================================
+   V31 — composition reset for concerns, prices and carousels
+   Loaded after V29. V30 is intentionally not loaded.
+   ========================================================= */
+
+:root {
+  --v31-blue: #2f80ff;
+  --v31-blue-deep: #0f4dbc;
+  --v31-card: linear-gradient(155deg, rgba(255,255,255,.96), rgba(238,246,255,.93));
+  --v31-card-line: rgba(111, 157, 222, .24);
+  --v31-card-shadow: 0 20px 48px rgba(30, 84, 158, .11), 0 0 0 1px rgba(116, 166, 235, .06);
+  --v31-card-shadow-active: 0 28px 62px rgba(35, 100, 202, .19), 0 0 0 1px rgba(67, 132, 231, .32), 0 0 34px rgba(71, 141, 246, .10);
+}
+
+/* ---------- Global light-card visibility ---------- */
+html:not([data-theme="dark"]) .conversion-assurance,
+html:not([data-theme="dark"]) .conversion-prices__description,
+html:not([data-theme="dark"]) .conversion-prices__promise,
+html:not([data-theme="dark"]) .concern-card,
+html:not([data-theme="dark"]) .price-showcase-card,
+html:not([data-theme="dark"]) .doctor-showcase-card,
+html:not([data-theme="dark"]) .case-strip,
+html:not([data-theme="dark"]) .case-detail,
+html:not([data-theme="dark"]) .conversion-case-cta,
+html:not([data-theme="dark"]) .review-showcase-card,
+html:not([data-theme="dark"]) .conversion-reviews__stats article,
+html:not([data-theme="dark"]) .review-platforms,
+html:not([data-theme="dark"]) .conversion-prices__bottom {
+  border-color: var(--v31-card-line) !important;
+  background: var(--v31-card) !important;
+  box-shadow: var(--v31-card-shadow) !important;
+}
+
+/* ---------- Keep previous header appearance ---------- */
+@media (max-width: 900px) {
+  .header__button {
+    display: inline-flex !important;
+    min-height: 42px !important;
+    padding: 10px 14px !important;
+    border-radius: 16px !important;
+    font-size: 12px !important;
+  }
+
+  .header__actions {
+    gap: 7px !important;
+  }
+}
+
+/* ---------- Concerns: one-line heading, copy below left, carousel right ---------- */
+.conversion-concerns__shell {
+  display: grid !important;
+  gap: 22px !important;
+}
+
+.conversion-concerns__shell > .conversion-heading {
+  max-width: none !important;
+}
+
+.conversion-concerns__shell > .conversion-heading h2 {
+  white-space: nowrap !important;
+  font-size: clamp(44px, 5.2vw, 76px) !important;
+}
+
+.conversion-concerns__content {
+  display: grid !important;
+  grid-template-columns: minmax(280px, 330px) minmax(0, 1fr) !important;
+  gap: 34px !important;
+  align-items: center !important;
+}
+
+.conversion-concerns__intro {
+  display: grid !important;
+  gap: 18px !important;
+  min-width: 0 !important;
+}
+
+.conversion-concerns__description,
+.conversion-prices__description {
+  margin: 0 !important;
+  color: var(--conversion-text) !important;
+  font-size: 17px !important;
+  line-height: 1.65 !important;
+  font-weight: 650 !important;
+}
+
+.conversion-assurance {
+  margin-top: 0 !important;
+  padding: 20px !important;
+  border: 1px solid transparent !important;
+  border-radius: 26px !important;
+}
+
+.centered-carousel--concerns {
+  display: grid !important;
+  grid-template-columns: 44px minmax(0, 1fr) 44px !important;
+  gap: 10px !important;
+  align-items: center !important;
+  min-width: 0 !important;
+  margin-top: 0 !important;
+}
+
+.centered-carousel--concerns .centered-carousel__rail {
+  gap: 14px !important;
+  min-height: 298px !important;
+  padding: 18px calc(50% - 88px) 20px !important;
+}
+
+.concern-card,
+.concern-card.is-selected {
+  flex: 0 0 176px !important;
+  width: 176px !important;
+  min-height: 250px !important;
+  padding: 16px 14px !important;
+  transform: scale(.975) !important;
+  border-radius: 24px !important;
+  opacity: 1 !important;
+}
+
+.concern-card.is-selected {
+  z-index: 3 !important;
+  transform: scale(1.035) !important;
+  border-color: rgba(55, 124, 226, .55) !important;
+  box-shadow: var(--v31-card-shadow-active) !important;
+}
+
+.concern-card strong {
+  font-size: 15px !important;
+  line-height: 1.16 !important;
+}
+
+.concern-card p {
+  font-size: 11px !important;
+  line-height: 1.45 !important;
+}
+
+.centered-carousel--concerns .centered-carousel__footer {
+  grid-column: 1 / -1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin-top: 2px !important;
+}
+
+.conversion-inline-link--accent {
+  min-height: 48px !important;
+  padding: 0 20px !important;
+  border-radius: 16px !important;
+}
+
+/* ---------- Prices: one-line heading, left copy and promise, right cards ---------- */
+.conversion-prices__shell {
+  display: grid !important;
+  gap: 22px !important;
+}
+
+.conversion-prices__shell > .conversion-heading {
+  max-width: none !important;
+}
+
+.conversion-prices__shell > .conversion-heading h2 {
+  white-space: nowrap !important;
+  font-size: clamp(44px, 5.1vw, 74px) !important;
+}
+
+.conversion-prices__body {
+  display: grid !important;
+  grid-template-columns: minmax(280px, 330px) minmax(0, 1fr) !important;
+  gap: 34px !important;
+  align-items: start !important;
+}
+
+.conversion-prices__intro {
+  position: static !important;
+  display: grid !important;
+  gap: 18px !important;
+  min-width: 0 !important;
+}
+
+.conversion-prices__description {
+  padding: 20px !important;
+  border: 1px solid transparent !important;
+  border-radius: 26px !important;
+}
+
+.conversion-prices__promise {
+  padding: 22px !important;
+  border: 1px solid rgba(105, 159, 238, .16) !important;
+  border-radius: 26px !important;
+  background: linear-gradient(145deg, #4bb3ff, #2f80ff 52%, #0f4dbc) !important;
+  box-shadow: 0 22px 48px rgba(38, 106, 218, .24) !important;
+}
+
+.conversion-prices__promise,
+.conversion-prices__promise * {
+  color: #fff !important;
+}
+
+.conversion-prices__catalog {
+  min-width: 0 !important;
+}
+
+.conversion-price-grid--desktop {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+  min-width: 0 !important;
+}
+
+.conversion-price-grid--desktop > div {
+  display: contents !important;
+}
+
+.price-showcase-card,
+.price-showcase-card--featured {
+  min-width: 0 !important;
+  min-height: 300px !important;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  grid-template-rows: auto 158px auto !important;
+  gap: 10px !important;
+  padding: 14px !important;
+  overflow: hidden !important;
+  border: 1px solid transparent !important;
+  border-radius: 26px !important;
+}
+
+.price-showcase-card--featured {
+  grid-column: auto !important;
+}
+
+.price-showcase-card__top {
+  display: grid !important;
+  gap: 7px !important;
+  min-width: 0 !important;
+}
+
+.price-showcase-card__top h3 {
+  margin: 0 !important;
+  max-width: 100% !important;
+  font-size: clamp(20px, 1.6vw, 26px) !important;
+  line-height: 1.08 !important;
+}
+
+.price-showcase-card figure,
+.price-showcase-card--featured figure {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 158px !important;
+  height: 158px !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  border-radius: 20px !important;
+}
+
+.price-showcase-card figure img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  transform: scale(1.035) !important;
+}
+
+.price-showcase-card__footer {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 6px !important;
+  align-items: start !important;
+}
+
+.price-showcase-card__footer > strong {
+  font-size: 24px !important;
+  line-height: 1 !important;
+}
+
+.price-showcase-card__link,
+.price-showcase-card__open {
+  justify-self: start !important;
+  font-size: 12px !important;
+}
+
+.conversion-prices__bottom {
+  position: static !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto auto !important;
+  gap: 12px !important;
+  margin: 0 !important;
+  padding: 16px 18px !important;
+  border: 1px solid transparent !important;
+  border-radius: 24px !important;
+}
+
+/* ---------- New transform-based mobile price carousel ---------- */
+.premium-price-carousel {
+  display: none !important;
+}
+
+.premium-price-carousel__viewport {
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+.premium-price-carousel__track {
+  display: flex !important;
+  align-items: stretch !important;
+  gap: 12px !important;
+  width: max-content !important;
+  will-change: transform !important;
+  backface-visibility: hidden !important;
+  touch-action: pan-y !important;
+}
+
+.premium-price-carousel__arrow {
+  display: grid !important;
+  place-items: center !important;
+  width: 38px !important;
+  height: 38px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  color: #fff !important;
+  background: linear-gradient(135deg, #56b9ff, #2f80ff 56%, #0f4dbc) !important;
+  box-shadow: 0 14px 28px rgba(35, 104, 219, .26) !important;
+  cursor: pointer !important;
+}
+
+.premium-price-carousel__footer {
+  grid-column: 1 / -1 !important;
+  display: flex !important;
+  justify-content: center !important;
+  margin-top: 8px !important;
+}
+
+/* ---------- Doctors footer centered ---------- */
+.centered-carousel--doctors .centered-carousel__footer {
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.centered-carousel--doctors .conversion-inline-link {
+  justify-content: center !important;
+}
+
+/* ---------- Dark theme: premium navy, not bright blue slab ---------- */
+html[data-theme="dark"] .conversion-cases {
+  background:
+    radial-gradient(circle at 14% 12%, rgba(42, 102, 190, .18), transparent 32%),
+    radial-gradient(circle at 84% 18%, rgba(35, 92, 180, .12), transparent 30%),
+    linear-gradient(180deg, #07172f 0%, #091d3c 58%, #07162d 100%) !important;
+}
+
+html[data-theme="dark"] .conversion-concerns,
+html[data-theme="dark"] .conversion-prices,
+html[data-theme="dark"] .conversion-doctors,
+html[data-theme="dark"] .conversion-reviews {
+  background:
+    radial-gradient(circle at 12% 12%, rgba(39, 99, 188, .12), transparent 34%),
+    linear-gradient(180deg, #07182f 0%, #091d3a 100%) !important;
+}
+
+html[data-theme="dark"] .conversion-assurance,
+html[data-theme="dark"] .conversion-prices__description,
+html[data-theme="dark"] .concern-card,
+html[data-theme="dark"] .price-showcase-card,
+html[data-theme="dark"] .doctor-showcase-card,
+html[data-theme="dark"] .case-strip,
+html[data-theme="dark"] .case-detail,
+html[data-theme="dark"] .conversion-case-cta,
+html[data-theme="dark"] .review-showcase-card,
+html[data-theme="dark"] .conversion-reviews__stats article,
+html[data-theme="dark"] .review-platforms,
+html[data-theme="dark"] .conversion-prices__bottom {
+  border-color: rgba(104, 155, 230, .18) !important;
+  background: linear-gradient(155deg, rgba(15, 39, 75, .98), rgba(8, 27, 56, .98)) !important;
+  box-shadow: 0 22px 54px rgba(0, 0, 0, .26) !important;
+}
+
+html[data-theme="dark"] .conversion-prices__description,
+html[data-theme="dark"] .conversion-concerns__description,
+html[data-theme="dark"] .conversion-prices__bottom > span {
+  color: #b9cee8 !important;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1120px) {
+  .conversion-concerns__shell > .conversion-heading h2,
+  .conversion-prices__shell > .conversion-heading h2 {
+    white-space: normal !important;
+  }
+
+  .conversion-concerns__content,
+  .conversion-prices__body {
+    grid-template-columns: 1fr !important;
+  }
+
+  .conversion-concerns__intro,
+  .conversion-prices__intro {
+    max-width: 620px !important;
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --v31-gutter: 14px;
+  }
+
+  .conversion-home .container {
+    width: min(calc(100% - (var(--v31-gutter) * 2)), var(--container)) !important;
+    margin-inline: auto !important;
+  }
+
+  .conversion-concerns__shell,
+  .conversion-prices__shell {
+    gap: 16px !important;
+  }
+
+  .conversion-concerns__shell > .conversion-heading h2,
+  .conversion-prices__shell > .conversion-heading h2 {
+    white-space: normal !important;
+    font-size: clamp(36px, 11vw, 50px) !important;
+  }
+
+  .conversion-concerns__content,
+  .conversion-prices__body {
+    gap: 16px !important;
+  }
+
+  .conversion-concerns__description,
+  .conversion-prices__description {
+    font-size: 14px !important;
+  }
+
+  .centered-carousel--concerns {
+    grid-template-columns: 36px minmax(0, 1fr) 36px !important;
+    gap: 5px !important;
+  }
+
+  .centered-carousel--concerns .centered-carousel__rail {
+    min-height: 278px !important;
+    padding: 14px calc(50% - 116px) 16px !important;
+  }
+
+  .concern-card,
+  .concern-card.is-selected {
+    flex: 0 0 232px !important;
+    width: 232px !important;
+    min-height: 248px !important;
+    transform: none !important;
+  }
+
+  .conversion-price-grid--desktop {
+    display: none !important;
+  }
+
+  .premium-price-carousel {
+    display: grid !important;
+    grid-template-columns: 38px minmax(0, 1fr) 38px !important;
+    gap: 6px !important;
+    align-items: center !important;
+  }
+
+  .premium-price-carousel__track {
+    padding: 12px 0 16px !important;
+  }
+
+  .price-showcase-card--mobile,
+  .price-showcase-card--mobile.is-selected {
+    flex: 0 0 236px !important;
+    width: 236px !important;
+    min-height: 344px !important;
+    display: grid !important;
+    grid-template-rows: auto 166px auto !important;
+    gap: 10px !important;
+    padding: 14px !important;
+    transform: none !important;
+    border-radius: 26px !important;
+    cursor: pointer !important;
+  }
+
+  .price-showcase-card--mobile.is-selected {
+    border-color: rgba(55, 124, 226, .58) !important;
+    box-shadow: var(--v31-card-shadow-active) !important;
+  }
+
+  .price-showcase-card--mobile figure,
+  .price-showcase-card--mobile.is-selected figure {
+    min-height: 166px !important;
+    height: 166px !important;
+  }
+
+  .price-showcase-card--mobile .price-showcase-card__footer {
+    grid-template-columns: 1fr !important;
+    gap: 7px !important;
+  }
+
+  .price-showcase-card--mobile .price-showcase-card__footer > strong {
+    font-size: 23px !important;
+  }
+
+  .price-showcase-card--mobile .price-showcase-card__open,
+  .price-showcase-card--mobile .price-showcase-card__choose {
+    justify-self: start !important;
+  }
+
+  .conversion-prices__bottom {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  .conversion-prices__bottom .conversion-button {
+    width: 100% !important;
+  }
+
+  .centered-carousel--doctors .centered-carousel__footer {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+
+  .centered-carousel--doctors .centered-carousel__dots,
+  .centered-carousel--doctors .conversion-inline-link {
+    margin-inline: auto !important;
+  }
+}
+
+.header__button-label--mobile {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .header__button-label--desktop {
+    display: none;
+  }
+
+  .header__button-label--mobile {
+    display: inline;
+  }
+}
+
+@media (min-width: 1121px) {
+  .centered-carousel--concerns {
+    width: min(100%, 660px) !important;
+    justify-self: end !important;
+  }
+}

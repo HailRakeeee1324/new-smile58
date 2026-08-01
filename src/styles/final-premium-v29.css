@@ -1,0 +1,856 @@
+/* =========================================================
+   V29 — final composition pass
+   Loaded after V28. Stable sizes, clean rails, mobile gutters.
+   ========================================================= */
+
+:root {
+  --v29-blue: #2f80ff;
+  --v29-blue-deep: #0c4db8;
+  --v29-navy: #0a2f68;
+  --v29-line: rgba(126, 169, 227, .25);
+  --v29-shadow: 0 20px 50px rgba(21, 70, 145, .10);
+  --v29-shadow-active: 0 26px 62px rgba(36, 103, 211, .22), 0 0 0 1px rgba(81, 146, 245, .26);
+  --v29-ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+.conversion-home {
+  overflow: clip !important;
+  padding-bottom: 0 !important;
+}
+
+.conversion-section {
+  padding: clamp(48px, 5vw, 70px) 0 !important;
+}
+
+/* ---------- HERO: visible photo, no white blob ---------- */
+.conversion-hero__photo {
+  inset: 0 !important;
+  width: 100% !important;
+  background-size: cover !important;
+  background-position: center center !important;
+}
+
+.conversion-hero__wash {
+  background:
+    radial-gradient(ellipse at 24% 47%, rgba(238,247,255,.72) 0%, rgba(238,247,255,.58) 24%, rgba(238,247,255,.32) 43%, rgba(238,247,255,.08) 64%, transparent 78%),
+    linear-gradient(90deg, rgba(224,239,252,.54) 0%, rgba(224,239,252,.42) 31%, rgba(224,239,252,.22) 53%, rgba(224,239,252,.06) 74%, rgba(224,239,252,.02) 100%),
+    linear-gradient(180deg, rgba(205,226,245,.08), rgba(210,231,248,.24)) !important;
+}
+
+/* ---------- NAV: readable light active state ---------- */
+html:not([data-theme="dark"]) .header--home .nav a.active,
+html:not([data-theme="dark"]) .header--home .nav a:hover {
+  color: #0a4aa8 !important;
+  background: linear-gradient(180deg, rgba(219,237,255,.98), rgba(199,225,255,.92)) !important;
+  box-shadow: 0 9px 24px rgba(43, 112, 217, .18), 0 0 0 1px rgba(81, 146, 245, .18) !important;
+  text-shadow: none !important;
+}
+
+/* ---------- CAROUSEL FOUNDATION ---------- */
+.centered-carousel__viewport {
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+.centered-carousel__rail {
+  scroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+  overscroll-behavior-inline: contain;
+  touch-action: pan-y;
+}
+
+.centered-carousel__rail > * {
+  backface-visibility: hidden;
+  transform-origin: center center;
+  transition:
+    transform 440ms var(--v29-ease),
+    box-shadow 440ms var(--v29-ease),
+    border-color 320ms ease,
+    background-color 320ms ease,
+    opacity 320ms ease !important;
+}
+
+.centered-carousel__arrow {
+  display: grid !important;
+  place-items: center;
+  width: 44px !important;
+  height: 44px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  color: #fff !important;
+  background: linear-gradient(135deg, #56b9ff, var(--v29-blue) 56%, var(--v29-blue-deep)) !important;
+  box-shadow: 0 14px 30px rgba(35, 104, 219, .25) !important;
+}
+
+.centered-carousel__arrow:hover {
+  transform: translateY(-2px) scale(1.04) !important;
+  box-shadow: 0 18px 36px rgba(35, 104, 219, .32) !important;
+}
+
+.centered-carousel__arrow:active {
+  transform: scale(.94) !important;
+}
+
+.centered-carousel__dots button {
+  transition: width 260ms var(--v29-ease), background-color 260ms ease !important;
+}
+
+/* ---------- CONCERNS: five visible cards, never over text ---------- */
+.conversion-concerns__layout {
+  display: grid !important;
+  grid-template-columns: minmax(290px, 330px) minmax(0, 1fr) !important;
+  gap: 28px !important;
+  align-items: center !important;
+}
+
+.conversion-concerns__intro,
+.centered-carousel--concerns {
+  min-width: 0 !important;
+}
+
+.centered-carousel--concerns {
+  display: grid !important;
+  grid-template-columns: 44px minmax(0, 1fr) 44px !important;
+  gap: 10px !important;
+  align-items: center !important;
+}
+
+.centered-carousel--concerns .centered-carousel__rail {
+  gap: 10px !important;
+  min-height: 286px !important;
+  padding: 18px calc(50% - 64px) 20px !important;
+}
+
+.concern-card,
+.concern-card.is-selected {
+  flex: 0 0 128px !important;
+  width: 128px !important;
+  min-height: 246px !important;
+  padding: 14px 10px !important;
+  grid-template-rows: 66px auto 1fr !important;
+  gap: 8px !important;
+  border-radius: 22px !important;
+  opacity: 1 !important;
+  transform: scale(.965) !important;
+  background: rgba(255,255,255,.82) !important;
+  border: 1px solid rgba(155, 188, 232, .35) !important;
+  box-shadow: 0 14px 34px rgba(24, 63, 122, .08) !important;
+}
+
+.concern-card.is-selected {
+  z-index: 3;
+  transform: scale(1.04) !important;
+  border-color: rgba(48, 117, 224, .62) !important;
+  background: linear-gradient(180deg, #fff, #f3f8ff) !important;
+  box-shadow: var(--v29-shadow-active) !important;
+}
+
+.concern-card__icon {
+  width: 62px !important;
+  height: 62px !important;
+  margin: 0 auto !important;
+  border-radius: 18px !important;
+}
+
+.concern-glyph,
+.concern-glyph img {
+  width: 55px !important;
+  height: 55px !important;
+}
+
+.concern-card strong {
+  font-size: 14px !important;
+  line-height: 1.14 !important;
+  text-align: center !important;
+}
+
+.concern-card p {
+  margin: 0 !important;
+  font-size: 10.5px !important;
+  line-height: 1.42 !important;
+  text-align: center !important;
+}
+
+.concern-card__action {
+  display: none !important;
+}
+
+.centered-carousel--concerns .centered-carousel__footer {
+  grid-column: 1 / -1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 18px !important;
+  margin-top: 4px !important;
+}
+
+.conversion-inline-link--accent {
+  min-height: 46px !important;
+  padding: 0 18px !important;
+  border-radius: 15px !important;
+}
+
+/* ---------- PRICES: clean cards, no hidden text ---------- */
+.conversion-prices__layout {
+  display: grid !important;
+  grid-template-columns: minmax(280px, 330px) minmax(0, 1fr) !important;
+  gap: 28px 36px !important;
+  align-items: start !important;
+}
+
+.conversion-prices__intro {
+  position: sticky !important;
+  top: 145px !important;
+  min-width: 0 !important;
+}
+
+.conversion-price-grid--desktop {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+  align-items: stretch !important;
+  min-width: 0 !important;
+}
+
+.conversion-price-grid--desktop > div {
+  display: contents !important;
+}
+
+.price-showcase-card,
+.price-showcase-card--featured {
+  min-width: 0 !important;
+  min-height: 330px !important;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  grid-template-rows: auto minmax(170px, 1fr) auto !important;
+  gap: 12px !important;
+  padding: 16px !important;
+  overflow: hidden !important;
+  border-radius: 27px !important;
+  border: 1px solid rgba(151, 185, 229, .30) !important;
+  background: rgba(255,255,255,.88) !important;
+  box-shadow: 0 18px 44px rgba(33, 77, 139, .08) !important;
+}
+
+.price-showcase-card--featured {
+  grid-column: 1 / -1 !important;
+  min-height: 360px !important;
+  grid-template-rows: auto minmax(210px, 1fr) auto !important;
+}
+
+.price-showcase-card:hover {
+  transform: translateY(-4px) !important;
+  border-color: rgba(48, 117, 224, .46) !important;
+  box-shadow: 0 24px 56px rgba(33, 77, 139, .14) !important;
+}
+
+.price-showcase-card__top {
+  display: grid !important;
+  grid-template-columns: auto 1fr !important;
+  gap: 8px 10px !important;
+  align-items: center !important;
+  min-width: 0 !important;
+}
+
+.price-showcase-card__top .price-showcase-card__badge {
+  grid-column: 1 / -1 !important;
+  width: fit-content !important;
+  margin: 0 !important;
+}
+
+.price-showcase-card__top h3 {
+  grid-column: 1 / -1 !important;
+  margin: 0 !important;
+  max-width: 100% !important;
+  font-size: clamp(23px, 2vw, 31px) !important;
+  line-height: 1.04 !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+.price-showcase-card__icon {
+  margin: 0 !important;
+}
+
+.price-showcase-card figure,
+.price-showcase-card--featured figure {
+  order: initial !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 170px !important;
+  height: 100% !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  border-radius: 21px !important;
+  background: #e5f1ff !important;
+}
+
+.price-showcase-card--featured figure {
+  min-height: 210px !important;
+}
+
+.price-showcase-card figure img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+
+.price-showcase-card__copy {
+  display: none !important;
+}
+
+.price-showcase-card__footer {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  min-width: 0 !important;
+}
+
+.price-showcase-card__footer > strong {
+  color: var(--conversion-blue) !important;
+  font-size: clamp(24px, 2vw, 32px) !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+.price-showcase-card__link,
+.price-showcase-card__open {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: var(--conversion-blue-deep) !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+}
+
+.price-showcase-card__choose {
+  color: #6a82a3 !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+}
+
+.conversion-prices__bottom {
+  position: static !important;
+  grid-column: 1 / -1 !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto auto !important;
+  gap: 12px !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 16px 18px !important;
+  border-radius: 24px !important;
+}
+
+.conversion-prices__bottom > span {
+  min-width: 0 !important;
+  font-size: 12px !important;
+}
+
+.conversion-price-carousel {
+  display: none !important;
+}
+
+/* ---------- DOCTORS: same dimensions, selected glow ---------- */
+.centered-carousel--doctors .centered-carousel__rail {
+  gap: 14px !important;
+  min-height: 0 !important;
+  padding: 18px calc(50% - 145px) 22px !important;
+}
+
+.doctor-showcase-card,
+.doctor-showcase-card.is-selected {
+  flex: 0 0 290px !important;
+  width: 290px !important;
+  min-height: 500px !important;
+  grid-template-rows: 275px 1fr !important;
+  opacity: 1 !important;
+  transform: scale(.975) !important;
+  border-radius: 28px !important;
+  background: rgba(255,255,255,.86) !important;
+  border: 1px solid rgba(151, 185, 229, .30) !important;
+  box-shadow: 0 18px 44px rgba(33, 77, 139, .08) !important;
+  overflow: hidden !important;
+}
+
+.doctor-showcase-card.is-selected {
+  z-index: 3;
+  transform: scale(1.02) !important;
+  border-color: rgba(48, 117, 224, .58) !important;
+  box-shadow: var(--v29-shadow-active) !important;
+}
+
+.doctor-showcase-card figure {
+  position: relative !important;
+  width: 100% !important;
+  height: 275px !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+.doctor-showcase-card figure img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+}
+
+.doctor-showcase-card > div {
+  position: relative !important;
+  z-index: 2 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 225px !important;
+  padding: 17px !important;
+  background: inherit !important;
+}
+
+.doctor-showcase-card h3 {
+  margin: 6px 0 0 !important;
+  font-size: 20px !important;
+  line-height: 1.08 !important;
+}
+
+.doctor-showcase-card p {
+  margin-top: 10px !important;
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+}
+
+/* ---------- CASES: detail belongs to clicked strip ---------- */
+.case-strip-list {
+  display: grid !important;
+  gap: 12px !important;
+}
+
+.case-strip-item {
+  display: grid !important;
+  gap: 10px !important;
+  min-width: 0 !important;
+}
+
+.case-strip {
+  min-width: 0 !important;
+}
+
+.case-detail {
+  margin: 0 !important;
+}
+
+/* ---------- REVIEWS / FOOTER: remove trailing empty field ---------- */
+.conversion-reviews {
+  padding-bottom: 24px !important;
+}
+
+.review-platforms {
+  margin-bottom: 0 !important;
+}
+
+.footer {
+  margin-top: 0 !important;
+}
+
+.footer__brand-mark {
+  cursor: pointer !important;
+  transition: transform 260ms var(--v29-ease), box-shadow 260ms ease !important;
+}
+
+.footer__brand-mark:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 22px 48px rgba(15, 50, 112, .15) !important;
+}
+
+/* ---------- DARK THEME: no light windows ---------- */
+html[data-theme="dark"] .conversion-hero__proofs > div,
+html[data-theme="dark"] .conversion-assurance,
+html[data-theme="dark"] .concern-card,
+html[data-theme="dark"] .price-showcase-card,
+html[data-theme="dark"] .doctor-showcase-card,
+html[data-theme="dark"] .case-strip,
+html[data-theme="dark"] .case-detail,
+html[data-theme="dark"] .review-showcase-card,
+html[data-theme="dark"] .conversion-reviews__stats article,
+html[data-theme="dark"] .review-platforms,
+html[data-theme="dark"] .conversion-prices__bottom,
+html[data-theme="dark"] .footer__inner--premium,
+html[data-theme="dark"] .footer__brand-mark {
+  color: #eef6ff !important;
+  border-color: rgba(120, 163, 226, .18) !important;
+  background: linear-gradient(180deg, rgba(14,39,77,.97), rgba(8,27,57,.99)) !important;
+  box-shadow: 0 20px 52px rgba(0,0,0,.25) !important;
+}
+
+html[data-theme="dark"] .concern-card.is-selected,
+html[data-theme="dark"] .doctor-showcase-card.is-selected,
+html[data-theme="dark"] .price-showcase-card.is-selected,
+html[data-theme="dark"] .review-showcase-card.is-selected {
+  border-color: rgba(83, 151, 255, .62) !important;
+  box-shadow: 0 26px 62px rgba(0,0,0,.38), 0 0 0 1px rgba(83,151,255,.28), 0 0 36px rgba(47,128,255,.15) !important;
+}
+
+html[data-theme="dark"] .concern-card strong,
+html[data-theme="dark"] .concern-card p,
+html[data-theme="dark"] .price-showcase-card h3,
+html[data-theme="dark"] .price-showcase-card__footer > strong,
+html[data-theme="dark"] .doctor-showcase-card h3,
+html[data-theme="dark"] .doctor-showcase-card p,
+html[data-theme="dark"] .doctor-showcase-card em,
+html[data-theme="dark"] .conversion-prices__bottom > span {
+  color: #eef6ff !important;
+}
+
+html[data-theme="dark"] .concern-card p,
+html[data-theme="dark"] .doctor-showcase-card p,
+html[data-theme="dark"] .doctor-showcase-card em {
+  color: #aec5e3 !important;
+}
+
+html[data-theme="dark"] .price-showcase-card figure,
+html[data-theme="dark"] .doctor-showcase-card figure,
+html[data-theme="dark"] .concern-card__icon {
+  background: rgba(12,35,70,.94) !important;
+}
+
+html[data-theme="dark"] .centered-carousel__arrow {
+  color: #fff !important;
+  background: linear-gradient(135deg, #55b9ff, #2f80ff 56%, #0c4db8) !important;
+}
+
+/* ---------- TABLET ---------- */
+@media (max-width: 1120px) {
+  .conversion-concerns__layout,
+  .conversion-prices__layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .conversion-prices__intro {
+    position: static !important;
+  }
+
+  .centered-carousel--concerns .centered-carousel__rail {
+    padding-inline: calc(50% - 64px) !important;
+  }
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 720px) {
+  :root {
+    --v29-mobile-gutter: 14px;
+  }
+
+  .conversion-home .container {
+    width: min(calc(100% - (var(--v29-mobile-gutter) * 2)), var(--container)) !important;
+    margin-inline: auto !important;
+  }
+
+  .conversion-home {
+    padding-bottom: 0 !important;
+  }
+
+  .conversion-section {
+    padding: 34px 0 !important;
+  }
+
+  .conversion-heading h2 {
+    font-size: clamp(34px, 10.8vw, 48px) !important;
+  }
+
+  .conversion-heading p {
+    font-size: 14px !important;
+  }
+
+  /* Hero gap removed */
+  .conversion-hero__inner {
+    min-height: auto !important;
+    padding-top: 92px !important;
+    padding-bottom: 22px !important;
+  }
+
+  .conversion-hero__copy {
+    margin-top: 0 !important;
+  }
+
+  .conversion-hero h1 {
+    margin-top: 14px !important;
+    font-size: clamp(39px, 11.2vw, 52px) !important;
+  }
+
+  .conversion-hero__wash {
+    background:
+      radial-gradient(ellipse at 26% 31%, rgba(238,247,255,.78) 0%, rgba(238,247,255,.64) 28%, rgba(238,247,255,.38) 49%, rgba(238,247,255,.12) 70%, transparent 86%),
+      linear-gradient(180deg, rgba(222,239,252,.42), rgba(222,239,252,.18)) !important;
+  }
+
+  /* Three branches visible, larger photos */
+  .conversion-hero__branches {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 9px !important;
+    margin: 18px 0 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  .conversion-branch-card {
+    grid-template-columns: minmax(0, 1fr) 148px !important;
+    grid-template-rows: auto auto !important;
+    min-width: 0 !important;
+    min-height: 128px !important;
+    padding: 12px !important;
+    gap: 5px 10px !important;
+    border-radius: 21px !important;
+  }
+
+  .conversion-branch-card__content strong {
+    font-size: 21px !important;
+  }
+
+  .conversion-branch-card__image {
+    grid-column: 2 !important;
+    grid-row: 1 / 3 !important;
+    width: 148px !important;
+    height: 104px !important;
+    border-radius: 16px !important;
+  }
+
+  .conversion-branch-card__image img {
+    object-fit: cover !important;
+    object-position: center center !important;
+  }
+
+  .conversion-branch-card--antonova .conversion-branch-card__image img {
+    object-position: center top !important;
+  }
+
+  .conversion-hero__scroll-hint {
+    margin: 12px auto 0 !important;
+  }
+
+  /* Concerns compact carousel */
+  .conversion-concerns__layout {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .conversion-assurance {
+    margin-top: 14px !important;
+  }
+
+  .centered-carousel--concerns {
+    grid-template-columns: 36px minmax(0, 1fr) 36px !important;
+    gap: 5px !important;
+  }
+
+  .centered-carousel--concerns .centered-carousel__rail {
+    min-height: 280px !important;
+    gap: 10px !important;
+    padding: 14px calc(50% - 116px) 16px !important;
+  }
+
+  .concern-card,
+  .concern-card.is-selected {
+    flex: 0 0 232px !important;
+    width: 232px !important;
+    min-height: 248px !important;
+    padding: 16px !important;
+    transform: scale(.97) !important;
+  }
+
+  .concern-card.is-selected {
+    transform: scale(1) !important;
+  }
+
+  .concern-card__icon {
+    width: 70px !important;
+    height: 70px !important;
+  }
+
+  .concern-glyph,
+  .concern-glyph img {
+    width: 62px !important;
+    height: 62px !important;
+  }
+
+  .concern-card strong {
+    font-size: 18px !important;
+  }
+
+  .concern-card p {
+    font-size: 12px !important;
+  }
+
+  .centered-carousel--concerns .centered-carousel__footer {
+    gap: 10px !important;
+  }
+
+  .conversion-inline-link--accent {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* Mobile price carousel: click side card selects it */
+  .conversion-price-grid--desktop {
+    display: none !important;
+  }
+
+  .conversion-price-carousel {
+    display: grid !important;
+    grid-template-columns: 36px minmax(0, 1fr) 36px !important;
+    gap: 5px !important;
+    align-items: center !important;
+  }
+
+  .conversion-price-carousel .centered-carousel__rail {
+    gap: 10px !important;
+    min-height: 380px !important;
+    padding: 12px calc(50% - 118px) 16px !important;
+  }
+
+  .price-showcase-card--mobile,
+  .price-showcase-card--mobile.is-selected {
+    flex: 0 0 236px !important;
+    width: 236px !important;
+    min-height: 352px !important;
+    grid-template-rows: auto 172px auto !important;
+    gap: 10px !important;
+    padding: 14px !important;
+    opacity: 1 !important;
+    transform: scale(.96) !important;
+    cursor: pointer !important;
+  }
+
+  .price-showcase-card--mobile.is-selected {
+    transform: scale(1) !important;
+    border-color: rgba(48,117,224,.60) !important;
+    box-shadow: var(--v29-shadow-active) !important;
+  }
+
+  .price-showcase-card--mobile .price-showcase-card__top h3 {
+    font-size: 21px !important;
+  }
+
+  .price-showcase-card--mobile figure {
+    min-height: 172px !important;
+    height: 172px !important;
+  }
+
+  .price-showcase-card--mobile .price-showcase-card__footer > strong {
+    font-size: 24px !important;
+  }
+
+  .conversion-price-carousel .centered-carousel__footer {
+    grid-column: 1 / -1 !important;
+  }
+
+  .conversion-prices__bottom {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+    padding: 14px !important;
+  }
+
+  .conversion-prices__bottom .conversion-button {
+    width: 100% !important;
+  }
+
+  /* Doctors: image and text never overlap */
+  .centered-carousel--doctors {
+    grid-template-columns: 36px minmax(0, 1fr) 36px !important;
+    gap: 5px !important;
+  }
+
+  .centered-carousel--doctors .centered-carousel__rail {
+    gap: 10px !important;
+    min-height: 480px !important;
+    padding: 12px calc(50% - 118px) 16px !important;
+  }
+
+  .doctor-showcase-card,
+  .doctor-showcase-card.is-selected {
+    flex: 0 0 236px !important;
+    width: 236px !important;
+    min-height: 448px !important;
+    grid-template-rows: 220px 228px !important;
+    transform: scale(.97) !important;
+  }
+
+  .doctor-showcase-card.is-selected {
+    transform: scale(1) !important;
+  }
+
+  .doctor-showcase-card figure {
+    height: 220px !important;
+  }
+
+  .doctor-showcase-card > div {
+    min-height: 228px !important;
+    padding: 14px !important;
+  }
+
+  .doctor-showcase-card h3 {
+    font-size: 18px !important;
+  }
+
+  .doctor-showcase-card p {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    font-size: 11px !important;
+  }
+
+  /* Case detail directly under clicked row */
+  .case-strip-item {
+    gap: 8px !important;
+  }
+
+  .case-strip {
+    grid-template-columns: 112px minmax(0, 1fr) 30px !important;
+    min-height: 84px !important;
+    padding: 9px !important;
+  }
+
+  .case-detail {
+    grid-template-columns: 1fr !important;
+    padding: 12px !important;
+    border-radius: 22px !important;
+  }
+
+  /* Review stats remain hidden on mobile */
+  .conversion-reviews__stats {
+    display: none !important;
+  }
+
+  .conversion-reviews {
+    padding-bottom: 14px !important;
+  }
+
+  .review-platforms {
+    margin-top: 12px !important;
+  }
+
+  .footer {
+    padding-bottom: calc(104px + env(safe-area-inset-bottom)) !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .conversion-branch-card {
+    grid-template-columns: minmax(0, 1fr) 130px !important;
+  }
+
+  .conversion-branch-card__image {
+    width: 130px !important;
+  }
+
+  .concern-card,
+  .concern-card.is-selected,
+  .price-showcase-card--mobile,
+  .price-showcase-card--mobile.is-selected,
+  .doctor-showcase-card,
+  .doctor-showcase-card.is-selected {
+    flex-basis: 220px !important;
+    width: 220px !important;
+  }
+}

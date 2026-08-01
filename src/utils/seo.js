@@ -20,7 +20,7 @@ export function buildJsonLd(route) {
     },
     areaServed: "Пенза",
     medicalSpecialty: "Dentistry",
-    openingHours: ["Mo-Fr 09:00-21:00", "Sa 09:00-14:00"],
+    openingHours: ["Mo-Fr 09:00-20:00", "Sa 09:00-14:00"],
     sameAs: ["https://prodoctorov.ru/penza/lpu/102261-novaya-ulybka/"],
     contactPoint: {
       "@type": "ContactPoint",
@@ -30,7 +30,7 @@ export function buildJsonLd(route) {
       availableLanguage: "ru",
     },
     openingHoursSpecification: [
-      { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:00", closes: "21:00" },
+      { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:00", closes: "20:00" },
       { "@type": "OpeningHoursSpecification", dayOfWeek: "Saturday", opens: "09:00", closes: "14:00" },
     ],
     hasOfferCatalog: {

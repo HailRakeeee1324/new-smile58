@@ -1,0 +1,9 @@
+Деплой на Vercel:
+
+npm install -g vercel
+vercel login
+vercel
+vercel --prod
+
+Если проект уже привязан к Vercel, можно просто:
+vercel --prod
