@@ -518,7 +518,7 @@ export default function HomePage() {
           <div className="conversion-hero__copy reveal-on-scroll">
             <span className="conversion-eyebrow"><Sparkles size={15} /> Улыбайтесь с уверенностью</span>
             <h1 id="conversion-hero-title">Современная <span>стоматология</span> в Пензе</h1>
-            <p>Лечение, имплантация и протезирование с современным подходом и заботой о пациентах.</p>
+            <p>Качественное лечение зубов, имплантация и протезирование по доступным ценам. Три филиала в Пензе — в Спутнике и на ГПЗ.</p>
 
             <div className="conversion-hero__proofs" aria-label="Преимущества клиники">
               {conversionTrustBadges.slice(0, 3).map((item) => (
@@ -799,7 +799,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="conversion-section conversion-reviews" aria-labelledby="conversion-reviews-title">
+      <noindex style={{ display: "contents" }}>
+      <section className="conversion-section conversion-reviews" aria-labelledby="conversion-reviews-title" data-nosnippet>
         <div className="container">
           <div className="conversion-reviews__heading">
             <SectionHeading
@@ -858,6 +859,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </noindex>
     </main>
   );
 }
