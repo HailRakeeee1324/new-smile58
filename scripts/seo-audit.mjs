@@ -63,11 +63,18 @@ for (const route of sitemapRoutes) {
     try { JSON.parse(script[1]); } catch (error) { fail(`${route}: невалидный JSON-LD — ${error.message}`); }
   }
 
-  const rootHtml = html.match(/<div id="root">([\s\S]*?)<script type="module"/i)?.[1] || html;
-  for (const hrefMatch of rootHtml.matchAll(/href="(\/[^"]*)"/g)) {
+  // Проверяем только пользовательские HTML-ссылки <a href="...">.
+  // Атрибуты href у <link rel="icon">, manifest, canonical и других ресурсов
+  // не являются внутренней перелинковкой и не должны проверяться как страницы.
+  for (const hrefMatch of html.matchAll(/<a\b[^>]*\bhref=["'](\/(?!\/)[^"']*)["']/gi)) {
     const href = hrefMatch[1];
-    if (href.startsWith('//') || /\.(?:webp|avif|png|jpe?g|svg|ico|css|js|xml)$/i.test(href)) continue;
-    const clean = href.split(/[?#]/)[0].replace(/\/$/, '') || '/';
+    const cleanPath = href.split(/[?#]/)[0];
+
+    // Пропускаем ссылки на статические файлы, даже если у них есть ?v=...
+    if (/\.(?:webp|avif|png|jpe?g|gif|svg|ico|css|js|mjs|xml|webmanifest|json|txt|pdf|zip|woff2?|ttf|eot)$/i.test(cleanPath)) continue;
+    if (await exists(join(dist, cleanPath.replace(/^\//, '')))) continue;
+
+    const clean = cleanPath.replace(/\/$/, '') || '/';
     if (redirects.has(clean)) continue;
     if (!(await exists(routeFile(clean)))) fail(`${route}: ссылка ведёт на отсутствующую страницу ${href}`);
   }

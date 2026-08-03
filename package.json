@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build && node scripts/prerender.mjs && node scripts/seo-audit.mjs",
     "preview": "vite preview",
-    "check": "node scripts/validate.mjs && node --check scripts/prerender.mjs && node --check vite.config.js && node --check api/lead.js",
+    "check": "node scripts/validate.mjs && node --check scripts/prerender.mjs && node --check scripts/seo-audit.mjs && node --check vite.config.js && node --check api/lead.js",
     "audit:seo": "node scripts/seo-audit.mjs"
   },
   "dependencies": {
