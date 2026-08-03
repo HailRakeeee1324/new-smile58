@@ -1,0 +1,21 @@
+Локальный запуск:
+
+npm install
+npm run check
+npm run dev -- --force
+
+Открыть:
+http://localhost:5173
+
+Production-сборка и SEO-аудит:
+
+npm run build
+npm run audit:seo
+
+Деплой через Git:
+
+git status --short
+git diff --check
+git add -A
+git commit -m "Implement Yandex SEO content architecture"
+git push origin main

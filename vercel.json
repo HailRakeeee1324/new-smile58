@@ -18,6 +18,21 @@
       "permanent": true
     },
     {
+      "source": "/stomatologiya-penza",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/stomatologiya-v-penze",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/luchshaya-stomatologiya-penza",
+      "destination": "/",
+      "permanent": true
+    },
+    {
       "source": "/services",
       "destination": "/uslugi",
       "permanent": true

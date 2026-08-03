@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Clock, Phone } from "lucide-react";
 import { METRIKA_GOALS, PHONE_LINK, getYandexMapUrl } from "../config/site.js";
-import { getBranchTargetFromHash } from "../config/routes.js";
+import { getBranchTargetFromHash, routePaths } from "../config/routes.js";
 import { branches } from "../data/branches.js";
 import { sendMetrikaGoal } from "../utils/analytics.js";
 import { PageIntro } from "../components/Common.jsx";
@@ -34,7 +34,7 @@ export default function BranchesPage() {
     <main className="page">
       <PageIntro
         label="Филиалы"
-        title="Три клиники в Пензе"
+        title="Филиалы стоматологии «Новая улыбка» в Пензе"
         text={<span className="page-intro__single-line"><strong>В СПУТНИКЕ</strong> - два кабинета: Светлая 11 и Радужная 10. <strong>На ГПЗ</strong> - филиал на Антонова 76.</span>}
       />
 
@@ -71,6 +71,12 @@ export default function BranchesPage() {
           </article>
         ))}
       </section>
+
+      <nav className="container branch-local-links" aria-label="Страницы стоматологии по районам">
+        <a href={routePaths.stomatologiyaSputnik} data-route-link>Стоматология в Спутнике</a>
+        <a href={routePaths.stomatologiyaGpz} data-route-link>Стоматология на ГПЗ</a>
+        <a href={routePaths.contacts} data-route-link>Контакты и запись</a>
+      </nav>
     </main>
   );
 }

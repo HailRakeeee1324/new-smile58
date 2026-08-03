@@ -1,40 +1,75 @@
 // @ts-nocheck
-import { PHONE, PHONE_E164 } from "../config/site.js";
+import { PHONE_E164 } from "../config/site.js";
 import { routePaths } from "../config/routes.js";
+import { branches } from "../data/branches.js";
+import { homeFaq, servicesFaq } from "../data/seoCatalog.js";
 import { blogArticles, localLandingPages, routeMeta, serviceSeoPages } from "../data/seo.js";
 
-export function buildJsonLd(route) {
-  const meta = routeMeta[route] || routeMeta.notFound;
-  const url = `${window.location.origin}${meta.path}`;
-  const baseClinic = {
-    "@context": "https://schema.org",
-    "@type": ["Dentist", "MedicalClinic", "MedicalOrganization", "LocalBusiness"],
-    name: "Новая улыбка",
-    description: "Качественная стоматология в Пензе по доступным ценам. Лечение зубов, имплантация, протезирование и гигиена. 3 филиала в Спутнике и на ГПЗ.",
-    slogan: "Качественная стоматология в Пензе по доступным ценам",
-    url: window.location.origin,
-    telephone: PHONE_E164,
-    image: `${window.location.origin}/logo.webp`,
+const clinicDescription = "Стоматология «Новая улыбка» в Пензе: лечение зубов, имплантация, протезирование, удаление и профессиональная гигиена. Три филиала в Спутнике и на ГПЗ.";
+
+const openingHoursSpecification = [
+  { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:00", closes: "20:00" },
+  { "@type": "OpeningHoursSpecification", dayOfWeek: "Saturday", opens: "09:00", closes: "14:00" },
+];
+
+function branchSchema(branch, origin, pageUrl = `${origin}${routePaths.branches}`) {
+  return {
+    "@type": ["Dentist", "MedicalClinic"],
+    "@id": `${origin}${routePaths.branches}#${branch.id}`,
+    name: `Новая улыбка — ${branch.address.replace("г. Пенза, ", "")}`,
+    url: pageUrl,
+    telephone: branch.phoneLink.replace("tel:", ""),
+    image: `${origin}${branch.image}`,
+    medicalSpecialty: "Dentistry",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Пенза",
+      streetAddress: branch.address.replace("г. Пенза, ", ""),
       addressCountry: "RU",
     },
+    openingHoursSpecification,
+    parentOrganization: { "@id": `${origin}/#organization` },
+  };
+}
+
+function faqSchema(items) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
+}
+
+export function buildJsonLd(route) {
+  const meta = routeMeta[route] || routeMeta.notFound;
+  const origin = window.location.origin;
+  const url = `${origin}${meta.path}`;
+
+  const organization = {
+    "@context": "https://schema.org",
+    "@type": "MedicalOrganization",
+    "@id": `${origin}/#organization`,
+    name: "Новая улыбка",
+    url: origin,
+    logo: `${origin}/logo.webp`,
+    image: `${origin}/hero.webp`,
+    telephone: PHONE_E164,
+    description: clinicDescription,
     areaServed: ["Пенза", "Спутник", "ГПЗ"],
     medicalSpecialty: "Dentistry",
-    openingHours: ["Mo-Fr 09:00-20:00", "Sa 09:00-14:00"],
     sameAs: ["https://prodoctorov.ru/penza/lpu/102261-novaya-ulybka/"],
     contactPoint: {
       "@type": "ContactPoint",
       telephone: PHONE_E164,
       contactType: "Запись на приём",
-      areaServed: ["Пенза", "Спутник", "ГПЗ"],
+      areaServed: "Пенза",
       availableLanguage: "ru",
     },
-    openingHoursSpecification: [
-      { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:00", closes: "20:00" },
-      { "@type": "OpeningHoursSpecification", dayOfWeek: "Saturday", opens: "09:00", closes: "14:00" },
-    ],
+    department: branches.map((branch) => branchSchema(branch, origin)),
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Стоматологические услуги",
@@ -45,62 +80,46 @@ export function buildJsonLd(route) {
     },
   };
 
-  const breadcrumbs = [
-    { "@type": "ListItem", position: 1, name: "Главная", item: window.location.origin },
-  ];
+  if (route === "stomatologiyaSputnik") {
+    organization.department = branches.filter((branch) => branch.district === "Спутник").map((branch) => branchSchema(branch, origin, url));
+  }
+  if (route === "stomatologiyaGpz") {
+    organization.department = branches.filter((branch) => branch.district === "ГПЗ").map((branch) => branchSchema(branch, origin, url));
+  }
 
+  const breadcrumbs = [{ "@type": "ListItem", position: 1, name: "Главная", item: origin }];
   if (serviceSeoPages[route]) {
-    breadcrumbs.push({ "@type": "ListItem", position: 2, name: "Услуги", item: `${window.location.origin}${routePaths.services}` });
+    breadcrumbs.push({ "@type": "ListItem", position: 2, name: "Услуги", item: `${origin}${routePaths.services}` });
     breadcrumbs.push({ "@type": "ListItem", position: 3, name: serviceSeoPages[route].label, item: url });
   } else if (blogArticles[route]) {
-    breadcrumbs.push({ "@type": "ListItem", position: 2, name: "Блог", item: `${window.location.origin}${routePaths.blog}` });
+    breadcrumbs.push({ "@type": "ListItem", position: 2, name: "Блог", item: `${origin}${routePaths.blog}` });
     breadcrumbs.push({ "@type": "ListItem", position: 3, name: blogArticles[route].title, item: url });
   } else if (route !== "home") {
-    breadcrumbs.push({ "@type": "ListItem", position: 2, name: meta.title.replace(" - Новая улыбка", ""), item: url });
+    breadcrumbs.push({ "@type": "ListItem", position: 2, name: meta.title.replace(/\s[-—]\sНовая улыбка.*$/, ""), item: url });
   }
 
-  const jsonLd = [baseClinic, { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: breadcrumbs }];
+  const schemas = [
+    organization,
+    { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: breadcrumbs },
+  ];
 
-  if (serviceSeoPages[route]?.faq?.length) {
-    jsonLd.push({
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: serviceSeoPages[route].faq.map((item) => ({
-        "@type": "Question",
-        name: item.q,
-        acceptedAnswer: { "@type": "Answer", text: item.a },
-      })),
-    });
-  }
+  if (route === "home") schemas.push(faqSchema(homeFaq));
+  if (route === "services") schemas.push(faqSchema(servicesFaq));
+  if (serviceSeoPages[route]?.faq?.length) schemas.push(faqSchema(serviceSeoPages[route].faq));
 
   if (blogArticles[route]) {
-    jsonLd.push({
+    schemas.push({
       "@context": "https://schema.org",
       "@type": "Article",
       headline: blogArticles[route].title,
       description: blogArticles[route].description,
       author: { "@type": "Organization", name: "Новая улыбка" },
-      publisher: { "@type": "Organization", name: "Новая улыбка", logo: { "@type": "ImageObject", url: `${window.location.origin}/logo.webp` } },
+      publisher: { "@type": "Organization", name: "Новая улыбка", logo: { "@type": "ImageObject", url: `${origin}/logo.webp` } },
       mainEntityOfPage: url,
     });
   }
 
-  if (route === "reviews") {
-    jsonLd.push({
-      "@context": "https://schema.org",
-      "@type": "Review",
-      itemReviewed: {
-        "@type": "Dentist",
-        name: "Новая улыбка",
-        url: window.location.origin,
-      },
-      author: { "@type": "Organization", name: "ПроДокторов" },
-      reviewBody: "Отзывы пациентов о стоматологии «Новая улыбка» доступны как на сайте клиники, так и на независимой медицинской площадке ПроДокторов.",
-      url: "https://prodoctorov.ru/penza/lpu/102261-novaya-ulybka/",
-    });
-  }
-
-  return jsonLd;
+  return schemas;
 }
 
 export function updatePageMeta(route) {
@@ -147,10 +166,12 @@ export function updatePageMeta(route) {
 
   upsertMeta('meta[property="og:title"]', { identity: { property: "og:title" }, values: { content: meta.title } });
   upsertMeta('meta[property="og:description"]', { identity: { property: "og:description" }, values: { content: meta.description } });
-  upsertMeta('meta[property="og:type"]', { identity: { property: "og:type" }, values: { content: serviceSeoPages[route] || blogArticles[route] ? "article" : "website" } });
+  upsertMeta('meta[property="og:type"]', { identity: { property: "og:type" }, values: { content: blogArticles[route] ? "article" : "website" } });
   upsertMeta('meta[property="og:url"]', { identity: { property: "og:url" }, values: { content: `${window.location.origin}${meta.path}` } });
   upsertMeta('meta[property="og:image"]', { identity: { property: "og:image" }, values: { content: `${window.location.origin}/hero.webp` } });
   upsertMeta('meta[name="twitter:card"]', { identity: { name: "twitter:card" }, values: { content: "summary_large_image" } });
+  upsertMeta('meta[name="twitter:title"]', { identity: { name: "twitter:title" }, values: { content: meta.title } });
+  upsertMeta('meta[name="twitter:description"]', { identity: { name: "twitter:description" }, values: { content: meta.description } });
 
   document.querySelectorAll('script[data-seo-jsonld="true"]').forEach((node) => node.remove());
   buildJsonLd(route).forEach((schema) => {

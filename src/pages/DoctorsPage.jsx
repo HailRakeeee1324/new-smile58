@@ -1,5 +1,8 @@
 import React from "react";
+import { CalendarDays } from "lucide-react";
 import { doctors } from "../data/doctors.js";
+import { PHONE_LINK } from "../config/site.js";
+import { routePaths } from "../config/routes.js";
 import ResponsiveImage from "../components/ResponsiveImage.jsx";
 import "../styles/pages.css";
 import "../styles/page-layout.css";
@@ -13,8 +16,8 @@ export default function DoctorsPage() {
         <div className="team-hero__inner">
           <div>
             <p className="section-label">Команда</p>
-            <h1>Врачи и ассистенты <span className="nowrap">«Новой улыбки»</span></h1>
-            <p>Команда клиники ведёт терапевтическое, хирургическое и ортопедическое лечение в филиалах на Светлой, Радужной и Антонова.</p>
+            <h1>Врачи стоматологии в Пензе</h1>
+            <p>Специалисты «Новой улыбки» ведут терапевтический, хирургический и ортопедический приём в филиалах на Светлой, Радужной и Антонова.</p>
           </div>
           <figure className="team-hero__photo">
             <ResponsiveImage src="/team/team-common.webp" mobileSrc="/mobile/team-common-720.webp" alt="Команда стоматологии Новая улыбка" width="1280" height="720" loading="eager" fetchPriority="high" />
@@ -40,6 +43,10 @@ export default function DoctorsPage() {
                   <p>{doctor.note}</p>
                   <div className="doctor-tags">
                     {doctor.tags.map((tag) => <span key={tag}>{tag}</span>)}
+                  </div>
+                  <div className="doctor-card__links">
+                    <a href={routePaths.services} data-route-link>Услуги врача</a>
+                    <a href={PHONE_LINK} data-appointment><CalendarDays size={15} /> Записаться</a>
                   </div>
                 </>
               )}

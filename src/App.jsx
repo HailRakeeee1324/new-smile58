@@ -26,6 +26,8 @@ import "./styles/final-premium-v32.css";
 import "./styles/final-premium-v33.css";
 import "./styles/final-premium-v34.css";
 import "./styles/final-premium-v35.css";
+import "./styles/seo-expansion-v37.css";
+import "./styles/seo-expansion-v38.css";
 
 const pageLoaders = {
   appointment: () => import("./components/AppointmentModal.jsx").then((module) => ({ default: module.AppointmentModal })),

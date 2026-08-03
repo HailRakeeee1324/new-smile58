@@ -10,7 +10,6 @@ const basePriceGroups = [
       { name: "Приём врача-стоматолога с составлением комплексного плана лечения", price: "600 ₽" },
       { name: "Приём стоматолога-ортопеда первичный", price: "600 ₽" },
       { name: "Приём стоматолога-хирурга первичный", price: "700 ₽" },
-      { name: "Приём ортодонта первичный", price: "700 ₽" },
       { name: "Проводниковая анестезия", price: "660 ₽" },
       { name: "Аппликационная анестезия", price: "75 ₽" },
       { name: "Инфильтрационная анестезия", price: "470 ₽" }
@@ -409,3 +408,71 @@ export const priceGroups = basePriceGroups.map((group) => {
     })),
   };
 });
+
+
+export function getPriceExamplesForRoute(route, limit = 3) {
+  const rows = priceGroups.flatMap((group) => group.rows);
+  const preferred = {
+    [routePaths.lechenieKariesa]: [
+      /с составлением комплексного плана лечения/i,
+      /^Восстановление зуба пломбой$/i,
+      /I, V, VI класс.*фотополимера/i,
+    ],
+    [routePaths.implantaciya]: [
+      /Приём стоматолога-хирурга первичный/i,
+      /имплантация Any One/i,
+      /имплантация Ani Ridge/i,
+    ],
+    [routePaths.protezirovanie]: [
+      /Приём стоматолога-ортопеда первичный/i,
+      /Металлокерамическая коронка стандартная/i,
+      /Коронка на импланте из диоксида циркония/i,
+    ],
+    [routePaths.viniry]: [
+      /Приём стоматолога-ортопеда первичный/i,
+      /^Винир \/ вкладка E-max/i,
+      /^Временный винир$/i,
+    ],
+    [routePaths.udalenieZubov]: [
+      /Приём стоматолога-хирурга первичный/i,
+      /^Удаление постоянного зуба$/i,
+      /Удаление зуба сложное с разведением корней/i,
+    ],
+    [routePaths.otbelivanie]: [
+      /с составлением комплексного плана лечения/i,
+      /Клиническое отбеливание Amazing White, 2 челюсти/i,
+      /Домашнее отбеливание Opalescence, 1 челюсть$/i,
+    ],
+    [routePaths.gigiena]: [
+      /Профессиональная гигиена полости рта и зубов: ультразвук и полировка/i,
+      /Профессиональная гигиена сложная: ультразвук, полировка, Air Flow/i,
+      /Профессиональная гигиена одной челюсти: ультразвук и полировка/i,
+    ],
+  };
+
+  const picked = (preferred[route] || [])
+    .map((pattern) => rows.find((row) => pattern.test(row.name)))
+    .filter(Boolean);
+  if (picked.length >= limit) return picked.slice(0, limit);
+
+  const fallback = rows.filter((row) => row.route === route && !picked.some((item) => item.name === row.name));
+  return [...picked, ...fallback].slice(0, limit);
+}
+
+export function getPopularPriceExamples(limit = 7) {
+  const preferred = [
+    /при[её]м врача-стоматолога с выдачей справки/i,
+    /профессиональная гигиена полости рта и зубов: ультразвук и полировка/i,
+    /восстановление зуба пломбой$/i,
+    /металлокерамическая коронка стандартная/i,
+    /удаление постоянного зуба$/i,
+    /внутрикостная дентальная имплантация Any One/i,
+    /клиническое отбеливание Amazing White, 2 челюсти/i,
+  ];
+
+  const rows = priceGroups.flatMap((group) => group.rows);
+  return preferred
+    .map((pattern) => rows.find((row) => pattern.test(row.name)))
+    .filter(Boolean)
+    .slice(0, limit);
+}

@@ -1,0 +1,44 @@
+Действия в Яндекс Вебмастере после успешного деплоя V37
+
+1. Проверить, что новые страницы доступны с кодом 200:
+   https://new-smile58.ru/
+   https://new-smile58.ru/uslugi
+   https://new-smile58.ru/ceny
+   https://new-smile58.ru/vrachi
+   https://new-smile58.ru/filialy
+   https://new-smile58.ru/kontakty
+   https://new-smile58.ru/uslugi/lechenie-kariesa
+   https://new-smile58.ru/uslugi/implantaciya
+   https://new-smile58.ru/uslugi/protezirovanie
+   https://new-smile58.ru/uslugi/viniry
+   https://new-smile58.ru/uslugi/udalenie-zubov
+   https://new-smile58.ru/uslugi/otbelivanie
+   https://new-smile58.ru/uslugi/gigiena
+
+2. В разделе анализа robots.txt проверить:
+   https://new-smile58.ru/robots.txt
+
+3. В разделе файлов Sitemap повторно отправить:
+   https://new-smile58.ru/sitemap.xml
+
+4. В инструменте переобхода сначала отправить:
+   /
+   /uslugi
+   семь страниц услуг
+   /ceny
+   /vrachi
+   /filialy
+   /kontakty
+
+5. Проверить главную и /uslugi инструментом проверки страницы:
+   - HTTP 200;
+   - разрешена индексация;
+   - canonical совпадает с чистым URL;
+   - робот видит новый title, description и один H1;
+   - основной текст присутствует в HTML.
+
+6. Проверить структурированные данные главной, /uslugi, страниц услуг и районных страниц.
+
+7. Не создавать отдельные страницы /stomatologiya-penza и /stomatologiya-v-penze: они перенаправляются на главную.
+
+8. Сниппет Яндекса формируется автоматически. Новый description повышает вероятность корректного описания, но поисковая система может выбрать релевантный фрагмент видимого текста под конкретный запрос.

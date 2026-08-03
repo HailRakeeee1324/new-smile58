@@ -18,6 +18,7 @@ import {
 import { PHONE_LINK } from "../config/site.js";
 import { routeHref, routePaths } from "../config/routes.js";
 import ResponsiveImage from "../components/ResponsiveImage.jsx";
+import { HomeSeoExpansion } from "../components/SeoExpansion.jsx";
 import {
   concernCards,
   conversionHeroBranches,
@@ -517,7 +518,7 @@ export default function HomePage() {
         <div className="container conversion-hero__inner">
           <div className="conversion-hero__copy reveal-on-scroll">
             <span className="conversion-eyebrow"><Sparkles size={15} /> Улыбайтесь с уверенностью</span>
-            <h1 id="conversion-hero-title">Современная <span>стоматология</span> в Пензе</h1>
+            <h1 id="conversion-hero-title">Стоматология <span>в Пензе</span></h1>
             <p>Качественное лечение зубов, имплантация и протезирование по доступным ценам. Три филиала в Пензе — в Спутнике и на ГПЗ.</p>
 
             <div className="conversion-hero__proofs" aria-label="Преимущества клиники">
@@ -733,7 +734,7 @@ export default function HomePage() {
               <div className="centered-carousel__dots">
                 {homeDoctorCards.map((doctor, index) => <button type="button" className={index === doctors.index ? "is-active" : ""} onClick={() => doctors.goTo(index)} aria-label={`Выбрать врача ${doctor.name}`} key={doctor.name} />)}
               </div>
-              <a className="conversion-inline-link" href={routeHref(selectedDoctor.route)} data-route-link>Все врачи <ArrowRight size={17} /></a>
+              <a className="conversion-inline-link" href={routeHref(selectedDoctor.route)} data-route-link>Все врачи стоматологии <ArrowRight size={17} /></a>
             </div>
           </div>
         </div>
@@ -860,6 +861,8 @@ export default function HomePage() {
         </div>
       </section>
       </noindex>
+
+      <HomeSeoExpansion />
     </main>
   );
 }

@@ -1,0 +1,935 @@
+/* SEO content expansion v37 — preserves the current visual system */
+.seo-expansion {
+  display: grid;
+  gap: clamp(58px, 7vw, 92px);
+  padding: clamp(58px, 7vw, 92px) 0;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(80, 150, 244, .10), transparent 28%),
+    linear-gradient(180deg, rgba(242, 248, 255, .96), rgba(234, 244, 255, .96));
+}
+
+.seo-expansion--services {
+  padding-top: clamp(32px, 4vw, 54px);
+}
+
+.seo-section-heading {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.seo-section-heading > span,
+.services-seo-card__number,
+.seo-contact-card > svg,
+.services-process-card .section-label {
+  color: #2f7de8;
+}
+
+.seo-section-heading > span {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.seo-section-heading h2 {
+  margin: 0;
+  color: #0d326a;
+  font-size: clamp(32px, 4vw, 58px);
+  line-height: 1.02;
+  letter-spacing: -.05em;
+}
+
+.seo-section-heading--row {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.seo-section-heading--row > div {
+  display: grid;
+  gap: 8px;
+}
+
+.seo-section-heading--row > a,
+.seo-directions-section a,
+.seo-branches-section a,
+.seo-prices-section a,
+.seo-doctors-link a,
+.services-seo-card__actions a,
+.services-process-card > a,
+.service-availability a,
+.service-crosslinks a,
+.branch-local-links a,
+.contacts-route-grid a,
+.seo-crosslinks a {
+  color: #1763c5;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.seo-section-heading--row > a,
+.seo-doctors-link > a,
+.services-process-card > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 17px;
+  border: 1px solid rgba(71, 132, 219, .20);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, .72);
+  box-shadow: 0 15px 36px rgba(32, 83, 151, .09);
+}
+
+.seo-about-section__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(280px, .65fr);
+  gap: 22px;
+}
+
+.seo-copy-card,
+.seo-contact-card,
+.seo-direction-card,
+.seo-branch-card,
+.seo-prices-section,
+.seo-doctors-link,
+.seo-faq-card,
+.services-seo-intro,
+.services-seo-card,
+.services-process-card,
+.service-availability,
+.service-crosslinks,
+.branch-local-links,
+.contacts-route-grid article,
+.seo-crosslinks {
+  border: 1px solid rgba(111, 159, 222, .22);
+  background: linear-gradient(155deg, rgba(255,255,255,.96), rgba(239,247,255,.94));
+  box-shadow: 0 22px 52px rgba(31, 82, 151, .10);
+}
+
+.seo-copy-card,
+.seo-contact-card,
+.seo-prices-section,
+.seo-doctors-link,
+.seo-faq-card,
+.services-seo-intro,
+.services-process-card,
+.service-availability,
+.service-crosslinks,
+.branch-local-links,
+.seo-crosslinks {
+  border-radius: 28px;
+}
+
+.seo-copy-card {
+  padding: clamp(24px, 3vw, 36px);
+}
+
+.seo-copy-card p,
+.seo-contact-card p,
+.seo-direction-card p,
+.seo-branch-card p,
+.services-seo-card p,
+.services-process-card p,
+.service-availability p,
+.contacts-route-grid p {
+  color: #587296;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.seo-copy-card p {
+  margin: 0 0 16px;
+}
+
+.seo-copy-card p:last-child {
+  margin-bottom: 0;
+}
+
+.seo-copy-card--columns {
+  columns: 2;
+  column-gap: 34px;
+}
+
+.seo-contact-card {
+  display: grid;
+  align-content: center;
+  gap: 15px;
+  padding: 30px;
+  background: linear-gradient(145deg, #4bb3ff 0%, #2f80ff 52%, #0f4dbc 100%);
+}
+
+.seo-contact-card h3,
+.seo-contact-card p,
+.seo-contact-card a,
+.seo-contact-card svg {
+  color: #fff;
+}
+
+.seo-contact-card h3 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+.seo-contact-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, .85);
+}
+
+.seo-contact-card a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.seo-directions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.seo-direction-card {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 18px;
+  min-height: 210px;
+  padding: 14px;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.seo-direction-card figure {
+  min-height: 180px;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #dcecff;
+}
+
+.seo-direction-card figure img,
+.seo-branch-card > img,
+.services-seo-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.seo-direction-card > div {
+  display: grid;
+  align-content: center;
+  gap: 10px;
+}
+
+.seo-direction-card h3,
+.seo-branch-card h3,
+.services-seo-card h2,
+.services-process-card h2,
+.service-availability h2,
+.contacts-route-grid h2 {
+  margin: 0;
+  color: #103369;
+}
+
+.seo-direction-card h3 {
+  font-size: 23px;
+}
+
+.seo-direction-card p {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.seo-branches-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.seo-branch-card {
+  overflow: hidden;
+  border-radius: 24px;
+}
+
+.seo-branch-card > img {
+  display: block;
+  width: 100%;
+  height: 190px;
+}
+
+.seo-branch-card > div {
+  display: grid;
+  gap: 9px;
+  padding: 18px;
+}
+
+.seo-branch-card > div > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #2f7de8;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.seo-branch-card p {
+  margin: 0;
+  font-size: 12px;
+}
+
+.seo-inline-links,
+.seo-crosslinks,
+.branch-local-links,
+.service-crosslinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.seo-inline-links a,
+.seo-crosslinks a,
+.branch-local-links a,
+.service-crosslinks a {
+  min-height: 42px;
+  padding: 11px 15px;
+  border: 1px solid rgba(82, 141, 225, .20);
+  border-radius: 14px;
+  background: rgba(255,255,255,.68);
+}
+
+.seo-prices-section {
+  padding: clamp(22px, 3vw, 34px);
+}
+
+.seo-price-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.seo-price-list a {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 15px 17px;
+  border: 1px solid rgba(98, 151, 224, .18);
+  border-radius: 15px;
+  background: rgba(255,255,255,.72);
+}
+
+.seo-price-list span {
+  color: #244773;
+  font-weight: 700;
+}
+
+.seo-price-list strong {
+  color: #1763c5;
+  white-space: nowrap;
+}
+
+.seo-disclaimer,
+.services-seo-card__note {
+  color: #607895;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.seo-doctors-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: clamp(24px, 3vw, 34px);
+}
+
+.seo-doctors-link > div {
+  display: grid;
+  gap: 8px;
+}
+
+.seo-doctors-link span {
+  color: #2f7de8;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.seo-doctors-link h2 {
+  margin: 0;
+  color: #103369;
+  font-size: 36px;
+}
+
+.seo-doctors-link p {
+  max-width: 680px;
+  margin: 0;
+  color: #587296;
+  line-height: 1.65;
+}
+
+.seo-faq-card {
+  padding: clamp(24px, 3vw, 34px);
+}
+
+.seo-faq-list {
+  display: grid;
+  gap: 9px;
+}
+
+.seo-faq-list details {
+  padding: 0 18px;
+  border: 1px solid rgba(99, 151, 224, .18);
+  border-radius: 16px;
+  background: rgba(255,255,255,.65);
+}
+
+.seo-faq-list summary {
+  padding: 16px 0;
+  color: #173d70;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.seo-faq-list p {
+  margin: 0 0 17px;
+  color: #587296;
+  line-height: 1.65;
+}
+
+.services-seo-intro {
+  padding: clamp(24px, 3vw, 36px);
+}
+
+.services-seo-catalog {
+  display: grid;
+  gap: 18px;
+}
+
+.services-seo-card {
+  display: grid;
+  grid-template-columns: minmax(290px, .78fr) minmax(0, 1.22fr);
+  gap: 24px;
+  padding: 18px;
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+.services-seo-card:nth-child(even) .services-seo-card__media {
+  order: 2;
+}
+
+.services-seo-card__media {
+  min-height: 420px;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #dcecff;
+}
+
+.services-seo-card__content {
+  display: grid;
+  align-content: center;
+  gap: 15px;
+  min-width: 0;
+  padding: 10px 8px;
+}
+
+.services-seo-card__number {
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.services-seo-card h2 {
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1.05;
+}
+
+.services-seo-card__content > p {
+  margin: 0;
+}
+
+.services-seo-card__details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.services-seo-card__details > div {
+  padding: 16px;
+  border: 1px solid rgba(103, 153, 222, .17);
+  border-radius: 17px;
+  background: rgba(255,255,255,.62);
+}
+
+.services-seo-card__details h3 {
+  margin: 0 0 10px;
+  color: #173d70;
+  font-size: 15px;
+}
+
+.services-seo-card__details ul,
+.services-seo-card__details ol,
+.services-process-card ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.services-seo-card__details li,
+.services-process-card li {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  color: #587296;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.services-seo-card__details ol {
+  counter-reset: steps;
+}
+
+.services-seo-card__details ol li::before {
+  counter-increment: steps;
+  content: counter(steps);
+  display: grid;
+  place-items: center;
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  color: #fff;
+  background: #2f7de8;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.services-seo-card__prices {
+  display: grid;
+  gap: 7px;
+}
+
+.services-seo-card__prices > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 11px 14px;
+  border-radius: 13px;
+  background: rgba(229, 240, 255, .78);
+}
+
+.services-seo-card__prices span {
+  color: #345579;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.services-seo-card__prices strong {
+  color: #1763c5;
+  white-space: nowrap;
+}
+
+.services-seo-card__actions {
+  display: flex;
+  gap: 10px;
+}
+
+.services-seo-card__actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 46px;
+  padding: 0 18px;
+  border: 1px solid rgba(72, 133, 220, .20);
+  border-radius: 15px;
+  background: rgba(255,255,255,.72);
+}
+
+.services-seo-card__actions a:last-child {
+  color: #fff;
+  border-color: transparent;
+  background: linear-gradient(135deg, #4bb3ff, #2f80ff 55%, #0f4dbc);
+}
+
+.services-process-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr 1fr;
+  gap: 16px;
+}
+
+.services-process-card {
+  padding: 24px;
+}
+
+.services-process-card h2 {
+  font-size: 26px;
+}
+
+.services-process-steps {
+  display: grid;
+  gap: 10px;
+}
+
+.services-process-steps > div {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 3px 10px;
+  padding: 12px;
+  border-radius: 15px;
+  background: rgba(255,255,255,.65);
+}
+
+.services-process-steps > div > span {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #fff;
+  background: #2f7de8;
+  font-weight: 900;
+}
+
+.services-process-steps strong {
+  color: #173d70;
+}
+
+.services-process-steps p {
+  margin: 0;
+  font-size: 12px;
+}
+
+.service-availability {
+  display: grid;
+  grid-template-columns: minmax(260px, .7fr) minmax(0, 1.3fr);
+  gap: 22px;
+  padding: 26px;
+}
+
+.service-availability__branches {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.service-availability__branches article {
+  display: grid;
+  gap: 7px;
+  padding: 15px;
+  border-radius: 15px;
+  background: rgba(255,255,255,.64);
+}
+
+.service-availability__branches strong {
+  color: #2f7de8;
+}
+
+.service-availability__branches span {
+  color: #365778;
+  font-size: 12px;
+}
+
+.service-crosslinks,
+.branch-local-links,
+.seo-crosslinks {
+  padding: 16px;
+}
+
+.doctor-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.doctor-card__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 0 12px;
+  border-radius: 12px;
+  color: #1763c5;
+  background: rgba(226, 239, 255, .82);
+  font-size: 11px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.contacts-route-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.contacts-route-grid article {
+  padding: 22px;
+  border-radius: 24px;
+}
+
+.contacts-route-grid article > span {
+  color: #2f7de8;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.contacts-route-grid h2 {
+  margin-top: 8px;
+  font-size: 22px;
+}
+
+.contacts-route-grid article > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.contacts-route-grid a {
+  padding: 9px 11px;
+  border-radius: 11px;
+  background: rgba(226, 239, 255, .8);
+  font-size: 11px;
+}
+
+html[data-theme="dark"] .seo-expansion {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(55, 116, 211, .12), transparent 28%),
+    linear-gradient(180deg, #07182f, #091d3a);
+}
+
+html[data-theme="dark"] .seo-copy-card,
+html[data-theme="dark"] .seo-direction-card,
+html[data-theme="dark"] .seo-branch-card,
+html[data-theme="dark"] .seo-prices-section,
+html[data-theme="dark"] .seo-doctors-link,
+html[data-theme="dark"] .seo-faq-card,
+html[data-theme="dark"] .services-seo-intro,
+html[data-theme="dark"] .services-seo-card,
+html[data-theme="dark"] .services-process-card,
+html[data-theme="dark"] .service-availability,
+html[data-theme="dark"] .service-crosslinks,
+html[data-theme="dark"] .branch-local-links,
+html[data-theme="dark"] .contacts-route-grid article,
+html[data-theme="dark"] .seo-crosslinks {
+  border-color: rgba(105, 156, 230, .17);
+  background: linear-gradient(155deg, rgba(15,39,75,.98), rgba(8,27,56,.98));
+  box-shadow: 0 22px 54px rgba(0,0,0,.25);
+}
+
+html[data-theme="dark"] .seo-section-heading h2,
+html[data-theme="dark"] .seo-direction-card h3,
+html[data-theme="dark"] .seo-branch-card h3,
+html[data-theme="dark"] .seo-doctors-link h2,
+html[data-theme="dark"] .services-seo-card h2,
+html[data-theme="dark"] .services-seo-card__details h3,
+html[data-theme="dark"] .services-process-card h2,
+html[data-theme="dark"] .services-process-steps strong,
+html[data-theme="dark"] .service-availability h2,
+html[data-theme="dark"] .contacts-route-grid h2,
+html[data-theme="dark"] .seo-faq-list summary {
+  color: #edf6ff;
+}
+
+html[data-theme="dark"] .seo-copy-card p,
+html[data-theme="dark"] .seo-direction-card p,
+html[data-theme="dark"] .seo-branch-card p,
+html[data-theme="dark"] .seo-doctors-link p,
+html[data-theme="dark"] .services-seo-card p,
+html[data-theme="dark"] .services-seo-card__details li,
+html[data-theme="dark"] .services-process-card p,
+html[data-theme="dark"] .services-process-card li,
+html[data-theme="dark"] .service-availability p,
+html[data-theme="dark"] .contacts-route-grid p,
+html[data-theme="dark"] .seo-faq-list p {
+  color: #b8cee8;
+}
+
+html[data-theme="dark"] .seo-faq-list details,
+html[data-theme="dark"] .services-seo-card__details > div,
+html[data-theme="dark"] .services-process-steps > div,
+html[data-theme="dark"] .service-availability__branches article {
+  border-color: rgba(105, 156, 230, .15);
+  background: rgba(11, 33, 66, .74);
+}
+
+@media (max-width: 980px) {
+  .seo-about-section__grid,
+  .services-seo-card,
+  .service-availability {
+    grid-template-columns: 1fr;
+  }
+
+  .services-seo-card:nth-child(even) .services-seo-card__media {
+    order: 0;
+  }
+
+  .services-process-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .services-process-card:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .service-availability__branches {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .seo-expansion {
+    gap: 44px;
+    padding: 44px 0;
+  }
+
+  .seo-expansion .container,
+  .services-page-final .container,
+  .service-seo-page .container,
+  .doctors-page .container,
+  .contacts-page .container {
+    width: min(calc(100% - 28px), var(--container)) !important;
+  }
+
+  .seo-section-heading,
+  .seo-section-heading--row {
+    display: grid;
+    align-items: start;
+    gap: 14px;
+  }
+
+  .seo-section-heading h2 {
+    font-size: clamp(30px, 9vw, 42px);
+  }
+
+  .seo-section-heading--row > a,
+  .seo-doctors-link > a {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .seo-copy-card--columns {
+    columns: 1;
+  }
+
+  .seo-directions-grid,
+  .seo-price-list,
+  .seo-branches-grid,
+  .services-process-grid,
+  .contacts-route-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .seo-direction-card {
+    grid-template-columns: 122px minmax(0, 1fr);
+    min-height: 168px;
+    gap: 12px;
+  }
+
+  .seo-direction-card figure {
+    min-height: 140px;
+  }
+
+  .seo-direction-card h3 {
+    font-size: 18px;
+  }
+
+  .seo-direction-card p {
+    -webkit-line-clamp: 2;
+    font-size: 12px;
+  }
+
+  .seo-branch-card {
+    display: grid;
+    grid-template-columns: 132px minmax(0, 1fr);
+  }
+
+  .seo-branch-card > img {
+    height: 100%;
+    min-height: 150px;
+  }
+
+  .seo-price-list a,
+  .seo-doctors-link {
+    align-items: flex-start;
+  }
+
+  .seo-doctors-link {
+    flex-direction: column;
+  }
+
+  .services-seo-card {
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .services-seo-card__media {
+    min-height: 230px;
+  }
+
+  .services-seo-card__content {
+    padding: 4px;
+  }
+
+  .services-seo-card__details,
+  .service-availability__branches {
+    grid-template-columns: 1fr;
+  }
+
+  .services-seo-card__actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .services-seo-card__prices > div {
+    display: grid;
+    gap: 5px;
+  }
+
+  .services-process-card:first-child {
+    grid-column: auto;
+  }
+}
+
+.service-specialty {
+  padding: 26px;
+  border: 1px solid rgba(111, 159, 222, .22);
+  border-radius: 28px;
+  background: linear-gradient(155deg, rgba(255,255,255,.96), rgba(239,247,255,.94));
+  box-shadow: 0 22px 52px rgba(31, 82, 151, .10);
+}
+
+.service-specialty h2 {
+  margin: 8px 0 10px;
+  color: #103369;
+}
+
+.service-specialty p {
+  margin: 0;
+  color: #587296;
+  line-height: 1.7;
+}
+
+html[data-theme="dark"] .service-specialty {
+  border-color: rgba(105, 156, 230, .17);
+  background: linear-gradient(155deg, rgba(15,39,75,.98), rgba(8,27,56,.98));
+  box-shadow: 0 22px 54px rgba(0,0,0,.25);
+}
+
+html[data-theme="dark"] .service-specialty h2 { color: #edf6ff; }
+html[data-theme="dark"] .service-specialty p { color: #b8cee8; }

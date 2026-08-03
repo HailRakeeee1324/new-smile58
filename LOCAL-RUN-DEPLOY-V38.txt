@@ -1,0 +1,18 @@
+Локальный запуск:
+
+npm install
+npm run check
+npm run dev -- --force
+
+Открыть:
+http://localhost:5173
+
+Production-сборка:
+
+npm run build
+
+Git/Vercel:
+
+git add -A
+git commit -m "Refine SEO content blocks"
+git push origin main

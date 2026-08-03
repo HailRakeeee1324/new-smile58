@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /api/
-Disallow: /*?*utm_
-Disallow: /*?*yclid
+Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&ymclid&erid /
 Sitemap: https://new-smile58.ru/sitemap.xml

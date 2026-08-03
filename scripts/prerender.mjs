@@ -1,13 +1,19 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { priceGroups } from '../src/data/prices.js';
+import { priceGroups, getPopularPriceExamples, getPriceExamplesForRoute } from '../src/data/prices.js';
 import { beforeAfterCases } from '../src/data/beforeAfter.js';
+import { branches } from '../src/data/branches.js';
+import { doctors } from '../src/data/doctors.js';
+import { blogArticles, localLandingPages, routeMeta, serviceSeoPages } from '../src/data/seo.js';
+import { costFactors, firstVisitSteps, homeAboutParagraphs, homeFaq, serviceCatalog, servicesFaq } from '../src/data/seoCatalog.js';
+import { routePaths } from '../src/config/routes.js';
 
 const SITE_URL = 'https://new-smile58.ru';
 const PHONE = '+7 (967) 449-84-12';
 const PHONE_E164 = '+79674498412';
 const PHONE_LINK = 'tel:+79674498412';
+const LASTMOD = '2026-08-03';
 const distDir = new URL('../dist/', import.meta.url);
 const templatePath = new URL('index.html', distDir);
 const template = await readFile(templatePath, 'utf8');
@@ -21,237 +27,57 @@ function escapeHtml(value) {
     .replaceAll("'", '&#039;');
 }
 
-const priceStaticHtml = `
-<section>
-  <h2>Текстовый прайс по направлениям</h2>
-  <p>На интерактивной странице доступны поиск, быстрые фильтры и пояснения к каждой позиции.</p>
-  ${priceGroups.map((group) => `
-    <section>
-      <h3>${escapeHtml(group.title)}</h3>
-      <p>${escapeHtml(group.subtitle)}</p>
-      <p><strong>О составе стоимости:</strong> ${escapeHtml(group.included)}</p>
-      <table>
-        <thead><tr><th>Название услуги</th><th>Цена</th><th>Подробнее</th></tr></thead>
-        <tbody>
-          ${group.rows.map((row) => `
-            <tr>
-              <td>${escapeHtml(row.name)}<br><small>${escapeHtml(row.included)}</small></td>
-              <td>${escapeHtml(row.price)}</td>
-              <td><a href="${escapeHtml(row.route)}">Страница услуги</a></td>
-            </tr>`).join('')}
-        </tbody>
-      </table>
-    </section>`).join('')}
-  <p><strong>Важно:</strong> цены носят информационный характер. Итоговый состав и стоимость лечения определяются после осмотра и диагностики.</p>
-</section>`;
-
-const beforeAfterStaticHtml = `
-<section>
-  <h2>Клинические истории лечения</h2>
-  ${beforeAfterCases.map((item) => `
-    <article>
-      <h3>${escapeHtml(item.title)}</h3>
-      <p><strong>С чем обратился пациент:</strong> ${escapeHtml(item.reason)}</p>
-      <p><strong>Какая была проблема:</strong> ${escapeHtml(item.problem)}</p>
-      <p><strong>Что сделали:</strong> ${escapeHtml(item.treatment)}</p>
-      <p><strong>Сколько этапов потребовалось:</strong> ${escapeHtml(item.stages)}</p>
-      <p><strong>Результат:</strong> ${escapeHtml(item.result)}</p>
-      <p><strong>Важно:</strong> ${escapeHtml(item.disclaimer)}</p>
-      <p><a href="${escapeHtml(item.link)}">Подробнее об услуге</a></p>
-    </article>`).join('')}
-  <p><strong>Результаты лечения индивидуальны.</strong> Фотографии показывают отдельные клинические случаи и не гарантируют идентичный результат.</p>
-</section>`;
-
-const servicePages = {
-  '/uslugi/lechenie-kariesa': {
-    title: 'Лечение кариеса в Пензе - цена, запись к стоматологу | Новая улыбка',
-    description: 'Лечение кариеса в современной стоматологии в Пензе. Врачи, цены, запись онлайн, консультация и понятный план лечения.',
-    h1: 'Лечение кариеса в Пензе',
-    serviceName: 'Лечение кариеса',
-    priceFrom: 'от 2 835 ₽',
-    advantage: 'бережное лечение зуба с анестезией по показаниям и восстановлением формы',
-    need: ['есть тёмное пятно, скол или полость в зубе', 'появилась чувствительность на холодное, сладкое или горячее', 'выпала старая пломба или зуб начал разрушаться'],
-    steps: ['Осмотр и диагностика зуба', 'Обсуждение плана и стоимости', 'Анестезия при необходимости', 'Лечение кариеса и восстановление формы зуба', 'Рекомендации по уходу'],
-    prices: [['Приём врача-стоматолога', '500 ₽'], ['Лечение кариеса / восстановление пломбой', 'от 2 835 ₽'], ['Пломба из фотополимера', 'от 3 055 ₽']],
-    doctors: ['Стоматолог-терапевт', 'Стоматолог-терапевт', 'Стоматолог-терапевт'],
-    caseText: ['До: кариес и дискомфорт', 'После: восстановленная форма зуба и рекомендации по уходу'],
-    faq: [['Больно ли лечить кариес?', 'Обычно лечение проводится с анестезией, поэтому пациенту комфортно.'], ['Можно ли вылечить кариес за один приём?', 'Чаще всего да, если кариес не осложнён пульпитом или воспалением.'], ['Почему нельзя откладывать лечение?', 'Кариес может углубиться и перейти в пульпит, тогда лечение станет сложнее и дороже.']],
-    keywords: ['лечение кариеса пенза', 'лечение зубов пенза', 'лечение кариеса цена', 'вылечить кариес пенза', 'лечение глубокого кариеса'],
-  },
-  '/uslugi/implantaciya': {
-    title: 'Имплантация зубов в Пензе - цена, запись к стоматологу | Новая улыбка',
-    description: 'Имплантация зубов в Пензе: южнокорейские импланты от 26 000 ₽, консультация, понятный план лечения и запись в клинику.',
-    h1: 'Имплантация зубов в Пензе',
-    serviceName: 'Имплантация',
-    priceFrom: 'от 26 000 ₽',
-    advantage: 'восстановление отсутствующего зуба с понятным планом лечения до начала работ',
-    need: ['отсутствует один или несколько зубов', 'неудобно жевать на одной стороне', 'нужно восстановить зуб без обточки соседних зубов'],
-    steps: ['Консультация и снимки', 'План лечения и согласование стоимости', 'Подготовка и установка импланта', 'Контроль приживления', 'Ортопедический этап по показаниям'],
-    prices: [['Приём стоматолога-хирурга', '700 ₽'], ['Южнокорейский имплант Any One / BIOTEM', 'от 26 000 ₽'], ['Южнокорейский имплант Any Ridge', '32 000 ₽']],
-    doctors: [],
-    caseText: ['До: отсутствующий зуб', 'После: план восстановления жевательной функции на импланте'],
-    faq: [['Что входит в имплантацию под ключ?', 'Состав зависит от клинической ситуации, системы импланта и ортопедического этапа.'], ['Больно ли ставить имплант?', 'Процедура проводится с обезболиванием. После операции врач даёт рекомендации.'], ['Сколько служит имплант?', 'Срок службы зависит от ухода, нагрузки, здоровья и регулярных осмотров.']],
-    keywords: ['имплантация зубов пенза', 'имплант зуба цена пенза', 'имплантация под ключ пенза', 'имплантация акция пенза', 'поставить имплант зуба'],
-  },
-  '/uslugi/protezirovanie': {
-    title: 'Протезирование зубов в Пензе - цена, запись к стоматологу | Новая улыбка',
-    description: 'Протезирование зубов в Пензе: коронки, ортопедические конструкции, восстановление функции и эстетики зубов.',
-    h1: 'Протезирование зубов в Пензе',
-    serviceName: 'Протезирование',
-    priceFrom: 'после консультации',
-    advantage: 'восстановление разрушенных или отсутствующих зубов с подбором конструкции под ситуацию',
-    need: ['зуб сильно разрушен, но его можно восстановить', 'нужна коронка, мост или конструкция на имплантах', 'важно вернуть эстетику и нормальное жевание'],
-    steps: ['Консультация ортопеда', 'Диагностика и выбор конструкции', 'Подготовка зубов или имплантов', 'Примерка и согласование', 'Фиксация конструкции'],
-    prices: [['Консультация стоматолога-ортопеда', '600 ₽'], ['Металлокерамическая коронка', 'от 17 000 ₽'], ['Коронка на импланте', 'от 26 000 ₽']],
-    doctors: ['Стоматолог-ортопед'],
-    caseText: ['До: разрушенный или отсутствующий зуб', 'После: ортопедическое восстановление эстетики и функции'],
-    faq: [['Что лучше: коронка, мост или имплант?', 'Выбор зависит от состояния зубов, костной ткани, прикуса и бюджета.'], ['Сколько служит коронка?', 'Срок службы зависит от материала, ухода, нагрузки и регулярных осмотров.'], ['Больно ли ставить коронку?', 'При необходимости используется обезболивание, этапы лечения проходят с учётом комфорта.']],
-    keywords: ['протезирование зубов пенза', 'коронки на зубы пенза', 'коронка на зуб цена', 'зубные протезы пенза'],
-  },
-  '/uslugi/viniry': {
-    title: 'Виниры в Пензе - цена, запись к стоматологу | Новая улыбка',
-    description: 'Виниры в Пензе: эстетическая стоматология, улучшение формы и цвета зубов, консультация стоматолога-ортопеда.',
-    h1: 'Виниры в Пензе',
-    serviceName: 'Виниры',
-    priceFrom: 'после консультации',
-    advantage: 'эстетическое улучшение формы, цвета и гармонии улыбки после планирования',
-    need: ['не устраивает форма или оттенок передних зубов', 'есть сколы, щели или неровности в зоне улыбки', 'хочется эстетично улучшить улыбку после консультации'],
-    steps: ['Консультация и оценка улыбки', 'Подбор формы и оттенка', 'Планирование результата', 'Подготовка зубов', 'Фиксация виниров'],
-    prices: [['Консультация стоматолога-ортопеда', '600 ₽'], ['Винир / вкладка E-max, диоксид циркония', 'от 26 200 ₽'], ['Временный винир', '3 000 ₽']],
-    doctors: ['Стоматолог-ортопед'],
-    caseText: ['До: сколы, цвет или форма не устраивают', 'После: гармоничная зона улыбки после планирования'],
-    faq: [['Можно ли поставить виниры на кривые зубы?', 'Иногда виниры улучшают форму зубов, но при выраженных нарушениях может понадобиться ортодонтия.'], ['Сколько служат виниры?', 'Срок зависит от материала, ухода, прикуса и нагрузки.'], ['Чем виниры отличаются от реставрации?', 'Реставрация выполняется композитом, а виниры чаще требуют ортопедического планирования.']],
-    keywords: ['виниры пенза', 'виниры цена пенза', 'керамические виниры пенза', 'эстетическая стоматология пенза'],
-  },
-  '/uslugi/udalenie-zubov': {
-    title: 'Удаление зубов в Пензе - цена, запись к стоматологу | Новая улыбка',
-    description: 'Удаление зубов в Пензе: хирургическая стоматология, удаление зуба мудрости, рекомендации после процедуры и запись.',
-    h1: 'Удаление зубов в Пензе',
-    serviceName: 'Удаление зубов',
-    priceFrom: 'после консультации',
-    advantage: 'аккуратное удаление по показаниям с понятными рекомендациями после процедуры',
-    need: ['зуб разрушен и его невозможно сохранить', 'зуб мудрости воспаляется или мешает соседним зубам', 'нужно подготовить полость рта к дальнейшему лечению'],
-    steps: ['Осмотр и оценка снимка', 'Объяснение сложности и плана', 'Обезболивание', 'Удаление зуба', 'Рекомендации после процедуры'],
-    prices: [['Удаление постоянного зуба', '4 600 ₽'], ['Сложное удаление зуба', 'от 5 750 ₽'], ['Удаление ретинированного зуба', 'от 10 000 ₽']],
-    doctors: ['Акифьев Сергей Иванович'],
-    caseText: ['До: зуб невозможно сохранить', 'После: безопасное удаление и план восстановления'],
-    faq: [['Больно ли удалять зуб?', 'Удаление проводится с обезболиванием. Врач контролирует состояние пациента.'], ['Что нельзя делать после удаления зуба?', 'Нельзя греть область удаления, активно полоскать рот и нарушать рекомендации врача.'], ['Когда нужно удалять зуб мудрости?', 'При воспалении, неправильном положении или давлении на соседние зубы врач может рекомендовать удаление.']],
-    keywords: ['удаление зуба пенза', 'удаление зуба мудрости пенза', 'удаление зуба цена', 'сложное удаление зуба'],
-  },
-  '/uslugi/otbelivanie': {
-    title: 'Отбеливание зубов в Пензе - цена, запись к стоматологу | Новая улыбка',
-    description: 'Отбеливание зубов в Пензе: консультация стоматолога, эстетическая стоматология и подбор безопасного способа.',
-    h1: 'Отбеливание зубов в Пензе',
-    serviceName: 'Отбеливание зубов',
-    priceFrom: 'после консультации',
-    advantage: 'подбор безопасного способа осветления после оценки эмали и дёсен',
-    need: ['хочется сделать улыбку светлее перед событием', 'эмаль потемнела от кофе, чая или других факторов', 'нужна эстетическая процедура после осмотра'],
-    steps: ['Консультация и осмотр', 'Проверка эмали и дёсен', 'Рекомендации по подготовке', 'Проведение процедуры', 'Памятка после отбеливания'],
-    prices: [['Консультация', '500 ₽'], ['Клиническое отбеливание Amazing White, 2 челюсти', '9 800 ₽'], ['Домашнее отбеливание Opalescence, 1 челюсть', 'от 9 800 ₽']],
-    doctors: ['Стоматолог-терапевт'],
-    caseText: ['До: оттенок улыбки кажется тусклым', 'После: более светлая улыбка после осмотра и процедуры'],
-    faq: [['Вредно ли отбеливание зубов?', 'Безопасность зависит от состояния эмали, дёсен и выбранной методики.'], ['Можно ли отбеливать чувствительные зубы?', 'При чувствительности сначала нужно оценить причину.'], ['Что нельзя после отбеливания?', 'Обычно временно ограничивают красящие продукты и соблюдают рекомендации врача.']],
-    keywords: ['отбеливание зубов пенза', 'отбеливание зубов цена', 'профессиональное отбеливание зубов', 'отбелить зубы пенза'],
-  },
-  '/uslugi/gigiena': {
-    title: 'Профессиональная чистка зубов в Пензе - цена, запись к стоматологу | Новая улыбка',
-    description: 'Профессиональная чистка зубов в Пензе: гигиена полости рта, профилактика налёта, Air Flow и запись.',
-    h1: 'Профессиональная чистка зубов в Пензе',
-    serviceName: 'Профессиональная гигиена',
-    priceFrom: 'после консультации',
-    advantage: 'профилактика налёта и заболеваний дёсен с рекомендациями по домашнему уходу',
-    need: ['появился налёт, камень или кровоточивость дёсен', 'нужно подготовиться к лечению или отбеливанию', 'хочется поддерживать здоровье зубов профилактически'],
-    steps: ['Осмотр полости рта', 'Удаление налёта', 'Полировка по показаниям', 'Рекомендации по уходу', 'План профилактики'],
-    prices: [['Профессиональная гигиена', 'от 5 750 ₽'], ['Профессиональная гигиена сложная с Air Flow', '8 200 ₽'], ['Профессиональная гигиена одной челюсти', '3 000 ₽']],
-    doctors: ['Стоматолог-терапевт', 'Медицинская сестра'],
-    caseText: ['До: налёт и ощущение шероховатости', 'После: чистая эмаль и свежесть после профгигиены'],
-    faq: [['Как часто нужно делать профессиональную чистку?', 'Частота зависит от состояния зубов, дёсен, налёта и домашнего ухода.'], ['Чем профессиональная чистка отличается от обычной?', 'Профессиональная гигиена убирает плотный налёт и труднодоступные участки.'], ['Больно ли делать чистку зубов?', 'Процедура обычно переносится спокойно, при чувствительности врач работает бережнее.']],
-    keywords: ['чистка зубов пенза', 'профессиональная чистка зубов пенза', 'гигиена полости рта пенза', 'air flow пенза'],
-  },
-};
-
-const blogPages = {
-  '/blog/kak-ponyat-chto-karies-glubokiy': ['Как понять, что кариес уже глубокий', 'Признаки глубокого кариеса и когда нужно записаться к стоматологу.', '/uslugi/lechenie-kariesa'],
-  '/blog/chto-nelzya-posle-udaleniya-zuba': ['Что нельзя делать после удаления зуба', 'Памятка после удаления зуба и рекомендации для спокойного восстановления.', '/uslugi/udalenie-zubov'],
-  '/blog/skolko-sluzhit-implant': ['Сколько служит зубной имплант', 'От чего зависит срок службы импланта и почему важны осмотры.', '/uslugi/implantaciya'],
-  '/blog/chem-otlichaetsya-professionalnaya-chistka': ['Чем профессиональная чистка отличается от обычной', 'Разница между домашней и профессиональной гигиеной.', '/uslugi/gigiena'],
-  '/blog/kogda-nuzhna-koronka-na-zub': ['Когда нужна коронка на зуб', 'Когда зубу может понадобиться ортопедическое восстановление.', '/uslugi/protezirovanie'],
-  '/blog/chto-luchshe-implant-ili-most': ['Что лучше: имплант или мост', 'Как отличаются варианты восстановления отсутствующего зуба.', '/uslugi/implantaciya'],
-  '/blog/pochemu-krovotochat-desny': ['Почему кровоточат дёсны', 'Частые причины кровоточивости дёсен и когда нужна гигиена.', '/uslugi/gigiena'],
-  '/blog/kak-chasto-delat-chistku-zubov': ['Как часто нужно делать чистку зубов', 'Как выбрать регулярность профессиональной гигиены.', '/uslugi/gigiena'],
-  '/blog/bolno-li-lechit-zuby': ['Больно ли лечить зубы', 'Как проходит современное лечение зубов с анестезией.', '/uslugi/lechenie-kariesa'],
-  '/blog/kak-podgotovitsya-k-implantacii': ['Как подготовиться к имплантации зубов', 'Что обсудить с врачом перед имплантацией зубов.', '/uslugi/implantaciya'],
-  '/blog/kak-lechat-karies-po-etapam': ['Как проходит лечение кариеса по этапам', 'Диагностика, анестезия, восстановление формы зуба и рекомендации после лечения.', '/uslugi/lechenie-kariesa'],
-  '/blog/iz-chego-skladyvaetsya-cena-implantacii': ['Из чего складывается цена имплантации', 'Почему итоговая стоимость зависит от диагностики, системы импланта и ортопедического этапа.', '/uslugi/implantaciya'],
-  '/blog/viniry-kogda-stavit': ['Когда стоит задуматься о винирах', 'Виниры при сколах, форме и оттенке зубов: когда они подходят и когда нужен другой план.', '/uslugi/viniry'],
-  '/blog/uhod-posle-otbelivaniya': ['Как ухаживать за зубами после отбеливания', 'Питание, гигиена и чувствительность после отбеливания зубов.', '/uslugi/otbelivanie'],
-  '/blog/profgigiena-dlya-semi': ['Почему профессиональная гигиена нужна всей семье', 'Профилактика налёта, обучение домашнему уходу и регулярные осмотры для всей семьи.', '/uslugi/gigiena'],
-};
-
-const localPages = {
-  '/stomatologiya-sputnik': {
-    title: 'Стоматология в Спутнике, Пенза - Новая улыбка',
-    description: 'Стоматология Новая улыбка в районе Спутник: филиалы на Светлой 11 и Радужной 10, лечение зубов, имплантация, протезирование. Единый номер записи: +7 (967) 449-84-12.',
-    h1: 'Стоматология в Спутнике, Пенза',
-    paragraphs: ['Два филиала в районе Спутник помогают пациентам выбрать удобный адрес: Светлая 11 или Радужная 10.', 'На странице собраны быстрые переходы к услугам, ценам, филиалам и записи на консультацию.'],
-    links: ['/filialy', '/uslugi', '/ceny', '/kontakty']
-  },
-  '/stomatologiya-gpz': {
-    title: 'Стоматология на ГПЗ, Пенза - Новая улыбка',
-    description: 'Стоматология Новая улыбка на ГПЗ: филиал на Антонова 76, лечение зубов, гигиена, протезирование. Единый номер записи: +7 (967) 449-84-12.',
-    h1: 'Стоматология на ГПЗ, Пенза',
-    paragraphs: ['Филиал на Антонова 76 удобен для пациентов района ГПЗ и ближайших кварталов.', 'Можно быстро перейти к услугам, прайсу, контактам и записи на консультацию.'],
-    links: ['/filialy', '/uslugi', '/ceny', '/kontakty']
-  },
-  '/semeynaya-stomatologiya-penza': {
-    title: 'Семейная стоматология в Пензе - Новая улыбка',
-    description: 'Семейная стоматология в Пензе: лечение, профилактика, профессиональная гигиена и консультации. Единый номер записи: +7 (967) 449-84-12.',
-    h1: 'Семейная стоматология в Пензе',
-    paragraphs: ['Семейный формат помогает проходить осмотры регулярно, вовремя заниматься профилактикой и не откладывать лечение.', 'Администратор поможет подобрать филиал и удобное время для нескольких визитов.'],
-    links: ['/uslugi/gigiena', '/uslugi/lechenie-kariesa', '/ceny', '/kontakty']
-  },
-  '/implantaciya-zubov-penza': {
-    title: 'Имплантация зубов в Пензе - Новая улыбка',
-    description: 'Имплантация зубов в Пензе: южнокорейские импланты, консультация хирурга, план лечения, цена от 26 000 ₽. Единый номер записи: +7 (967) 449-84-12.',
-    h1: 'Имплантация зубов в Пензе',
-    paragraphs: ['Отдельная посадочная страница закрывает коммерческий запрос по имплантации и ведёт пациента к подробной услуге.', 'На консультации врач объяснит этапы, стоимость и возможные варианты восстановления зуба.'],
-    links: ['/uslugi/implantaciya', '/akcii', '/ceny', '/kontakty']
-  }
-};
-
-function escapeAttr(value) {
-  return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-
-function clinicJson() {
+function branchSchema(branch, pageUrl = `${SITE_URL}${routePaths.branches}`) {
   return {
-    '@context': 'https://schema.org',
-    '@type': ['Dentist', 'MedicalClinic', 'MedicalOrganization', 'LocalBusiness'],
-    name: 'Новая улыбка',
-    description: 'Качественная стоматология в Пензе по доступным ценам. Лечение зубов, имплантация, протезирование и гигиена. 3 филиала в Спутнике и на ГПЗ.',
-    slogan: 'Качественная стоматология в Пензе по доступным ценам',
-    url: SITE_URL,
-    telephone: PHONE_E164,
-    image: `${SITE_URL}/logo.webp`,
-    address: [
-      { '@type': 'PostalAddress', addressLocality: 'Пенза', streetAddress: 'Светлая 11', addressCountry: 'RU' },
-      { '@type': 'PostalAddress', addressLocality: 'Пенза', streetAddress: 'Радужная 10', addressCountry: 'RU' },
-      { '@type': 'PostalAddress', addressLocality: 'Пенза', streetAddress: 'Антонова 76', addressCountry: 'RU' },
-    ],
-    areaServed: ['Пенза', 'Спутник', 'ГПЗ'],
+    '@type': ['Dentist', 'MedicalClinic'],
+    '@id': `${SITE_URL}${routePaths.branches}#${branch.id}`,
+    name: `Новая улыбка — ${branch.address.replace('г. Пенза, ', '')}`,
+    url: pageUrl,
+    telephone: branch.phoneLink.replace('tel:', ''),
+    image: `${SITE_URL}${branch.image}`,
     medicalSpecialty: 'Dentistry',
-    openingHours: ['Mo-Fr 09:00-20:00', 'Sa 09:00-14:00'],
-    contactPoint: { '@type': 'ContactPoint', telephone: PHONE_E164, contactType: 'Запись на приём', areaServed: 'Пенза', availableLanguage: 'ru' },
-    sameAs: ['https://prodoctorov.ru/penza/lpu/102261-novaya-ulybka/'],
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: 'Стоматологические услуги',
-      itemListElement: Object.values(servicePages).map((service) => ({ '@type': 'Offer', itemOffered: { '@type': 'MedicalProcedure', name: service.serviceName } })),
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Пенза',
+      streetAddress: branch.address.replace('г. Пенза, ', ''),
+      addressCountry: 'RU',
     },
+    openingHoursSpecification: [
+      { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '09:00', closes: '20:00' },
+      { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Saturday', opens: '09:00', closes: '14:00' },
+    ],
+    parentOrganization: { '@id': `${SITE_URL}/#organization` },
   };
 }
 
-function breadcrumbJson(path, items) {
+function clinicJson(route = 'home') {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'MedicalOrganization',
+    '@id': `${SITE_URL}/#organization`,
+    name: 'Новая улыбка',
+    url: SITE_URL,
+    logo: `${SITE_URL}/logo.webp`,
+    image: `${SITE_URL}/hero.webp`,
+    telephone: PHONE_E164,
+    description: 'Стоматология «Новая улыбка» в Пензе: лечение зубов, имплантация, протезирование, удаление и профессиональная гигиена. Три филиала в Спутнике и на ГПЗ.',
+    areaServed: ['Пенза', 'Спутник', 'ГПЗ'],
+    medicalSpecialty: 'Dentistry',
+    sameAs: ['https://prodoctorov.ru/penza/lpu/102261-novaya-ulybka/'],
+    contactPoint: { '@type': 'ContactPoint', telephone: PHONE_E164, contactType: 'Запись на приём', areaServed: 'Пенза', availableLanguage: 'ru' },
+    department: branches.map((branch) => branchSchema(branch)),
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Стоматологические услуги',
+      itemListElement: serviceCatalog.map((service) => ({ '@type': 'Offer', itemOffered: { '@type': 'MedicalProcedure', name: service.title, url: `${SITE_URL}${service.route}` } })),
+    },
+  };
+  if (route === 'stomatologiyaSputnik') schema.department = branches.filter((branch) => branch.district === 'Спутник').map((branch) => branchSchema(branch, `${SITE_URL}${routePaths.stomatologiyaSputnik}`));
+  if (route === 'stomatologiyaGpz') schema.department = branches.filter((branch) => branch.district === 'ГПЗ').map((branch) => branchSchema(branch, `${SITE_URL}${routePaths.stomatologiyaGpz}`));
+  return schema;
+}
+
+function breadcrumbJson(path, items = []) {
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -262,83 +88,125 @@ function breadcrumbJson(path, items) {
   };
 }
 
-function faqJson(faq) {
-  return { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
-}
-
-function reviewJson() {
+function faqJson(items = []) {
   return {
     '@context': 'https://schema.org',
-    '@type': 'Review',
-    itemReviewed: { '@type': 'Dentist', name: 'Новая улыбка', url: SITE_URL },
-    author: { '@type': 'Organization', name: 'ПроДокторов' },
-    reviewBody: 'Отзывы пациентов о стоматологии «Новая улыбка» доступны как на сайте клиники, так и на независимой медицинской площадке ПроДокторов.',
-    url: 'https://prodoctorov.ru/penza/lpu/102261-novaya-ulybka/',
+    '@type': 'FAQPage',
+    mainEntity: items.map((item) => {
+      const q = Array.isArray(item) ? item[0] : item.q;
+      const a = Array.isArray(item) ? item[1] : item.a;
+      return { '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } };
+    }),
   };
 }
 
-function serviceHtml(page) {
-  return `<main class="seo-static service-seo-static">
-    <section>
-      <p>Услуга</p>
-      <h1>${page.h1}</h1>
-      <p>${page.description}</p>
-      <p><strong>Цена от:</strong> ${page.priceFrom}. <strong>Преимущество:</strong> ${page.advantage}.</p>
-      <p><a href="${PHONE_LINK}">Записаться на консультацию</a></p>
-    </section>
-    <section><h2>Кому нужна услуга</h2><ul>${page.need.map((x) => `<li>${x}</li>`).join('')}</ul></section>
-    <section><h2>Как проходит процедура</h2><ol>${page.steps.map((x) => `<li>${x}</li>`).join('')}</ol></section>
-    <section><h2>Преимущества клиники</h2><ul><li>3 филиала в Пензе: Светлая 11, Радужная 10 и Антонова 76</li><li>врач объясняет план лечения и стоимость до начала процедур</li><li>запись по единому номеру ${PHONE}</li></ul></section>
-    ${page.doctors.length ? `<section><h2>Врачи, которые оказывают услугу</h2><p>${page.doctors.join(', ')}.</p></section>` : ''}
-    <section><h2>Цены</h2><table><tbody>${page.prices.map(([name, price]) => `<tr><td>${name}</td><td>${price}</td></tr>`).join('')}</tbody></table><p>Точная стоимость определяется врачом после консультации и диагностики.</p></section>
-    <section><h2>Фото / кейсы до-после</h2><p>${page.caseText[0]}. ${page.caseText[1]}.</p></section>
-    <section><h2>Частые вопросы</h2>${page.faq.map(([q, a]) => `<h3>${q}</h3><p>${a}</p>`).join('')}</section>
-    <section><h2>Запись</h2><p>Для записи и уточнения информации позвоните по номеру <a href="${PHONE_LINK}">${PHONE}</a>.</p></section>
-    <section><h2>Связанные разделы</h2><p><a href="/ceny">Цены</a> · <a href="/vrachi">Врачи</a> · <a href="/kontakty">Контакты</a></p></section>
+function staticPage({ h1, lead = '', body = '' }) {
+  return `<main class="seo-static"><section><h1>${escapeHtml(h1)}</h1>${lead ? `<p>${escapeHtml(lead)}</p>` : ''}${body}</section></main>`;
+}
+
+function faqHtml(items) {
+  return `<section><h2>Частые вопросы</h2>${items.map((item) => `<h3>${escapeHtml(item.q)}</h3><p>${escapeHtml(item.a)}</p>`).join('')}</section>`;
+}
+
+function homeHtml() {
+  const prices = getPopularPriceExamples(7);
+  return `<main class="seo-static home-seo-static">
+    <section><h1>Стоматология в Пензе</h1><p>Лечение зубов, имплантация, протезирование, удаление и профессиональная гигиена в трёх филиалах «Новой улыбки».</p></section>
+    <section><h2>Стоматология «Новая улыбка» в Пензе</h2>${homeAboutParagraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join('')}</section>
+    <section><h2>Основные направления лечения</h2><ul>${serviceCatalog.map((service) => `<li><a href="${service.route}">${escapeHtml(service.shortTitle)}</a></li>`).join('')}</ul><p><a href="${routePaths.services}">Все услуги стоматологии в Пензе</a></p></section>
+    <section><h2>Три филиала стоматологии</h2>${branches.map((branch) => `<article><h3>${escapeHtml(branch.address.replace('г. Пенза, ', ''))}</h3><p>${escapeHtml(branch.district)}. ${escapeHtml(branch.schedule)}. Телефон: <a href="${branch.phoneLink}">${escapeHtml(branch.phone)}</a>.</p></article>`).join('')}<p><a href="${routePaths.stomatologiyaSputnik}">Стоматология в Спутнике</a> · <a href="${routePaths.stomatologiyaGpz}">Стоматология на ГПЗ</a> · <a href="${routePaths.branches}">Все филиалы</a> · <a href="${routePaths.contacts}">Контакты и запись</a></p></section>
+    <section><h2>Цены на стоматологические услуги</h2><table><tbody>${prices.map((row) => `<tr><td><a href="${row.route}">${escapeHtml(row.name)}</a></td><td>${escapeHtml(row.price)}</td></tr>`).join('')}</tbody></table><p><a href="${routePaths.prices}">Все цены на стоматологические услуги</a></p><p>Точный состав и стоимость лечения врач определяет после осмотра и диагностики.</p></section>
+    <section><h2>Врачи стоматологии</h2><p>На странице врачей указаны специальности и филиалы приёма.</p><p><a href="${routePaths.doctors}">Все врачи стоматологии</a></p></section>
+    ${faqHtml(homeFaq)}
   </main>`;
 }
 
-function pageHtml({ h1, paragraphs = [], extra = '' }) {
-  return `<main class="seo-static"><section><h1>${h1}</h1>${paragraphs.map((p) => `<p>${p}</p>`).join('')}${extra}</section></main>`;
+function servicesHtml() {
+  return `<main class="seo-static services-seo-static">
+    <section><h1>Услуги стоматологии в Пензе</h1><p>В «Новой улыбке» представлены терапевтическое лечение, хирургия, имплантация, протезирование, профессиональная гигиена и эстетические процедуры. Пациенту не обязательно самостоятельно выбирать процедуру: достаточно описать жалобу при записи. Окончательный план врач составляет после осмотра и диагностики, а актуальные ориентиры по стоимости опубликованы на странице цен. Запись доступна через форму сайта и по единому телефону ${PHONE}.</p></section>
+    ${serviceCatalog.map((service) => {
+      const prices = getPriceExamplesForRoute(service.route, 3);
+      return `<article><h2>${escapeHtml(service.title)}</h2><p>${escapeHtml(service.description)}</p><h3>Когда может понадобиться</h3><ul>${service.needs.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ul><h3>Основные этапы</h3><ol>${service.stages.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ol><h3>Примеры цен</h3><table><tbody>${prices.map((row) => `<tr><td>${escapeHtml(row.name)}</td><td>${escapeHtml(row.price)}</td></tr>`).join('')}</tbody></table><p><a href="${service.route}">Подробнее</a> · <a href="${PHONE_LINK}">Записаться</a></p><p>Точный план и стоимость врач определяет после осмотра.</p></article>`;
+    }).join('')}
+    <section><h2>Как проходит первый приём</h2><ol>${firstVisitSteps.map((step) => `<li><strong>${escapeHtml(step.title)}:</strong> ${escapeHtml(step.text)}</li>`).join('')}</ol></section>
+    <section><h2>Как формируется стоимость лечения</h2><ul>${costFactors.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ul><p><a href="${routePaths.prices}">Посмотреть цены</a></p></section>
+    <section><h2>В каком филиале можно пройти лечение</h2>${branches.map((branch) => `<p><strong>${escapeHtml(branch.district)}:</strong> ${escapeHtml(branch.address)}</p>`).join('')}<p><a href="${routePaths.branches}">Выбрать филиал</a></p></section>
+    ${faqHtml(servicesFaq)}
+    <nav><a href="${routePaths.prices}">Цены</a> · <a href="${routePaths.doctors}">Врачи</a> · <a href="${routePaths.branches}">Филиалы</a> · <a href="${routePaths.contacts}">Контакты</a></nav>
+  </main>`;
 }
 
-function makePage(title, description, h1, paragraphs, extra = '', jsonLd = []) {
-  return { title, description, html: pageHtml({ h1, paragraphs, extra }), jsonLd };
+function priceHtml() {
+  return `<main class="seo-static"><section><h1>Цены на стоматологические услуги</h1><p>Актуальные ориентиры по стоимости лечения и процедур. Итоговый план определяет врач после осмотра.</p>${priceGroups.map((group) => `<section><h2>${escapeHtml(group.title)}</h2><p>${escapeHtml(group.subtitle)}</p><table><tbody>${group.rows.map((row) => `<tr><td><a href="${row.route}">${escapeHtml(row.name)}</a></td><td>${escapeHtml(row.price)}</td></tr>`).join('')}</tbody></table></section>`).join('')}</section></main>`;
+}
+
+function serviceHtml(key, page) {
+  const service = serviceCatalog.find((item) => item.key === key);
+  const prices = getPriceExamplesForRoute(routePaths[key], 3);
+  const related = (page.related || []).filter((item) => serviceSeoPages[item]).slice(0, 3);
+  return `<main class="seo-static service-seo-static">
+    <section><h1>${escapeHtml(page.h1)}</h1><p>${escapeHtml(page.lead)}</p><p><a href="${PHONE_LINK}">Записаться на консультацию</a></p></section>
+    <section><h2>Когда стоит обратиться</h2><ul>${page.bullets.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ul>${service ? `<p>${escapeHtml(service.description)}</p>` : ''}</section>
+    <section><h2>Этапы лечения</h2><ol>${page.steps.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ol></section>
+    <section><h2>Примеры цен</h2><table><tbody>${prices.map((row) => `<tr><td>${escapeHtml(row.name)}</td><td>${escapeHtml(row.price)}</td></tr>`).join('')}</tbody></table><p>Точный план и стоимость врач определяет после осмотра и диагностики.</p></section>
+    <section><h2>Врач и специальность</h2><p>Услугу оказывает профильный стоматолог. Конкретного специалиста и филиал администратор подберёт при записи.</p></section>
+    <section><h2>Доступные филиалы</h2>${branches.map((branch) => `<p><strong>${escapeHtml(branch.district)}:</strong> ${escapeHtml(branch.address)}</p>`).join('')}</section>
+    ${faqHtml(page.faq)}
+    <nav><a href="${routePaths.services}">Все услуги стоматологии</a> · <a href="${routePaths.prices}">Цены</a> · <a href="${routePaths.contacts}">Запись и контакты</a> · <a href="${routePaths.branches}">Филиалы</a>${related.length ? ` · ${related.map((item) => `<a href="${routePaths[item]}">${escapeHtml(serviceSeoPages[item].label)}</a>`).join(' · ')}` : ''}</nav>
+  </main>`;
+}
+
+function branchesHtml() {
+  return `<main class="seo-static"><section><h1>Филиалы стоматологии «Новая улыбка» в Пензе</h1>${branches.map((branch) => `<article><h2>${escapeHtml(branch.address)}</h2><p>${escapeHtml(branch.district)}. ${escapeHtml(branch.schedule)}. Телефон: <a href="${branch.phoneLink}">${escapeHtml(branch.phone)}</a>. <a href="${branch.mapUrl}">Построить маршрут</a>.</p></article>`).join('')}<p><a href="${routePaths.stomatologiyaSputnik}">Стоматология в Спутнике</a> · <a href="${routePaths.stomatologiyaGpz}">Стоматология на ГПЗ</a> · <a href="${routePaths.contacts}">Контакты и запись</a></p></section></main>`;
+}
+
+function contactsHtml() {
+  return `<main class="seo-static"><section><h1>Контакты стоматологии «Новая улыбка» в Пензе</h1><p>Единый номер записи: <a href="${PHONE_LINK}">${PHONE}</a>.</p>${branches.map((branch) => `<article><h2>${escapeHtml(branch.address)}</h2><p>${escapeHtml(branch.schedule)}. <a href="${branch.phoneLink}">${escapeHtml(branch.phone)}</a>. <a href="${branch.mapUrl}">Маршрут на карте</a>. <a href="${routePaths.branches}?branch=${branch.id}">Карточка филиала</a>.</p></article>`).join('')}</section></main>`;
+}
+
+function doctorsHtml() {
+  return `<main class="seo-static"><section><h1>Врачи стоматологии в Пензе</h1><p>Специалисты «Новой улыбки» ведут приём в филиалах на Светлой, Радужной и Антонова.</p>${doctors.filter((doctor) => !doctor.isBlank).map((doctor) => `<article><h2>${escapeHtml(doctor.name)}</h2><p><strong>${escapeHtml(doctor.speciality)}</strong>. ${escapeHtml(doctor.branch)}. ${escapeHtml(doctor.note)}</p><p><a href="${routePaths.services}">Услуги врача</a> · <a href="${PHONE_LINK}">Записаться</a></p></article>`).join('')}</section></main>`;
+}
+
+function beforeAfterHtml() {
+  return `<main class="seo-static"><section><h1>До и после лечения</h1>${beforeAfterCases.map((item) => `<article><h2>${escapeHtml(item.title)}</h2><p><strong>С чем обратился пациент:</strong> ${escapeHtml(item.reason)}</p><p><strong>Проблема:</strong> ${escapeHtml(item.problem)}</p><p><strong>Что сделали:</strong> ${escapeHtml(item.treatment)}</p><p><strong>Этапы:</strong> ${escapeHtml(item.stages)}</p><p><strong>Результат:</strong> ${escapeHtml(item.result)}</p><p>${escapeHtml(item.disclaimer)}</p></article>`).join('')}</section></main>`;
+}
+
+function pageFromMeta(route, html, jsonLd = [], noindex = false) {
+  const meta = routeMeta[route] || routeMeta.notFound;
+  return { title: meta.title, description: meta.description, html, jsonLd, noindex };
 }
 
 const pages = {
-  '/': makePage('Стоматология в Пензе — качественно и доступно | Новая улыбка', 'Качественная стоматология в Пензе по доступным ценам. Лечение зубов, имплантация, протезирование и гигиена. 3 филиала в Спутнике и на ГПЗ.', 'Качественная стоматология в Пензе по доступным ценам', ['Качественное лечение зубов, имплантация, протезирование и профессиональная гигиена. Три филиала в Пензе: два в Спутнике и один на ГПЗ.', `Адреса: Светлая 11, Радужная 10 и Антонова 76. Единый номер для записи: <a href="${PHONE_LINK}">${PHONE}</a>.`], '<p><a href="/uslugi">Услуги</a> · <a href="/ceny">Цены</a> · <a href="/filialy">Филиалы</a></p>', [clinicJson(), breadcrumbJson('/', [])]),
-  '/uslugi': makePage('Услуги стоматологии в Пензе - Новая улыбка', 'Услуги стоматологии Новая улыбка: лечение кариеса, имплантация, протезирование, виниры, удаление зубов, отбеливание и профессиональная гигиена.', 'Услуги стоматологии «Новая улыбка»', ['Основные направления: лечение кариеса, имплантация, протезирование, виниры, удаление зубов, отбеливание и профессиональная гигиена.', 'Каждое направление вынесено на отдельную SEO-страницу.'], `<ul>${Object.entries(servicePages).map(([path, page]) => `<li><a href="${path}">${page.h1}</a></li>`).join('')}</ul>`, [clinicJson(), breadcrumbJson('/uslugi', [{ name: 'Услуги', path: '/uslugi' }])]),
-  '/ceny': makePage('Цены на услуги стоматологии в Пензе - Новая улыбка', 'Прайс стоматологии Новая улыбка с поиском, фильтрами, пояснениями к стоимости и ссылками на услуги.', 'Цены на стоматологические услуги', ['На странице доступен поиск по процедурам и быстрые фильтры по направлениям: консультации, гигиена, лечение, протезирование, хирургия и эстетика.', 'У каждой позиции есть ссылка на связанную услугу и пояснение о составе стоимости. Точную стоимость лечения определяет врач после осмотра и составления плана лечения.'], priceStaticHtml, [clinicJson(), breadcrumbJson('/ceny', [{ name: 'Цены', path: '/ceny' }])]),
-  '/vrachi': makePage('Врачи стоматологии в Пензе - Новая улыбка', 'Команда стоматологии Новая улыбка: стоматологи-терапевты, ортопед и медицинские сёстры филиалов в Пензе.', 'Врачи и ассистенты «Новой улыбки»', ['Команда стоматологии: стоматологи-терапевты, стоматолог-ортопед и медицинские сёстры. В карточках сотрудников указаны специализация и филиал приёма.'], '', [clinicJson(), breadcrumbJson('/vrachi', [{ name: 'Врачи', path: '/vrachi' }])]),
-  '/otzyvy': makePage('Отзывы пациентов - Новая улыбка', 'Отзывы пациентов о стоматологии Новая улыбка в Пензе и ссылка на профиль клиники на ПроДокторов.', 'Отзывы пациентов о стоматологии «Новая улыбка»', ['Раздел отзывов помогает пациентам оценить подход врачей, качество сервиса и выбрать удобный филиал.', 'На странице собраны реальные отзывы пациентов и размещена ссылка на профиль клиники на ПроДокторов.'], '', [clinicJson(), breadcrumbJson('/otzyvy', [{ name: 'Отзывы', path: '/otzyvy' }]), reviewJson()]),
-  '/akcii': makePage('Акции стоматологии в Пензе - Новая улыбка', 'Акции и специальные предложения стоматологии Новая улыбка: имплантация от 26 000 ₽, семейная скидка на профессиональную чистку и запись на консультацию.', 'Акции и специальные предложения', ['Имплантация под ключ: старая цена 45 000 ₽, экономия 19 000 ₽. Семейная скидка на профессиональную чистку.', 'Актуальные условия рекомендуем уточнять у администратора клиники перед записью.'], '', [clinicJson(), breadcrumbJson('/akcii', [{ name: 'Акции', path: '/akcii' }])]),
-  '/do-posle': makePage('До и после лечения зубов - Новая улыбка', 'Клинические истории стоматологии Новая улыбка: причина обращения, проблема, этапы лечения и индивидуальный результат.', 'До и после лечения', ['Каждый пример оформлен как короткая клиническая история: с чем обратился пациент, какая была проблема, что сделал врач, сколько этапов потребовалось и какой результат получен.', 'Результаты лечения индивидуальны. План, сроки и прогноз определяются после очной консультации.'], beforeAfterStaticHtml, [clinicJson(), breadcrumbJson('/do-posle', [{ name: 'До/После', path: '/do-posle' }])]),
-  '/filialy': makePage('Филиалы стоматологии в Пензе - Новая улыбка', 'Филиалы стоматологии Новая улыбка в Пензе: Светлая 11, Радужная 10, Антонова 76. Единый номер записи: +7 (967) 449-84-12, филиальные телефоны указаны в карточках адресов.', 'Филиалы стоматологии «Новая улыбка» в Пензе', ['В Спутнике работают два кабинета: Светлая 11 и Радужная 10. На ГПЗ работает филиал Антонова 76.', 'График: Пн-Пт 09:00-20:00, Сб 09:00-14:00, Вс выходной.'], '', [clinicJson(), breadcrumbJson('/filialy', [{ name: 'Филиалы', path: '/filialy' }])]),
-  '/kontakty': makePage('Контакты стоматологии Новая улыбка в Пензе', 'Контакты стоматологии Новая улыбка в Пензе: единый номер записи +7 (967) 449-84-12, адреса филиалов, график работы и удобная запись на приём.', 'Контакты и запись на приём', [`Единый номер для записи и уточнения информации: <a href="${PHONE_LINK}">${PHONE}</a>.`, 'Филиалы: Светлая 11, Радужная 10, Антонова 76.'], '', [clinicJson(), breadcrumbJson('/kontakty', [{ name: 'Контакты', path: '/kontakty' }])]),
-  '/blog': makePage('Блог стоматологии - полезные статьи | Новая улыбка', 'Полезные статьи стоматологии Новая улыбка: лечение кариеса, имплантация, гигиена, протезирование, удаление и уход за зубами.', 'Блог и полезные статьи о стоматологии', ['Блог помогает закрывать информационные запросы пациентов и связывает статьи с услугами клиники.', 'Темы статей: кариес, имплантация, гигиена, протезирование, удаление и уход за зубами.'], `<ul>${Object.entries(blogPages).map(([path, [title]]) => `<li><a href="${path}">${title}</a></li>`).join('')}</ul>`, [clinicJson(), breadcrumbJson('/blog', [{ name: 'Блог', path: '/blog' }])]),
-  '/privacy': makePage('Политика конфиденциальности - Новая улыбка', 'Политика конфиденциальности сайта стоматологии Новая улыбка.', 'Политика конфиденциальности', ['Политика определяет порядок обработки персональных данных пользователей сайта стоматологии «Новая улыбка».']),
-  '/soglasie-na-obrabotku-personalnyh-dannyh': makePage('Согласие на обработку персональных данных - Новая улыбка', 'Согласие на обработку персональных данных для записи на консультацию в стоматологии Новая улыбка.', 'Согласие на обработку персональных данных', ['Документ относится к сайту new-smile58.ru и формам записи на консультацию.', 'Пользователь добровольно передаёт имя, телефон и выбранный район для обратной связи и записи на приём.']),
-  '/licenziya-i-rekvizity': makePage('Лицензия и реквизиты - стоматология Новая улыбка', 'Информация о лицензии, юридических лицах и реквизитах стоматологии Новая улыбка в Пензе.', 'Лицензия и реквизиты клиники', ['ООО Новая улыбка: ОГРН 1215800003088, ИНН 5829006081, КПП 582901001. Юридический адрес: 440514, Пензенская область, Пензенский район, с. Засечное, ул. Светлая, д. 11, помещ. 112.', 'ООО АЭЛИТА: ОГРН 1235800004615, ИНН 5835142646, КПП 583501001. Юридический адрес: 440502, Пензенская область, Пензенский район, с. Алферьевка, Садовый проезд, д. 13.', 'Лицензия: Л041-01166-58/00770528, дата предоставления 15.11.2023, лицензирующий орган - Минздрав Пензенской области.']),
-  '/404': { ...makePage('Страница не найдена - Новая улыбка', 'Страница не найдена. Перейдите на главную страницу стоматологии Новая улыбка или выберите нужный раздел.', 'Страница не найдена', ['Такой страницы нет или её адрес изменился. Перейдите на главную страницу, в услуги, цены, филиалы или контакты.']), noindex: true },
+  '/': pageFromMeta('home', homeHtml(), [clinicJson('home'), breadcrumbJson('/', []), faqJson(homeFaq)]),
+  [routePaths.services]: pageFromMeta('services', servicesHtml(), [clinicJson('services'), breadcrumbJson(routePaths.services, [{ name: 'Услуги', path: routePaths.services }]), faqJson(servicesFaq)]),
+  [routePaths.prices]: pageFromMeta('prices', priceHtml(), [clinicJson('prices'), breadcrumbJson(routePaths.prices, [{ name: 'Цены', path: routePaths.prices }])]),
+  [routePaths.doctors]: pageFromMeta('doctors', doctorsHtml(), [clinicJson('doctors'), breadcrumbJson(routePaths.doctors, [{ name: 'Врачи', path: routePaths.doctors }])]),
+  [routePaths.branches]: pageFromMeta('branches', branchesHtml(), [clinicJson('branches'), breadcrumbJson(routePaths.branches, [{ name: 'Филиалы', path: routePaths.branches }])]),
+  [routePaths.contacts]: pageFromMeta('contacts', contactsHtml(), [clinicJson('contacts'), breadcrumbJson(routePaths.contacts, [{ name: 'Контакты', path: routePaths.contacts }])]),
+  [routePaths.beforeAfter]: pageFromMeta('beforeAfter', beforeAfterHtml(), [clinicJson('beforeAfter'), breadcrumbJson(routePaths.beforeAfter, [{ name: 'До/После', path: routePaths.beforeAfter }])]),
+  [routePaths.reviews]: pageFromMeta('reviews', staticPage({ h1: 'Отзывы пациентов о стоматологии «Новая улыбка»', lead: 'Отзывы пациентов о врачах, лечении и филиалах клиники.' }), [clinicJson('reviews'), breadcrumbJson(routePaths.reviews, [{ name: 'Отзывы', path: routePaths.reviews }])]),
+  [routePaths.promotions]: pageFromMeta('promotions', staticPage({ h1: 'Акции и специальные предложения', lead: 'Актуальные условия предложений рекомендуем уточнять у администратора перед записью.' }), [clinicJson('promotions'), breadcrumbJson(routePaths.promotions, [{ name: 'Акции', path: routePaths.promotions }])]),
+  [routePaths.blog]: pageFromMeta('blog', staticPage({ h1: 'Блог и полезные статьи о стоматологии', body: `<ul>${Object.entries(blogArticles).map(([key, article]) => `<li><a href="${routePaths[key]}">${escapeHtml(article.title)}</a></li>`).join('')}</ul>` }), [clinicJson('blog'), breadcrumbJson(routePaths.blog, [{ name: 'Блог', path: routePaths.blog }])]),
+  [routePaths.privacy]: pageFromMeta('privacy', staticPage({ h1: 'Политика конфиденциальности' })),
+  [routePaths.consent]: pageFromMeta('consent', staticPage({ h1: 'Согласие на обработку персональных данных' })),
+  [routePaths.license]: pageFromMeta('license', staticPage({ h1: 'Лицензия и реквизиты клиники' })),
+  '/404': pageFromMeta('notFound', staticPage({ h1: 'Страница не найдена', lead: 'Перейдите на главную страницу или выберите нужный раздел.' }), [], true),
 };
 
-for (const [path, page] of Object.entries(localPages)) {
-  const linkHtml = `<p>${page.links.map((link) => `<a href="${link}">${link.replace('/', '') || 'Главная'}</a>`).join(' · ')}</p>`;
-  pages[path] = {
-    title: page.title,
-    description: page.description,
-    html: pageHtml({ h1: page.h1, paragraphs: page.paragraphs, extra: linkHtml }),
-    jsonLd: [clinicJson(), breadcrumbJson(path, [{ name: page.h1, path }])]
-  };
+for (const [key, page] of Object.entries(serviceSeoPages)) {
+  const path = routePaths[key];
+  pages[path] = pageFromMeta(key, serviceHtml(key, page), [clinicJson(key), breadcrumbJson(path, [{ name: 'Услуги', path: routePaths.services }, { name: page.label, path }]), faqJson(page.faq)]);
 }
 
-for (const [path, page] of Object.entries(servicePages)) {
-  pages[path] = { title: page.title, description: page.description, html: serviceHtml(page), jsonLd: [clinicJson(), breadcrumbJson(path, [{ name: 'Услуги', path: '/uslugi' }, { name: page.serviceName, path }]), faqJson(page.faq)] };
+for (const [key, page] of Object.entries(localLandingPages)) {
+  const path = routePaths[key];
+  pages[path] = pageFromMeta(key, staticPage({ h1: page.h1, lead: page.lead, body: `<ul>${page.bullets.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ul><p><a href="${routePaths.services}">Услуги</a> · <a href="${routePaths.prices}">Цены</a> · <a href="${routePaths.branches}">Филиалы</a> · <a href="${routePaths.contacts}">Контакты</a></p>` }), [clinicJson(key), breadcrumbJson(path, [{ name: page.h1, path }])]);
 }
 
-for (const [path, [title, description, servicePath]] of Object.entries(blogPages)) {
-  pages[path] = { title: `${title} - блог стоматологии Новая улыбка`, description, html: pageHtml({ h1: title, paragraphs: [description, 'Материал помогает пациенту разобраться в ситуации, но не заменяет консультацию врача. Для точной диагностики запишитесь на осмотр в стоматологию «Новая улыбка».'], extra: `<p><a href="${servicePath}">Связанная услуга</a> · <a href="/kontakty">Контакты</a></p>` }), jsonLd: [clinicJson(), breadcrumbJson(path, [{ name: 'Блог', path: '/blog' }, { name: title, path }]), { '@context': 'https://schema.org', '@type': 'Article', headline: title, description, author: { '@type': 'Organization', name: 'Новая улыбка' }, publisher: { '@type': 'Organization', name: 'Новая улыбка', logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.webp` } }, mainEntityOfPage: `${SITE_URL}${path}` }] };
+for (const [key, article] of Object.entries(blogArticles)) {
+  const path = routePaths[key];
+  pages[path] = pageFromMeta(key, staticPage({ h1: article.h1 || article.title, lead: article.lead, body: `${(article.paragraphs || []).map((p) => `<p>${escapeHtml(p)}</p>`).join('')}<p><a href="${routePaths[article.service] || routePaths.services}">Связанная услуга</a> · <a href="${routePaths.contacts}">Контакты</a></p>` }), [clinicJson(key), breadcrumbJson(path, [{ name: 'Блог', path: routePaths.blog }, { name: article.title, path }]), { '@context': 'https://schema.org', '@type': 'Article', headline: article.title, description: article.description, author: { '@type': 'Organization', name: 'Новая улыбка' }, publisher: { '@type': 'Organization', name: 'Новая улыбка', logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.webp` } }, mainEntityOfPage: `${SITE_URL}${path}` }]);
 }
 
 function upsertHeadTag(html, tagName, attrName, attrValue, replacement) {
@@ -349,28 +217,27 @@ function upsertHeadTag(html, tagName, attrName, attrValue, replacement) {
 
 function injectJsonLd(html, jsonLd = []) {
   const scripts = jsonLd.map((item) => `<script type="application/ld+json" data-seo-jsonld="true">${JSON.stringify(item)}</script>`).join('\n  ');
-  if (!scripts) return html;
-  return html.replace('</head>', `  ${scripts}\n</head>`);
+  return scripts ? html.replace('</head>', `  ${scripts}\n</head>`) : html;
 }
 
 function injectPage(route, page) {
   const start = template.indexOf('<div id="root">');
   const rootClose = template.indexOf('</div>', start);
   if (start === -1 || rootClose === -1) throw new Error('Cannot find root in dist/index.html');
-
   const end = rootClose + '</div>'.length;
   let html = template.slice(0, start) + `<div id="root">\n${page.html}\n  </div>` + template.slice(end);
   const canonicalUrl = `${SITE_URL}${route === '/404' ? '/404' : route}`;
-  html = html.replace(/<title>.*?<\/title>/, `<title>${escapeAttr(page.title)}</title>`);
-  html = upsertHeadTag(html, 'meta', 'name', 'description', `<meta name="description" content="${escapeAttr(page.description)}" />`);
+  html = html.replace(/<title>.*?<\/title>/, `<title>${escapeHtml(page.title)}</title>`);
+  html = upsertHeadTag(html, 'meta', 'name', 'description', `<meta name="description" content="${escapeHtml(page.description)}" />`);
   html = upsertHeadTag(html, 'link', 'rel', 'canonical', `<link rel="canonical" href="${canonicalUrl}" />`);
-  html = upsertHeadTag(html, 'meta', 'property', 'og:title', `<meta property="og:title" content="${escapeAttr(page.title)}" />`);
-  html = upsertHeadTag(html, 'meta', 'property', 'og:description', `<meta property="og:description" content="${escapeAttr(page.description)}" />`);
+  html = upsertHeadTag(html, 'meta', 'property', 'og:title', `<meta property="og:title" content="${escapeHtml(page.title)}" />`);
+  html = upsertHeadTag(html, 'meta', 'property', 'og:description', `<meta property="og:description" content="${escapeHtml(page.description)}" />`);
   html = upsertHeadTag(html, 'meta', 'property', 'og:url', `<meta property="og:url" content="${canonicalUrl}" />`);
-  html = upsertHeadTag(html, 'meta', 'property', 'og:type', `<meta property="og:type" content="${route.startsWith('/blog') || route.startsWith('/uslugi/') ? 'article' : 'website'}" />`);
+  html = upsertHeadTag(html, 'meta', 'property', 'og:type', `<meta property="og:type" content="${route.startsWith('/blog') ? 'article' : 'website'}" />`);
   html = upsertHeadTag(html, 'meta', 'property', 'og:image', `<meta property="og:image" content="${SITE_URL}/hero.webp" />`);
   html = upsertHeadTag(html, 'meta', 'name', 'twitter:card', '<meta name="twitter:card" content="summary_large_image" />');
-
+  html = upsertHeadTag(html, 'meta', 'name', 'twitter:title', `<meta name="twitter:title" content="${escapeHtml(page.title)}" />`);
+  html = upsertHeadTag(html, 'meta', 'name', 'twitter:description', `<meta name="twitter:description" content="${escapeHtml(page.description)}" />`);
   if (page.noindex) html = upsertHeadTag(html, 'meta', 'name', 'robots', '<meta name="robots" content="noindex, follow" />');
   else html = html.replace(/\n?\s*<meta name="robots" content="[^"]*" \/>/i, '');
   return injectJsonLd(html, page.jsonLd);
@@ -384,23 +251,11 @@ for (const [route, page] of Object.entries(pages)) {
   if (route === '/404') await writeFile(new URL('404.html', distDir), html, 'utf8');
 }
 
-const sitemapRoutes = Object.keys(pages)
-  .filter((route) => route !== '/404')
-  .sort((a, b) => (a === '/' ? -1 : b === '/' ? 1 : a.localeCompare(b)));
-
-const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${sitemapRoutes.map((route) => `  <url><loc>${SITE_URL}${route}</loc><changefreq>${route === '/' ? 'weekly' : route.startsWith('/blog') ? 'monthly' : 'weekly'}</changefreq><priority>${route === '/' ? '1.0' : route.startsWith('/uslugi') ? '0.86' : route.startsWith('/stomatologiya') || route.startsWith('/implantaciya-zubov') || route.startsWith('/semeynaya') ? '0.82' : '0.74'}</priority></url>`).join('\n')}
-</urlset>
-`;
+const sitemapRoutes = Object.keys(pages).filter((route) => route !== '/404').sort((a, b) => (a === '/' ? -1 : b === '/' ? 1 : a.localeCompare(b)));
+const changedRoutes = new Set(['/', routePaths.services, ...serviceCatalog.map((service) => service.route), routePaths.doctors, routePaths.branches, routePaths.contacts]);
+const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapRoutes.map((route) => `  <url><loc>${SITE_URL}${route}</loc>${changedRoutes.has(route) ? `<lastmod>${LASTMOD}</lastmod>` : ''}<changefreq>${route === '/' ? 'weekly' : route.startsWith('/blog') ? 'monthly' : 'weekly'}</changefreq><priority>${route === '/' ? '1.0' : route.startsWith('/uslugi') ? '0.86' : route.startsWith('/stomatologiya') ? '0.82' : '0.74'}</priority></url>`).join('\n')}\n</urlset>\n`;
 
 await writeFile(new URL('sitemap.xml', distDir), sitemapXml, 'utf8');
-await writeFile(new URL('robots.txt', distDir), `User-agent: *
-Allow: /
-Disallow: /api/
-Disallow: /*?*utm_
-Disallow: /*?*yclid
-Sitemap: ${SITE_URL}/sitemap.xml
-`, 'utf8');
+await writeFile(new URL('robots.txt', distDir), `User-agent: *\nAllow: /\nDisallow: /api/\nClean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&ymclid&erid /\nSitemap: ${SITE_URL}/sitemap.xml\n`, 'utf8');
 
-console.log(`Prerendered ${Object.keys(pages).length} SEO pages with tags, service content, microdata, sitemap.xml, robots.txt and 404.html.`);
+console.log(`Prerendered ${Object.keys(pages).length} SEO pages with unique metadata, HTML content, JSON-LD, sitemap.xml and robots.txt.`);

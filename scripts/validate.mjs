@@ -69,6 +69,14 @@ if (await exists(join(srcRoot, 'styles.css'))) {
   fail('Устаревший монолитный src/styles.css всё ещё присутствует.');
 }
 
+const forbiddenServicePattern = /(?:детск(?:ая|ий|ого|ому|ими|их|ое)\s+стоматолог|детская\s+стоматология|ортодонт|ортодонтия|брекет|элайнер|исправлен(?:ие|ия)\s+прикус)/iu;
+for (const path of readableSourceFiles) {
+  const content = await readFile(path, 'utf8');
+  if (forbiddenServicePattern.test(content)) {
+    fail(`В ${path.replace(projectRoot, '')} найдено упоминание отсутствующего направления.`);
+  }
+}
+
 const cssFiles = sourceFiles.filter((path) => path.endsWith('.css'));
 for (const path of cssFiles) {
   const content = await readFile(path, 'utf8');
@@ -108,6 +116,16 @@ for (const label of ['Позвонить', 'Записаться', 'Филиал
 }
 for (const label of ['Цены', 'Врачи', 'Акции', 'Услуги']) {
   if (!layout.includes(`label: "${label}"`)) fail(`В компактном мобильном меню отсутствует «${label}».`);
+}
+
+
+const homePage = await readFile(join(srcRoot, 'pages/HomePage.jsx'), 'utf8');
+if (!homePage.includes('Стоматология <span>в Пензе</span>')) fail('На главной не установлен H1 «Стоматология в Пензе».');
+const servicesPage = await readFile(join(srcRoot, 'pages/ServicesPage.jsx'), 'utf8');
+if (!servicesPage.includes('title="Услуги стоматологии в Пензе"')) fail('На /uslugi не установлен требуемый H1.');
+const seoCatalog = await readFile(join(srcRoot, 'data/seoCatalog.js'), 'utf8');
+for (const label of ['Лечение кариеса и восстановление зубов', 'Имплантация зубов', 'Протезирование и коронки', 'Виниры', 'Удаление зубов', 'Отбеливание зубов', 'Профессиональная гигиена']) {
+  if (!seoCatalog.includes(label)) fail(`В SEO-каталоге отсутствует направление «${label}».`);
 }
 
 if (failures.length) {

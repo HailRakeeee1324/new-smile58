@@ -3,6 +3,7 @@ import { PHONE_LINK } from "../config/site.js";
 import { routeHref, routePaths } from "../config/routes.js";
 import { blogArticleMedia, blogArticles, serviceEditorialContent, serviceSeoPages } from "../data/seo.js";
 import { doctors } from "../data/doctors.js";
+import { branches } from "../data/branches.js";
 import { Breadcrumbs, EditorialPhotoGrid, LocalSeoCluster } from "../components/Common.jsx";
 import "../styles/pages.css";
 import "../styles/page-layout.css";
@@ -120,7 +121,40 @@ export default function ServiceSeoPage({ pageKey }) {
             ))}
           </div>
         </section>
-      ) : null}
+      ) : (
+        <section className="container service-specialty reveal-on-scroll">
+          <p className="section-label">Специалист</p>
+          <h2>Кто проводит лечение</h2>
+          <p>Направление ведёт профильный стоматолог. Конкретного врача администратор подберёт с учётом клинической задачи, филиала и доступного времени приёма.</p>
+        </section>
+      )}
+
+      <section className="container service-availability reveal-on-scroll" aria-labelledby="service-availability-title">
+        <div className="service-availability__head">
+          <p className="section-label">Приём и филиалы</p>
+          <h2 id="service-availability-title">Где можно пройти лечение</h2>
+          <p>{matchedDoctors.length ? "В карточках указаны врачи, связанные с направлением." : "Направление ведёт профильный стоматолог. Конкретного врача и филиал администратор подберёт при записи."}</p>
+        </div>
+        <div className="service-availability__branches">
+          {branches.map((branch) => (
+            <article key={branch.id}>
+              <strong>{branch.district}</strong>
+              <span>{branch.address}</span>
+              <a href={`${routePaths.branches}?branch=${branch.id}`} data-route-link>Открыть филиал</a>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <nav className="container service-crosslinks reveal-on-scroll" aria-label="Связанные разделы">
+        <a href={routePaths.services} data-route-link>Все услуги стоматологии</a>
+        <a href={routePaths.prices} data-route-link>Цены</a>
+        <a href={routePaths.contacts} data-route-link>Запись и контакты</a>
+        <a href={routePaths.branches} data-route-link>Филиалы</a>
+        {page.related?.filter((key) => serviceSeoPages[key]).slice(0, 3).map((key) => (
+          <a href={routeHref(key)} data-route-link key={key}>{serviceSeoPages[key].label}</a>
+        ))}
+      </nav>
 
       {relatedArticles.length ? (
         <section className="container related-articles reveal-on-scroll">

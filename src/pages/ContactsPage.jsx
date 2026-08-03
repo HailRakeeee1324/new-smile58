@@ -1,7 +1,6 @@
 import React from "react";
 import { ChevronRight, Phone } from "lucide-react";
 import { PHONE, PHONE_LINK } from "../config/site.js";
-import { getYandexMapUrl } from "../config/site.js";
 import { routePaths } from "../config/routes.js";
 import { branches } from "../data/branches.js";
 import { PageIntro } from "../components/Common.jsx";
@@ -11,17 +10,11 @@ import "../styles/stability-v19.css";
 import "../styles/inner-pages-band-fix-v21.css";
 
 export default function ContactsPage() {
-  const contactBranches = [
-    { label: "Светлая 11", href: `${routePaths.branches}?branch=svetlaya` },
-    { label: "Радужная 10", href: `${routePaths.branches}?branch=raduzhnaya` },
-    { label: "Антонова 76", href: `${routePaths.branches}?branch=antonova` },
-  ];
-
   return (
     <main className="page contacts-page contacts-page--new">
       <PageIntro
         label="Контакты"
-        title="Запишитесь на консультацию"
+        title="Контакты стоматологии «Новая улыбка» в Пензе"
         text="Единый номер, удобный график и три филиала в Пензе - выберите адрес ближе к вам."
       />
 
@@ -43,10 +36,25 @@ export default function ContactsPage() {
         <div className="contacts-main-card__addresses" aria-label="Адреса филиалов">
           <h3>Адреса клиник</h3>
           <p>Нажмите на адрес - откроется карточка филиала.</p>
-          {contactBranches.map((branch) => (
-            <a href={branch.href} data-route-link key={branch.label}>{branch.label}<ChevronRight size={16} /></a>
+          {branches.map((branch) => (
+            <a href={`${routePaths.branches}?branch=${branch.id}`} data-route-link key={branch.id}>{branch.address.replace("г. Пенза, ", "")}<ChevronRight size={16} /></a>
           ))}
         </div>
+      </section>
+
+      <section className="container contacts-route-grid" aria-label="Карты и маршруты до филиалов">
+        {branches.map((branch) => (
+          <article key={branch.id}>
+            <span>{branch.district}</span>
+            <h2>{branch.address}</h2>
+            <p>{branch.schedule}</p>
+            <div>
+              <a href={branch.phoneLink} data-metrika-label={`Телефон ${branch.address}`}>{branch.phone}</a>
+              <a href={branch.mapUrl} target="_blank" rel="noreferrer">Построить маршрут</a>
+              <a href={`${routePaths.branches}?branch=${branch.id}`} data-route-link>Карточка филиала</a>
+            </div>
+          </article>
+        ))}
       </section>
     </main>
   );
