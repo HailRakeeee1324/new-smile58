@@ -54,11 +54,11 @@
 
   <script>
     (function () {
+      document.documentElement.dataset.theme = "light";
       try {
-        var savedTheme = localStorage.getItem("site-theme-v6") || "light";
-        document.documentElement.dataset.theme = savedTheme;
+        localStorage.removeItem("site-theme-v6");
       } catch (error) {
-        document.documentElement.dataset.theme = "dark";
+        /* Storage may be unavailable in strict privacy modes. */
       }
     })();
   </script>

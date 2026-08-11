@@ -1,0 +1,78 @@
+/* =========================================================
+   V42 — remove accidental full-page blur, make the dark home
+   header frameless, and keep mobile rendering deterministic.
+   Loaded after V41. High-specificity header rules intentionally
+   survive lazy-loaded legacy pages.css rules.
+   ========================================================= */
+
+/* ---------- No page-wide blur during route/theme changes ---------- */
+::view-transition-old(root),
+::view-transition-new(root) {
+  filter: none !important;
+}
+
+html.route-transitioning .app > main {
+  filter: none !important;
+}
+
+/* ---------- Dark home header: exactly the same frameless shell as light ---------- */
+html[data-theme="dark"] body #root > .app > .header.header--home,
+html[data-theme="dark"] body #root > .app > .header.header--home .header__top,
+html[data-theme="dark"] body #root > .app > .header.header--home > .nav {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-color: transparent !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-theme="dark"] body #root > .app > .header.header--home::before,
+html[data-theme="dark"] body #root > .app > .header.header--home::after,
+html[data-theme="dark"] body #root > .app > .header.header--home .header__top::before,
+html[data-theme="dark"] body #root > .app > .header.header--home .header__top::after,
+html[data-theme="dark"] body #root > .app > .header.header--home > .nav::before,
+html[data-theme="dark"] body #root > .app > .header.header--home > .nav::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* ---------- Mobile: reveal elements must never remain blurred ----------
+   V41 disabled the reveal animation on phones, but the old base layer still
+   left filter: blur(10px) on elements that mount after the first effect run.
+   Resetting filter here fixes lazy-loaded pages and the home sections. */
+@media (max-width: 900px), (hover: none) and (pointer: coarse) {
+  .reveal-on-scroll,
+  .reveal-on-scroll.is-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  /* iOS Safari can keep a backdrop-filter layer alive even when its fixed
+     parent is hidden. Remove the layer completely while the menu is closed. */
+  body > .mobile-menu:not(.is-open) {
+    display: none !important;
+  }
+
+  body > .mobile-menu:not(.is-open) .mobile-menu__backdrop {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  body > .mobile-menu.is-open {
+    display: block !important;
+  }
+
+  /* The bottom CTA itself stays crisp and does not blur the page behind it. */
+  .mobile-sticky-cta,
+  .mobile-sticky-cta--final {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}

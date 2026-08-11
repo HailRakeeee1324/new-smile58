@@ -30,6 +30,7 @@ import "./styles/seo-expansion-v37.css";
 import "./styles/seo-expansion-v38.css";
 import "./styles/hotfix-v40.css";
 import "./styles/hotfix-v41.css";
+import "./styles/hotfix-v42.css";
 
 const pageLoaders = {
   appointment: () => import("./components/AppointmentModal.jsx").then((module) => ({ default: module.AppointmentModal })),
@@ -121,16 +122,7 @@ function RouteContent({ route }) {
 
 export default function App() {
   const [route, setRoute] = useState(getRouteFromLocation());
-  const [theme, setTheme] = useState(() => {
-    if (typeof document !== "undefined" && document.documentElement.dataset.theme) {
-      return document.documentElement.dataset.theme;
-    }
-    try {
-      return localStorage.getItem("site-theme-v6") || "light";
-    } catch {
-      return "light";
-    }
-  });
+  const [theme, setTheme] = useState("light");
   const [appointmentOpen, setAppointmentOpen] = useState(false);
 
   useLayoutEffect(() => {
@@ -172,11 +164,6 @@ export default function App() {
       // искусственной задержки и без дорогого снимка всей страницы.
       if (reduceMotion || coarsePointer || compactViewport) {
         navigate();
-        return;
-      }
-
-      if (typeof document.startViewTransition === "function") {
-        document.startViewTransition(navigate);
         return;
       }
 
@@ -247,11 +234,6 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
-    try {
-      localStorage.setItem("site-theme-v6", theme);
-    } catch {
-      // Local storage can be unavailable in strict privacy modes.
-    }
   }, [theme]);
 
   const handleToggleTheme = () => {
@@ -264,11 +246,6 @@ export default function App() {
 
     if (reduceMotion || coarsePointer || compactViewport) {
       applyTheme();
-      return;
-    }
-
-    if (typeof document.startViewTransition === "function") {
-      document.startViewTransition(applyTheme);
       return;
     }
 

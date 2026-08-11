@@ -1,0 +1,17 @@
+V42 — установка в существующий Git-репозиторий и деплой на Vercel
+
+1. Распаковать архив так, чтобы появилась папка worksite.
+2. Скопировать содержимое worksite поверх C:\Users\HailRake\novaya-ulybka-git-clean,
+   НЕ удаляя .git, node_modules и dist.
+3. В PowerShell:
+
+cd "$env:USERPROFILE\novaya-ulybka-git-clean"
+npm install
+npm run check
+npm run build
+
+git add -A
+git commit -m "Fix page blur dark header and default light theme"
+git push origin main
+
+После push Vercel автоматически создаст новый Production Deployment.
