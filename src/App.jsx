@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, startTransition, useEffect, useState } from "react";
+import React, { Suspense, lazy, startTransition, useEffect, useLayoutEffect, useState } from "react";
 import { flushSync } from "react-dom";
 import { YandexMetrika } from "./components/Analytics.jsx";
 import { Footer, Header, MobileStickyCta } from "./components/Layout.jsx";
@@ -28,6 +28,7 @@ import "./styles/final-premium-v34.css";
 import "./styles/final-premium-v35.css";
 import "./styles/seo-expansion-v37.css";
 import "./styles/seo-expansion-v38.css";
+import "./styles/hotfix-v40.css";
 
 const pageLoaders = {
   appointment: () => import("./components/AppointmentModal.jsx").then((module) => ({ default: module.AppointmentModal })),
@@ -121,6 +122,10 @@ export default function App() {
   const [route, setRoute] = useState(getRouteFromLocation());
   const [theme, setTheme] = useState("light");
   const [appointmentOpen, setAppointmentOpen] = useState(false);
+
+  useLayoutEffect(() => {
+    document.documentElement.classList.remove("app-booting");
+  }, []);
 
   useEffect(() => {
     const syncRoute = () => startTransition(() => setRoute(getRouteFromLocation()));

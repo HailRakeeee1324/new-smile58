@@ -1,0 +1,119 @@
+/* V40 — убираем SEO/SSR flash на старте и делаем успешную отправку формы явной. */
+
+.appointment-success {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: start;
+  gap: 14px;
+  padding: 6px 0 2px;
+  animation: appointmentSuccessIn .42s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.appointment-success__icon {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  margin-bottom: 4px;
+  border-radius: 24px;
+  color: #dfffee;
+  background: linear-gradient(145deg, rgba(30, 201, 121, .38), rgba(21, 144, 88, .24));
+  border: 1px solid rgba(158, 255, 211, .34);
+  box-shadow: 0 18px 50px rgba(5, 99, 57, .22), inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+.appointment-success .section-label {
+  margin: 0;
+  color: #9ee6be !important;
+}
+
+.appointment-success h2 {
+  margin: 0 0 2px;
+  max-width: 470px;
+}
+
+.appointment-success > p:not(.section-label) {
+  max-width: 470px;
+  margin: 0;
+  color: rgba(242, 249, 255, .84);
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.65;
+}
+
+.appointment-success__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.appointment-success__actions .appointment-success__primary,
+.appointment-success__actions a {
+  min-height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 22px;
+  border-radius: 17px;
+  font: inherit;
+  font-weight: 900;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.appointment-success__actions .appointment-success__primary {
+  min-width: 150px;
+  border: 0;
+  color: #08375c;
+  background: linear-gradient(135deg, #f5fffa, #bff5d7);
+  box-shadow: 0 14px 36px rgba(18, 157, 91, .18);
+}
+
+.appointment-success__actions a {
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,.2);
+  background: rgba(255,255,255,.09);
+}
+
+.appointment-success__actions .appointment-success__primary:hover,
+.appointment-success__actions a:hover {
+  transform: translateY(-2px);
+}
+
+@keyframes appointmentSuccessIn {
+  from { opacity: 0; transform: translateY(14px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 560px) {
+  .appointment-success {
+    gap: 12px;
+  }
+
+  .appointment-success__icon {
+    width: 62px;
+    height: 62px;
+    border-radius: 20px;
+  }
+
+  .appointment-success__actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .appointment-success__actions .appointment-success__primary,
+  .appointment-success__actions a {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .appointment-success {
+    animation: none;
+  }
+}

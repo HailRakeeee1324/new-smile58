@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Phone } from "lucide-react";
+import { CheckCircle2, Phone } from "lucide-react";
 import { LEAD_ENDPOINT, MAX_LINK, PHONE, PHONE_LINK, SMARTCAPTCHA_SCRIPT_ID, SMARTCAPTCHA_SITE_KEY } from "../config/site.js";
 import { routePaths } from "../config/routes.js";
 import { getAttribution, sendMetrikaGoal } from "../utils/analytics.js";
@@ -177,7 +177,7 @@ export function AppointmentModal({ isOpen, onClose }) {
 
       setFormSent(true);
       setSubmitState("success");
-      setSubmitMessage("Спасибо! Заявка отправлена. Администратор свяжется с вами в ближайшее время.");
+      setSubmitMessage("Заявка принята. Администратор «Новой улыбки» позвонит вам в ближайшее время, чтобы уточнить детали и подобрать удобное время приёма.");
       setPendingPayload(null);
       formRef.current?.reset();
     } catch (error) {
@@ -264,61 +264,78 @@ export function AppointmentModal({ isOpen, onClose }) {
           ×
         </button>
 
-        <div className="appointment-modal__icon">
-          <Phone size={28} />
-        </div>
-
-        <p className="section-label">Запись на приём</p>
-        <h2 id="appointment-modal-title">Запись на приём</h2>
-        <a className="appointment-modal__phone" href={PHONE_LINK} data-metrika-label="Телефон в окне записи">{PHONE}</a>
-        <p>Оставьте имя, телефон и район — администратор свяжется с вами.</p>
-
-        <div className="appointment-modal__messengers" aria-label="Мессенджеры для связи">
-          <a href={MAX_LINK} target="_blank" rel="noreferrer">Написать в MAX</a>
-        </div>
-
-        <form ref={formRef} className="appointment-form" onSubmit={handleSubmit} data-metrika-form="appointment_modal">
-          <label>
-            <span>Имя</span>
-            <input name="name" type="text" autoComplete="name" placeholder="Как к вам обращаться" required />
-          </label>
-          <label>
-            <span>Телефон</span>
-            <input name="phone" type="tel" autoComplete="tel" placeholder="+7 (___) ___-__-__" required />
-          </label>
-
-          <fieldset className="appointment-form__districts">
-            <legend>Район</legend>
-            <label>
-              <input type="radio" name="district" value="Спутник" defaultChecked />
-              <span>Спутник</span>
-            </label>
-            <label>
-              <input type="radio" name="district" value="ГПЗ" />
-              <span>ГПЗ</span>
-            </label>
-          </fieldset>
-
-          <div className="appointment-form__consent-check">
-            <input
-              id="personal-data-consent"
-              name="personalDataConsent"
-              type="checkbox"
-              checked={consentAccepted}
-              onChange={(event) => setConsentAccepted(event.target.checked)}
-              required
-            />
-            <label htmlFor="personal-data-consent">
-              Я согласен(на) на <a href={routePaths.consent} target="_blank" rel="noreferrer">обработку персональных данных</a> и ознакомлен(а) с <a href={routePaths.privacy} data-route-link>политикой</a>.
-            </label>
+        {submitState === "success" ? (
+          <div className="appointment-success" role="status" aria-live="polite">
+            <div className="appointment-success__icon" aria-hidden="true">
+              <CheckCircle2 size={38} strokeWidth={2.4} />
+            </div>
+            <p className="section-label">Готово</p>
+            <h2 id="appointment-modal-title">Заявка принята</h2>
+            <p>{submitMessage}</p>
+            <div className="appointment-success__actions">
+              <button type="button" className="appointment-success__primary" onClick={onClose}>Хорошо</button>
+              <a href={PHONE_LINK} data-metrika-label="Телефон после успешной заявки">Позвонить в клинику</a>
+            </div>
           </div>
-          <button type="submit" disabled={!consentAccepted || submitState === "sending" || submitState === "captcha"}>
-            {submitState === "sending" ? "Отправляем..." : submitState === "captcha" ? "Ждём проверку..." : "Отправить заявку"}
-          </button>
-          <small className={`appointment-form__status appointment-form__status--${submitState}`} aria-live="polite">
-            {submitMessage || (formSent ? "Спасибо! Заявка отправлена." : "Администратор свяжется с вами после отправки заявки.")}
-          </small>
-        </form>
+        ) : (
+          <>
+            <div className="appointment-modal__icon">
+              <Phone size={28} />
+            </div>
+
+            <p className="section-label">Запись на приём</p>
+            <h2 id="appointment-modal-title">Запись на приём</h2>
+            <a className="appointment-modal__phone" href={PHONE_LINK} data-metrika-label="Телефон в окне записи">{PHONE}</a>
+            <p>Оставьте имя, телефон и район — администратор свяжется с вами.</p>
+
+            <div className="appointment-modal__messengers" aria-label="Мессенджеры для связи">
+              <a href={MAX_LINK} target="_blank" rel="noreferrer">Написать в MAX</a>
+            </div>
+
+            <form ref={formRef} className="appointment-form" onSubmit={handleSubmit} data-metrika-form="appointment_modal">
+              <label>
+                <span>Имя</span>
+                <input name="name" type="text" autoComplete="name" placeholder="Как к вам обращаться" required />
+              </label>
+              <label>
+                <span>Телефон</span>
+                <input name="phone" type="tel" autoComplete="tel" placeholder="+7 (___) ___-__-__" required />
+              </label>
+
+              <fieldset className="appointment-form__districts">
+                <legend>Район</legend>
+                <label>
+                  <input type="radio" name="district" value="Спутник" defaultChecked />
+                  <span>Спутник</span>
+                </label>
+                <label>
+                  <input type="radio" name="district" value="ГПЗ" />
+                  <span>ГПЗ</span>
+                </label>
+              </fieldset>
+
+              <div className="appointment-form__consent-check">
+                <input
+                  id="personal-data-consent"
+                  name="personalDataConsent"
+                  type="checkbox"
+                  checked={consentAccepted}
+                  onChange={(event) => setConsentAccepted(event.target.checked)}
+                  required
+                />
+                <label htmlFor="personal-data-consent">
+                  Я согласен(на) на <a href={routePaths.consent} target="_blank" rel="noreferrer">обработку персональных данных</a> и ознакомлен(а) с <a href={routePaths.privacy} data-route-link>политикой</a>.
+                </label>
+              </div>
+              <button type="submit" disabled={!consentAccepted || submitState === "sending" || submitState === "captcha"}>
+                {submitState === "sending" ? "Отправляем..." : submitState === "captcha" ? "Ждём проверку..." : "Отправить заявку"}
+              </button>
+              <small className={`appointment-form__status appointment-form__status--${submitState}`} aria-live="polite">
+                {submitMessage || (formSent ? "Заявка принята." : "Администратор свяжется с вами после отправки заявки.")}
+              </small>
+            </form>
+          </>
+        )}
       </div>
 
       <YandexCaptchaDialog

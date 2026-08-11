@@ -1,0 +1,55 @@
+V40 — как поставить обновление в текущий Git/Vercel-проект
+
+ВАЖНО: архив содержит исходники, но не папку .git. Поэтому не запускайте git push прямо из распакованной папки worksite. Сначала скопируйте V40 поверх уже существующего локального Git-репозитория сайта.
+
+1. Распакуйте архив, например сюда:
+   %USERPROFILE%\Desktop\syte\v40\
+
+   После распаковки исходники должны лежать здесь:
+   %USERPROFILE%\Desktop\syte\v40\worksite
+
+2. Откройте PowerShell и скопируйте V40 в текущий Git-репозиторий:
+
+   robocopy "$env:USERPROFILE\Desktop\syte\v40\worksite" "$env:USERPROFILE\novaya-ulybka-git-clean" /E /XD .git node_modules dist
+
+   Папка .git в рабочем репозитории останется на месте.
+
+3. Перейдите в рабочий Git-репозиторий:
+
+   cd "$env:USERPROFILE\novaya-ulybka-git-clean"
+
+4. Установите/актуализируйте зависимости:
+
+   npm install
+
+5. Проверка проекта:
+
+   npm run check
+
+6. Production-сборка:
+
+   npm run build
+
+7. Если обе команды завершились без ошибок — отправьте обновление в GitHub:
+
+   git add -A
+   git commit -m "Fix initial flash and appointment confirmation"
+   git push origin main
+
+8. Vercel должен автоматически запустить новый Production Deployment после push в main.
+
+   Если автоматический деплой не стартовал:
+   Vercel -> проект new-smile58 -> Deployments -> последний deployment -> Redeploy.
+
+9. Переменные окружения в Vercel НЕ удалять. Для формы должны оставаться:
+   TELEGRAM_BOT_TOKEN
+   TELEGRAM_CHAT_ID
+   PUBLIC_SITE_URL=https://new-smile58.ru
+   VITE_YANDEX_SMARTCAPTCHA_CLIENT_KEY
+   YANDEX_SMARTCAPTCHA_SERVER_KEY
+
+10. После деплоя проверить сайт в новой/инкогнито-вкладке:
+   - при первом открытии не должен мигать сырой синий SEO/prerender-текст;
+   - открыть форму записи и отправить тестовую заявку;
+   - после успешной SmartCaptcha и ответа сервера должно появиться подтверждение «Заявка принята»;
+   - текст подтверждения сообщает, что администратор позвонит в ближайшее время и уточнит детали приёма.

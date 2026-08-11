@@ -1,11 +1,36 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" class="app-booting">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Стоматология в Пензе — Новая улыбка | 3 филиала</title>
   <meta name="description" content="Стоматология «Новая улыбка» в Пензе: лечение зубов, имплантация, протезирование, удаление и профессиональная гигиена. Три филиала в Спутнике и на ГПЗ. Цены и запись на сайте." />
   <meta name="theme-color" content="#e7f1fb" />
+  <style id="app-boot-shield">
+    html.app-booting body {
+      overflow: hidden;
+    }
+    html.app-booting body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 2147483647;
+      background: #eef5fb;
+      filter: none;
+      opacity: 1;
+      pointer-events: none;
+    }
+    html.app-booting[data-theme="dark"] body::before {
+      background: #071a3a;
+    }
+  </style>
+  <noscript><style>html.app-booting body::before { display: none !important; } html.app-booting body { overflow: auto; }</style></noscript>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" />
