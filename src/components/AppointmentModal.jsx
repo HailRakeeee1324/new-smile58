@@ -177,7 +177,7 @@ export function AppointmentModal({ isOpen, onClose }) {
 
       setFormSent(true);
       setSubmitState("success");
-      setSubmitMessage("Заявка принята. Администратор «Новой улыбки» позвонит вам в ближайшее время, чтобы уточнить детали и подобрать удобное время приёма.");
+      setSubmitMessage("Администратор «Новой улыбки» позвонит вам в ближайшее время, чтобы уточнить детали и подобрать удобное время приёма.");
       setPendingPayload(null);
       formRef.current?.reset();
     } catch (error) {

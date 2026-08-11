@@ -6,6 +6,7 @@ import "../styles/pages.css";
 import "../styles/page-layout.css";
 import "../styles/stability-v19.css";
 import "../styles/inner-pages-band-fix-v21.css";
+import "../styles/hotfix-v41.css";
 
 function normalize(value) {
   return String(value || "").trim().toLowerCase().replace(/ё/g, "е");

@@ -37,8 +37,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
   <link rel="dns-prefetch" href="https://mc.yandex.ru" />
-  <link rel="preload" as="image" href="/hero.avif" type="image/avif" media="(min-width: 721px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="/mobile/hero-720.webp" type="image/webp" media="(max-width: 720px)" fetchpriority="high" />
   <link rel="canonical" href="https://new-smile58.ru/" />
   <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
   <link rel="icon" href="/favicon.ico?v=4" sizes="any" />
@@ -62,6 +60,35 @@
       } catch (error) {
         document.documentElement.dataset.theme = "dark";
       }
+    })();
+  </script>
+  <script>
+    (function () {
+      var path = location.pathname.replace(/\/+$/, "") || "/";
+      var mobile = window.matchMedia && window.matchMedia("(max-width: 720px)").matches;
+      var theme = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+      var href = "";
+      var type = "image/webp";
+
+      if (path === "/") {
+        href = mobile ? "/mobile/hero-720.webp" : "/hero.avif";
+        type = mobile ? "image/webp" : "image/avif";
+      } else if (path.indexOf("/uslugi/") === 0) {
+        href = mobile ? "/mobile/page-hero-clinic-720.webp" : "/page-hero-clinic.avif";
+        type = mobile ? "image/webp" : "image/avif";
+      } else {
+        href = mobile
+          ? "/mobile/page-hero-inner-" + theme + "-900.webp"
+          : "/page-hero-inner-" + theme + ".webp";
+      }
+
+      var preload = document.createElement("link");
+      preload.rel = "preload";
+      preload.as = "image";
+      preload.href = href;
+      preload.type = type;
+      preload.fetchPriority = "high";
+      document.head.appendChild(preload);
     })();
   </script>
 </head>

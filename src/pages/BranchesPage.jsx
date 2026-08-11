@@ -10,6 +10,7 @@ import "../styles/pages.css";
 import "../styles/page-layout.css";
 import "../styles/stability-v19.css";
 import "../styles/inner-pages-band-fix-v21.css";
+import "../styles/hotfix-v41.css";
 
 export default function BranchesPage() {
   useEffect(() => {

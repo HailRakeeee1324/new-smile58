@@ -29,6 +29,7 @@ import "./styles/final-premium-v35.css";
 import "./styles/seo-expansion-v37.css";
 import "./styles/seo-expansion-v38.css";
 import "./styles/hotfix-v40.css";
+import "./styles/hotfix-v41.css";
 
 const pageLoaders = {
   appointment: () => import("./components/AppointmentModal.jsx").then((module) => ({ default: module.AppointmentModal })),
@@ -120,7 +121,16 @@ function RouteContent({ route }) {
 
 export default function App() {
   const [route, setRoute] = useState(getRouteFromLocation());
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState(() => {
+    if (typeof document !== "undefined" && document.documentElement.dataset.theme) {
+      return document.documentElement.dataset.theme;
+    }
+    try {
+      return localStorage.getItem("site-theme-v6") || "light";
+    } catch {
+      return "light";
+    }
+  });
   const [appointmentOpen, setAppointmentOpen] = useState(false);
 
   useLayoutEffect(() => {
@@ -155,18 +165,22 @@ export default function App() {
       };
 
       const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-      if (!reduceMotion && typeof document.startViewTransition === "function") {
+      const coarsePointer = window.matchMedia?.("(pointer: coarse)")?.matches;
+      const compactViewport = window.matchMedia?.("(max-width: 900px)")?.matches;
+
+      // На телефонах и планшетах переход должен происходить сразу: без
+      // искусственной задержки и без дорогого снимка всей страницы.
+      if (reduceMotion || coarsePointer || compactViewport) {
+        navigate();
+        return;
+      }
+
+      if (typeof document.startViewTransition === "function") {
         document.startViewTransition(navigate);
         return;
       }
 
-      document.documentElement.classList.add("route-transitioning");
-      window.setTimeout(() => {
-        navigate();
-        window.requestAnimationFrame(() => {
-          document.documentElement.classList.remove("route-transitioning");
-        });
-      }, 110);
+      navigate();
     };
     document.addEventListener("click", handleInternalNavigation);
     return () => document.removeEventListener("click", handleInternalNavigation);
@@ -174,6 +188,9 @@ export default function App() {
 
   useEffect(() => {
     const handleIntent = (event) => {
+      const appointmentTrigger = event.target.closest?.("[data-appointment]");
+      if (appointmentTrigger) pageLoaders.appointment();
+
       const link = event.target.closest?.("a[data-route-link]");
       if (!link) return;
       const url = new URL(link.href, window.location.origin);
@@ -183,9 +200,11 @@ export default function App() {
     };
 
     document.addEventListener("pointerover", handleIntent, { passive: true });
+    document.addEventListener("pointerdown", handleIntent, { passive: true });
     document.addEventListener("focusin", handleIntent);
     return () => {
       document.removeEventListener("pointerover", handleIntent);
+      document.removeEventListener("pointerdown", handleIntent);
       document.removeEventListener("focusin", handleIntent);
     };
   }, []);
@@ -228,22 +247,34 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
+    try {
+      localStorage.setItem("site-theme-v6", theme);
+    } catch {
+      // Local storage can be unavailable in strict privacy modes.
+    }
   }, [theme]);
 
   const handleToggleTheme = () => {
     const root = document.documentElement;
     const nextTheme = theme === "dark" ? "light" : "dark";
     const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    const coarsePointer = window.matchMedia?.("(pointer: coarse)")?.matches;
+    const compactViewport = window.matchMedia?.("(max-width: 900px)")?.matches;
     const applyTheme = () => flushSync(() => setTheme(nextTheme));
 
-    if (!reduceMotion && typeof document.startViewTransition === "function") {
+    if (reduceMotion || coarsePointer || compactViewport) {
+      applyTheme();
+      return;
+    }
+
+    if (typeof document.startViewTransition === "function") {
       document.startViewTransition(applyTheme);
       return;
     }
 
     root.classList.add("theme-transitioning");
     applyTheme();
-    window.setTimeout(() => root.classList.remove("theme-transitioning"), 460);
+    window.setTimeout(() => root.classList.remove("theme-transitioning"), 260);
   };
 
 
@@ -261,7 +292,9 @@ export default function App() {
     if (!root) return undefined;
 
     const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-    if (reducedMotion || !("IntersectionObserver" in window)) {
+    const coarsePointer = window.matchMedia?.("(pointer: coarse)")?.matches;
+    const compactViewport = window.matchMedia?.("(max-width: 900px)")?.matches;
+    if (reducedMotion || coarsePointer || compactViewport || !("IntersectionObserver" in window)) {
       root.querySelectorAll(".reveal-on-scroll").forEach((element) => element.classList.add("is-visible"));
       return undefined;
     }
@@ -308,7 +341,7 @@ export default function App() {
       <Suspense fallback={<RouteFallback />}>
         <RouteContent route={route} />
       </Suspense>
-      <Footer />
+      <Footer theme={theme} />
       <MobileStickyCta hidden={appointmentOpen} />
       {appointmentOpen ? (
         <Suspense fallback={null}>

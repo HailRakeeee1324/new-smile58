@@ -548,7 +548,15 @@ export default function HomePage() {
                   <Phone size={15} /> {branch.phone}
                 </a>
                 <a className="conversion-branch-card__image" href={branch.href} data-route-link aria-label={`Открыть филиал ${branch.name}`}>
-                  <ResponsiveImage src={branch.image} alt={`Филиал стоматологии Новая улыбка — ${branch.name}`} width="960" height="640" loading="eager" sizes="(max-width: 720px) 124px, 220px" />
+                  <ResponsiveImage
+                    src={branch.image}
+                    mobileSrc={`/mobile/${branch.id}-720.webp`}
+                    alt={`Филиал стоматологии Новая улыбка — ${branch.name}`}
+                    width="960"
+                    height="640"
+                    loading="lazy"
+                    sizes="(max-width: 720px) 124px, 220px"
+                  />
                 </a>
               </article>
             ))}

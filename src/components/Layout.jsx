@@ -57,8 +57,14 @@ export function Header({ route, theme, onToggleTheme }) {
       <div className="container header__top">
         <a className="logo" href="/" data-route-link aria-label="На главную">
           <span className="logo__icon logo__icon--image" aria-hidden="true">
-            <img className="logo__theme-image logo__theme-image--light" src="/logo-black.png" alt="" width="106" height="92" decoding="async" fetchPriority="high" />
-            <img className="logo__theme-image logo__theme-image--dark" src="/logo-white.png" alt="" width="106" height="92" decoding="async" fetchPriority="high" />
+            <img
+              className={`logo__theme-image logo__theme-image--${theme}`}
+              src={theme === "dark" ? "/logo-white-192.webp" : "/logo-black-192.webp"}
+              alt=""
+              width="192"
+              height="192"
+              decoding="async"
+            />
           </span>
           <div className="logo__text">
             <h3>Новая улыбка</h3>
@@ -176,7 +182,7 @@ export function MobileStickyCta({ hidden = false }) {
   );
 }
 
-export function Footer() {
+export function Footer({ theme = "light" }) {
   return (
     <footer className="footer">
       <div className="container footer__inner footer__inner--premium">
@@ -195,14 +201,24 @@ export function Footer() {
           aria-label="Открыть страницу клиники Новая улыбка на ПроДокторов"
           data-metrika-goal={METRIKA_GOALS.prodoctorovClick}
         >
-          <img className="footer__review-light" src="/prodoctorov-light.webp" alt="Новая улыбка на ПроДокторов" loading="lazy" decoding="async" />
-          <img className="footer__review-dark" src="/prodoctorov-dark.webp" alt="Новая улыбка на ПроДокторов" loading="lazy" decoding="async" />
+          <img
+            className={theme === "dark" ? "footer__review-dark" : "footer__review-light"}
+            src={theme === "dark" ? "/prodoctorov-dark.webp" : "/prodoctorov-light.webp"}
+            alt="Новая улыбка на ПроДокторов"
+            loading="lazy"
+            decoding="async"
+          />
         </a>
 
         <div className="footer__brand">
           <a className="footer__brand-mark" href="https://yandex.ru/maps/?ll=45.071746%2C53.105815&mode=search&sll=45.071746%2C53.105771&source=serp_navig&text=%D0%BD%D0%BE%D0%B2%D0%B0%D1%8F%20%D1%83%D0%BB%D1%8B%D0%B1%D0%BA%D0%B0&z=12" target="_blank" rel="noreferrer" aria-label="Открыть Новую улыбку на Яндекс Картах">
-            <img className="footer__brand-logo footer__brand-logo--light" src="/footer-logo-color.webp" alt="Новая улыбка" loading="lazy" decoding="async" />
-            <img className="footer__brand-logo footer__brand-logo--dark" src="/footer-logo-white.webp" alt="Новая улыбка" loading="lazy" decoding="async" />
+            <img
+              className={`footer__brand-logo ${theme === "dark" ? "footer__brand-logo--dark" : "footer__brand-logo--light"}`}
+              src={theme === "dark" ? "/footer-logo-white.webp" : "/footer-logo-color.webp"}
+              alt="Новая улыбка"
+              loading="lazy"
+              decoding="async"
+            />
           </a>
           <p>Новая улыбка — сеть клиник современной стоматологии.</p>
         </div>

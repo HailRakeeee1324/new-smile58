@@ -6941,7 +6941,7 @@ html:not([data-theme="dark"]) .service-landing-hero__content--editorial .service
   width: min(250px, 74%);
   height: min(120px, 42%);
   transform: translate(-50%, -50%) scale(0.92);
-  background: center / contain no-repeat url('/logo-white.png');
+  background: center / contain no-repeat url('/logo-white-192.webp');
   filter: drop-shadow(0 0 14px rgba(255,255,255,0.34)) drop-shadow(0 0 28px rgba(137, 186, 255, 0.28));
   opacity: 0;
 }

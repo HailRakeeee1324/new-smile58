@@ -1,0 +1,40 @@
+V41 — КАК УСТАНОВИТЬ В РАБОЧИЙ GIT-РЕПОЗИТОРИЙ И ОТПРАВИТЬ НА VERCEL
+
+Архив: novaya-ulybka-mobile-header-performance-v41.zip
+
+1. Положите скачанный ZIP в папку Downloads.
+2. Откройте PowerShell.
+3. Выполняйте команды по порядку.
+
+$zip = Get-ChildItem "$env:USERPROFILE\Downloads" -Filter "novaya-ulybka-mobile-header-performance-v41.zip" -File -Recurse | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+if (-not $zip) { throw "Архив V41 не найден в Downloads" }
+$zip.FullName
+
+$unpack = "$env:USERPROFILE\Desktop\syte\v41"
+Remove-Item $unpack -Recurse -Force -ErrorAction SilentlyContinue
+New-Item -ItemType Directory -Force $unpack | Out-Null
+Expand-Archive -LiteralPath $zip.FullName -DestinationPath $unpack -Force
+
+Test-Path "$unpack\worksite"
+# Должно вывести True.
+
+$repo = "$env:USERPROFILE\novaya-ulybka-git-clean"
+robocopy "$unpack\worksite" $repo /E /XD .git node_modules dist
+if ($LASTEXITCODE -ge 8) { throw "Robocopy завершился с ошибкой $LASTEXITCODE" }
+
+# Удаляем старые тяжёлые PNG-иконки, которые V41 заменила на WebP.
+Remove-Item "$repo\public\concerns\*.png" -Force -ErrorAction SilentlyContinue
+
+Set-Location $repo
+npm install
+npm run check
+npm run build
+
+# Только если check и build завершились без ошибок:
+git status --short
+git add -A
+git commit -m "Fix mobile header and improve performance"
+git push origin main
+
+После push Vercel автоматически создаст новый Production Deployment.
+Проверить new-smile58.ru в приватной вкладке Safari/Chrome.

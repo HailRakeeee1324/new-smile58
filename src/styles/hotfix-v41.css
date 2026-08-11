@@ -1,0 +1,225 @@
+/* =========================================================
+   V41 — mobile header geometry + responsiveness/performance.
+   Loaded last on the home page and after inner-page CSS chunks.
+   ========================================================= */
+
+/* Use the AVIF hero on desktop; the mobile override below matches the
+   lightweight 720 px asset that is preloaded from index.html. */
+@media (min-width: 721px) {
+  .conversion-hero__photo {
+    background-image: image-set(
+      url('/hero.avif') type('image/avif'),
+      url('/hero.webp') type('image/webp')
+    ) !important;
+  }
+}
+
+@media (max-width: 900px) {
+  /* ---------- Inner-page header: no logo/button collision ---------- */
+  .app .header.header--page .header__top {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    width: min(100% - 20px, 560px) !important;
+    min-height: 68px !important;
+    padding: 10px 12px !important;
+    gap: 7px !important;
+    overflow: hidden !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .app .header.header--page .logo {
+    display: flex !important;
+    flex: 1 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    gap: 4px !important;
+    overflow: hidden !important;
+  }
+
+  .app .header.header--page .logo__icon {
+    flex: 0 0 34px !important;
+    width: 34px !important;
+    height: 38px !important;
+  }
+
+  .app .header.header--page .logo__icon--image img,
+  .app .header.header--page .logo__theme-image {
+    width: 44px !important;
+    height: 42px !important;
+    transform: translate(2px, 1px) !important;
+  }
+
+  .app .header.header--page .logo__text {
+    display: block !important;
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .app .header.header--page .logo__text h3 {
+    display: block !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    font-size: clamp(14.5px, 4.15vw, 17.5px) !important;
+    line-height: 1.02 !important;
+    letter-spacing: -0.025em !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .app .header.header--page .logo__text span {
+    display: block !important;
+    margin-top: 3px !important;
+    overflow: hidden !important;
+    font-size: 6.5px !important;
+    line-height: 1.1 !important;
+    letter-spacing: .14em !important;
+    white-space: nowrap !important;
+    text-overflow: clip !important;
+  }
+
+  .app .header.header--page .header__actions {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    gap: 5px !important;
+    margin: 0 !important;
+    min-width: 0 !important;
+  }
+
+  .app .header.header--page .header__button {
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
+    min-width: 62px !important;
+    min-height: 40px !important;
+    padding: 8px 10px !important;
+    border-radius: 14px !important;
+    font-size: 11.5px !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+  }
+
+  .app .header.header--page .theme-toggle,
+  .app .header.header--page .mobile-menu-toggle {
+    flex: 0 0 40px !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+  }
+
+  /* ---------- Home header: make the appointment button easier to tap ---------- */
+  .app .header.header--home .header__button {
+    min-width: 68px !important;
+    min-height: 40px !important;
+    padding: 9px 11px !important;
+    border-radius: 14px !important;
+    font-size: 11.5px !important;
+    line-height: 1 !important;
+  }
+
+  /* ---------- Mobile rendering: remove the effects that are costly while scrolling ---------- */
+  .mobile-sticky-cta,
+  .mobile-sticky-cta--final {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(248, 252, 255, .985) !important;
+    box-shadow: 0 12px 28px rgba(5, 31, 74, .18) !important;
+  }
+
+  html[data-theme="dark"] .mobile-sticky-cta,
+  html[data-theme="dark"] .mobile-sticky-cta--final {
+    background: rgba(7, 31, 70, .985) !important;
+  }
+
+  /* Scroll-reveal effects look good on desktop but make long mobile pages more
+     expensive to paint. Content remains identical; only the entrance animation
+     is disabled on compact/coarse-pointer layouts. */
+  .reveal-on-scroll,
+  .reveal-on-scroll.is-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  /* Use the 35 KB mobile hero instead of decoding the full desktop photo. */
+  .conversion-hero__photo {
+    background-image: url('/mobile/hero-720.webp') !important;
+  }
+
+  /* Same inner-page artwork, downscaled for phones. */
+  html:not([data-theme="dark"]) .page-intro::before,
+  html:not([data-theme="dark"]) .page-intro--photo::before {
+    background:
+      linear-gradient(180deg, rgba(237, 246, 255, .96), rgba(224, 240, 255, .90)),
+      url('/mobile/page-hero-inner-light-900.webp') center / cover no-repeat !important;
+  }
+
+  html[data-theme="dark"] .page-intro::before,
+  html[data-theme="dark"] .page-intro--photo::before {
+    background:
+      linear-gradient(180deg, rgba(7, 21, 48, .92), rgba(8, 30, 67, .95)),
+      url('/mobile/page-hero-inner-dark-900.webp') center / cover no-repeat !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .app .header.header--page .header__top {
+    padding-inline: 9px !important;
+    gap: 4px !important;
+  }
+
+  .app .header.header--page .logo__icon {
+    flex-basis: 31px !important;
+    width: 31px !important;
+    height: 35px !important;
+  }
+
+  .app .header.header--page .logo__icon--image img,
+  .app .header.header--page .logo__theme-image {
+    width: 40px !important;
+    height: 38px !important;
+  }
+
+  .app .header.header--page .logo__text h3 {
+    font-size: 14px !important;
+  }
+
+  .app .header.header--page .header__button {
+    min-width: 54px !important;
+    min-height: 36px !important;
+    padding-inline: 7px !important;
+    font-size: 10.5px !important;
+  }
+
+  .app .header.header--page .theme-toggle,
+  .app .header.header--page .mobile-menu-toggle {
+    flex-basis: 36px !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+  }
+
+  .app .header.header--home .header__button {
+    min-width: 58px !important;
+    min-height: 38px !important;
+    padding-inline: 8px !important;
+    font-size: 10.5px !important;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .header__button,
+  .mobile-sticky-cta__item,
+  .conversion-button,
+  .blue-link,
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
