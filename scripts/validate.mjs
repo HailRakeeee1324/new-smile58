@@ -90,9 +90,10 @@ for (const path of cssFiles) {
 
 const doctors = await import(pathToFileURL(join(srcRoot, 'data/doctors.js')).href);
 const doctorNames = JSON.stringify(doctors);
-for (const name of ['Черкова Мария Андреевна', 'Лапшина Олеся Николаевна']) {
+for (const name of ['Черкова Мария Андреевна']) {
   if (!doctorNames.includes(name)) fail(`В данных врачей отсутствует: ${name}`);
 }
+if (doctorNames.includes('Лапшина Олеся Николаевна')) fail('Лапшина Олеся Николаевна должна быть удалена из данных врачей.');
 
 const { priceGroups, priceFilters } = await import(pathToFileURL(join(srcRoot, 'data/prices.js')).href);
 if (!priceFilters.some((filter) => filter.id === 'implantation')) fail('В прайсе отсутствует быстрый фильтр «Имплантация».');

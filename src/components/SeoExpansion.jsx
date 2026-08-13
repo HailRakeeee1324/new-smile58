@@ -203,45 +203,75 @@ export function HomeSeoExpansion() {
 export function ServicesSeoExpansion() {
   return (
     <div className="seo-expansion seo-expansion--services">
-      <section className="container services-seo-intro" aria-labelledby="services-seo-intro-title">
-        <div className="seo-section-heading">
-          <span>Выбор направления</span>
-          <h2 id="services-seo-intro-title">Как выбрать стоматологическую услугу</h2>
+      <section className="container services-seo-intro services-seo-intro--compact" aria-labelledby="services-seo-intro-title">
+        <div className="seo-section-heading seo-section-heading--row">
+          <div>
+            <span>Выбор направления</span>
+            <h2 id="services-seo-intro-title">Как быстро понять, какая услуга нужна</h2>
+          </div>
+          <a href={routePaths.contacts} data-route-link>Запись и консультация <ArrowRight size={17} /></a>
         </div>
-        <div className="seo-copy-card seo-copy-card--columns">
-          <p>В клинике представлены терапевтическое лечение, хирургия, имплантация, протезирование, профессиональная гигиена и эстетические процедуры. Пациенту не обязательно самостоятельно определять, какой именно вид лечения нужен. При записи достаточно описать жалобу: боль, чувствительность, разрушение зуба, отсутствие зубов, налёт или эстетическую задачу. Администратор поможет выбрать подходящее направление и филиал.</p>
-          <p>Окончательный план врач составляет после осмотра и, когда это необходимо, диагностики. Это важно, потому что одинаковый симптом может быть связан с разными причинами. На консультации обсуждаются этапы, возможные альтернативы и ориентиры по стоимости. Актуальный прайс опубликован на отдельной странице, но итоговая сумма зависит от клинической ситуации, материалов и количества визитов.</p>
-          <p>Для записи можно использовать форму на сайте или единый телефон. В Спутнике работают филиалы на Светлой 11 и Радужной 10, на ГПЗ — филиал на Антонова 76. Ниже собраны подробные блоки по каждому реальному направлению клиники.</p>
+        <div className="services-quick-copy">
+          <article>
+            <strong>1. Опишите жалобу</strong>
+            <p>Боль, чувствительность, скол, отсутствие зуба, кровоточивость дёсен или эстетическая задача — этого достаточно для записи.</p>
+          </article>
+          <article>
+            <strong>2. Выберите удобный филиал</strong>
+            <p>Два филиала работают в Спутнике, один — на ГПЗ. Администратор подскажет ближайший адрес и свободное время.</p>
+          </article>
+          <article>
+            <strong>3. Получите понятный план</strong>
+            <p>После осмотра врач объяснит, что происходит, какие этапы нужны и на какую стоимость ориентироваться.</p>
+          </article>
         </div>
       </section>
 
-      <section className="container services-seo-catalog" aria-label="Каталог стоматологических услуг">
+      <section className="container services-seo-catalog services-seo-catalog--compact" aria-label="Каталог стоматологических услуг">
         {serviceCatalog.map((service, index) => {
-          const prices = getPriceExamplesForRoute(service.route, 3);
+          const prices = getPriceExamplesForRoute(service.route, 2);
+          const shortDescription = service.description.split('. ').slice(0, 2).join('. ').trim() + (service.description.includes('. ') ? '.' : '');
           return (
-            <article className="services-seo-card" id={`service-${service.key}`} key={service.key}>
-              <figure className="services-seo-card__media">
-                <ResponsiveImage src={service.image} alt={service.title} width="960" height="640" sizes="(max-width: 720px) calc(100vw - 44px), 38vw" />
+            <article className="service-compact-card reveal-on-scroll" id={`service-${service.key}`} key={service.key}>
+              <figure className="service-compact-card__media">
+                <ResponsiveImage src={service.image} alt={service.shortTitle} width="960" height="640" sizes="(max-width: 720px) 100vw, 320px" />
+                <span className="service-compact-card__number">{String(index + 1).padStart(2, '0')}</span>
               </figure>
-              <div className="services-seo-card__content">
-                <span className="services-seo-card__number">{String(index + 1).padStart(2, "0")}</span>
-                <h2>{service.title}</h2>
-                <p>{service.description}</p>
-                <div className="services-seo-card__details">
+              <div className="service-compact-card__content">
+                <div className="service-compact-card__head">
+                  <h2>{service.shortTitle}</h2>
+                  <p>{shortDescription}</p>
+                </div>
+
+                <div className="service-compact-card__chips">
+                  {service.needs.slice(0, 3).map((item) => <span key={item}>{item}</span>)}
+                </div>
+
+                <div className="service-compact-card__info">
                   <div>
-                    <h3>Когда может понадобиться</h3>
-                    <ul>{service.needs.map((item) => <li key={item}><CheckCircle2 size={15} /> {item}</li>)}</ul>
+                    <h3>Когда обращаются</h3>
+                    <ul>
+                      {service.needs.map((item) => <li key={item}><CheckCircle2 size={15} /> {item}</li>)}
+                    </ul>
                   </div>
                   <div>
-                    <h3>Основные этапы</h3>
-                    <ol>{service.stages.map((item) => <li key={item}>{item}</li>)}</ol>
+                    <h3>Как проходит</h3>
+                    <ol>
+                      {service.stages.map((item) => <li key={item}>{item}</li>)}
+                    </ol>
                   </div>
                 </div>
-                <div className="services-seo-card__prices">
-                  {prices.map((row) => <div key={row.name}><span>{row.name}</span><strong>{row.price}</strong></div>)}
+
+                <div className="service-compact-card__prices">
+                  {prices.map((row) => (
+                    <div key={row.name}>
+                      <span>{row.name}</span>
+                      <strong>{row.price}</strong>
+                    </div>
+                  ))}
                 </div>
-                <p className="services-seo-card__note">Точный план и стоимость определяются после осмотра и диагностики.</p>
-                <div className="services-seo-card__actions">
+
+                <div className="service-compact-card__actions">
                   <a href={service.route} data-route-link>Подробнее <ArrowRight size={16} /></a>
                   <a href={PHONE_LINK} data-appointment><CalendarDays size={17} /> Записаться</a>
                 </div>
@@ -251,21 +281,21 @@ export function ServicesSeoExpansion() {
         })}
       </section>
 
-      <section className="container services-process-grid">
+      <section className="container services-process-grid services-process-grid--compact">
         <article className="services-process-card">
-          <div className="seo-section-heading"><span>Первый визит</span><h2>Как проходит первый приём</h2></div>
+          <div className="seo-section-heading"><span>Первый визит</span><h2>Что будет на первом приёме</h2></div>
           <div className="services-process-steps">
             {firstVisitSteps.map((step, index) => <div key={step.title}><span>{index + 1}</span><strong>{step.title}</strong><p>{step.text}</p></div>)}
           </div>
         </article>
         <article className="services-process-card">
-          <div className="seo-section-heading"><span>Стоимость</span><h2>Как формируется стоимость лечения</h2></div>
+          <div className="seo-section-heading"><span>Стоимость</span><h2>От чего зависит цена</h2></div>
           <ul>{costFactors.map((item) => <li key={item}><CheckCircle2 size={16} /> {item}</li>)}</ul>
-          <a href={routePaths.prices} data-route-link>Открыть цены <ArrowRight size={16} /></a>
+          <a href={routePaths.prices} data-route-link>Открыть прайс <ArrowRight size={16} /></a>
         </article>
         <article className="services-process-card">
           <div className="seo-section-heading"><span>Филиалы</span><h2>Где можно пройти лечение</h2></div>
-          {branches.map((branch) => <p key={branch.id}><strong>{branch.district}:</strong> {branch.address.replace("г. Пенза, ", "")}</p>)}
+          {branches.map((branch) => <p key={branch.id}><strong>{branch.district}:</strong> {branch.address.replace('г. Пенза, ', '')}</p>)}
           <a href={routePaths.branches} data-route-link>Выбрать филиал <ArrowRight size={16} /></a>
         </article>
       </section>

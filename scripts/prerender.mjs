@@ -13,7 +13,7 @@ const SITE_URL = 'https://new-smile58.ru';
 const PHONE = '+7 (967) 449-84-12';
 const PHONE_E164 = '+79674498412';
 const PHONE_LINK = 'tel:+79674498412';
-const LASTMOD = '2026-08-03';
+const LASTMOD = '2026-08-14';
 const distDir = new URL('../dist/', import.meta.url);
 const templatePath = new URL('index.html', distDir);
 const template = await readFile(templatePath, 'utf8');
@@ -252,7 +252,7 @@ for (const [route, page] of Object.entries(pages)) {
 }
 
 const sitemapRoutes = Object.keys(pages).filter((route) => route !== '/404').sort((a, b) => (a === '/' ? -1 : b === '/' ? 1 : a.localeCompare(b)));
-const changedRoutes = new Set(['/', routePaths.services, ...serviceCatalog.map((service) => service.route), routePaths.doctors, routePaths.branches, routePaths.contacts]);
+const changedRoutes = new Set(Object.keys(pages).filter((route) => route !== '/404'));
 const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapRoutes.map((route) => `  <url><loc>${SITE_URL}${route}</loc>${changedRoutes.has(route) ? `<lastmod>${LASTMOD}</lastmod>` : ''}<changefreq>${route === '/' ? 'weekly' : route.startsWith('/blog') ? 'monthly' : 'weekly'}</changefreq><priority>${route === '/' ? '1.0' : route.startsWith('/uslugi') ? '0.86' : route.startsWith('/stomatologiya') ? '0.82' : '0.74'}</priority></url>`).join('\n')}\n</urlset>\n`;
 
 await writeFile(new URL('sitemap.xml', distDir), sitemapXml, 'utf8');

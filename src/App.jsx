@@ -31,6 +31,7 @@ import "./styles/seo-expansion-v38.css";
 import "./styles/hotfix-v40.css";
 import "./styles/hotfix-v41.css";
 import "./styles/hotfix-v42.css";
+import "./styles/hotfix-v43.css";
 
 const pageLoaders = {
   appointment: () => import("./components/AppointmentModal.jsx").then((module) => ({ default: module.AppointmentModal })),

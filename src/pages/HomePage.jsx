@@ -31,8 +31,9 @@ import {
 } from "../data/homeConversion.jsx";
 
 function useCenteredRail(length, initialIndex = 0) {
-  const loopLength = Math.max(length * 3, length);
-  const [virtualIndex, setVirtualIndex] = useState(length + Math.min(initialIndex, Math.max(0, length - 1)));
+  const loopLength = Math.max(length * 7, length);
+  const middleBlock = length * 3;
+  const [virtualIndex, setVirtualIndex] = useState(middleBlock + Math.min(initialIndex, Math.max(0, length - 1)));
   const railRef = useRef(null);
   const gestureRef = useRef(null);
   const animationRef = useRef(null);
@@ -127,9 +128,9 @@ function useCenteredRail(length, initialIndex = 0) {
     const normalized = ((virtualIndex % length) + length) % length;
     let timeoutId;
 
-    if (virtualIndex < length || virtualIndex >= length * 2) {
+    if (virtualIndex < length * 2 || virtualIndex >= length * 5) {
       timeoutId = window.setTimeout(() => {
-        const resetIndex = length + normalized;
+        const resetIndex = middleBlock + normalized;
         setVirtualIndex(resetIndex);
         window.requestAnimationFrame(() => centerCard(resetIndex, true));
       }, 650);
@@ -143,7 +144,7 @@ function useCenteredRail(length, initialIndex = 0) {
 
   const goTo = (nextIndex) => {
     const normalized = ((nextIndex % length) + length) % length;
-    const candidates = [normalized, normalized + length, normalized + length * 2];
+    const candidates = [normalized + length * 2, normalized + length * 3, normalized + length * 4];
     const nearest = candidates.reduce((best, value) => (
       Math.abs(value - virtualIndex) < Math.abs(best - virtualIndex) ? value : best
     ), candidates[0]);
@@ -240,8 +241,9 @@ function useCenteredRail(length, initialIndex = 0) {
 }
 
 function useTransformCarousel(length, initialIndex = 0) {
-  const loopLength = Math.max(length * 3, length);
-  const [virtualIndex, setVirtualIndex] = useState(length + Math.min(initialIndex, Math.max(0, length - 1)));
+  const loopLength = Math.max(length * 7, length);
+  const middleBlock = length * 3;
+  const [virtualIndex, setVirtualIndex] = useState(middleBlock + Math.min(initialIndex, Math.max(0, length - 1)));
   const [offset, setOffset] = useState(0);
   const [transitionEnabled, setTransitionEnabled] = useState(false);
   const viewportRef = useRef(null);
@@ -302,10 +304,10 @@ function useTransformCarousel(length, initialIndex = 0) {
 
   useEffect(() => {
     const normalized = ((virtualIndex % length) + length) % length;
-    if (virtualIndex >= length && virtualIndex < length * 2) return undefined;
+    if (virtualIndex >= length * 2 && virtualIndex < length * 5) return undefined;
 
     const timeoutId = window.setTimeout(() => {
-      const resetIndex = length + normalized;
+      const resetIndex = middleBlock + normalized;
       setTransitionEnabled(false);
       setVirtualIndex(resetIndex);
       window.requestAnimationFrame(() => {
@@ -319,7 +321,7 @@ function useTransformCarousel(length, initialIndex = 0) {
 
   const goTo = (nextIndex) => {
     const normalized = ((nextIndex % length) + length) % length;
-    const candidates = [normalized, normalized + length, normalized + length * 2];
+    const candidates = [normalized + length * 2, normalized + length * 3, normalized + length * 4];
     const nearest = candidates.reduce((best, value) => (
       Math.abs(value - virtualIndex) < Math.abs(best - virtualIndex) ? value : best
     ), candidates[0]);
@@ -517,15 +519,8 @@ export default function HomePage() {
         <div className="conversion-hero__wash" aria-hidden="true" />
         <div className="container conversion-hero__inner">
           <div className="conversion-hero__copy reveal-on-scroll">
-            <span className="conversion-eyebrow"><Sparkles size={15} /> Улыбайтесь с уверенностью</span>
             <h1 id="conversion-hero-title">Стоматология <span>в Пензе</span></h1>
             <p>Качественное лечение зубов, имплантация и протезирование по доступным ценам. Три филиала в Пензе — в Спутнике и на ГПЗ.</p>
-
-            <div className="conversion-hero__proofs" aria-label="Преимущества клиники">
-              {conversionTrustBadges.slice(0, 3).map((item) => (
-                <div key={item.title}>{item.icon}<span>{item.title}</span></div>
-              ))}
-            </div>
 
             <div className="conversion-hero__actions">
               <a className="conversion-button conversion-button--primary" href={PHONE_LINK} data-appointment>

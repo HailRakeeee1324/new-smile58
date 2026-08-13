@@ -51,6 +51,16 @@ export const routePaths = {
   blogVeneersIndications: "/blog/viniry-kogda-stavit",
   blogWhiteningCare: "/blog/uhod-posle-otbelivaniya",
   blogFamilyHygiene: "/blog/profgigiena-dlya-semi",
+  blogColdSensitive: "/blog/zub-reagiruet-na-holodnoe",
+  blogOldFilling: "/blog/kogda-menyat-staruyu-plombu",
+  blogMissingTooth: "/blog/net-odnogo-zuba-mozhno-li-zhdat",
+  blogBadBreath: "/blog/nepriyatnyy-zapah-izo-rta-prichiny",
+  blogChipTooth: "/blog/skololsya-zub-chto-delat",
+  blogWisdomRemoval: "/blog/kogda-udalyat-zub-mudrosti",
+  blogTeethWearing: "/blog/pochemu-stirayutsya-zuby",
+  blogDarkSpot: "/blog/temnaya-tochka-na-zube",
+  blogGumSwelling: "/blog/opuhla-desna-kogda-k-vrachu",
+  blogSeveralMissing: "/blog/esli-net-neskolkih-zubov-chto-vybrat",
   notFound: "/404",
 };
 
