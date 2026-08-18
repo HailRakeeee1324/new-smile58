@@ -4,7 +4,7 @@ import { PHONE, PHONE_LINK } from "../config/site.js";
 import { routePaths } from "../config/routes.js";
 import { branches } from "../data/branches.js";
 import { doctors } from "../data/doctors.js";
-import { costFactors, firstVisitSteps, homeAboutParagraphs, homeFaq, serviceCatalog, servicesFaq } from "../data/seoCatalog.js";
+import { costFactors, firstVisitSteps, homeFaq, serviceCatalog, servicesFaq } from "../data/seoCatalog.js";
 import { getPopularPriceExamples, getPriceExamplesForRoute } from "../data/prices.js";
 import ResponsiveImage from "./ResponsiveImage.jsx";
 
@@ -35,45 +35,47 @@ export function HomeSeoExpansion() {
 
   return (
     <div className="seo-expansion seo-expansion--home">
-      <section className="container seo-about-section seo-about-section--editorial" aria-labelledby="home-seo-about-title">
-        <div className="seo-section-heading seo-section-heading--about">
-          <span>О клинике</span>
-          <h2 id="home-seo-about-title">Стоматология «Новая улыбка» в Пензе</h2>
-          <p>Лечение, восстановление и профилактика — в трёх филиалах, где пациенту заранее объясняют маршрут и ориентиры по стоимости.</p>
+      <section className="container seo-about-section seo-about-section--v48" aria-labelledby="home-seo-about-title">
+        <div className="seo-about-v48__head">
+          <div>
+            <span className="section-label">О клинике</span>
+            <h2 id="home-seo-about-title">Стоматология «Новая улыбка» в Пензе</h2>
+            <p>Не превращаем первый визит в лекцию из медицинских терминов. Сначала разбираемся, что беспокоит, затем показываем варианты и только после этого составляем понятный план лечения.</p>
+          </div>
+          <div className="seo-about-v48__stats" aria-label="Коротко о клинике">
+            <article><strong>с 2004</strong><span>работаем в Пензе</span></article>
+            <article><strong>3</strong><span>филиала: Спутник и ГПЗ</span></article>
+            <article><strong>1 номер</strong><span>для записи и подбора филиала</span></article>
+          </div>
         </div>
 
-        <div className="seo-about-showcase">
-          <article className="seo-about-lead-card">
-            <div className="seo-about-lead-card__badge"><ShieldCheck size={18} /> С чего начинается приём</div>
-            <p>{homeAboutParagraphs[0]}</p>
-            <div className="seo-about-principles" aria-label="Принципы работы клиники">
-              <article><CheckCircle2 size={20} /><strong>Диагностика до решения</strong><span>Сначала врач оценивает ситуацию и только потом предлагает варианты.</span></article>
-              <article><CheckCircle2 size={20} /><strong>План понятен заранее</strong><span>Этапы и ориентиры по стоимости обсуждаются до начала лечения.</span></article>
-              <article><CheckCircle2 size={20} /><strong>Удобный филиал</strong><span>Два адреса в Спутнике и один филиал на ГПЗ.</span></article>
+        <div className="seo-about-v48__grid">
+          <article className="seo-about-v48__story">
+            <span className="seo-about-v48__kicker"><ShieldCheck size={18} /> Не начинаем со «списка процедур»</span>
+            <h3>Сначала — ваша ситуация. Потом — лечение.</h3>
+            <p>Боль, чувствительность, старая пломба, отсутствующий зуб или просто желание проверить состояние полости рта — это уже достаточная причина для записи. Врач оценивает ситуацию, при необходимости назначает диагностику и объясняет, что действительно стоит делать сейчас, а что можно оставить под наблюдением.</p>
+            <div className="seo-about-v48__steps">
+              <article><span>01</span><div><strong>Разобраться</strong><p>Осмотр и диагностика без лишней спешки.</p></div></article>
+              <article><span>02</span><div><strong>Выбрать</strong><p>Сравнить варианты, этапы и ориентиры по стоимости.</p></div></article>
+              <article><span>03</span><div><strong>Лечить</strong><p>Начать только после того, как план понятен пациенту.</p></div></article>
             </div>
           </article>
 
-          <aside className="seo-contact-card seo-contact-card--route">
-            <span className="seo-contact-card__icon"><CalendarDays size={26} aria-hidden="true" /></span>
-            <div>
-              <span className="seo-contact-card__eyebrow">Запись и консультация</span>
-              <h3>Понятный маршрут от осмотра до лечения</h3>
-              <p>Опишите задачу администратору — он поможет выбрать направление, филиал и удобное время.</p>
-            </div>
+          <aside className="seo-about-v48__cta">
+            <span className="seo-about-v48__cta-icon"><CalendarDays size={25} /></span>
+            <span className="section-label">Запись без угадывания</span>
+            <h3>Не знаете, какой врач нужен?</h3>
+            <p>Опишите жалобу администратору. Он поможет выбрать направление, удобный филиал в Пензе и подходящее время.</p>
             <a href={PHONE_LINK} data-appointment><Phone size={18} /> {PHONE}</a>
           </aside>
         </div>
 
-        <div className="seo-about-notes">
-          <article>
-            <span><CheckCircle2 size={21} /></span>
-            <div><h3>Основные направления</h3><p>{homeAboutParagraphs[1]}</p></div>
-          </article>
-          <article>
-            <span><MapPin size={21} /></span>
-            <div><h3>Три филиала в Пензе</h3><p>{homeAboutParagraphs[2]}</p></div>
-          </article>
-        </div>
+        <nav className="seo-about-v48__routes" aria-label="Быстрый выбор по ситуации">
+          <a href={routePaths.lechenieKariesa} data-route-link><strong>Болит или реагирует зуб</strong><span>Лечение и диагностика</span><ArrowRight size={16} /></a>
+          <a href={routePaths.implantaciya} data-route-link><strong>Нет одного или нескольких зубов</strong><span>Варианты восстановления</span><ArrowRight size={16} /></a>
+          <a href={routePaths.gigiena} data-route-link><strong>Налёт и кровоточивость</strong><span>Профессиональная гигиена</span><ArrowRight size={16} /></a>
+          <a href={routePaths.branches} data-route-link><strong>Нужна клиника рядом</strong><span>Светлая, Радужная, Антонова</span><ArrowRight size={16} /></a>
+        </nav>
       </section>
 
       <section className="container seo-directions-section" aria-labelledby="home-directions-title">
@@ -164,33 +166,31 @@ export function HomeSeoExpansion() {
         <p className="seo-disclaimer">Цены носят информационный характер. Точный состав и стоимость лечения врач определяет после осмотра и диагностики.</p>
       </section>
 
-      <section className="container seo-doctors-link seo-doctors-link--trust" aria-labelledby="home-doctors-link-title">
-        <div className="seo-doctors-link__copy">
-          <span>Команда</span>
-          <h2 id="home-doctors-link-title">Врачи стоматологии</h2>
-          <p>Подробные карточки врачей уже представлены выше. Здесь — быстрый переход к составу команды, специальностям и филиалам приёма.</p>
-          <div className="seo-doctors-link__tags" aria-label="Направления врачей">
-            <span>Терапевтический приём</span>
-            <span>Протезирование</span>
-            <span>Три филиала</span>
+      <section className="container seo-team-v48" aria-labelledby="home-doctors-link-title">
+        <div className="seo-team-v48__head">
+          <div>
+            <span className="section-label">Команда</span>
+            <h2 id="home-doctors-link-title">Врачи, которых можно выбрать не вслепую</h2>
+            <p>Собрали короткий обзор команды: специальность, филиал и направление работы. Полные карточки врачей — на отдельной странице.</p>
           </div>
+          <a className="seo-team-v48__action" href={routePaths.doctors} data-route-link>Все врачи <ArrowRight size={17} /></a>
         </div>
 
-        <div className="seo-doctors-link__visual" aria-label="Врачи клиники Новая улыбка">
-          <div className="seo-doctors-avatars">
-            {doctorPreview.map((doctor, index) => (
-              <figure key={doctor.name} style={{ "--avatar-index": index }}>
-                <ResponsiveImage src={doctor.image} alt={doctor.name} width="180" height="180" sizes="72px" />
-              </figure>
-            ))}
-          </div>
-          <div className="seo-doctors-link__summary">
-            <strong>Познакомьтесь с командой</strong>
-            <span>Специальность, филиал приёма и направления работы каждого врача.</span>
-          </div>
+        <div className="seo-team-v48__grid">
+          {doctorPreview.map((doctor) => (
+            <a className="seo-team-v48__doctor" href={routePaths.doctors} data-route-link key={doctor.name}>
+              <figure><ResponsiveImage src={doctor.image} alt={doctor.name} width="240" height="240" sizes="88px" /></figure>
+              <div><strong>{doctor.name}</strong><span>{doctor.speciality}</span><em>{doctor.branch}</em></div>
+              <ArrowRight size={17} aria-hidden="true" />
+            </a>
+          ))}
         </div>
 
-        <a className="seo-doctors-link__action" href={routePaths.doctors} data-route-link>Все врачи стоматологии <ArrowRight size={17} /></a>
+        <div className="seo-team-v48__footer">
+          <span><CheckCircle2 size={17} /> Терапевтический приём</span>
+          <span><CheckCircle2 size={17} /> Протезирование</span>
+          <span><MapPin size={17} /> Три филиала в Пензе</span>
+        </div>
       </section>
 
       <section className="container">

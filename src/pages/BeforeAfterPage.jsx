@@ -47,10 +47,13 @@ export default function BeforeAfterPage() {
               </figure>
             </div>
 
-            <div className="before-after-story__timeline">
-              {storyLabels.map(([key, label]) => (
-                <section key={key}>
-                  <span>{label}</span>
+            <div className="before-after-story__timeline before-after-story__timeline--v48">
+              {storyLabels.map(([key, label], factIndex) => (
+                <section className={`before-after-story__fact before-after-story__fact--${key}`} key={key}>
+                  <div className="before-after-story__fact-head">
+                    <strong>{String(factIndex + 1).padStart(2, "0")}</strong>
+                    <span>{label}</span>
+                  </div>
                   <p>{item[key]}</p>
                 </section>
               ))}

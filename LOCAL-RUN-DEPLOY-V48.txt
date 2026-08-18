@@ -1,0 +1,14 @@
+V48 — установка поверх рабочего репозитория
+
+1. Распаковать архив в отдельную папку v48.
+2. Скопировать worksite поверх C:\Users\HailRake\novaya-ulybka-git-clean, исключив .git, node_modules и dist.
+3. Перейти в рабочий репозиторий.
+4. npm install
+5. npm run check
+6. npm run build
+7. git status --short
+8. git add -A
+9. git commit -m "Rebuild home SEO blocks and expand blog"
+10. git push origin main
+
+Если npm run check или npm run build завершается ошибкой — НЕ пушить, а исправить ошибку до деплоя.
