@@ -13,7 +13,7 @@ const SITE_URL = 'https://new-smile58.ru';
 const PHONE = '+7 (967) 449-84-12';
 const PHONE_E164 = '+79674498412';
 const PHONE_LINK = 'tel:+79674498412';
-const LASTMOD = '2026-08-14';
+const LASTMOD = '2026-08-18';
 const distDir = new URL('../dist/', import.meta.url);
 const templatePath = new URL('index.html', distDir);
 const template = await readFile(templatePath, 'utf8');
@@ -35,6 +35,7 @@ function branchSchema(branch, pageUrl = `${SITE_URL}${routePaths.branches}`) {
     url: pageUrl,
     telephone: branch.phoneLink.replace('tel:', ''),
     image: `${SITE_URL}${branch.image}`,
+    hasMap: branch.mapUrl,
     medicalSpecialty: 'Dentistry',
     address: {
       '@type': 'PostalAddress',
@@ -60,7 +61,8 @@ function clinicJson(route = 'home') {
     logo: `${SITE_URL}/logo.webp`,
     image: `${SITE_URL}/hero.webp`,
     telephone: PHONE_E164,
-    description: 'Стоматология «Новая улыбка» в Пензе: лечение зубов, имплантация, протезирование, удаление и профессиональная гигиена. Три филиала в Спутнике и на ГПЗ.',
+    description: 'Стоматология «Новая улыбка» в Пензе — с 2004 года. 3 филиала, опытные врачи и понятные цены. Лечение, имплантация, протезирование. Запись онлайн.',
+    foundingDate: '2004',
     areaServed: ['Пенза', 'Спутник', 'ГПЗ'],
     medicalSpecialty: 'Dentistry',
     sameAs: ['https://prodoctorov.ru/penza/lpu/102261-novaya-ulybka/'],
@@ -111,7 +113,7 @@ function faqHtml(items) {
 function homeHtml() {
   const prices = getPopularPriceExamples(7);
   return `<main class="seo-static home-seo-static">
-    <section><h1>Стоматология в Пензе</h1><p>Лечение зубов, имплантация, протезирование, удаление и профессиональная гигиена в трёх филиалах «Новой улыбки».</p></section>
+    <section><h1>Стоматология в Пензе</h1><p>«Новая улыбка» работает в Пензе с 2004 года: опытные врачи, понятные цены, лечение зубов, имплантация и протезирование в трёх филиалах.</p></section>
     <section><h2>Стоматология «Новая улыбка» в Пензе</h2>${homeAboutParagraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join('')}</section>
     <section><h2>Основные направления лечения</h2><ul>${serviceCatalog.map((service) => `<li><a href="${service.route}">${escapeHtml(service.shortTitle)}</a></li>`).join('')}</ul><p><a href="${routePaths.services}">Все услуги стоматологии в Пензе</a></p></section>
     <section><h2>Три филиала стоматологии</h2>${branches.map((branch) => `<article><h3>${escapeHtml(branch.address.replace('г. Пенза, ', ''))}</h3><p>${escapeHtml(branch.district)}. ${escapeHtml(branch.schedule)}. Телефон: <a href="${branch.phoneLink}">${escapeHtml(branch.phone)}</a>.</p></article>`).join('')}<p><a href="${routePaths.stomatologiyaSputnik}">Стоматология в Спутнике</a> · <a href="${routePaths.stomatologiyaGpz}">Стоматология на ГПЗ</a> · <a href="${routePaths.branches}">Все филиалы</a> · <a href="${routePaths.contacts}">Контакты и запись</a></p></section>
@@ -196,7 +198,12 @@ const pages = {
 
 for (const [key, page] of Object.entries(serviceSeoPages)) {
   const path = routePaths[key];
-  pages[path] = pageFromMeta(key, serviceHtml(key, page), [clinicJson(key), breadcrumbJson(path, [{ name: 'Услуги', path: routePaths.services }, { name: page.label, path }]), faqJson(page.faq)]);
+  pages[path] = pageFromMeta(key, serviceHtml(key, page), [
+    clinicJson(key),
+    breadcrumbJson(path, [{ name: 'Услуги', path: routePaths.services }, { name: page.label, path }]),
+    faqJson(page.faq),
+    { '@context': 'https://schema.org', '@type': 'Service', name: page.label, description: page.description, url: `${SITE_URL}${path}`, areaServed: { '@type': 'City', name: 'Пенза' }, provider: { '@id': `${SITE_URL}/#organization` }, serviceType: page.label },
+  ]);
 }
 
 for (const [key, page] of Object.entries(localLandingPages)) {
@@ -256,6 +263,6 @@ const changedRoutes = new Set(Object.keys(pages).filter((route) => route !== '/4
 const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapRoutes.map((route) => `  <url><loc>${SITE_URL}${route}</loc>${changedRoutes.has(route) ? `<lastmod>${LASTMOD}</lastmod>` : ''}<changefreq>${route === '/' ? 'weekly' : route.startsWith('/blog') ? 'monthly' : 'weekly'}</changefreq><priority>${route === '/' ? '1.0' : route.startsWith('/uslugi') ? '0.86' : route.startsWith('/stomatologiya') ? '0.82' : '0.74'}</priority></url>`).join('\n')}\n</urlset>\n`;
 
 await writeFile(new URL('sitemap.xml', distDir), sitemapXml, 'utf8');
-await writeFile(new URL('robots.txt', distDir), `User-agent: *\nAllow: /\nDisallow: /api/\nClean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&ymclid&erid /\nSitemap: ${SITE_URL}/sitemap.xml\n`, 'utf8');
+await writeFile(new URL('robots.txt', distDir), `User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /404\nClean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&ymclid&erid /\nClean-param: branch /filialy\nSitemap: ${SITE_URL}/sitemap.xml\n`, 'utf8');
 
 console.log(`Prerendered ${Object.keys(pages).length} SEO pages with unique metadata, HTML content, JSON-LD, sitemap.xml and robots.txt.`);

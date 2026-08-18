@@ -450,12 +450,21 @@ function PriceCard({ item, selected = false, loopKey, mobile = false, onSelect }
   const contents = (
     <>
       <div className="price-showcase-card__top">
-        <span className="price-showcase-card__icon">{item.icon}</span>
-        {item.featured ? <span className="price-showcase-card__badge"><Star size={14} /> Популярная услуга</span> : null}
-        <h3>{item.title}</h3>
+        <div className="price-showcase-card__title-row">
+          <span className="price-showcase-card__icon">{item.icon}</span>
+          <h3>{item.title}</h3>
+        </div>
       </div>
       <figure>
-        <ResponsiveImage src={item.image} alt={item.title} width="1000" height="750" sizes={mobile ? "(max-width: 720px) 72vw" : "(max-width: 1100px) 42vw, 360px"} />
+        <ResponsiveImage
+          src={item.image}
+          mobileSrc={item.mobileImage}
+          alt={item.title}
+          width="1000"
+          height="750"
+          sizes={mobile ? "(max-width: 720px) 72vw" : "(max-width: 1100px) 42vw, 360px"}
+        />
+        {item.featured ? <span className="price-showcase-card__badge"><Star size={13} /> Популярная услуга</span> : null}
       </figure>
       <div className="price-showcase-card__footer">
         <strong>{item.price}</strong>
@@ -474,10 +483,12 @@ function PriceCard({ item, selected = false, loopKey, mobile = false, onSelect }
     </>
   );
 
+  const cardClass = `price-showcase-card price-showcase-card--${item.id} ${item.featured ? "price-showcase-card--featured" : ""}`;
+
   if (mobile) {
     return (
       <article
-        className={`price-showcase-card price-showcase-card--mobile ${selected ? "is-selected" : ""}`}
+        className={`${cardClass} price-showcase-card--mobile ${selected ? "is-selected" : ""}`}
         onClick={onSelect}
         onKeyDown={(event) => {
           if (event.key === "Enter" || event.key === " ") {
@@ -496,7 +507,7 @@ function PriceCard({ item, selected = false, loopKey, mobile = false, onSelect }
   }
 
   return (
-    <a className={`price-showcase-card ${item.featured ? "price-showcase-card--featured" : ""}`} href={routeHref(item.route)} data-route-link key={loopKey || item.id}>
+    <a className={cardClass} href={routeHref(item.route)} data-route-link key={loopKey || item.id}>
       {contents}
     </a>
   );
@@ -505,12 +516,26 @@ function PriceCard({ item, selected = false, loopKey, mobile = false, onSelect }
 export default function HomePage() {
   const concerns = useCenteredRail(concernCards.length, 2);
   const prices = useTransformCarousel(popularPriceCards.length, 0);
-  const doctors = useCenteredRail(homeDoctorCards.length, 1);
+  const doctors = useCenteredRail(homeDoctorCards.length, 0);
   const reviews = useCenteredRail(homeReviewCards.length, 1);
   const [expandedCaseIndex, setExpandedCaseIndex] = useState(null);
+  const [openReviewIndex, setOpenReviewIndex] = useState(null);
 
   const selectedConcern = concernCards[concerns.index];
   const selectedDoctor = homeDoctorCards[doctors.index];
+
+  useEffect(() => {
+    if (openReviewIndex === null) return undefined;
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setOpenReviewIndex(null);
+    };
+    document.body.classList.add("review-modal-open");
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.classList.remove("review-modal-open");
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [openReviewIndex]);
 
   return (
     <main className="conversion-home">
@@ -520,7 +545,7 @@ export default function HomePage() {
         <div className="container conversion-hero__inner">
           <div className="conversion-hero__copy reveal-on-scroll">
             <h1 id="conversion-hero-title">Стоматология <span>в Пензе</span></h1>
-            <p>Качественное лечение зубов, имплантация и протезирование по доступным ценам. Три филиала в Пензе — в Спутнике и на ГПЗ.</p>
+            <p>С 2004 года помогаем лечить и восстанавливать зубы. Опытные врачи, понятный план и стоимость до начала лечения. Три филиала в Пензе — в Спутнике и на ГПЗ.</p>
 
             <div className="conversion-hero__actions">
               <a className="conversion-button conversion-button--primary" href={PHONE_LINK} data-appointment>
@@ -814,9 +839,18 @@ export default function HomePage() {
               id="conversion-reviews-title"
             />
             <div className="conversion-reviews__stats">
-              <article><Star /><strong>4,9</strong><span>средняя оценка</span></article>
-              <article><BadgeCheck /><strong>175</strong><span>отзывов на площадках</span></article>
-              <article><HandHeart /><strong>98%</strong><span>пациентов рекомендуют</span></article>
+              <article>
+                <div className="conversion-reviews__stat-main"><Star /><strong>4,9</strong></div>
+                <span>средняя оценка</span>
+              </article>
+              <article>
+                <div className="conversion-reviews__stat-main"><BadgeCheck /><strong>257</strong></div>
+                <span>отзывов на площадках</span>
+              </article>
+              <article>
+                <div className="conversion-reviews__stat-main"><CalendarDays /><strong>17 лет</strong></div>
+                <span>средний стаж стоматологов</span>
+              </article>
             </div>
           </div>
 
@@ -835,7 +869,19 @@ export default function HomePage() {
                       </div>
                       <div className="review-stars" aria-label="Оценка 5 из 5">★★★★★ <span>5,0</span></div>
                       <h3>{review.short}</h3>
-                      <p>{review.text}</p>
+                      <div className="review-showcase-card__excerpt">
+                        <p>{review.text}</p>
+                      </div>
+                      <button
+                        className="review-showcase-card__more"
+                        type="button"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          setOpenReviewIndex(sourceIndex);
+                        }}
+                      >
+                        Читать полностью <ArrowRight size={14} />
+                      </button>
                       <footer><span>{review.tag}</span><time>{review.date}</time></footer>
                     </article>
                   );
@@ -850,6 +896,28 @@ export default function HomePage() {
               <span>{reviews.index + 1} / {homeReviewCards.length}</span>
             </div>
           </div>
+
+
+
+          {openReviewIndex !== null ? (
+            <div className="review-full-modal" role="dialog" aria-modal="true" aria-labelledby="review-full-modal-title">
+              <button className="review-full-modal__backdrop" type="button" aria-label="Закрыть полный отзыв" onClick={() => setOpenReviewIndex(null)} />
+              <article className="review-full-modal__card">
+                <button className="review-full-modal__close" type="button" aria-label="Закрыть" onClick={() => setOpenReviewIndex(null)}><X size={20} /></button>
+                <div className="review-full-modal__head">
+                  <div className="review-avatar" aria-hidden="true">{homeReviewCards[openReviewIndex].name.slice(0, 1)}</div>
+                  <div>
+                    <strong>{homeReviewCards[openReviewIndex].name}</strong>
+                    <span>{homeReviewCards[openReviewIndex].branch}</span>
+                  </div>
+                </div>
+                <div className="review-stars" aria-label="Оценка 5 из 5">★★★★★ <span>5,0</span></div>
+                <h3 id="review-full-modal-title">{homeReviewCards[openReviewIndex].short}</h3>
+                <p>{homeReviewCards[openReviewIndex].text}</p>
+                <footer><span>{homeReviewCards[openReviewIndex].tag}</span><time>{homeReviewCards[openReviewIndex].date}</time></footer>
+              </article>
+            </div>
+          ) : null}
 
           <div className="review-platforms reveal-on-scroll">
             <div><strong>Отзывы на Яндекс Картах</strong><p>Откройте страницу конкретного филиала на независимой площадке.</p></div>

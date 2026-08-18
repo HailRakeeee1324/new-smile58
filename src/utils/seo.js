@@ -5,7 +5,7 @@ import { branches } from "../data/branches.js";
 import { homeFaq, servicesFaq } from "../data/seoCatalog.js";
 import { blogArticles, localLandingPages, routeMeta, serviceSeoPages } from "../data/seo.js";
 
-const clinicDescription = "Стоматология «Новая улыбка» в Пензе: лечение зубов, имплантация, протезирование, удаление и профессиональная гигиена. Три филиала в Спутнике и на ГПЗ.";
+const clinicDescription = "Стоматология «Новая улыбка» в Пензе — с 2004 года. 3 филиала, опытные врачи и понятные цены. Лечение, имплантация, протезирование. Запись онлайн.";
 
 const openingHoursSpecification = [
   { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:00", closes: "20:00" },
@@ -20,6 +20,7 @@ function branchSchema(branch, origin, pageUrl = `${origin}${routePaths.branches}
     url: pageUrl,
     telephone: branch.phoneLink.replace("tel:", ""),
     image: `${origin}${branch.image}`,
+    hasMap: branch.mapUrl,
     medicalSpecialty: "Dentistry",
     address: {
       "@type": "PostalAddress",
@@ -59,6 +60,7 @@ export function buildJsonLd(route) {
     image: `${origin}/hero.webp`,
     telephone: PHONE_E164,
     description: clinicDescription,
+    foundingDate: "2004",
     areaServed: ["Пенза", "Спутник", "ГПЗ"],
     medicalSpecialty: "Dentistry",
     sameAs: ["https://prodoctorov.ru/penza/lpu/102261-novaya-ulybka/"],
@@ -106,6 +108,19 @@ export function buildJsonLd(route) {
   if (route === "home") schemas.push(faqSchema(homeFaq));
   if (route === "services") schemas.push(faqSchema(servicesFaq));
   if (serviceSeoPages[route]?.faq?.length) schemas.push(faqSchema(serviceSeoPages[route].faq));
+
+  if (serviceSeoPages[route]) {
+    schemas.push({
+      "@context": "https://schema.org",
+      "@type": "Service",
+      name: serviceSeoPages[route].label,
+      description: serviceSeoPages[route].description,
+      url,
+      areaServed: { "@type": "City", name: "Пенза" },
+      provider: { "@id": `${origin}/#organization` },
+      serviceType: serviceSeoPages[route].label,
+    });
+  }
 
   if (blogArticles[route]) {
     schemas.push({

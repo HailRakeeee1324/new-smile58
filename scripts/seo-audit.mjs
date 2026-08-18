@@ -31,6 +31,7 @@ const sitemapRoutes = [...sitemap.matchAll(/<loc>https:\/\/new-smile58\.ru([^<]*
 if (!/Sitemap:\s*https:\/\/new-smile58\.ru\/sitemap\.xml/i.test(robots)) fail('robots.txt не содержит корректную ссылку на sitemap.xml');
 if (/Disallow:\s*\/(?:uslugi|ceny|vrachi|filialy|kontakty)/i.test(robots)) fail('robots.txt блокирует важный раздел');
 if (!/Clean-param:.*utm_source.*yclid.*erid/i.test(robots)) fail('robots.txt не содержит Clean-param для рекламных параметров');
+if (!/Clean-param:\s*branch\s+\/filialy/i.test(robots)) fail('robots.txt не содержит Clean-param для параметра branch на /filialy');
 if (sitemapRoutes.some((route) => /[?&](?:utm_|yclid|erid)/i.test(route))) fail('В sitemap присутствует URL с рекламными параметрами');
 
 const redirectConfig = JSON.parse(await readFile(join(root, 'vercel.json'), 'utf8'));
@@ -48,9 +49,11 @@ for (const route of sitemapRoutes) {
   const canonical = match(html, /<link\s+rel="canonical"\s+href="([^"]+)"\s*\/?\s*>/i);
   const h1Count = (html.match(/<h1\b/gi) || []).length;
   const expectedCanonical = `https://new-smile58.ru${route === '/' ? '/' : route}`;
+  const hasViewport = /<meta\s+name=["']viewport["'][^>]*content=["'][^"']*width=device-width/i.test(html);
 
   if (!title) fail(`${route}: отсутствует title`);
   if (!description) fail(`${route}: отсутствует description`);
+  if (!hasViewport) fail(`${route}: отсутствует корректный mobile viewport`);
   if (h1Count !== 1) fail(`${route}: найдено H1 — ${h1Count}, требуется 1`);
   if (canonical !== expectedCanonical) fail(`${route}: canonical ${canonical || 'отсутствует'}, ожидается ${expectedCanonical}`);
   if (importantRoutes.has(route) && /<meta\s+name="robots"\s+content="[^"]*noindex/i.test(html)) fail(`${route}: важная страница закрыта noindex`);
@@ -59,9 +62,14 @@ for (const route of sitemapRoutes) {
   if (titles.has(title)) fail(`Дублирующий title: «${title}» (${titles.get(title)} и ${route})`); else titles.set(title, route);
   if (descriptions.has(description)) fail(`Дублирующий description: «${description}» (${descriptions.get(description)} и ${route})`); else descriptions.set(description, route);
 
+  const schemaTypes = [];
   for (const script of html.matchAll(/<script\s+type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)) {
-    try { JSON.parse(script[1]); } catch (error) { fail(`${route}: невалидный JSON-LD — ${error.message}`); }
+    try {
+      const parsed = JSON.parse(script[1]);
+      if (parsed?.['@type']) schemaTypes.push(parsed['@type']);
+    } catch (error) { fail(`${route}: невалидный JSON-LD — ${error.message}`); }
   }
+  if (route.startsWith('/uslugi/') && !schemaTypes.some((type) => type === 'Service')) fail(`${route}: отсутствует JSON-LD Service`);
 
   // Проверяем только пользовательские HTML-ссылки <a href="...">.
   // Атрибуты href у <link rel="icon">, manifest, canonical и других ресурсов

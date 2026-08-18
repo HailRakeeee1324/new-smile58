@@ -1,0 +1,16 @@
+V45 — УСТАНОВКА В РАБОЧИЙ GIT-РЕПОЗИТОРИЙ
+
+1. Распаковать архив в C:\Users\HailRake\Desktop\syte\v45
+2. Проверить: Test-Path "$env:USERPROFILE\Desktop\syte\v45\worksite" -> True
+3. Скопировать поверх рабочего репозитория, не затрагивая .git/node_modules/dist:
+   robocopy "$env:USERPROFILE\Desktop\syte\v45\worksite" "$env:USERPROFILE\novaya-ulybka-git-clean" /E /XD .git node_modules dist
+4. cd "$env:USERPROFILE\novaya-ulybka-git-clean"
+5. npm install
+6. npm run check
+7. npm run build
+8. git status --short
+9. git add -A
+10. git commit -m "Polish home cards reviews and Yandex SEO"
+11. git push origin main
+
+Если npm run check или npm run build завершается ошибкой — не выполнять git push.

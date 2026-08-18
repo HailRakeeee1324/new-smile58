@@ -1,0 +1,595 @@
+/* v45 — compact home cards, stable doctors/reviews, SEO trust blocks and performance polish */
+
+/* ---------- Popular services: compact card geometry ---------- */
+.price-showcase-card,
+.price-showcase-card--featured {
+  min-height: 246px !important;
+  grid-template-rows: 46px 142px 36px !important;
+  gap: 8px !important;
+  padding: 12px !important;
+  border-color: rgba(32, 91, 183, 0.14) !important;
+  box-shadow: 0 14px 34px rgba(23, 68, 139, 0.07) !important;
+}
+
+.price-showcase-card__top {
+  display: flex !important;
+  align-items: center !important;
+  min-height: 46px !important;
+  gap: 0 !important;
+}
+
+.price-showcase-card__title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  width: 100%;
+}
+
+.price-showcase-card__title-row .price-showcase-card__icon {
+  flex: 0 0 38px;
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 13px !important;
+}
+
+.price-showcase-card__title-row .price-showcase-card__icon svg {
+  width: 19px;
+  height: 19px;
+}
+
+.price-showcase-card__top h3 {
+  margin: 0 !important;
+  min-width: 0;
+  font-size: clamp(18px, 1.35vw, 23px) !important;
+  line-height: 1.08 !important;
+}
+
+.price-showcase-card figure,
+.price-showcase-card--featured figure {
+  position: relative !important;
+  height: 142px !important;
+  min-height: 142px !important;
+  border-radius: 18px !important;
+}
+
+.price-showcase-card figure img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  transform: none !important;
+  transition: transform 240ms ease !important;
+}
+
+.price-showcase-card:hover figure img {
+  transform: scale(1.018) !important;
+}
+
+/* Better subject framing in each real clinic photo. */
+.price-showcase-card--hygiene figure img { object-position: 50% 22% !important; }
+.price-showcase-card--caries figure img { object-position: 50% 38% !important; }
+.price-showcase-card--crown figure img { object-position: 50% 46% !important; }
+.price-showcase-card--extraction figure img { object-position: 50% 58% !important; }
+.price-showcase-card--implant figure img { object-position: 50% 48% !important; }
+.price-showcase-card--consultation figure img { object-position: 50% 34% !important; }
+.price-showcase-card--whitening figure img { object-position: 50% 40% !important; }
+
+.price-showcase-card__badge {
+  position: absolute !important;
+  z-index: 2;
+  left: 10px !important;
+  top: 10px !important;
+  width: auto !important;
+  max-width: calc(100% - 20px);
+  min-height: 25px;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 8px !important;
+  border-radius: 999px !important;
+  background: rgba(255, 255, 255, 0.94) !important;
+  color: #1554bd !important;
+  box-shadow: 0 8px 20px rgba(18, 69, 151, 0.12);
+  font-size: 10px !important;
+  line-height: 1 !important;
+}
+
+.price-showcase-card__footer,
+.price-showcase-card--mobile .price-showcase-card__footer {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  min-height: 36px;
+}
+
+.price-showcase-card__footer > strong,
+.price-showcase-card--mobile .price-showcase-card__footer > strong {
+  font-size: 21px !important;
+  line-height: 1 !important;
+  white-space: nowrap;
+}
+
+.price-showcase-card__link,
+.price-showcase-card__open,
+.price-showcase-card__choose {
+  justify-self: auto !important;
+  margin-left: auto;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px !important;
+  white-space: nowrap;
+}
+
+/* ---------- Doctors: stable geometry, no scale-jolt ---------- */
+.centered-carousel--doctors .centered-carousel__rail {
+  scroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+  align-items: stretch !important;
+}
+
+.doctor-showcase-card,
+.doctor-showcase-card.is-selected {
+  transform: none !important;
+  transform-origin: center center !important;
+  transition: border-color 280ms ease, box-shadow 340ms ease, opacity 280ms ease !important;
+}
+
+.doctor-showcase-card.is-selected {
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+/* ---------- Review metrics: icon and value on one line ---------- */
+.conversion-reviews__stats article {
+  min-height: 132px !important;
+  padding: 18px 18px !important;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 26px !important;
+}
+
+.conversion-reviews__stat-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.conversion-reviews__stat-main svg {
+  width: 23px;
+  height: 23px;
+  color: #2471ef;
+}
+
+.conversion-reviews__stat-main strong {
+  font-size: clamp(27px, 2.25vw, 36px) !important;
+  line-height: 1 !important;
+  white-space: nowrap;
+}
+
+.conversion-reviews__stats article > span {
+  display: block;
+  text-align: center;
+  font-size: 11px !important;
+  line-height: 1.35;
+}
+
+/* ---------- Reviews: clean excerpt + full text modal ---------- */
+.review-showcase-card,
+.review-showcase-card.is-selected {
+  height: 390px !important;
+  min-height: 390px !important;
+  max-height: 390px !important;
+  display: grid !important;
+  grid-template-rows: auto auto auto minmax(0, 1fr) auto auto !important;
+  align-content: start;
+  gap: 8px !important;
+  padding: 22px !important;
+  overflow: hidden !important;
+}
+
+.review-showcase-card h3,
+.review-showcase-card.is-selected h3 {
+  min-height: 48px !important;
+  max-height: 48px !important;
+  margin: 0 !important;
+  -webkit-line-clamp: 2 !important;
+  font-size: 20px !important;
+  line-height: 1.18 !important;
+}
+
+.review-showcase-card__excerpt {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.review-showcase-card__excerpt::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 30px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(248,251,255,0.98));
+}
+
+.review-showcase-card__excerpt p {
+  margin: 0 !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 5 !important;
+  overflow: hidden !important;
+  max-height: none !important;
+  color: #637c9f;
+  font-size: 12.5px !important;
+  line-height: 1.52 !important;
+}
+
+.review-showcase-card__more {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #1d67d8;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.review-showcase-card footer {
+  margin-top: 0 !important;
+}
+
+body.review-modal-open {
+  overflow: hidden;
+}
+
+.review-full-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10020;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.review-full-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(4, 20, 48, 0.54);
+  backdrop-filter: blur(4px);
+}
+
+.review-full-modal__card {
+  position: relative;
+  z-index: 1;
+  width: min(620px, 100%);
+  max-height: min(78vh, 720px);
+  overflow: auto;
+  padding: 28px;
+  border: 1px solid rgba(40, 99, 190, 0.18);
+  border-radius: 30px;
+  background: #fff;
+  box-shadow: 0 32px 90px rgba(5, 30, 74, 0.28);
+}
+
+.review-full-modal__close {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(34, 91, 181, 0.14);
+  border-radius: 50%;
+  background: #f3f7ff;
+  color: #143e83;
+  cursor: pointer;
+}
+
+.review-full-modal__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-right: 46px;
+}
+
+.review-full-modal__head > div:last-child {
+  display: grid;
+  gap: 3px;
+}
+
+.review-full-modal__head strong {
+  color: #123b7c;
+  font-size: 18px;
+}
+
+.review-full-modal__head span {
+  color: #7184a1;
+  font-size: 12px;
+}
+
+.review-full-modal__card h3 {
+  margin: 14px 0 10px;
+  color: #103a7c;
+  font-size: clamp(24px, 3vw, 34px);
+  line-height: 1.1;
+}
+
+.review-full-modal__card > p {
+  margin: 0;
+  color: #526b8e;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.review-full-modal__card footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(33, 87, 174, 0.12);
+  color: #567097;
+  font-size: 12px;
+}
+
+/* ---------- Main SEO reference blocks: clear borders and readable CTAs ---------- */
+.seo-price-navigator {
+  border: 1px solid rgba(34, 91, 181, 0.18) !important;
+  background: linear-gradient(145deg, rgba(251,253,255,0.98), rgba(237,246,255,0.98)) !important;
+  box-shadow: 0 22px 48px rgba(26, 69, 143, 0.08) !important;
+}
+
+.seo-price-guide {
+  border: 1px solid rgba(34, 91, 181, 0.16) !important;
+  background: #fff !important;
+}
+
+.seo-price-snapshot {
+  padding: 10px !important;
+  border: 1px solid rgba(34, 91, 181, 0.15) !important;
+  border-radius: 24px !important;
+  background: rgba(255,255,255,0.78) !important;
+}
+
+.seo-price-snapshot > a {
+  border: 1px solid rgba(34, 91, 181, 0.11) !important;
+  background: #fff !important;
+}
+
+.seo-doctors-link {
+  border: 1px solid rgba(34, 91, 181, 0.18) !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f1f7ff 100%) !important;
+  box-shadow: 0 20px 46px rgba(26, 69, 143, 0.08) !important;
+}
+
+.seo-doctors-link__visual,
+.seo-doctors-link__summary {
+  border: 1px solid rgba(34, 91, 181, 0.14) !important;
+  background: rgba(255,255,255,0.9) !important;
+}
+
+.seo-doctors-link__summary strong,
+.seo-doctors-link__summary span,
+.seo-doctors-link__copy h2,
+.seo-doctors-link__copy p {
+  color: #153f84 !important;
+}
+
+.seo-doctors-link__summary span,
+.seo-doctors-link__copy p {
+  color: #647b9b !important;
+}
+
+.seo-doctors-link__action {
+  color: #fff !important;
+  background: linear-gradient(135deg, #36a7ff, #2169df) !important;
+  border-color: transparent !important;
+  box-shadow: 0 12px 26px rgba(35, 104, 217, 0.20) !important;
+}
+
+.seo-faq-card {
+  border: 1px solid rgba(34, 91, 181, 0.17) !important;
+  background: rgba(255,255,255,0.94) !important;
+}
+
+/* ---------- Rendering/performance: defer only static, deep below-fold SEO blocks ---------- */
+@supports (content-visibility: auto) {
+  .seo-expansion--home > section:nth-of-type(n+3),
+  .blog-grid,
+  .related-articles,
+  .service-faq,
+  .local-seo-cluster {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 620px;
+  }
+}
+
+/* ---------- Dark theme ---------- */
+html[data-theme="dark"] .review-showcase-card__excerpt::after {
+  background: linear-gradient(to bottom, rgba(9,28,58,0), rgba(9,28,58,0.98));
+}
+
+html[data-theme="dark"] .review-full-modal__card {
+  background: #0b2347;
+  border-color: rgba(115, 164, 232, 0.22);
+}
+
+html[data-theme="dark"] .review-full-modal__card h3,
+html[data-theme="dark"] .review-full-modal__head strong {
+  color: #f4f8ff;
+}
+
+html[data-theme="dark"] .review-full-modal__card > p,
+html[data-theme="dark"] .review-full-modal__head span,
+html[data-theme="dark"] .review-full-modal__card footer {
+  color: #b8c9e2;
+}
+
+html[data-theme="dark"] .seo-price-navigator,
+html[data-theme="dark"] .seo-doctors-link,
+html[data-theme="dark"] .seo-faq-card {
+  background: linear-gradient(145deg, rgba(11, 34, 69, .98), rgba(8, 27, 57, .98)) !important;
+  border-color: rgba(119, 164, 229, .20) !important;
+}
+
+html[data-theme="dark"] .seo-price-guide,
+html[data-theme="dark"] .seo-price-snapshot,
+html[data-theme="dark"] .seo-price-snapshot > a,
+html[data-theme="dark"] .seo-doctors-link__visual,
+html[data-theme="dark"] .seo-doctors-link__summary {
+  background: rgba(16, 43, 82, .95) !important;
+  border-color: rgba(119, 164, 229, .18) !important;
+}
+
+html[data-theme="dark"] .seo-doctors-link__summary strong,
+html[data-theme="dark"] .seo-doctors-link__copy h2 {
+  color: #f2f7ff !important;
+}
+
+html[data-theme="dark"] .seo-doctors-link__summary span,
+html[data-theme="dark"] .seo-doctors-link__copy p {
+  color: #b7c8e2 !important;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 720px) {
+  .price-showcase-card--mobile,
+  .price-showcase-card--mobile.is-selected {
+    min-height: 302px !important;
+    grid-template-rows: 46px 176px 38px !important;
+    gap: 8px !important;
+    padding: 12px !important;
+  }
+
+  .price-showcase-card--mobile figure,
+  .price-showcase-card--mobile.is-selected figure {
+    height: 176px !important;
+    min-height: 176px !important;
+  }
+
+  .price-showcase-card__top h3 {
+    font-size: 17px !important;
+  }
+
+  .price-showcase-card__footer > strong,
+  .price-showcase-card--mobile .price-showcase-card__footer > strong {
+    font-size: 19px !important;
+  }
+
+  .doctor-showcase-card,
+  .doctor-showcase-card.is-selected {
+    transform: none !important;
+  }
+
+  .conversion-reviews__stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+  }
+
+  .conversion-reviews__stats article {
+    min-height: 92px !important;
+    padding: 10px 7px !important;
+    border-radius: 18px !important;
+    gap: 5px;
+  }
+
+  .conversion-reviews__stat-main {
+    gap: 5px;
+  }
+
+  .conversion-reviews__stat-main svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .conversion-reviews__stat-main strong {
+    font-size: 18px !important;
+  }
+
+  .conversion-reviews__stats article > span {
+    font-size: 8.5px !important;
+  }
+
+  .review-showcase-card,
+  .review-showcase-card.is-selected {
+    height: 360px !important;
+    min-height: 360px !important;
+    max-height: 360px !important;
+    padding: 18px !important;
+  }
+
+  .review-showcase-card h3,
+  .review-showcase-card.is-selected h3 {
+    min-height: 44px !important;
+    max-height: 44px !important;
+    font-size: 18px !important;
+  }
+
+  .review-showcase-card__excerpt p {
+    font-size: 11.5px !important;
+    -webkit-line-clamp: 5 !important;
+  }
+
+  .review-full-modal {
+    padding: 12px;
+    align-items: end;
+  }
+
+  .review-full-modal__card {
+    width: 100%;
+    max-height: 82vh;
+    padding: 22px 18px 24px;
+    border-radius: 26px 26px 18px 18px;
+  }
+
+  .seo-price-navigator,
+  .seo-doctors-link,
+  .seo-faq-card {
+    border-radius: 24px !important;
+  }
+
+  .seo-price-snapshot {
+    padding: 7px !important;
+    border-radius: 20px !important;
+  }
+}
+
+/* Exact card width is critical for carousel math: long doctor names must not widen flex items. */
+.doctor-showcase-card,
+.doctor-showcase-card.is-selected {
+  flex: 0 0 290px !important;
+  width: 290px !important;
+  min-width: 290px !important;
+  max-width: 290px !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 720px) {
+  .doctor-showcase-card,
+  .doctor-showcase-card.is-selected {
+    flex-basis: 236px !important;
+    width: 236px !important;
+    min-width: 236px !important;
+    max-width: 236px !important;
+  }
+}

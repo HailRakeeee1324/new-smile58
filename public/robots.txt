@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /404
 Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&ymclid&erid /
+Clean-param: branch /filialy
 Sitemap: https://new-smile58.ru/sitemap.xml
