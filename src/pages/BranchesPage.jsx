@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Clock, Phone } from "lucide-react";
+import { Clock, Navigation, Phone } from "lucide-react";
 import { METRIKA_GOALS, PHONE_LINK, getYandexMapUrl } from "../config/site.js";
 import { getBranchTargetFromHash, routePaths } from "../config/routes.js";
 import { branches } from "../data/branches.js";
@@ -68,6 +68,9 @@ export default function BranchesPage() {
                 <Phone size={18} />
                 <strong>Тел.: <a href={branch.phoneLink || PHONE_LINK}>{branch.phone}</a></strong>
               </div>
+              <a className="branch-card__route" href={branch.routeUrl || branch.mapUrl} target="_blank" rel="noreferrer">
+                <Navigation size={17} /> Построить маршрут
+              </a>
             </div>
           </article>
         ))}

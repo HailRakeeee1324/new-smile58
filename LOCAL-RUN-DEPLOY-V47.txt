@@ -1,0 +1,44 @@
+V47 — установка поверх рабочего Git-репозитория и деплой на Vercel
+
+1) Скачайте архив novaya-ulybka-dark-fields-routes-v47.zip в Downloads.
+
+2) PowerShell:
+
+$zip = Get-ChildItem "$env:USERPROFILE\Downloads" -Filter "novaya-ulybka-dark-fields-routes-v47.zip" -File -Recurse |
+    Sort-Object LastWriteTime -Descending |
+    Select-Object -First 1
+
+if (-not $zip) { throw "Архив V47 не найден в Downloads" }
+
+$unpack = "$env:USERPROFILE\Desktop\syte\v47"
+Remove-Item $unpack -Recurse -Force -ErrorAction SilentlyContinue
+New-Item -ItemType Directory -Force $unpack | Out-Null
+Expand-Archive -LiteralPath $zip.FullName -DestinationPath $unpack -Force
+
+Test-Path "$unpack\worksite"
+
+Ожидаемый результат: True
+
+3) Скопировать поверх рабочего репозитория:
+
+$repo = "$env:USERPROFILE\novaya-ulybka-git-clean"
+robocopy "$unpack\worksite" $repo /E /XD .git node_modules dist
+if ($LASTEXITCODE -ge 8) { throw "Robocopy завершился с ошибкой $LASTEXITCODE" }
+
+4) Проверка:
+
+cd "$repo"
+npm install
+npm run check
+npm run build
+
+Если check/build выдают ошибку — НЕ делать push, прислать вывод в чат.
+
+5) Git/Vercel:
+
+git status --short
+git add -A
+git commit -m "Fix dark theme fields routes and nurse cards"
+git push origin main
+
+После push Vercel автоматически создаст новый Production Deployment.

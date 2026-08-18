@@ -1,0 +1,202 @@
+/* v47 — consistent dark controls, proper inner fields, clean subpage intros and Yandex routes */
+
+/* ---------- Real inner fields / breathing room ---------- */
+.services-seo-intro--compact {
+  box-sizing: border-box !important;
+  padding: clamp(28px, 3.1vw, 42px) clamp(24px, 3.2vw, 44px) !important;
+}
+
+.services-seo-catalog--compact {
+  box-sizing: border-box !important;
+  padding-inline: clamp(18px, 2.2vw, 30px) !important;
+}
+
+.price-search-panel {
+  box-sizing: border-box !important;
+  padding: clamp(28px, 3.2vw, 44px) clamp(26px, 3.4vw, 48px) !important;
+}
+
+.price-search-panel__copy {
+  padding-inline: 2px;
+}
+
+/* ---------- Services: dark cards must actually be dark ---------- */
+html[data-theme="dark"] .services-seo-intro--compact,
+html[data-theme="dark"] .services-process-card {
+  background: linear-gradient(155deg, rgba(14, 40, 77, .98), rgba(8, 27, 56, .98)) !important;
+  border-color: rgba(111, 164, 235, .19) !important;
+}
+
+html[data-theme="dark"] .services-quick-copy article,
+html[data-theme="dark"] .service-compact-card,
+html[data-theme="dark"] .service-compact-card__info > div,
+html[data-theme="dark"] .service-compact-card__prices > div {
+  background: linear-gradient(155deg, rgba(17, 47, 88, .98), rgba(11, 34, 68, .98)) !important;
+  border-color: rgba(111, 164, 235, .18) !important;
+  box-shadow: 0 18px 38px rgba(0,0,0,.18) !important;
+}
+
+html[data-theme="dark"] .services-quick-copy strong,
+html[data-theme="dark"] .service-compact-card__head h2,
+html[data-theme="dark"] .service-compact-card__info h3 {
+  color: #f2f7ff !important;
+}
+
+html[data-theme="dark"] .services-quick-copy p,
+html[data-theme="dark"] .service-compact-card__head p,
+html[data-theme="dark"] .service-compact-card__info li,
+html[data-theme="dark"] .service-compact-card__info ol,
+html[data-theme="dark"] .service-compact-card__info ul,
+html[data-theme="dark"] .service-compact-card__prices span {
+  color: #bfd0e7 !important;
+}
+
+html[data-theme="dark"] .service-compact-card__chips span {
+  color: #d8eaff !important;
+  background: rgba(50, 121, 223, .20) !important;
+  border: 1px solid rgba(103, 164, 242, .14) !important;
+}
+
+html[data-theme="dark"] .service-compact-card__prices strong {
+  color: #70b8ff !important;
+}
+
+/* ---------- One dark-theme language for white button-like controls ---------- */
+html[data-theme="dark"] .doctor-card__links a,
+html[data-theme="dark"] .contacts-route-grid a,
+html[data-theme="dark"] .branch-local-links a,
+html[data-theme="dark"] .seo-inline-links a,
+html[data-theme="dark"] .seo-crosslinks a,
+html[data-theme="dark"] .service-crosslinks a,
+html[data-theme="dark"] .service-compact-card__actions a,
+html[data-theme="dark"] .services-process-card > a,
+html[data-theme="dark"] .page-cta a,
+html[data-theme="dark"] .featured-blog__actions a,
+html[data-theme="dark"] .blog-card__links a,
+html[data-theme="dark"] .service-patient-hero__actions a,
+html[data-theme="dark"] .branch-card__route,
+html[data-theme="dark"] .seo-section-heading--row > a,
+html[data-theme="dark"] .seo-doctors-link__action,
+html[data-theme="dark"] .seo-price-guide > a {
+  color: #fff !important;
+  background: linear-gradient(135deg, #42adff, #2169df) !important;
+  border-color: transparent !important;
+  box-shadow: 0 12px 26px rgba(27, 96, 210, .22) !important;
+}
+
+html[data-theme="dark"] .doctor-card__links a:hover,
+html[data-theme="dark"] .contacts-route-grid a:hover,
+html[data-theme="dark"] .branch-local-links a:hover,
+html[data-theme="dark"] .seo-inline-links a:hover,
+html[data-theme="dark"] .service-compact-card__actions a:hover,
+html[data-theme="dark"] .branch-card__route:hover {
+  color: #fff !important;
+  background: linear-gradient(135deg, #55b8ff, #2b73eb) !important;
+}
+
+/* ---------- Doctors: nurses are informational cards, no fake appointment CTA ---------- */
+.doctor-card__content:not(:has(.doctor-card__links)) {
+  padding-bottom: 24px !important;
+}
+
+/* ---------- Secondary page photo intros: remove the white inner rectangle on light theme ---------- */
+html:not([data-theme="dark"]) body .page-intro > .container,
+html:not([data-theme="dark"]) body .page-intro--photo > .container,
+html:not([data-theme="dark"]) body .header--page + .page .page-intro--photo > .container,
+html:not([data-theme="dark"]) body .header--page + main .page-intro--photo > .container {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Keep readable spacing after removing the card itself. */
+.page-intro > .container,
+.page-intro--photo > .container {
+  padding-inline: clamp(20px, 2.8vw, 38px) !important;
+}
+
+/* ---------- Before / After dark theme: remove the legacy white gloss completely ---------- */
+html[data-theme="dark"] .before-after-story {
+  background: #0b2346 !important;
+  border-color: rgba(118,170,236,.18) !important;
+  box-shadow: 0 24px 56px rgba(0,0,0,.26) !important;
+}
+
+html[data-theme="dark"] .before-after-story::before,
+html[data-theme="dark"] .before-after-story::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  opacity: 0 !important;
+}
+
+html[data-theme="dark"] .before-after-story__head,
+html[data-theme="dark"] .before-after-story__photos,
+html[data-theme="dark"] .before-after-story__timeline,
+html[data-theme="dark"] .before-after-story__footer {
+  position: relative;
+  z-index: 1;
+}
+
+html[data-theme="dark"] .before-after-story__timeline section {
+  background: #0d2a50 !important;
+  border-color: rgba(118,170,236,.15) !important;
+  box-shadow: none !important;
+}
+
+/* ---------- Contacts: breathe before the following legal/footer section ---------- */
+.contacts-route-grid {
+  margin-bottom: clamp(38px, 5vw, 72px) !important;
+}
+
+/* ---------- Branch cards: direct Yandex route button ---------- */
+.branch-card__route {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: fit-content;
+  min-height: 46px;
+  margin-top: 12px;
+  padding: 0 16px;
+  border: 1px solid rgba(53, 119, 214, .16);
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(135deg, #42adff, #2169df);
+  box-shadow: 0 12px 26px rgba(27, 96, 210, .18);
+  font-size: 13px;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+/* ---------- Price search panel dark internals ---------- */
+html[data-theme="dark"] .price-search-panel {
+  background: linear-gradient(155deg, rgba(14, 40, 77, .98), rgba(8, 27, 56, .98)) !important;
+  border-color: rgba(111, 164, 235, .19) !important;
+}
+
+html[data-theme="dark"] .price-search-field {
+  background: #0d2a50 !important;
+  border-color: rgba(118,170,236,.18) !important;
+}
+
+/* ---------- Mobile: stronger side fields where cramped layout showed edge-to-edge text ---------- */
+@media (max-width: 720px) {
+  .services-seo-intro--compact,
+  .price-search-panel {
+    padding: 22px 18px !important;
+  }
+
+  .services-seo-catalog--compact {
+    padding-inline: 12px !important;
+  }
+
+  .page-intro > .container,
+  .page-intro--photo > .container {
+    padding-inline: 18px !important;
+  }
+
+  .branch-card__route {
+    width: 100%;
+  }
+}

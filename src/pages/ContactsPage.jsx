@@ -51,7 +51,7 @@ export default function ContactsPage() {
             <p>{branch.schedule}</p>
             <div>
               <a href={branch.phoneLink} data-metrika-label={`Телефон ${branch.address}`}>{branch.phone}</a>
-              <a href={branch.mapUrl} target="_blank" rel="noreferrer">Построить маршрут</a>
+              <a href={branch.routeUrl || branch.mapUrl} target="_blank" rel="noreferrer">Построить маршрут</a>
               <a href={`${routePaths.branches}?branch=${branch.id}`} data-route-link>Карточка филиала</a>
             </div>
           </article>

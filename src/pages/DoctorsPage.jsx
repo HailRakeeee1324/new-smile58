@@ -28,7 +28,9 @@ export default function DoctorsPage() {
       </section>
 
       <section className="container doctors-grid doctors-grid--wow doctors-grid--restored">
-        {doctors.map((doctor) => (
+        {doctors.map((doctor) => {
+          const isNurse = doctor.speciality.toLowerCase().includes("медицинская сестра");
+          return (
           <article className={`doctor-card doctor-card--wow reveal-on-scroll ${doctor.className || ""} ${doctor.isBlank ? "doctor-card--blank" : ""}`} key={doctor.image || doctor.name}>
             <figure className="doctor-card__photo">
               <img src={doctor.image} alt={doctor.isBlank ? "Сотрудник стоматологии Новая улыбка" : doctor.name} loading="lazy" decoding="async" />
@@ -45,15 +47,18 @@ export default function DoctorsPage() {
                   <div className="doctor-tags">
                     {doctor.tags.map((tag) => <span key={tag}>{tag}</span>)}
                   </div>
-                  <div className="doctor-card__links">
-                    <a href={routePaths.services} data-route-link>Услуги врача</a>
-                    <a href={PHONE_LINK} data-appointment><CalendarDays size={15} /> Записаться</a>
-                  </div>
+                  {!isNurse ? (
+                    <div className="doctor-card__links">
+                      <a href={routePaths.services} data-route-link>Услуги врача</a>
+                      <a href={PHONE_LINK} data-appointment><CalendarDays size={15} /> Записаться</a>
+                    </div>
+                  ) : null}
                 </>
               )}
             </div>
           </article>
-        ))}
+          );
+        })}
       </section>
     </main>
   );
