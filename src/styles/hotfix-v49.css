@@ -1,0 +1,327 @@
+/* v49 — accordion service cards on /uslugi */
+
+.services-seo-catalog--compact {
+  align-items: start;
+}
+
+.service-accordion-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(47, 105, 194, .16);
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(242,248,255,.98));
+  box-shadow: 0 20px 46px rgba(24, 70, 143, .09);
+  transition: border-color 240ms ease, box-shadow 280ms ease, transform 240ms ease;
+}
+
+.service-accordion-card:hover {
+  border-color: rgba(47, 112, 217, .32);
+  box-shadow: 0 25px 58px rgba(24, 78, 164, .13);
+}
+
+.service-accordion-card[open] {
+  border-color: rgba(47, 112, 217, .30);
+  box-shadow: 0 28px 64px rgba(24, 78, 164, .14);
+}
+
+.service-accordion-card__summary {
+  display: block;
+  padding: 0;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  outline: none;
+}
+
+.service-accordion-card__summary::-webkit-details-marker {
+  display: none;
+}
+
+.service-accordion-card__summary::marker {
+  display: none;
+  content: "";
+}
+
+.service-accordion-card__summary:focus-visible {
+  box-shadow: inset 0 0 0 3px rgba(52, 125, 235, .36);
+}
+
+.service-accordion-card__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin: 0;
+  overflow: hidden;
+  background: #dcecff;
+}
+
+.service-accordion-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 420ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.service-accordion-card:hover .service-accordion-card__media img {
+  transform: scale(1.018);
+}
+
+.service-accordion-card__number {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, #43aaff, #1f64d7);
+  box-shadow: 0 9px 22px rgba(24, 82, 176, .22);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.service-accordion-card__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 104px;
+  padding: 18px 20px 20px;
+}
+
+.service-accordion-card__title > div {
+  min-width: 0;
+}
+
+.service-accordion-card__eyebrow {
+  display: block;
+  margin-bottom: 6px;
+  color: #2c73dd;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.service-accordion-card__title h2 {
+  margin: 0;
+  color: #113d80;
+  font-size: clamp(23px, 2.1vw, 31px);
+  line-height: 1.06;
+  letter-spacing: -.025em;
+}
+
+.service-accordion-card__toggle {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 13px;
+  border: 1px solid rgba(55, 117, 213, .16);
+  border-radius: 14px;
+  color: #1763c5;
+  background: #f4f8ff;
+  font-size: 11px;
+  font-weight: 900;
+  transition: color 220ms ease, background 220ms ease;
+}
+
+.service-accordion-card__toggle svg {
+  transition: transform 320ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.service-accordion-card[open] .service-accordion-card__toggle {
+  color: #fff;
+  background: linear-gradient(135deg, #42abff, #2169df);
+  border-color: transparent;
+}
+
+.service-accordion-card[open] .service-accordion-card__toggle svg {
+  transform: rotate(180deg);
+}
+
+.service-accordion-card[open] .service-accordion-card__toggle > span {
+  font-size: 0;
+}
+
+.service-accordion-card[open] .service-accordion-card__toggle > span::after {
+  content: "Свернуть";
+  font-size: 11px;
+}
+
+.service-accordion-card__panel {
+  display: grid;
+  gap: 18px;
+  padding: 0 20px 22px;
+  border-top: 1px solid rgba(58, 112, 196, .12);
+  animation: service-panel-in 260ms ease both;
+}
+
+.service-accordion-card__intro {
+  display: grid;
+  gap: 14px;
+  padding-top: 18px;
+}
+
+.service-accordion-card__intro > p {
+  margin: 0;
+  color: #5c7392;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.service-accordion-card .service-compact-card__info {
+  margin: 0;
+}
+
+.service-accordion-card .service-compact-card__info > div,
+.service-accordion-card .service-compact-card__prices > div {
+  background: rgba(255,255,255,.78);
+}
+
+@keyframes service-panel-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Dark theme */
+html[data-theme="dark"] .service-accordion-card {
+  border-color: rgba(111, 161, 232, .18);
+  background: linear-gradient(155deg, rgba(15, 40, 78, .98), rgba(8, 28, 57, .98));
+  box-shadow: 0 22px 54px rgba(0,0,0,.25);
+}
+
+html[data-theme="dark"] .service-accordion-card:hover,
+html[data-theme="dark"] .service-accordion-card[open] {
+  border-color: rgba(112, 171, 248, .30);
+  box-shadow: 0 28px 64px rgba(0,0,0,.31);
+}
+
+html[data-theme="dark"] .service-accordion-card__media {
+  background: #0d2850;
+}
+
+html[data-theme="dark"] .service-accordion-card__eyebrow {
+  color: #77b7ff;
+}
+
+html[data-theme="dark"] .service-accordion-card__title h2 {
+  color: #f2f7ff;
+}
+
+html[data-theme="dark"] .service-accordion-card__toggle {
+  color: #fff;
+  border-color: rgba(111, 161, 232, .20);
+  background: linear-gradient(135deg, #42abff, #2169df);
+}
+
+html[data-theme="dark"] .service-accordion-card__panel {
+  border-top-color: rgba(111, 161, 232, .16);
+}
+
+html[data-theme="dark"] .service-accordion-card__intro > p {
+  color: #bdd0e8;
+}
+
+html[data-theme="dark"] .service-accordion-card .service-compact-card__chips span {
+  color: #cfe3ff !important;
+  background: rgba(43, 105, 197, .24) !important;
+  border-color: rgba(112, 171, 248, .16) !important;
+}
+
+html[data-theme="dark"] .service-accordion-card .service-compact-card__info > div,
+html[data-theme="dark"] .service-accordion-card .service-compact-card__prices > div {
+  color: #d8e7fa;
+  border-color: rgba(111, 161, 232, .16) !important;
+  background: rgba(11, 34, 68, .86) !important;
+}
+
+html[data-theme="dark"] .service-accordion-card .service-compact-card__info h3,
+html[data-theme="dark"] .service-accordion-card .service-compact-card__info li,
+html[data-theme="dark"] .service-accordion-card .service-compact-card__prices span {
+  color: #d8e7fa !important;
+}
+
+html[data-theme="dark"] .service-accordion-card .service-compact-card__prices strong {
+  color: #72b7ff !important;
+}
+
+/* Mobile: one compact card per row, easy to tap */
+@media (max-width: 720px) {
+  .services-seo-catalog--compact {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .service-accordion-card {
+    border-radius: 22px;
+  }
+
+  .service-accordion-card__media {
+    aspect-ratio: 16 / 9;
+  }
+
+  .service-accordion-card__number {
+    top: 12px;
+    left: 12px;
+    min-width: 43px;
+    min-height: 31px;
+    font-size: 11px;
+  }
+
+  .service-accordion-card__title {
+    min-height: 82px;
+    padding: 14px 14px 16px;
+    gap: 10px;
+  }
+
+  .service-accordion-card__eyebrow {
+    font-size: 8.5px;
+  }
+
+  .service-accordion-card__title h2 {
+    font-size: 21px;
+  }
+
+  .service-accordion-card__toggle {
+    width: 42px;
+    min-width: 42px;
+    height: 42px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 13px;
+  }
+
+  .service-accordion-card__toggle > span {
+    display: none;
+  }
+
+  .service-accordion-card__panel {
+    gap: 14px;
+    padding: 0 14px 16px;
+  }
+
+  .service-accordion-card__intro {
+    padding-top: 15px;
+  }
+
+  .service-accordion-card__intro > p {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-accordion-card,
+  .service-accordion-card__media img,
+  .service-accordion-card__toggle svg,
+  .service-accordion-card__panel {
+    transition: none !important;
+    animation: none !important;
+  }
+}

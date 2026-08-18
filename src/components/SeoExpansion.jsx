@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight, CalendarDays, CheckCircle2, MapPin, Phone, ShieldCheck } from "lucide-react";
+import { ArrowRight, CalendarDays, CheckCircle2, ChevronDown, MapPin, Phone, ShieldCheck } from "lucide-react";
 import { PHONE, PHONE_LINK } from "../config/site.js";
 import { routePaths } from "../config/routes.js";
 import { branches } from "../data/branches.js";
@@ -232,19 +232,30 @@ export function ServicesSeoExpansion() {
           const prices = getPriceExamplesForRoute(service.route, 2);
           const shortDescription = service.description.split('. ').slice(0, 2).join('. ').trim() + (service.description.includes('. ') ? '.' : '');
           return (
-            <article className="service-compact-card reveal-on-scroll" id={`service-${service.key}`} key={service.key}>
-              <figure className="service-compact-card__media">
-                <ResponsiveImage src={service.image} alt={service.shortTitle} width="960" height="640" sizes="(max-width: 720px) 100vw, 320px" />
-                <span className="service-compact-card__number">{String(index + 1).padStart(2, '0')}</span>
-              </figure>
-              <div className="service-compact-card__content">
-                <div className="service-compact-card__head">
-                  <h2>{service.shortTitle}</h2>
-                  <p>{shortDescription}</p>
+            <details className="service-accordion-card reveal-on-scroll" id={`service-${service.key}`} key={service.key}>
+              <summary className="service-accordion-card__summary">
+                <figure className="service-accordion-card__media">
+                  <ResponsiveImage src={service.image} alt={service.shortTitle} width="960" height="640" sizes="(max-width: 720px) 100vw, 520px" />
+                  <span className="service-accordion-card__number">{String(index + 1).padStart(2, '0')}</span>
+                </figure>
+                <div className="service-accordion-card__title">
+                  <div>
+                    <span className="service-accordion-card__eyebrow">Стоматологическая услуга</span>
+                    <h2>{service.shortTitle}</h2>
+                  </div>
+                  <span className="service-accordion-card__toggle" aria-hidden="true">
+                    <span>Подробнее</span>
+                    <ChevronDown size={22} />
+                  </span>
                 </div>
+              </summary>
 
-                <div className="service-compact-card__chips">
-                  {service.needs.slice(0, 3).map((item) => <span key={item}>{item}</span>)}
+              <div className="service-accordion-card__panel">
+                <div className="service-accordion-card__intro">
+                  <p>{shortDescription}</p>
+                  <div className="service-compact-card__chips">
+                    {service.needs.slice(0, 3).map((item) => <span key={item}>{item}</span>)}
+                  </div>
                 </div>
 
                 <div className="service-compact-card__info">
@@ -272,11 +283,11 @@ export function ServicesSeoExpansion() {
                 </div>
 
                 <div className="service-compact-card__actions">
-                  <a href={service.route} data-route-link>Подробнее <ArrowRight size={16} /></a>
+                  <a href={service.route} data-route-link>Подробнее об услуге <ArrowRight size={16} /></a>
                   <a href={PHONE_LINK} data-appointment><CalendarDays size={17} /> Записаться</a>
                 </div>
               </div>
-            </article>
+            </details>
           );
         })}
       </section>
