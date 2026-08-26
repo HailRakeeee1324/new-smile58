@@ -2,93 +2,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { CheckCircle2, Phone } from "lucide-react";
-import { LEAD_ENDPOINT, MAX_LINK, PHONE, PHONE_LINK, SMARTCAPTCHA_SCRIPT_ID, SMARTCAPTCHA_SITE_KEY } from "../config/site.js";
+import { SmartCaptcha } from "@yandex/smart-captcha";
+import { LEAD_ENDPOINT, MAX_LINK, PHONE, PHONE_LINK, SMARTCAPTCHA_SITE_KEY } from "../config/site.js";
 import { routePaths } from "../config/routes.js";
 import { getAttribution, sendMetrikaGoal } from "../utils/analytics.js";
 import { METRIKA_GOALS } from "../config/site.js";
 
 const renderInPortal = (node) => (typeof document !== "undefined" ? createPortal(node, document.body) : node);
 
-export function YandexCaptchaDialog({ isOpen, siteKey, onVerify, onClose }) {
-  const containerRef = useRef(null);
-  const widgetIdRef = useRef(null);
-  const onVerifyRef = useRef(onVerify);
-  const [loadState, setLoadState] = useState("loading");
-
-  useEffect(() => {
-    onVerifyRef.current = onVerify;
-  }, [onVerify]);
-
-  useEffect(() => {
-    if (!isOpen || !siteKey) return undefined;
-
-    let cancelled = false;
-    let script = document.getElementById(SMARTCAPTCHA_SCRIPT_ID);
-
-    const clearWidget = () => {
-      try {
-        if (widgetIdRef.current && window.smartCaptcha?.destroy) {
-          window.smartCaptcha.destroy(widgetIdRef.current);
-        }
-      } catch (error) {
-        // Не мешаем пользователю повторить проверку.
-      }
-
-      widgetIdRef.current = null;
-
-      if (containerRef.current) {
-        containerRef.current.innerHTML = "";
-      }
-    };
-
-    const renderCaptcha = () => {
-      if (cancelled || !containerRef.current) return;
-
-      clearWidget();
-
-      if (!window.smartCaptcha?.render) {
-        setLoadState("error");
-        return;
-      }
-
-      try {
-        widgetIdRef.current = window.smartCaptcha.render(containerRef.current, {
-          sitekey: siteKey,
-          hl: "ru",
-          callback: (token) => {
-            if (token) onVerifyRef.current?.(token);
-          },
-        });
-        setLoadState("ready");
-      } catch (error) {
-        setLoadState("error");
-      }
-    };
-
-    setLoadState("loading");
-
-    if (window.smartCaptcha?.render) {
-      renderCaptcha();
-    } else {
-      if (!script) {
-        script = document.createElement("script");
-        script.id = SMARTCAPTCHA_SCRIPT_ID;
-        script.src = "https://smartcaptcha.cloud.yandex.ru/captcha.js";
-        script.async = true;
-        script.defer = true;
-        document.head.appendChild(script);
-      }
-
-      script.addEventListener("load", renderCaptcha);
-      script.addEventListener("error", () => setLoadState("error"));
-    }
-
-    return () => {
-      cancelled = true;
-      script?.removeEventListener("load", renderCaptcha);
-      clearWidget();
-    };
-  }, [isOpen, siteKey]);
+export function YandexCaptchaDialog({ isOpen, siteKey, attemptKey, onVerify, onClose, onExpired }) {
+  const [loadState, setLoadState] = useState("ready");
 
   if (!isOpen) return null;
 
@@ -102,11 +25,25 @@ export function YandexCaptchaDialog({ isOpen, siteKey, onVerify, onClose }) {
         <p>Это защищает форму записи от спама. После проверки заявка отправится администратору автоматически.</p>
 
         <div className="captcha-modal__widget-wrap">
-          <div ref={containerRef} className="captcha-modal__widget" />
+          <SmartCaptcha
+            key={attemptKey}
+            sitekey={siteKey}
+            language="ru"
+            onSuccess={(token) => {
+              setLoadState("ready");
+              if (token) onVerify(token);
+            }}
+            onTokenExpired={() => {
+              setLoadState("expired");
+              onExpired?.();
+            }}
+            onNetworkError={() => setLoadState("error")}
+            onJavascriptError={() => setLoadState("error")}
+          />
         </div>
 
-        {loadState === "loading" ? <small>Загружаем проверку Яндекса...</small> : null}
-        {loadState === "error" ? <small className="captcha-modal__error">Не удалось загрузить капчу. Проверьте интернет или попробуйте ещё раз.</small> : null}
+        {loadState === "expired" ? <small className="captcha-modal__error">Срок проверки истёк. Нажмите «Отправить заявку» ещё раз.</small> : null}
+        {loadState === "error" ? <small className="captcha-modal__error">Не удалось выполнить проверку Яндекса. Закройте окно и попробуйте ещё раз.</small> : null}
       </div>
     </div>
   );
@@ -121,6 +58,7 @@ export function AppointmentModal({ isOpen, onClose }) {
   const [submitMessage, setSubmitMessage] = useState("");
   const [captchaOpen, setCaptchaOpen] = useState(false);
   const [pendingPayload, setPendingPayload] = useState(null);
+  const [captchaAttempt, setCaptchaAttempt] = useState(0);
   const [consentAccepted, setConsentAccepted] = useState(false);
   const captchaTokenRef = useRef("");
   const captchaSubmitLockRef = useRef(false);
@@ -133,6 +71,7 @@ export function AppointmentModal({ isOpen, onClose }) {
     setSubmitMessage("");
     setCaptchaOpen(false);
     setPendingPayload(null);
+    setCaptchaAttempt((value) => value + 1);
     setConsentAccepted(false);
     captchaTokenRef.current = "";
     captchaSubmitLockRef.current = false;
@@ -193,6 +132,7 @@ export function AppointmentModal({ isOpen, onClose }) {
       formRef.current?.reset();
     } catch (error) {
       setCaptchaOpen(false);
+      setCaptchaAttempt((value) => value + 1);
       setFormSent(false);
       setSubmitState("error");
       setSubmitMessage(error.message || "Не удалось отправить заявку. Проверьте Telegram-настройки в Vercel или позвоните в клинику.");
@@ -269,6 +209,7 @@ export function AppointmentModal({ isOpen, onClose }) {
     }
 
     setPendingPayload(payload);
+    setCaptchaAttempt((value) => value + 1);
     captchaTokenRef.current = "";
     captchaSubmitLockRef.current = false;
     setFormSent(false);
@@ -364,8 +305,17 @@ export function AppointmentModal({ isOpen, onClose }) {
       <YandexCaptchaDialog
         isOpen={captchaOpen}
         siteKey={SMARTCAPTCHA_SITE_KEY}
+        attemptKey={captchaAttempt}
         onVerify={handleCaptchaVerified}
         onClose={handleCaptchaClose}
+        onExpired={() => {
+          captchaTokenRef.current = "";
+          captchaSubmitLockRef.current = false;
+          setCaptchaOpen(false);
+          setCaptchaAttempt((value) => value + 1);
+          setSubmitState("error");
+          setSubmitMessage("Срок проверки капчи истёк. Нажмите «Отправить заявку» и пройдите проверку ещё раз.");
+        }}
       />
     </div>
   );

@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 const ALLOWED_DISTRICTS = new Set(["Спутник", "ГПЗ"]);
 
 function json(response, statusCode, body) {
@@ -73,7 +75,10 @@ async function validateSmartCaptcha(token, request) {
   // Vercel Secret values are write-only in the dashboard and may be pasted with an
   // accidental trailing line break. Normalize both values before sending them to Yandex.
   const secret = String(process.env.YANDEX_SMARTCAPTCHA_SERVER_KEY || "").trim();
+  const clientKey = String(process.env.VITE_YANDEX_SMARTCAPTCHA_CLIENT_KEY || "").trim();
   const normalizedToken = String(token || "").trim();
+  const pairMatches = !clientKey || (secret.startsWith("ysc2_") && clientKey.startsWith("ysc1_") && secret.slice(5, 25) === clientKey.slice(5, 25));
+  const tokenFingerprint = normalizedToken ? createHash("sha256").update(normalizedToken).digest("hex").slice(0, 10) : "empty";
 
   if (!secret) {
     throw new Error("smartcaptcha_env_not_configured");
@@ -84,13 +89,16 @@ async function validateSmartCaptcha(token, request) {
     return false;
   }
 
+  if (!pairMatches) {
+    console.error("SmartCaptcha key pair mismatch:", { pairMatches: false, secretPrefixOk: secret.startsWith("ysc2_"), clientPrefixOk: clientKey.startsWith("ysc1_") });
+    throw new Error("smartcaptcha_key_pair_mismatch");
+  }
+
   const params = new URLSearchParams();
   params.set("secret", secret);
   params.set("token", normalizedToken);
-
-  // `ip` is optional in SmartCaptcha. Do not pass Vercel's proxy-forwarded IP here:
-  // depending on the edge path it can differ from the address Yandex associated with
-  // the browser challenge. The token itself remains one-time and server-validated.
+  const clientIp = getClientIp(request);
+  if (clientIp) params.set("ip", clientIp);
 
   const captchaResponse = await fetch("https://smartcaptcha.cloud.yandex.ru/validate", {
     method: "POST",
@@ -113,6 +121,10 @@ async function validateSmartCaptcha(token, request) {
       status: result?.status || "unknown",
       message: result?.message || "",
       host: result?.host || "",
+      tokenLength: normalizedToken.length,
+      tokenFingerprint,
+      pairMatches,
+      hasClientIp: Boolean(clientIp),
     });
   }
 
@@ -233,6 +245,13 @@ export default async function handler(request, response) {
       return json(response, 500, {
         ok: false,
         message: "В Vercel не настроен YANDEX_SMARTCAPTCHA_SERVER_KEY",
+      });
+    }
+
+    if (String(error.message || "").includes("smartcaptcha_key_pair_mismatch")) {
+      return json(response, 500, {
+        ok: false,
+        message: "Ключи Yandex SmartCaptcha в Vercel относятся к разным капчам. Обновите пару ysc1_/ysc2_ и выполните Redeploy.",
       });
     }
 
