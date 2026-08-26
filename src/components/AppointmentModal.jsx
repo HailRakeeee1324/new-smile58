@@ -12,7 +12,12 @@ const renderInPortal = (node) => (typeof document !== "undefined" ? createPortal
 export function YandexCaptchaDialog({ isOpen, siteKey, onVerify, onClose }) {
   const containerRef = useRef(null);
   const widgetIdRef = useRef(null);
+  const onVerifyRef = useRef(onVerify);
   const [loadState, setLoadState] = useState("loading");
+
+  useEffect(() => {
+    onVerifyRef.current = onVerify;
+  }, [onVerify]);
 
   useEffect(() => {
     if (!isOpen || !siteKey) return undefined;
@@ -51,7 +56,7 @@ export function YandexCaptchaDialog({ isOpen, siteKey, onVerify, onClose }) {
           sitekey: siteKey,
           hl: "ru",
           callback: (token) => {
-            if (token) onVerify(token);
+            if (token) onVerifyRef.current?.(token);
           },
         });
         setLoadState("ready");
@@ -83,7 +88,7 @@ export function YandexCaptchaDialog({ isOpen, siteKey, onVerify, onClose }) {
       script?.removeEventListener("load", renderCaptcha);
       clearWidget();
     };
-  }, [isOpen, siteKey, onVerify]);
+  }, [isOpen, siteKey]);
 
   if (!isOpen) return null;
 
@@ -157,7 +162,8 @@ export function AppointmentModal({ isOpen, onClose }) {
   }, [isOpen, captchaOpen, onClose]);
 
   const sendLead = async (payload, smartToken) => {
-    setCaptchaOpen(false);
+    // Keep SmartCaptcha mounted while the one-time token is being validated.
+    // Destroying/re-rendering the widget before the backend finishes can invalidate the token.
     setSubmitState("sending");
     setSubmitMessage("Отправляем заявку...");
 
@@ -179,12 +185,14 @@ export function AppointmentModal({ isOpen, onClose }) {
         throw new Error(result.message || result.error || "lead_delivery_failed");
       }
 
+      setCaptchaOpen(false);
       setFormSent(true);
       setSubmitState("success");
       setSubmitMessage("Администратор «Новой улыбки» позвонит вам в ближайшее время, чтобы уточнить детали и подобрать удобное время приёма.");
       setPendingPayload(null);
       formRef.current?.reset();
     } catch (error) {
+      setCaptchaOpen(false);
       setFormSent(false);
       setSubmitState("error");
       setSubmitMessage(error.message || "Не удалось отправить заявку. Проверьте Telegram-настройки в Vercel или позвоните в клинику.");
