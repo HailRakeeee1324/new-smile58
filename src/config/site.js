@@ -24,9 +24,6 @@ export const MAX_LINK = `https://max.ru/?phone=${MAX_PHONE}`;
 
 export const LEAD_ENDPOINT = "/api/lead";
 
-export const SMARTCAPTCHA_SITE_KEY = import.meta.env?.VITE_YANDEX_SMARTCAPTCHA_CLIENT_KEY || "";
-
-export const SMARTCAPTCHA_SCRIPT_ID = "yandex-smartcaptcha-script";
 
 export const YANDEX_METRIKA_ID = "109789684";
 
