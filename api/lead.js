@@ -91,12 +91,27 @@ async function sendToTelegram(lead) {
     }),
   });
 
-  if (!telegramResponse.ok) {
-    const errorText = await telegramResponse.text();
-    throw new Error(`telegram_error: ${errorText}`);
+  let telegramResult = null;
+  try {
+    telegramResult = await telegramResponse.json();
+  } catch (error) {
+    telegramResult = null;
   }
 
-  return true;
+  if (!telegramResponse.ok || telegramResult?.ok !== true) {
+    const details = telegramResult ? JSON.stringify(telegramResult) : `HTTP ${telegramResponse.status}`;
+    throw new Error(`telegram_error: ${details}`);
+  }
+
+  const deliveredChat = telegramResult?.result?.chat || {};
+  console.info("Telegram lead delivered:", {
+    messageId: telegramResult?.result?.message_id || null,
+    chatType: deliveredChat.type || "",
+    chatTitle: deliveredChat.title || deliveredChat.username || deliveredChat.first_name || "",
+    chatIdSuffix: String(deliveredChat.id || "").slice(-4),
+  });
+
+  return telegramResult.result;
 }
 
 export default async function handler(request, response) {
@@ -112,11 +127,6 @@ export default async function handler(request, response) {
 
   try {
     const body = await readBody(request);
-
-    // Временный режим без CAPTCHA. Невидимое поле оставлено как простая защита от автоспама.
-    if (clean(body.companyWebsite)) {
-      return json(response, 200, { ok: true, message: "Заявка отправлена" });
-    }
 
     const lead = {
       name: clean(body.name),
@@ -144,8 +154,12 @@ export default async function handler(request, response) {
       return json(response, 400, { ok: false, message: "Подтвердите согласие на обработку персональных данных" });
     }
 
-    await sendToTelegram(lead);
-    return json(response, 200, { ok: true, message: "Заявка отправлена" });
+    const telegramDelivery = await sendToTelegram(lead);
+    return json(response, 200, {
+      ok: true,
+      message: "Заявка отправлена",
+      deliveryId: telegramDelivery?.message_id || null,
+    });
   } catch (error) {
     console.error("Lead delivery failed:", error);
 

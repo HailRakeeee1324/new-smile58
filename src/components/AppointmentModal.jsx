@@ -95,8 +95,6 @@ export function AppointmentModal({ isOpen, onClose }) {
       page: typeof window !== "undefined" ? window.location.href : "",
       attribution: getAttribution(),
       createdAt: new Date().toISOString(),
-      // Невидимое поле-ловушка для простых спам-ботов. Реальный пациент его не видит.
-      companyWebsite: String(formData.get("companyWebsite") || "").trim(),
     };
 
     sendMetrikaGoal(METRIKA_GOALS.formSubmit, {
@@ -195,13 +193,6 @@ export function AppointmentModal({ isOpen, onClose }) {
                 </label>
               </div>
 
-              <label
-                aria-hidden="true"
-                style={{ position: "absolute", left: "-10000px", width: "1px", height: "1px", overflow: "hidden" }}
-              >
-                <span>Ваш сайт</span>
-                <input name="companyWebsite" type="text" tabIndex={-1} autoComplete="off" />
-              </label>
 
               <button type="submit" disabled={!consentAccepted || submitState === "sending"}>
                 {submitState === "sending" ? "Отправляем..." : "Отправить заявку"}
