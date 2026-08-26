@@ -117,6 +117,8 @@ export function AppointmentModal({ isOpen, onClose }) {
   const [captchaOpen, setCaptchaOpen] = useState(false);
   const [pendingPayload, setPendingPayload] = useState(null);
   const [consentAccepted, setConsentAccepted] = useState(false);
+  const captchaTokenRef = useRef("");
+  const captchaSubmitLockRef = useRef(false);
 
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -127,6 +129,8 @@ export function AppointmentModal({ isOpen, onClose }) {
     setCaptchaOpen(false);
     setPendingPayload(null);
     setConsentAccepted(false);
+    captchaTokenRef.current = "";
+    captchaSubmitLockRef.current = false;
     document.body.classList.add("modal-open");
 
     return () => {
@@ -184,10 +188,17 @@ export function AppointmentModal({ isOpen, onClose }) {
       setFormSent(false);
       setSubmitState("error");
       setSubmitMessage(error.message || "Не удалось отправить заявку. Проверьте Telegram-настройки в Vercel или позвоните в клинику.");
+    } finally {
+      captchaSubmitLockRef.current = false;
     }
   };
 
   const handleCaptchaVerified = (token) => {
+    const normalizedToken = String(token || "").trim();
+    if (!normalizedToken || captchaSubmitLockRef.current || captchaTokenRef.current === normalizedToken) {
+      return;
+    }
+
     if (!pendingPayload) {
       setCaptchaOpen(false);
       setSubmitState("error");
@@ -195,7 +206,9 @@ export function AppointmentModal({ isOpen, onClose }) {
       return;
     }
 
-    sendLead(pendingPayload, token);
+    captchaTokenRef.current = normalizedToken;
+    captchaSubmitLockRef.current = true;
+    sendLead(pendingPayload, normalizedToken);
   };
 
   const handleCaptchaClose = () => {
@@ -248,6 +261,8 @@ export function AppointmentModal({ isOpen, onClose }) {
     }
 
     setPendingPayload(payload);
+    captchaTokenRef.current = "";
+    captchaSubmitLockRef.current = false;
     setFormSent(false);
     setSubmitState("captcha");
     setSubmitMessage("Пройдите короткую проверку, после неё заявка отправится автоматически.");

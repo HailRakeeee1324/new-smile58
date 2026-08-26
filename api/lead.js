@@ -70,21 +70,27 @@ function getClientIp(request) {
 }
 
 async function validateSmartCaptcha(token, request) {
-  const secret = process.env.YANDEX_SMARTCAPTCHA_SERVER_KEY;
+  // Vercel Secret values are write-only in the dashboard and may be pasted with an
+  // accidental trailing line break. Normalize both values before sending them to Yandex.
+  const secret = String(process.env.YANDEX_SMARTCAPTCHA_SERVER_KEY || "").trim();
+  const normalizedToken = String(token || "").trim();
 
   if (!secret) {
     throw new Error("smartcaptcha_env_not_configured");
   }
 
-  if (!token) {
+  if (!normalizedToken) {
+    console.warn("SmartCaptcha validation failed:", { status: "failed", message: "Token is empty" });
     return false;
   }
 
   const params = new URLSearchParams();
   params.set("secret", secret);
-  params.set("token", token);
-  const ip = getClientIp(request);
-  if (ip) params.set("ip", ip);
+  params.set("token", normalizedToken);
+
+  // `ip` is optional in SmartCaptcha. Do not pass Vercel's proxy-forwarded IP here:
+  // depending on the edge path it can differ from the address Yandex associated with
+  // the browser challenge. The token itself remains one-time and server-validated.
 
   const captchaResponse = await fetch("https://smartcaptcha.cloud.yandex.ru/validate", {
     method: "POST",
@@ -92,14 +98,24 @@ async function validateSmartCaptcha(token, request) {
     body: params.toString(),
   });
 
-  // По рекомендации Яндекса техническую ошибку сервиса не считаем пользователем-роботом,
-  // чтобы не потерять реальные заявки пациентов при временном сбое внешнего сервиса.
+  // Yandex recommends treating transport-level HTTP errors as a temporary service
+  // failure rather than marking a real patient as a robot.
   if (!captchaResponse.ok) {
     console.error("SmartCaptcha validation http error:", captchaResponse.status, await captchaResponse.text());
     return true;
   }
 
   const result = await captchaResponse.json().catch(() => null);
+
+  if (result?.status !== "ok") {
+    // Deliberately log only diagnostic fields — never the server key or one-time token.
+    console.warn("SmartCaptcha validation failed:", {
+      status: result?.status || "unknown",
+      message: result?.message || "",
+      host: result?.host || "",
+    });
+  }
+
   return result?.status === "ok";
 }
 
@@ -175,7 +191,8 @@ export default async function handler(request, response) {
       consentAccepted: body.consentAccepted === true || body.consentAccepted === "true" || body.personalDataConsent === "on",
       createdAt: clean(body.createdAt) || new Date().toISOString(),
       attribution: body.attribution && typeof body.attribution === "object" ? body.attribution : {},
-      smartToken: clean(body.smartToken || body["smart-token"]),
+      // SmartCaptcha token is opaque: do not run user-text sanitizers over it.
+      smartToken: String(body.smartToken || body["smart-token"] || "").trim(),
     };
 
     const captchaOk = await validateSmartCaptcha(lead.smartToken, request);
